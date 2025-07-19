@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- ======= SEO BÁSICO & OPEN GRAPH ======= -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FSR Viagens | Experiências de Viagem Personalizadas e Roteiros Sob Medida</title>
+  <meta name="description" content="Planeje sua viagem dos sonhos com FSR Viagens: roteiros personalizados, atendimento humanizado e suporte 24h. Solicite seu orçamento e aproveite parcerias exclusivas." />
+  <meta name="keywords" content="agência de viagens, viagens personalizadas, roteiros sob medida, turismo, pacotes de viagem, hospedagem, Booking, suporte 24h, atendimento humanizado" />
+  <meta property="og:title" content="FSR Viagens: Sua jornada inesquecível começa aqui!" />
+  <meta property="og:description" content="Roteiros personalizados, assistência 24h e preços exclusivos. Peça seu orçamento agora mesmo." />
+  <meta property="og:image" content="https://i.ibb.co/4RGchy7q/logo-fsr.jpg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://fsrviagens.com.br" />
+  <link rel="canonical" href="https://fsrviagens.com.br" />
+
+  <!-- JSON-LD - Dados Estruturados para SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TravelAgency",
+    "name": "FSR Viagens",
+    "url": "https://fsrviagens.com.br",
+    "logo": "https://i.ibb.co/4RGchy7q/logo-fsr.jpg",
+    "description": "Agência especializada em viagens personalizadas, roteiros sob medida e atendimento humanizado.",
+    "telephone": "+5561983163710",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Brasília",
+      "addressRegion": "DF",
+      "addressCountry": "BR"
+    },
+    "sameAs": [
+      "https://instagram.com/fsrviagens",
+      "https://wa.me/5561983163710"
+    ]
+  }
+  </script>
+
+  <!-- ======= FONTES & ÍCONES ======= -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- ======= ESTILO ======= -->
+  <style>
+    :root{
+      --azul-escuro:#0A2F5C;
+      --azul-claro:#1E90FF;
+      --azul-claro-hover:#125BA5;
+      --cinza-claro:#f2f4f8;
+      --branco:#fff;
+      --texto:#333;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Poppins',sans-serif;background:var(--cinza-claro);color:var(--texto);line-height:1.6;}
+
+    a{text-decoration:none;color:inherit;}
+
+    .container{max-width:960px;margin:0 auto;padding:20px;}
+
+    /* ====== HEADER ====== */
+    header{
+      background:linear-gradient(rgba(10,47,92,.75),rgba(10,47,92,.75)),
+                 url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1500&q=60") no-repeat center/cover;
+      color:var(--branco);
+      text-align:center;
+      padding:120px 20px 100px;
+      position:relative;
+    }
+    header img{max-width:180px;margin:0 auto 18px;display:block;}
+    header h1{font-size:2.8rem;font-weight:700;margin-bottom:8px;}
+    header p{font-size:1.1rem;max-width:650px;margin:0 auto 8px;}
+
+    .btn-top{
+      display:inline-block;
+      margin-top:22px;
+      background:var(--azul-claro);
+      color:var(--branco);
+      padding:14px 34px;
+      border-radius:50px;
+      font-weight:600;
+      transition:.25s;
+    }
+    .btn-top:hover{background:var(--azul-claro-hover);transform:translateY(-2px);}
+
+    /* Botão Booking */
+    .btn-booking {
+      display:inline-block;
+      margin:30px auto 60px;
+      background:#FF5A5F; /* cor Booking */
+      color:#fff;
+      padding:15px 36px;
+      border-radius:50px;
+      font-weight:700;
+      font-size:1.1rem;
+      text-align:center;
+      transition: background-color .3s ease;
+      box-shadow: 0 4px 12px rgba(255,90,95,0.5);
+      cursor:pointer;
+      border:none;
+      text-decoration:none;
+      display: block;
+      max-width:280px;
+    }
+    .btn-booking:hover {
+      background:#E04848;
+      box-shadow: 0 6px 16px rgba(224,72,72,0.7);
+    }
+
+    /* ====== BENEFÍCIOS ====== */
+    .benefits{background:var(--branco);padding:60px 20px;text-align:center;}
+    .benefits h2{color:var(--azul-claro);margin-bottom:30px;font-size:2rem;font-weight:600;}
+    .benefit-list{display:flex;flex-wrap:wrap;gap:25px;justify-content:center;}
+    .benefit-item{
+      flex:1 1 250px;background:var(--cinza-claro);border-radius:10px;padding:25px;
+      box-shadow:0 4px 10px rgba(0,0,0,.04);
+    }
+    .benefit-item i{font-size:1.8rem;color:var(--azul-claro);margin-bottom:10px;}
+    .benefit-item p{font-size:.95rem;}
+
+    /* ====== QUEM SOMOS ====== */
+    .about{padding:60px 20px;background:var(--branco);}
+    .about h2{color:var(--azul-claro);margin-bottom:25px;font-size:2rem;font-weight:600;text-align:center;}
+    .about-content{display:flex;flex-wrap:wrap;gap:30px;align-items:center;}
+    .about img{flex:1 1 280px;max-width:300px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,.06);}
+    .about-text{flex:1 1 320px;font-size:1rem;text-align:justify;}
+
+    /* ====== FORM ORÇAMENTO ====== */
+    .form-section{padding:60px 20px;background:var(--cinza-claro);}
+    .form-section h2{color:var(--azul-claro);margin-bottom:25px;font-size:2rem;font-weight:600;text-align:center;}
+    form{max-width:600px;margin:0 auto;text-align:left;background:var(--branco);padding:35px 25px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.05);}
+    .form-group{margin-bottom:18px;}
+    label{display:block;font-weight:600;margin-bottom:6px;}
+    input,textarea{
+      width:100%;padding:12px 15px;border:1px solid #ccc;border-radius:8px;font-size:.95rem;
+    }
+    textarea{min-height:90px;resize:vertical;}
+    .form-actions{text-align:center;margin-top:18px;}
+    .btn-submit{
+      background:var(--azul-claro);color:var(--branco);padding:14px 40px;border:none;border-radius:50px;font-weight:600;cursor:pointer;transition:.25s;
+    }
+    .btn-submit:hover{background:var(--azul-claro-hover);}
+
+    /* ====== TESTEMUNHOS ====== */
+    .testimonials{padding:60px 20px;background:var(--branco);text-align:center;}
+    .testimonials h2{color:var(--azul-claro);margin-bottom:25px;font-size:2rem;font-weight:600;}
+    .testimonial-cards{display:flex;flex-wrap:wrap;gap:25px;justify-content:center;}
+    .card{
+      flex:1 1 260px;background:var(--cinza-claro);padding:25px;border-radius:10px;
+      box-shadow:0 4px 12px rgba(0,0,0,.04);text-align:left;font-size:.95rem;
+    }
+    .card i{color:#ffc107;margin-right:4px;}
+    .client{font-weight:600;margin-top:10px;}
+
+    /* ====== SOCIAL ====== */
+    .social-section{background:var(--cinza-claro);padding:40px 20px;text-align:center;}
+    .social-section h3{font-size:1.5rem;font-weight:600;margin-bottom:20px;color:var(--azul-escuro);}
+    .social-icons a{margin:0 15px;font-size:2.3rem;color:var(--azul-claro);transition:.25s;}
+    .social-icons a:hover{color:var(--azul-claro-hover);}
+
+    /* ====== FOOTER ====== */
+    footer{background:var(--azul-escuro);color:var(--branco);padding:30px 20px;font-size:.9rem;text-align:center;}
+    footer a{color:var(--azul-claro);}
+    footer a:hover{text-decoration:underline;}
+
+    /* ====== BOTÃO WHATSAPP FLUTUANTE ====== */
+    .wa-float{
+      position:fixed;right:18px;bottom:18px;z-index:999;
+      background:#25D366;color:#fff;width:56px;height:56px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;font-size:2rem;
+      box-shadow:0 4px 14px rgba(0,0,0,.25);transition:.25s;
+    }
+    .wa-float:hover{transform:scale(1.08);}
+
+    @media(max-width:768px){
+      header h1{font-size:2rem;}
+      .about-content{flex-direction:column;text-align:center;}
+      .about img{margin:0 auto;}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ====== CABEÇALHO ====== -->
+  <header>
+    <div class="container">
+      <img src="https://i.ibb.co/4RGchy7q/logo-fsr.jpg" alt="FSR Viagens - Agência de viagens personalizadas">
+      <h1>FSR Viagens</h1>
+      <p>Sua jornada inesquecível começa aqui!</p>
+      <p>Especialistas em roteiros sob medida e suporte completo.</p>
+      <a href="#orcamento" class="btn-top">Peça seu orçamento</a>
+    </div>
+  </header>
+
+  <!-- BOTÃO BUSCA BOOKING -->
+  <div class="container" style="text-align:center;">
+    <a href="http://www.awin1.com/awclick.php?mid=18120&id=2208469" target="_blank" rel="noopener" class="btn-booking" aria-label="Buscar hospedagem e serviços com Booking">
+      🔍 Buscar Hospedagem e Serviços
+    </a>
+  </div>
+
+  <!-- ====== BENEFÍCIOS ====== -->
+  <section class="benefits">
+    <div class="container">
+      <h2>Por que viajar com a FSR Viagens?</h2>
+      <div class="benefit-list">
+        <div class="benefit-item">
+          <i class="fas fa-user-friends"></i>
+          <p>Atendimento 100 % humanizado e suporte 24 h.</p>
+        </div>
+        <div class="benefit-item">
+          <i class="fas fa-map-marked-alt"></i>
+          <p>Roteiros personalizados, feitos sob medida para seu perfil.</p>
+        </div>
+        <div class="benefit-item">
+          <i class="fas fa-hand-holding-usd"></i>
+          <p>Condições e parcerias exclusivas, garantindo melhor custo‑benefício.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== QUEM SOMOS ====== -->
+  <section class="about" id="sobre">
+    <div class="container">
+      <h2>Quem Somos</h2>
+      <div class="about-content">
+        <img src="https://images.unsplash.com/photo-1532074205216-d0e1f4b87368?auto=format&fit=crop&w=400&q=60" alt="Consultor de viagens Fábio Souza">
+        <div class="about-text">
+          <p>Sou <strong>Fábio Souza</strong>, agente de viagens com mais de 10 anos no mercado. Apaixonado por criar experiências únicas, eu e minha equipe cuidamos de todos os detalhes para que você viaje com tranquilidade, segurança e muita alegria.</p>
+          <p>Missão: transformar sonhos em memórias inesquecíveis, oferecendo atendimento de excelência e soluções personalizadas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== FORMULÁRIO DE ORÇAMENTO ====== -->
+  <section class="form-section" id="orcamento">
+    <div class="container">
+      <h2>Solicite seu Orçamento Personalizado</h2>
+      <form>
+        <div class="form-group">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" placeholder="Seu nome" required />
+        </div>
+        <div class="form-group">
+          <label for="email">E‑mail</label>
+          <input type="email" id="email" placeholder="seu@email.com" required />
+        </div>
+        <div class="form-group">
+          <label for="whats">WhatsApp</label>
+          <input type="tel" id="whats" placeholder="61 9XXXX‑XXXX" required />
+        </div>
+        <div class="form-group">
+          <label for="mensagem">Detalhes da viagem</label>
+          <textarea id="mensagem" placeholder="Data, destino, nº de pessoas, etc."></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-submit" onclick="enviarLead()">Solicitar Orçamento</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ====== TESTEMUNHOS ====== -->
+  <section class="testimonials">
+    <div class="container">
+      <h2>Depoimentos de Clientes</h2>
+      <div class="testimonial-cards">
+        <div class="card">
+          <p><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></p>
+          <p>“Viagem perfeita! Roteiro impecável e suporte o tempo todo. Recomendo demais.”</p>
+          <p class="client">— Carla M., Brasília</p>
+        </div>
+        <div class="card">
+          <p><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></p>
+          <p>“Excelentes opções de hotéis e preço justo. Atendimento diferenciado!”</p>
+          <p class="client">— Rodrigo S., Goiânia</p>
+        </div>
+        <div class="card">
+          <p><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></p>
+          <p>“Fábio salvou nossa lua‑de‑mel! Tudo perfeito do início ao fim.”</p>
+          <p class="client">— Ana & Lucas, Curitiba</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== REDES SOCIAIS ====== -->
+  <section class="social-section">
+    <div class="container">
+      <h3>Siga‑nos nas Redes</h3>
+      <div class="social-icons">
+        <a href="https://instagram.com/fsrviagens" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/5561983163710" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== FOOTER ====== -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 FSR Viagens. Todos os direitos reservados.</p>
+      <p><i class="fas fa-phone"></i> <a href="tel:+5561983163710">+55 (61) 98316‑3710</a> &nbsp; | &nbsp; <i class="fas fa-envelope"></i> <a href="mailto:contato@fsr.tur.br">contato@fsr.tur.br</a></p>
+      <p><i class="fas fa-map-marker-alt"></
