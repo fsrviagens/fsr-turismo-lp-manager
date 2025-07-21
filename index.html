@@ -40,10 +40,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-  <link rel="icon" href="https://via.placeholder.com/64x64.png?text=FSR" type="image/png">
+  <link rel="icon" href="https://via.placeholder.com/64x64.png?text=FSR" type="image/png" sizes="64x64">
   <link rel="shortcut icon" href="https://via.placeholder.com/64x64.png?text=FSR" type="image/png">
 
   <style>
+    /* Variáveis CSS */
     :root{
       --azul-escuro:#0A2F5C;
       --azul-claro:#1E90FF;
@@ -52,12 +53,13 @@
       --branco:#fff;
       --texto:#333;
     }
+    /* Reset básico */
     *{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:'Poppins',sans-serif;background:var(--cinza-claro);color:var(--texto);line-height:1.6;}
 
     a{text-decoration:none;color:inherit;}
 
-    .container{max-width:1140px;margin:0 auto;padding:20px;} /* Ajuste para breakpoint >= 1280px */
+    .container{max-width:1140px;margin:0 auto;padding:20px;}
 
     /* ====== HEADER ====== */
     header{
@@ -81,8 +83,14 @@
       border-radius:50px;
       font-weight:600;
       transition:.25s;
+      /* Acessibilidade de foco */
+      outline: 2px solid transparent;
+      outline-offset: 2px;
     }
     .btn-top:hover{background:var(--azul-claro-hover);transform:translateY(-2px);}
+    .btn-top:focus-visible {
+      outline-color: var(--branco); /* Foco branco no botão azul para contraste */
+    }
 
     /* Botão Booking */
     .btn-booking {
@@ -102,14 +110,15 @@
       text-decoration:none;
       display: block;
       max-width:280px;
-      outline: 2px solid transparent; /* Para acessibilidade - foco invisível */
+      /* Acessibilidade de foco */
+      outline: 2px solid transparent;
       outline-offset: 2px;
     }
     .btn-booking:hover {
       background:#E04848;
       box-shadow: 0 6px 16px rgba(224,72,72,0.7);
     }
-    .btn-booking:focus-visible { /* Acessibilidade: foco visível apenas com teclado */
+    .btn-booking:focus-visible {
       outline-color: var(--azul-claro);
     }
 
@@ -144,22 +153,36 @@
     .form-actions{text-align:center;margin-top:18px;}
     .btn-submit{
       background:var(--azul-claro);color:var(--branco);padding:14px 40px;border:none;border-radius:50px;font-weight:600;cursor:pointer;transition:.25s;
-      outline: 2px solid transparent; /* Para acessibilidade - foco invisível */
+      /* Acessibilidade de foco */
+      outline: 2px solid transparent;
       outline-offset: 2px;
     }
     .btn-submit:hover{background:var(--azul-claro-hover);}
-    .btn-submit:focus-visible { /* Acessibilidade: foco visível apenas com teclado */
+    .btn-submit:focus-visible {
       outline-color: var(--azul-claro);
     }
+    /* Estilos para validação de formulário */
     .form-group.error input,
     .form-group.error textarea {
-        border-color: #f00;
+        border-color: #f00; /* Borda vermelha para campo com erro */
+        outline: 1px solid #f00; /* Pequeno outline para indicar erro */
     }
     .error-message {
         color: #f00;
         font-size: 0.875em;
         margin-top: 5px;
-        display: none; /* Hidden by default */
+        display: none; /* Escondido por padrão, mostrado via JS */
+    }
+    .sr-only { /* Classe para elementos apenas para leitores de tela */
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0,0,0,0);
+        white-space: nowrap;
+        border-width: 0;
     }
 
 
@@ -191,12 +214,19 @@
       background:#25D366;color:#fff;width:56px;height:56px;border-radius:50%;
       display:flex;align-items:center;justify-content:center;font-size:2rem;
       box-shadow:0 4px 14px rgba(0,0,0,.25);transition:.25s;
+      /* Acessibilidade de foco */
+      outline: 2px solid transparent;
+      outline-offset: 2px;
     }
     .wa-float:hover{transform:scale(1.08);}
+    .wa-float:focus-visible {
+      outline-color: #25D366; /* Foco visível no botão WhatsApp */
+    }
 
+    /* ====== MEDIA QUERIES (Responsividade) ====== */
     @media(max-width:1024px) { /* Tablet breakpoint for testimonial cards */
       .testimonial-cards {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 2 columns */
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Exemplo de layout em 2 colunas se for grid */
       }
     }
 
@@ -205,14 +235,14 @@
       .about-content{flex-direction:column;text-align:center;}
       .about img{margin:0 auto;}
       .testimonial-cards {
-        flex-direction: column; /* Stack vertically for mobile */
+        flex-direction: column; /* Empilha verticalmente para mobile */
       }
       .card {
-        flex: 1 1 auto; /* Full width for mobile */
+        flex: 1 1 auto; /* Largura total para mobile */
       }
-      /* Contrast adjustment for hero text on smaller screens if needed */
+      /* Ajuste de contraste para texto do hero em telas menores */
       header h1, header p {
-        text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Add subtle shadow for better contrast */
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Sombra sutil para melhor contraste */
       }
     }
 
@@ -221,7 +251,7 @@
       header p{font-size:1rem;}
       .btn-top{padding:12px 28px;}
       .form-group input, .form-group textarea {
-        font-size: 1rem; /* Aproximadamente 16px */
+        font-size: 1rem; /* Aproximadamente 16px para legibilidade em mobile */
       }
     }
   </style>
@@ -230,7 +260,7 @@
     
   <header>
     <div class="container">
-      <img src="https://i.ibb.co/4RGchy7q/logo-fsr.jpg" alt="FSR Viagens - Agência de viagens personalizadas">
+      <img src="https://i.ibb.co/4RGchy7q/logo-fsr.jpg" alt="Logo FSR Viagens - Agência de viagens personalizadas">
       <h1>FSR Viagens</h1>
       <p>Sua jornada inesquecível começa aqui!</p>
       <p>Especialistas em roteiros sob medida e suporte completo.</p>
@@ -239,20 +269,18 @@
   </header>
   
   <section class="banner-sauipe" style="text-align:center; margin:40px auto; max-width:960px; padding:0 20px;">
-  <a href="https://wa.me/5561983163710?text=Quero%20uma%20cota%C3%A7%C3%A3o%20para%20o%20Sau%C3%ADpe%20Weekend!" target="_blank" rel="noopener">
-    <picture>
-      <source srcset="https://i.ibb.co/JR9qsxpW/IMG-20250718-WA0008.webp" type="image/webp">
-      <source srcset="https://i.ibb.co/JR9qsxpW/IMG-20250718-WA0008.jpg" type="image/jpeg">
-      <img src="https://i.ibb.co/JR9qsxpW/IMG-20250718-WA0008.jpg" 
-           alt="Banner Sauípe Weekend - FSR Viagens"
-           style="width:100%; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.15); transition:transform 0.3s ease;"
-           loading="lazy" />
-    </picture>
-  </a>
-</section>
+    <a href="https://wa.me/5561983163710?text=Quero%20uma%20cota%C3%A7%C3%A3o%20para%20o%20Sau%C3%ADpe%20Weekend!" target="_blank" rel="noopener">
+      <picture>
+        <source srcset="https://i.ibb.co/JR9qsxpW/IMG-20250718-WA0008.webp" type="image/webp">
+        <img src="https://i.ibb.co/JR9qsxpW/IMG-20250718-WA0008.jpg"
+             alt="Banner Sauípe Weekend - Clique para cotar sua viagem."
+             style="width:100%; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.15); transition:transform 0.3s ease;"
+             loading="lazy" /> </picture>
+    </a>
+  </section>
 
   <div class="container" style="text-align:center;">
-    <a href="http://www.awin1.com/awclick.php?mid=18120&id=2208469" target="_blank" rel="noopener" class="btn-booking" aria-label="Buscar hospedagem e serviços com Booking">
+    <a href="http://www.awin1.com/awclick.php?mid=18120&id=2208469" target="_blank" rel="noopener" class="btn-booking" aria-label="Buscar hospedagem e serviços no site do Booking.com">
       🔍 Buscar Hospedagem e Serviços
     </a>
   </div>
@@ -284,9 +312,8 @@
         <picture>
           <source srcset="https://i.ibb.co/SDL2wq1L/file-00000000982061f8b82d7dc2ada7c667.webp" type="image/webp">
           <img src="https://i.ibb.co/SDL2wq1L/file-00000000982061f8b82d7dc2ada7c667.png" 
-               alt="Fábio Souza - Agente de viagens FSR Viagens" border="0"
-               loading="lazy">
-        </picture>
+               alt="Fábio Souza, agente de viagens da FSR Viagens" border="0"
+               loading="lazy"> </picture>
         <div class="about-text">
           <p>Sou <strong>Fábio Souza</strong>, agente de viagens com mais de 20 anos no mercado. Apaixonado por criar experiências únicas, eu e minha equipe cuidamos de todos os detalhes para que você viaje com tranquilidade, segurança e muita alegria.</p>
           <p>Missão: transformar sonhos em memórias inesquecíveis, oferecendo atendimento de excelência e soluções personalizadas.</p>
@@ -301,18 +328,18 @@
       <form id="leadForm">
         <div class="form-group">
           <label for="nome">Nome</label>
-          <input type="text" id="nome" placeholder="Seu nome" required aria-required="true" />
-          <p class="error-message" id="nome-error">Por favor, digite seu nome.</p>
+          <input type="text" id="nome" placeholder="Seu nome" required aria-required="true" aria-describedby="nome-error" />
+          <p class="error-message" id="nome-error" aria-live="polite" aria-atomic="true">Por favor, digite seu nome.</p>
         </div>
         <div class="form-group">
           <label for="email">E‑mail</label>
-          <input type="email" id="email" placeholder="seu@email.com" required aria-required="true" />
-          <p class="error-message" id="email-error">Por favor, digite um e-mail válido.</p>
+          <input type="email" id="email" placeholder="seu@email.com" required aria-required="true" aria-describedby="email-error" />
+          <p class="error-message" id="email-error" aria-live="polite" aria-atomic="true">Por favor, digite um e-mail válido.</p>
         </div>
         <div class="form-group">
           <label for="whats">WhatsApp</label>
-          <input type="tel" id="whats" placeholder="XX 9XXXX‑XXXX" required aria-required="true" />
-          <p class="error-message" id="whats-error">Por favor, digite seu número de WhatsApp.</p>
+          <input type="tel" id="whats" placeholder="XX 9XXXX‑XXXX" required aria-required="true" aria-describedby="whats-error" />
+          <p class="error-message" id="whats-error" aria-live="polite" aria-atomic="true">Por favor, digite seu número de WhatsApp.</p>
         </div>
         <div class="form-group">
           <label for="mensagem">Detalhes da viagem</label>
@@ -331,17 +358,17 @@
       <h2>Depoimentos de Clientes</h2>
       <div class="testimonial-cards">
         <div class="card">
-          <p><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></p>
+          <p><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><span class="sr-only">5 de 5 estrelas</span></p>
           <p>“Viagem perfeita! Roteiro impecável e suporte o tempo todo. Recomendo demais.”</p>
           <p class="client">— Carla M., Brasília</p>
         </div>
         <div class="card">
-          <p><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></p>
+          <p><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><i class="far fa-star" aria-hidden="true"></i><span class="sr-only">4 de 5 estrelas</span></p>
           <p>“Excelentes opções de hotéis e preço justo. Atendimento diferenciado!”</p>
           <p class="client">— Rodrigo S., Goiânia</p>
         </div>
         <div class="card">
-          <p><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></p>
+          <p><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><span class="sr-only">5 de 5 estrelas</span></p>
           <p>“Fábio salvou nossa lua‑de‑mel! Tudo perfeito do início ao fim.”</p>
           <p class="client">— Ana & Lucas, Curitiba</p>
         </div>
@@ -353,8 +380,8 @@
     <div class="container">
       <h3>Siga‑nos nas Redes</h3>
       <div class="social-icons">
-        <a href="https://instagram.com/fsrviagens" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://wa.me/5561983163710" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://instagram.com/fsrviagens" target="_blank" title="Instagram da FSR Viagens"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/5561983163710" target="_blank" title="Fale com FSR Viagens pelo WhatsApp"><i class="fab fa-whatsapp"></i></a>
       </div>
     </div>
   </section>
@@ -362,27 +389,37 @@
   <footer>
     <div class="container">
       <p>&copy; 2025 FSR Viagens. Todos os direitos reservados.</p>
-      <p><i class="fas fa-phone"></i> <a href="tel:+5561983163710">+55 (61) 98316‑3710</a> &nbsp; | &nbsp; <i class="fas fa-envelope"></i> <a href="mailto:contato@fsr.tur.br">contato@fsr.tur.br</a></p>
+      <p><i class="fas fa-phone" aria-hidden="true"></i> <a href="tel:+5561983163710">+55 (61) 98316‑3710</a> &nbsp; | &nbsp; <i class="fas fa-envelope" aria-hidden="true"></i> <a href="mailto:contato@fsr.tur.br">contato@fsr.tur.br</a></p>
       <p style="font-size: 16px; color: #fff;">
-  <i class="fas fa-map-marker-alt" style="color: #fff; margin-right: 5px;"></i>
-  Atendimento em todo o Brasil de forma 100% on-line
-</p>
+        <i class="fas fa-map-marker-alt" style="color: #fff; margin-right: 5px;" aria-hidden="true"></i>
+        Atendimento em todo o Brasil de forma 100% on-line
+      </p>
     </div>
   </footer>
 
   <a href="https://wa.me/5561983163710" class="wa-float" target="_blank" title="Fale conosco pelo WhatsApp">
-    <i class="fab fa-whatsapp"></i>
+    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+    <span class="sr-only">Fale conosco pelo WhatsApp</span>
   </a>
 
   <script>
+    document.getElementById('leadForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Impede o envio padrão do formulário
+        enviarLead();
+    });
+
     // Função para simular envio de lead (substituir por envio real)
     function enviarLead() {
       const form = document.getElementById('leadForm');
       let isValid = true;
 
-      // Reset errors
+      // Resetar erros visuais e ARIA
       document.querySelectorAll('.form-group').forEach(group => {
         group.classList.remove('error');
+        const input = group.querySelector('input, textarea');
+        if (input) {
+          input.removeAttribute('aria-invalid');
+        }
         const errorMessage = group.querySelector('.error-message');
         if (errorMessage) {
           errorMessage.style.display = 'none';
@@ -390,14 +427,14 @@
         }
       });
 
-      // Validate Name
+      // Validar Nome
       const nomeInput = document.getElementById('nome');
       if (nomeInput.value.trim() === '') {
         showError(nomeInput, 'Por favor, digite seu nome.');
         isValid = false;
       }
 
-      // Validate Email
+      // Validar Email
       const emailInput = document.getElementById('email');
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(emailInput.value.trim())) {
@@ -405,37 +442,43 @@
         isValid = false;
       }
 
-      // Validate WhatsApp
+      // Validar WhatsApp
       const whatsInput = document.getElementById('whats');
-      if (whatsInput.value.trim() === '') {
-        showError(whatsInput, 'Por favor, digite seu número de WhatsApp.');
+      // Regex básica para telefone com ou sem máscara. Pode ser aprimorada.
+      const whatsRegex = /^\+?[0-9()\s-]+$/;
+      if (whatsInput.value.trim() === '' || !whatsRegex.test(whatsInput.value.trim())) {
+        showError(whatsInput, 'Por favor, digite seu número de WhatsApp (somente números e símbolos básicos permitidos).');
         isValid = false;
       }
 
       if (isValid) {
+        // Ação de envio real (ex: AJAX para um backend, integração com CRM)
+        // Por exemplo: fetch('/api/send-lead', { method: 'POST', body: new FormData(form) })
         alert('Orçamento solicitado com sucesso! Em breve entraremos em contato.');
-        form.reset();
+        form.reset(); // Limpa o formulário após o "envio"
       } else {
+        // Foca no primeiro campo com erro para facilitar correção pelo usuário
+        const firstErrorField = form.querySelector('.form-group.error input, .form-group.error textarea');
+        if (firstErrorField) {
+            firstErrorField.focus();
+        }
+        // Mensagem geral de erro para usuários que não usam leitores de tela
         alert('Por favor, preencha todos os campos obrigatórios corretamente.');
       }
     }
 
+    // Função auxiliar para exibir mensagens de erro
     function showError(inputElement, message) {
         const formGroup = inputElement.closest('.form-group');
         formGroup.classList.add('error');
-        inputElement.setAttribute('aria-invalid', 'true');
+        inputElement.setAttribute('aria-invalid', 'true'); // Define o estado ARIA como inválido
         const errorMessage = formGroup.querySelector('.error-message');
         if (errorMessage) {
             errorMessage.textContent = message;
             errorMessage.style.display = 'block';
-            errorMessage.setAttribute('aria-hidden', 'false');
+            errorMessage.setAttribute('aria-hidden', 'false'); // Torna a mensagem visível para leitores de tela
         }
     }
-
-    document.getElementById('leadForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent default form submission
-        enviarLead();
-    });
   </script>
 </body>
 </html>
