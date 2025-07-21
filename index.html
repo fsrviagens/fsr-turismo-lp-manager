@@ -40,6 +40,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
+  <link rel="icon" href="https://via.placeholder.com/64x64.png?text=FSR" type="image/png">
+  <link rel="shortcut icon" href="https://via.placeholder.com/64x64.png?text=FSR" type="image/png">
+
   <style>
     :root{
       --azul-escuro:#0A2F5C;
@@ -54,7 +57,7 @@
 
     a{text-decoration:none;color:inherit;}
 
-    .container{max-width:960px;margin:0 auto;padding:20px;}
+    .container{max-width:1140px;margin:0 auto;padding:20px;} /* Ajuste para breakpoint >= 1280px */
 
     /* ====== HEADER ====== */
     header{
@@ -99,10 +102,15 @@
       text-decoration:none;
       display: block;
       max-width:280px;
+      outline: 2px solid transparent; /* Para acessibilidade - foco invisível */
+      outline-offset: 2px;
     }
     .btn-booking:hover {
       background:#E04848;
       box-shadow: 0 6px 16px rgba(224,72,72,0.7);
+    }
+    .btn-booking:focus-visible { /* Acessibilidade: foco visível apenas com teclado */
+      outline-color: var(--azul-claro);
     }
 
     /* ====== BENEFÍCIOS ====== */
@@ -136,8 +144,24 @@
     .form-actions{text-align:center;margin-top:18px;}
     .btn-submit{
       background:var(--azul-claro);color:var(--branco);padding:14px 40px;border:none;border-radius:50px;font-weight:600;cursor:pointer;transition:.25s;
+      outline: 2px solid transparent; /* Para acessibilidade - foco invisível */
+      outline-offset: 2px;
     }
     .btn-submit:hover{background:var(--azul-claro-hover);}
+    .btn-submit:focus-visible { /* Acessibilidade: foco visível apenas com teclado */
+      outline-color: var(--azul-claro);
+    }
+    .form-group.error input,
+    .form-group.error textarea {
+        border-color: #f00;
+    }
+    .error-message {
+        color: #f00;
+        font-size: 0.875em;
+        margin-top: 5px;
+        display: none; /* Hidden by default */
+    }
+
 
     /* ====== TESTEMUNHOS ====== */
     .testimonials{padding:60px 20px;background:var(--branco);text-align:center;}
@@ -170,10 +194,35 @@
     }
     .wa-float:hover{transform:scale(1.08);}
 
+    @media(max-width:1024px) { /* Tablet breakpoint for testimonial cards */
+      .testimonial-cards {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 2 columns */
+      }
+    }
+
     @media(max-width:768px){
       header h1{font-size:2rem;}
       .about-content{flex-direction:column;text-align:center;}
       .about img{margin:0 auto;}
+      .testimonial-cards {
+        flex-direction: column; /* Stack vertically for mobile */
+      }
+      .card {
+        flex: 1 1 auto; /* Full width for mobile */
+      }
+      /* Contrast adjustment for hero text on smaller screens if needed */
+      header h1, header p {
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Add subtle shadow for better contrast */
+      }
+    }
+
+    @media(max-width:480px){ /* Mobile breakpoint */
+      header h1{font-size:1.8rem;}
+      header p{font-size:1rem;}
+      .btn-top{padding:12px 28px;}
+      .form-group input, .form-group textarea {
+        font-size: 1rem; /* Aproximadamente 16px */
+      }
     }
   </style>
 </head>
@@ -191,8 +240,14 @@
   
   <section class="banner-sauipe" style="text-align:center; margin:40px auto; max-width:960px; padding:0 20px;">
   <a href="https://wa.me/5561983163710?text=Quero%20uma%20cota%C3%A7%C3%A3o%20para%20o%20Sau%C3%ADpe%20Weekend!" target="_blank" rel="noopener">
-    <img src="https://i.ibb.co/JR9qsxpW/IMG-20250718-WA0008.jpg" alt="Banner Sauípe Weekend - FSR Viagens"
-         style="width:100%; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.15); transition:transform 0.3s ease;" />
+    <picture>
+      <source srcset="https://i.ibb.co/JR9qsxpW/IMG-20250718-WA0008.webp" type="image/webp">
+      <source srcset="https://i.ibb.co/JR9qsxpW/IMG-20250718-WA0008.jpg" type="image/jpeg">
+      <img src="https://i.ibb.co/JR9qsxpW/IMG-20250718-WA0008.jpg" 
+           alt="Banner Sauípe Weekend - FSR Viagens"
+           style="width:100%; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.15); transition:transform 0.3s ease;"
+           loading="lazy" />
+    </picture>
   </a>
 </section>
 
@@ -226,7 +281,12 @@
     <div class="container">
       <h2>Quem Somos</h2>
       <div class="about-content">
-        <img src="https://i.ibb.co/SDL2wq1L/file-00000000982061f8b82d7dc2ada7c667.png" alt="file-00000000982061f8b82d7dc2ada7c667" border="0">
+        <picture>
+          <source srcset="https://i.ibb.co/SDL2wq1L/file-00000000982061f8b82d7dc2ada7c667.webp" type="image/webp">
+          <img src="https://i.ibb.co/SDL2wq1L/file-00000000982061f8b82d7dc2ada7c667.png" 
+               alt="Fábio Souza - Agente de viagens FSR Viagens" border="0"
+               loading="lazy">
+        </picture>
         <div class="about-text">
           <p>Sou <strong>Fábio Souza</strong>, agente de viagens com mais de 20 anos no mercado. Apaixonado por criar experiências únicas, eu e minha equipe cuidamos de todos os detalhes para que você viaje com tranquilidade, segurança e muita alegria.</p>
           <p>Missão: transformar sonhos em memórias inesquecíveis, oferecendo atendimento de excelência e soluções personalizadas.</p>
@@ -238,25 +298,29 @@
   <section class="form-section" id="orcamento">
     <div class="container">
       <h2>Solicite seu Orçamento Personalizado</h2>
-      <form>
+      <form id="leadForm">
         <div class="form-group">
           <label for="nome">Nome</label>
-          <input type="text" id="nome" placeholder="Seu nome" required />
+          <input type="text" id="nome" placeholder="Seu nome" required aria-required="true" />
+          <p class="error-message" id="nome-error">Por favor, digite seu nome.</p>
         </div>
         <div class="form-group">
           <label for="email">E‑mail</label>
-          <input type="email" id="email" placeholder="seu@email.com" required />
+          <input type="email" id="email" placeholder="seu@email.com" required aria-required="true" />
+          <p class="error-message" id="email-error">Por favor, digite um e-mail válido.</p>
         </div>
         <div class="form-group">
           <label for="whats">WhatsApp</label>
-          <input type="tel" id="whats" placeholder="XX 9XXXX‑XXXX" required />
+          <input type="tel" id="whats" placeholder="XX 9XXXX‑XXXX" required aria-required="true" />
+          <p class="error-message" id="whats-error">Por favor, digite seu número de WhatsApp.</p>
         </div>
         <div class="form-group">
           <label for="mensagem">Detalhes da viagem</label>
-          <textarea id="mensagem" placeholder="Data, destino, nº de pessoas, etc."></textarea>
+          <textarea id="mensagem" placeholder="Data, destino, nº de pessoas, etc." aria-describedby="mensagem-info"></textarea>
+          <p id="mensagem-info" class="sr-only">Descreva os detalhes da sua viagem, como data, destino e número de pessoas.</p>
         </div>
         <div class="form-actions">
-          <button type="button" class="btn-submit" onclick="enviarLead()">Solicitar Orçamento</button>
+          <button type="submit" class="btn-submit">Solicitar Orçamento</button>
         </div>
       </form>
     </div>
@@ -303,3 +367,75 @@
   <i class="fas fa-map-marker-alt" style="color: #fff; margin-right: 5px;"></i>
   Atendimento em todo o Brasil de forma 100% on-line
 </p>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/5561983163710" class="wa-float" target="_blank" title="Fale conosco pelo WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <script>
+    // Função para simular envio de lead (substituir por envio real)
+    function enviarLead() {
+      const form = document.getElementById('leadForm');
+      let isValid = true;
+
+      // Reset errors
+      document.querySelectorAll('.form-group').forEach(group => {
+        group.classList.remove('error');
+        const errorMessage = group.querySelector('.error-message');
+        if (errorMessage) {
+          errorMessage.style.display = 'none';
+          errorMessage.setAttribute('aria-hidden', 'true');
+        }
+      });
+
+      // Validate Name
+      const nomeInput = document.getElementById('nome');
+      if (nomeInput.value.trim() === '') {
+        showError(nomeInput, 'Por favor, digite seu nome.');
+        isValid = false;
+      }
+
+      // Validate Email
+      const emailInput = document.getElementById('email');
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(emailInput.value.trim())) {
+        showError(emailInput, 'Por favor, digite um e-mail válido.');
+        isValid = false;
+      }
+
+      // Validate WhatsApp
+      const whatsInput = document.getElementById('whats');
+      if (whatsInput.value.trim() === '') {
+        showError(whatsInput, 'Por favor, digite seu número de WhatsApp.');
+        isValid = false;
+      }
+
+      if (isValid) {
+        alert('Orçamento solicitado com sucesso! Em breve entraremos em contato.');
+        form.reset();
+      } else {
+        alert('Por favor, preencha todos os campos obrigatórios corretamente.');
+      }
+    }
+
+    function showError(inputElement, message) {
+        const formGroup = inputElement.closest('.form-group');
+        formGroup.classList.add('error');
+        inputElement.setAttribute('aria-invalid', 'true');
+        const errorMessage = formGroup.querySelector('.error-message');
+        if (errorMessage) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            errorMessage.setAttribute('aria-hidden', 'false');
+        }
+    }
+
+    document.getElementById('leadForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        enviarLead();
+    });
+  </script>
+</body>
+</html>
