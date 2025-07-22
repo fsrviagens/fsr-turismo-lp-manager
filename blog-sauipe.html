@@ -80,7 +80,7 @@
     }
 
 
-    /* Estilos do Footer (Ajustado para a imagem) */
+    /* Estilos do Footer (Ajustado para a imagem e sobreposição) */
     .simple-footer {
       background-color: #1B427F; /* Cor azul escura da imagem */
       color: #FFFFFF; /* Texto branco */
@@ -97,11 +97,22 @@
     }
 
 
+    .simple-footer .contact-info {
+        display: flex; /* Usa flexbox para alinhar itens */
+        flex-direction: column; /* Empilha os itens verticalmente */
+        align-items: center; /* Centraliza horizontalmente */
+        margin-top: 10px; /* Espaço acima da infos de contato */
+        margin-bottom: 10px;
+    }
+
     .simple-footer .contact-info a {
         color: #FFFFFF; /* Links brancos */
         text-decoration: none; /* Remove sublinhado */
-        margin: 0 10px; /* Espaçamento entre telefone e email */
+        padding: 5px 0; /* Espaçamento vertical para cada linha */
         white-space: nowrap; /* Impede que quebre a linha */
+        display: flex; /* Para alinhar ícone e texto */
+        align-items: center; /* Alinha verticalmente ícone e texto */
+        justify-content: center; /* Centraliza o conteúdo dentro do link */
     }
 
 
@@ -149,18 +160,21 @@
     }
 
 
-    /* Media Queries para ajuste de fontes em telas menores */
+    /* Media Queries para ajuste de fontes e espaçamento do footer em telas menores */
     @media (max-width: 768px) {
       .simple-footer {
         font-size: 1em; /* Fonte um pouco menor em telas pequenas */
-        padding: 30px 15px;
+        padding-top: 30px;
+        padding-bottom: 120px; /* Aumenta o padding bottom para evitar a sobreposição */
+        padding-left: 15px;
+        padding-right: 15px;
       }
       .simple-footer .contact-info {
-        display: block; /* Força quebra de linha para telefone e email em mobile */
+        flex-direction: column; /* Força quebra de linha para telefone e email em mobile */
         margin-top: 10px;
       }
       .simple-footer .contact-info a {
-        display: block; /* Cada link em sua própria linha em mobile */
+        display: flex; /* Cada link em sua própria linha em mobile */
         margin: 5px 0;
       }
     }
@@ -256,14 +270,12 @@
   </main>
 
 
-
-
   <footer class="simple-footer">
     <p>&copy; 2025 FSR Viagens. Todos os direitos reservados.</p>
-    <p class="contact-info">
-      <a href="tel:+5561983163710"><i class="fas fa-phone"></i>📲 +55 (61) 98316‑3710</a> |
-      <a href="mailto:contato@fsr.tur.br"><i class="fas fa-envelope"></i> 📧 contato@fsr.tur.br</a>
-    </p>
+    <div class="contact-info">
+      <a href="tel:+5561983163710"><i class="fas fa-phone"></i> +55 (61) 98316‑3710</a>
+      <a href="mailto:contato@fsr.tur.br"><i class="fas fa-envelope"></i> contato@fsr.tur.br</a>
+    </div>
     <p><i class="fas fa-map-marker-alt"></i> Atendimento em todo o Brasil de forma 100% on-line</p>
   </footer>
 
