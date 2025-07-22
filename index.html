@@ -122,6 +122,38 @@
       outline-color: var(--azul-claro);
     }
 
+    /* ====== MENU PRINCIPAL ====== */
+    .main-nav {
+      background-color: var(--azul-escuro);
+      padding: 15px 0;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .main-nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 30px; /* Espaçamento entre os itens do menu */
+      flex-wrap: wrap; /* Permite quebrar linha em telas menores */
+    }
+
+    .main-nav a {
+      color: var(--branco);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 8px 15px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .main-nav a:hover {
+      background-color: var(--azul-claro-hover);
+    }
+
+
     /* ====== BENEFÍCIOS ====== */
     .benefits{background:var(--branco);padding:60px 20px;text-align:center;}
     .benefits h2{color:var(--azul-claro);margin-bottom:30px;font-size:2rem;font-weight:600;}
@@ -244,6 +276,10 @@
       header h1, header p {
         text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Sombra sutil para melhor contraste */
       }
+      .main-nav ul {
+        flex-direction: column; /* Empilha itens do menu em telas pequenas */
+        gap: 10px;
+      }
     }
 
     @media(max-width:480px){ /* Mobile breakpoint */
@@ -267,6 +303,15 @@
       <a href="#orcamento" class="btn-top">Peça seu orçamento</a>
     </div>
   </header>
+
+  <nav class="main-nav">
+    <ul>
+      <li><a href="https://fsr.tur.br" aria-label="Voltar para a página inicial da FSR Viagens">Home</a></li>
+      <li><a href="https://fsr.tur.br/blog-sauipe.html" aria-label="Acessar o blog sobre Costa do Sauípe">Blog Sauípe</a></li>
+      <li><a href="#sobre" aria-label="Navegar para a seção Quem Somos">Quem Somos</a></li>
+      <li><a href="#orcamento" aria-label="Navegar para a seção Solicitar Orçamento">Orçamento</a></li>
+    </ul>
+  </nav>
   
   <section class="banner-sauipe" style="text-align:center; margin:40px auto; max-width:960px; padding:0 20px;">
     <a href="https://wa.me/5561983163710?text=Quero%20uma%20cota%C3%A7%C3%A3o%20para%20o%20Sau%C3%ADpe%20Weekend!" target="_blank" rel="noopener">
