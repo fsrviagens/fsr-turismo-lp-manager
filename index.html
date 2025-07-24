@@ -288,8 +288,7 @@
     <div class="container">
       <img src="https://i.ibb.co/4RGchy7q/logo-fsr.jpg" alt="Logo FSR Viagens - Agência de viagens personalizadas">
       <h1>FSR Viagens</h1>
-      <p>Sua jornada inesquecível começa aqui!</p>
-      <p>Especialistas em roteiros sob medida e suporte completo.</p>
+      <p>Sua jornada inesquecível começa aqui! **Roteiros sob medida, atendimento humanizado e suporte completo.**</p>
       <a href="#orcamento" class="btn-top">Peça seu orçamento</a>
     </div>
   </header>    <nav class="main-nav">
@@ -390,6 +389,7 @@
         <div class="form-group">
             <label for="data_retorno">Data de Retorno</label>
             <input type="date" id="data_retorno" aria-describedby="data_retorno-info">
+            <p class="error-message" id="data_retorno-error" aria-live="polite" aria-atomic="true" style="display:none;">A data de retorno não pode ser menor que a data de ida.</p>
             <p id="data_retorno-info" class="sr-only">Selecione a data de retorno (opcional).</p>
         </div>
 
@@ -431,7 +431,7 @@
 
         <div class="form-group">
           <label for="mensagem">Detalhes adicionais da viagem</label>
-          <textarea id="mensagem" placeholder="Informações extras que julgar importantes (ex: orçamento, preferências de voo/hotel)." aria-describedby="mensagem-info"></textarea>
+          <textarea id="mensagem" placeholder="Tem mais detalhes? Orçamento aproximado, preferências de voo/hotel ou algo mais?" aria-describedby="mensagem-info"></textarea>
           <p id="mensagem-info" class="sr-only">Descreva os detalhes adicionais da sua viagem.</p>
         </div>
         <div class="form-actions">
@@ -470,7 +470,7 @@
     </div>
   </section>    <footer>
     <div class="container">
-      <p>&copy; 2025 FSR Viagens. Todos os direitos reservados.</p>
+      <p>&copy; 2024 FSR Viagens. Todos os direitos reservados.</p>
       <p><i class="fas fa-phone" aria-hidden="true"></i> <a href="tel:+5561983163710">+55 (61) 98316‑3710</a> &nbsp; | &nbsp; <i class="fas fa-envelope" aria-hidden="true"></i> <a href="mailto:contato@fsr.tur.br">contato@fsr.tur.br</a></p>
       <p style="font-size: 16px; color: #fff;">
         <i class="fas fa-map-marker-alt" style="color: #fff; margin-right: 5px;" aria-hidden="true"></i>
@@ -481,6 +481,28 @@
     <i class="fab fa-whatsapp" aria-hidden="true"></i>
     <span class="sr-only">Fale conosco pelo WhatsApp</span>
   </a>    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        const todayFormatted = `${yyyy}-${mm}-${dd}`;
+        document.getElementById('data_ida').setAttribute('min', todayFormatted);
+
+        // Event listener para atualizar o 'min' da data de retorno quando a data de ida mudar
+        document.getElementById('data_ida').addEventListener('change', function() {
+            const dataIdaInput = this.value;
+            const dataRetornoInput = document.getElementById('data_retorno');
+            dataRetornoInput.setAttribute('min', dataIdaInput);
+
+            // Limpa a data de retorno se ela for menor que a nova data de ida
+            if (dataRetornoInput.value && dataRetornoInput.value < dataIdaInput) {
+                dataRetornoInput.value = '';
+                hideError(dataRetornoInput);
+            }
+        });
+    });
+
     document.getElementById('leadForm').addEventListener('submit', function(event) {
         event.preventDefault(); // Impede o envio padrão do formulário
         enviarLeadParaWhatsApp();
@@ -559,10 +581,29 @@
 
       // Validar Data de Ida
       const dataIdaInput = document.getElementById('data_ida');
-      if (dataIdaInput.value.trim() === '') {
+      const dataIdaValue = dataIdaInput.value.trim();
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Zera a hora para comparar apenas a data
+      const selectedDateIda = new Date(dataIdaValue);
+
+      if (dataIdaValue === '') {
         showError(dataIdaInput, 'Por favor, selecione a data de ida.');
         isValid = false;
+      } else if (selectedDateIda < today) {
+        showError(dataIdaInput, 'A data de ida não pode ser no passado.');
+        isValid = false;
       }
+
+      // Validar Data de Retorno
+      const dataRetornoInput = document.getElementById('data_retorno');
+      const dataRetornoValue = dataRetornoInput.value.trim();
+      const selectedDateRetorno = new Date(dataRetornoValue);
+
+      if (dataRetornoValue !== '' && dataIdaValue !== '' && selectedDateRetorno < selectedDateIda) {
+        showError(dataRetornoInput, 'A data de retorno não pode ser menor que a data de ida.');
+        isValid = false;
+      }
+
 
       // Validar Quantidade de Adultos
       const adultosInput = document.getElementById('adultos');
@@ -581,8 +622,8 @@
               isValid = false;
           } else {
               const idadesArray = idadesCriancasInput.value.split(',').map(s => parseInt(s.trim()));
-              if (idadesArray.some(isNaN) || idadesArray.length !== criancasCount) {
-                  showError(idadesCriancasInput, `Por favor, digite ${criancasCount} idades válidas para as crianças, separadas por vírgula.`);
+              if (idadesArray.some(isNaN) || idadesArray.length !== criancasCount || idadesArray.some(idade => idade < 2 || idade > 17)) {
+                  showError(idadesCriancasInput, `Por favor, digite ${criancasCount} idades válidas para as crianças (entre 2 e 17 anos), separadas por vírgula.`);
                   isValid = false;
               }
           }
@@ -644,7 +685,7 @@
         if (firstErrorField) {
             firstErrorField.focus();
         }
-        alert('Por favor, preencha todos os campos obrigatórios corretamente.');
+        alert('Ops! Algo deu errado. Por favor, verifique os campos destacados e tente novamente.');
       }
     }
 
