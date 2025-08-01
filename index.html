@@ -316,6 +316,70 @@
       outline-color: #25D366; /* Foco visível no botão WhatsApp */
     }
 
+    /* ====== MODAL DE ORÇAMENTO ====== */
+    .modal {
+      display: none; /* Oculto por padrão */
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.6);
+      padding-top: 60px;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 500px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .close-btn {
+      color: #aaa;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close-btn:hover,
+    .close-btn:focus {
+      color: #333;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .modal-content h3 {
+      text-align: center;
+      color: var(--azul-escuro);
+      margin-bottom: 20px;
+    }
+
+    .modal-content .form-group label {
+      font-size: 0.9em;
+      color: var(--texto);
+    }
+    
+    .modal-content .form-group input {
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .modal-content .btn-submit {
+      width: 100%;
+      font-size: 1em;
+      padding: 12px;
+    }
+
+
     /* ====== MEDIA QUERIES (Responsividade) ====== */
     @media(max-width:1024px) { /* Tablet breakpoint for testimonial cards */
       .testimonial-cards {
@@ -347,6 +411,10 @@
       }
       .offer-card {
         max-width: 100%;
+      }
+      .modal-content {
+          margin: 10% 5%;
+          padding: 20px;
       }
     }
 
@@ -392,9 +460,9 @@
           <div class="offer-content">
             <h3>Costa Cruzeiros</h3>
             <p>Embarque em uma viagem de sonhos pelo mar. Pacotes All Inclusive, cabines com vista para o mar e entretenimento a bordo para toda a família.</p>
-            <a href="https://wa.me/5561983163710?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20as%20ofertas%20da%20Costa%20Cruzeiros." target="_blank" rel="noopener" class="btn-whatsapp">
+            <button onclick="abrirModalOrcamento('Costa Cruzeiros')" class="btn-whatsapp">
               <i class="fab fa-whatsapp" aria-hidden="true"></i> Consultar Pacotes
-            </a>
+            </button>
           </div>
         </div>
 
@@ -406,9 +474,9 @@
           <div class="offer-content">
             <h3>Resort Costa do Sauípe</h3>
             <p>O melhor destino de férias em família. Desfrute de praias paradisíacas, piscinas e um sistema All Inclusive completo. Perfeito para relaxar.</p>
-            <a href="https://wa.me/5561983163710?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20as%20ofertas%20do%20Resort%20Costa%20do%20Sauípe." target="_blank" rel="noopener" class="btn-whatsapp">
+            <button onclick="abrirModalOrcamento('Resort Costa do Sauípe')" class="btn-whatsapp">
               <i class="fab fa-whatsapp" aria-hidden="true"></i> Consultar Pacotes
-            </a>
+            </button>
           </div>
         </div>
 
@@ -420,9 +488,9 @@
           <div class="offer-content">
             <h3>Rio Quente Resorts</h3>
             <p>A aventura te espera no Cerrado. Piscinas de águas naturalmente quentes, parque aquático e muita diversão para todas as idades.</p>
-            <a href="https://wa.me/5561983163710?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20as%20ofertas%20do%20Rio%20Quente%20Resorts." target="_blank" rel="noopener" class="btn-whatsapp">
+            <button onclick="abrirModalOrcamento('Rio Quente Resorts')" class="btn-whatsapp">
               <i class="fab fa-whatsapp" aria-hidden="true"></i> Consultar Pacotes
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -618,7 +686,47 @@
     <span class="sr-only">Fale conosco pelo WhatsApp</span>
   </a>
 
+  <div id="modalOrcamento" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="fecharModal()">&times;</span>
+      <h3>Solicitar Orçamento</h3>
+      <form id="modalForm">
+        <input type="hidden" id="destinoModal" name="destino">
+        <div class="form-group">
+          <label for="nomeModal">Seu Nome</label>
+          <input type="text" id="nomeModal" required placeholder="Digite seu nome" />
+        </div>
+        <div class="form-group">
+          <label for="emailModal">Seu E-mail</label>
+          <input type="email" id="emailModal" required placeholder="seu@email.com" />
+        </div>
+        <div class="form-group">
+          <label for="whatsModal">Seu WhatsApp</label>
+          <input type="tel" id="whatsModal" required placeholder="(XX) XXXXX-XXXX" />
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-submit">Enviar para o WhatsApp</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
+    // Função global para abrir o modal, garantindo que seja acessível pelos botões
+    function abrirModalOrcamento(destino) {
+      const modal = document.getElementById('modalOrcamento');
+      const destinoInputModal = document.getElementById('destinoModal');
+      
+      modal.style.display = 'block';
+      destinoInputModal.value = destino;
+    }
+
+    // Função global para fechar o modal
+    function fecharModal() {
+      const modal = document.getElementById('modalOrcamento');
+      modal.style.display = 'none';
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         const today = new Date();
         const yyyy = today.getFullYear();
@@ -637,11 +745,47 @@
             hideError(dataRetornoInput);
         }
     });
-});
 
-document.getElementById('leadForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Impede o envio padrão do formulário
-    enviarLeadParaWhatsApp();
+    const modal = document.getElementById('modalOrcamento');
+
+    // Fechar o modal ao clicar fora dele
+    window.onclick = function(event) {
+      if (event.target === modal) {
+        fecharModal();
+      }
+    }
+
+    // Lógica para enviar o formulário do modal
+    const modalForm = document.getElementById('modalForm');
+    modalForm.addEventListener('submit', function(event) {
+      event.preventDefault(); // Impede o envio padrão do formulário
+
+      const nome = document.getElementById('nomeModal').value.trim();
+      const email = document.getElementById('emailModal').value.trim();
+      const whats = document.getElementById('whatsModal').value.trim();
+      const destino = document.getElementById('destinoModal').value;
+
+      if (nome && email && whats) {
+        const whatsappNumber = "5561983163710";
+        let whatsappMessage = `Olá, FSR Viagens! Meu nome é ${nome} e gostaria de uma cotação para o destino *${destino}*.`;
+        whatsappMessage += `\n\n*Dados de Contato:*\n`;
+        whatsappMessage += `*E-mail*: ${email}\n`;
+        whatsappMessage += `*WhatsApp*: ${whats}`;
+
+        const encodedMessage = encodeURIComponent(whatsappMessage);
+        const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+        window.open(whatsappURL, '_blank');
+        
+        // Opcional: fechar o modal e limpar o formulário após o envio
+        fecharModal();
+        modalForm.reset();
+
+      } else {
+        alert('Por favor, preencha todos os campos obrigatórios do formulário.');
+      }
+    });
+
 });
 
 // Lógica para mostrar/esconder o campo de idades das crianças
