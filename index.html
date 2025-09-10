@@ -22,6 +22,7 @@
             --dark-blue: #023e8a;
             --text-color: #333;
             --light-bg: #f5f5f5;
+            --testimonial-bg: #e9ecef;
         }
 
         * {
@@ -167,6 +168,45 @@
         .card-content .btn-detail {
             margin-top: auto; /* Empurra o botão para o final do card */
             align-self: flex-start;
+        }
+
+        /* Seção de Depoimentos */
+        #depoimentos {
+            background: var(--testimonial-bg);
+            padding: 80px 0;
+        }
+
+        .depoimento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .depoimento-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .depoimento-content {
+            text-align: center;
+        }
+
+        .citação {
+            font-style: italic;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: var(--text-color);
+        }
+
+        .autor {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 0.9rem;
         }
 
         /* Seção de Formulário */
@@ -326,6 +366,7 @@
             h2 { font-size: 1.8rem; margin-bottom: 30px; }
             section { padding: 60px 0; }
             .floating-wa { width: 50px; height: 50px; font-size: 1.5rem; }
+            .depoimento-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -356,6 +397,32 @@
                         <h3>Cruzeiro pelo Caribe</h3>
                         <p>Uma experiência inesquecível com praias paradisíacas, entretenimento a bordo e pensão completa.</p>
                         <button class="btn-detail" onclick="openModal('modal2')" aria-label="Detalhes do pacote Cruzeiro pelo Caribe">Detalhes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="depoimentos">
+        <div class="container">
+            <h2>O que nossos clientes dizem</h2>
+            <div class="cards depoimento-grid">
+                <div class="card depoimento-card">
+                    <div class="depoimento-content">
+                        <p class="citação">"A equipe da FSR Viagens superou todas as expectativas! O cruzeiro foi inesquecível e todo o suporte, do início ao fim, foi impecável. Já estamos planejando a próxima com eles!"</p>
+                        <p class="autor">— Ana Paula, Brasília</p>
+                    </div>
+                </div>
+                <div class="card depoimento-card">
+                    <div class="depoimento-content">
+                        <p class="citação">"Nunca me senti tão seguro e bem assistido em uma viagem. O pacote para o resort era exatamente o que buscávamos para relaxar. Parabéns pelo serviço!"</p>
+                        <p class="autor">— Ricardo Melo, São Paulo</p>
+                    </div>
+                </div>
+                <div class="card depoimento-card">
+                    <div class="depoimento-content">
+                        <p class="citação">"Simplesmente a melhor agência que já usei! O atendimento é personalizado e o cuidado com cada detalhe faz toda a diferença. Recomendo de olhos fechados!"</p>
+                        <p class="autor">— Juliana Santos, Rio de Janeiro</p>
                     </div>
                 </div>
             </div>
