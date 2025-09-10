@@ -6,6 +6,7 @@
 <meta name="description" content="FSR Viagens - Pacotes de lazer, cruzeiros e resorts. Solicite seu orçamento e realize suas férias dos sonhos.">
 <title>FSR Viagens - Viagens de Lazer</title>
 <style>
+/* Reset e estilos gerais */
 body {font-family: Arial, sans-serif; margin:0; padding:0; background:#f5f5f5;}
 header {background:#0077b6; color:#fff; padding:30px 20px; text-align:center;}
 header img {max-width:200px; margin-bottom:10px;}
@@ -30,12 +31,15 @@ form input {width:100%; padding:10px; margin-bottom:15px; border-radius:5px; bor
 form button {width:100%; padding:15px; background:#ff6b6b; color:#fff; border:none; border-radius:5px; font-size:1rem; cursor:pointer;}
 footer {background:#023e8a; color:#fff; padding:30px 20px; text-align:center;}
 footer a {color:#ff6b6b; text-decoration:none; margin:0 10px;}
+/* Botão flutuante WhatsApp */
+.floating-wa {position:fixed; bottom:20px; right:20px; background:#25d366; color:#fff; padding:15px; border-radius:50%; box-shadow:0 2px 10px rgba(0,0,0,0.2); font-size:1.5rem; text-decoration:none; display:flex; align-items:center; justify-content:center; z-index:1000;}
+@media(max-width:768px){.cards {flex-direction:column; align-items:center;}}
 </style>
 </head>
 <body>
 
 <header>
-  <img src="https://fsr.tur.br/logo.png" alt="FSR Viagens Logo">
+  <img src="https://i.ibb.co/4RGchy7q/logo-fsr.jpg" alt="FSR Viagens Logo">
   <h1>FSR Viagens</h1>
   <p>Realize suas férias dos sonhos com nossos pacotes de lazer</p>
   <a href="#form-orcamento" class="btn-cta">Peça seu orçamento agora</a>
@@ -91,6 +95,9 @@ footer a {color:#ff6b6b; text-decoration:none; margin:0 10px;}
     <p>10 dias de cruzeiro com pensão completa, shows, atividades a bordo e paradas em ilhas paradisíacas.</p>
   </div>
 </div>
+
+<!-- Botão flutuante WhatsApp -->
+<a href="https://wa.me/5561983163710" target="_blank" class="floating-wa">💬</a>
 
 <footer>
   <p>FSR Viagens © 2025</p>
