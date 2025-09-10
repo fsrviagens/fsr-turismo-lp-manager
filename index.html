@@ -1,678 +1,127 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FSR Viagens | Pacotes Costa Cruzeiros, Costa do Sauípe e Rio Quente Resorts</title>
-  <meta name="description" content="Planeje sua viagem dos sonhos com FSR Viagens. Oferecemos ofertas exclusivas de cruzeiro marítimo Costa Cruzeiros, pacotes para o Resort Costa do Sauípe, Rio Quente Resorts e muito mais. Atendimento humanizado e suporte 24h." />
-  <meta name="keywords" content="agência de viagens, viagens personalizadas, cruzeiro, Costa Cruzeiros, Costa do Sauípe, Rio Quente Resorts, pacotes de viagem, turismo, hospedagem, all inclusive, viagens em família, suporte 24h" />
-  <meta property="og:title" content="FSR Viagens: Especialista em Costa Cruzeiros, Costa do Sauípe e Rio Quente Resorts!" />
-  <meta property="og:description" content="Roteiros personalizados, assistência 24h e preços exclusivos. Peça seu orçamento agora mesmo para seu cruzeiro ou resort favorito." />
-  <meta property="og:image" content="https://i.ibb.co/4RGchy7q/logo-fsr.jpg" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://fsrviagens.com.br" />
-  <link rel="canonical" href="https://fsrviagens.com.br" />
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "TravelAgency",
-      "name": "FSR Viagens",
-      "url": "https://fsrviagens.com.br",
-      "logo": "https://i.ibb.co/4RGchy7q/logo-fsr.jpg",
-      "description": "Agência especializada em viagens personalizadas, roteiros sob medida e atendimento humanizado. Oferecemos pacotes exclusivos para Costa Cruzeiros, Costa do Sauípe e Rio Quente Resorts.",
-      "telephone": "+5561983163710",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Brasília",
-        "addressRegion": "DF",
-        "addressCountry": "BR"
-      },
-      "sameAs": [
-        "https://instagram.com/fsrviagens",
-        "https://wa.me/5561983163710"
-      ]
-    }
-  </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="icon" href="https://via.placeholder.com/64x64.png?text=FSR" type="image/png" sizes="64x64">
-  <link rel="shortcut icon" href="https://via.placeholder.com/64x64.png?text=FSR" type="image/png">
-  <style>
-    /* Variáveis CSS */
-    :root{
-      --azul-escuro:#0A2F5C;
-      --azul-claro:#1E90FF;
-      --azul-claro-hover:#125BA5;
-      --cinza-claro:#f2f4f8;
-      --branco:#fff;
-      --texto:#333;
-    }
-    /* Reset básico */
-    *{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:'Poppins',sans-serif;background:var(--cinza-claro);color:var(--texto);line-height:1.6;}
-    a{text-decoration:none;color:inherit;}
-
-    .container{max-width:1140px;margin:0 auto;padding:20px;}
-
-    /* ====== HEADER ====== */
-    header{
-      background:linear-gradient(rgba(10,47,92,.75),rgba(10,47,92,.75)),
-                 url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1500&q=60") no-repeat center/cover;
-      color:var(--branco);
-      text-align:center;
-      padding:120px 20px 100px;
-      position:relative;
-    }
-    header img{max-width:180px;margin:0 auto 18px;display:block;}
-    header h1{font-size:2.8rem;font-weight:700;margin-bottom:8px;}
-    header p{font-size:1.1rem;max-width:650px;margin:0 auto 8px;}
-
-    .btn-top{
-      display:inline-block;
-      margin-top:22px;
-      background:var(--azul-claro);
-      color:var(--branco);
-      padding:14px 34px;
-      border-radius:50px;
-      font-weight:600;
-      transition:.25s;
-      /* Acessibilidade de foco */
-      outline: 2px solid transparent;
-      outline-offset: 2px;
-    }
-    .btn-top:hover{background:var(--azul-claro-hover);transform:translateY(-2px);}
-    .btn-top:focus-visible {
-      outline-color: var(--branco); /* Foco branco no botão azul para contraste */
-    }
-
-    /* Botão Booking */
-    .btn-booking {
-      display:inline-block;
-      margin:30px auto 60px;
-      background:#FF5A5F; /* cor Booking */
-      color:#fff;
-      padding:15px 36px;
-      border-radius:50px;
-      font-weight:700;
-      font-size:1.1rem;
-      text-align:center;
-      transition: background-color .3s ease;
-      box-shadow: 0 4px 12px rgba(255,90,95,0.5);
-      cursor:pointer;
-      border:none;
-      text-decoration:none;
-      display: block;
-      max-width:280px;
-      /* Acessibilidade de foco */
-      outline: 2px solid transparent;
-      outline-offset: 2px;
-    }
-    .btn-booking:hover {
-      background:#E04848;
-      box-shadow: 0 6px 16px rgba(224,72,72,0.7);
-    }
-    .btn-booking:focus-visible {
-      outline-color: var(--azul-claro);
-    }
-
-    /* ====== MENU PRINCIPAL ====== */
-    .main-nav {
-      background-color: var(--azul-escuro);
-      padding: 15px 0;
-      text-align: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    .main-nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      gap: 30px; /* Espaçamento entre os itens do menu */
-      flex-wrap: wrap; /* Permite quebrar linha em telas menores */
-    }
-
-    .main-nav a {
-      color: var(--branco);
-      text-decoration: none;
-      font-weight: 600;
-      padding: 8px 15px;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
-    }
-
-    .main-nav a:hover {
-      background-color: var(--azul-claro-hover);
-    }
-
-    /* ====== OFERTAS ESPECÍFICAS (NOVA SEÇÃO) ====== */
-    .offers {
-      padding: 60px 20px;
-      background: var(--cinza-claro);
-      text-align: center;
-    }
-    .offers h2 {
-      color: var(--azul-escuro);
-      margin-bottom: 40px;
-      font-size: 2.2rem;
-      font-weight: 700;
-    }
-    .offer-cards {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 30px;
-    }
-    .offer-card {
-      flex: 1 1 300px;
-      background: var(--branco);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .offer-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    }
-    .offer-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      display: block;
-    }
-    .offer-content {
-      padding: 25px;
-      text-align: left;
-    }
-    .offer-content h3 {
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-      color: var(--azul-escuro);
-    }
-    .offer-content p {
-      font-size: 1rem;
-      line-height: 1.5;
-      margin-bottom: 20px;
-    }
-    .offer-card .btn-whatsapp {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      background-color: #25D366;
-      color: var(--branco);
-      border-radius: 50px;
-      text-align: center;
-      font-weight: 600;
-      transition: background-color 0.3s ease;
-      border: none;
-      cursor: pointer;
-    }
-    .offer-card .btn-whatsapp:hover {
-      background-color: #128C7E;
-    }
-
-
-    /* ====== BENEFÍCIOS ====== */
-    .benefits{background:var(--branco);padding:60px 20px;text-align:center;}
-    .benefits h2{color:var(--azul-claro);margin-bottom:30px;font-size:2rem;font-weight:600;}
-    .benefit-list{display:flex;flex-wrap:wrap;gap:25px;justify-content:center;}
-    .benefit-item{
-      flex:1 1 250px;background:var(--cinza-claro);border-radius:10px;padding:25px;
-      box-shadow:0 4px 10px rgba(0,0,0,.04);
-    }
-    .benefit-item i{font-size:1.8rem;color:var(--azul-claro);margin-bottom:10px;}
-    .benefit-item p{font-size:.95rem;}
-
-    /* ====== QUEM SOMOS ====== */
-    .about{padding:60px 20px;background:var(--branco);}
-    .about h2{color:var(--azul-claro);margin-bottom:25px;font-size:2rem;font-weight:600;text-align:center;}
-    .about-content{display:flex;flex-wrap:wrap;gap:30px;align-items:center;}
-    .about img{flex:1 1 280px;max-width:300px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,.06);}
-    .about-text{flex:1 1 320px;font-size:1rem;text-align:justify;}
-
-    /* ====== FORM ORÇAMENTO ====== */
-    .form-section{padding:60px 20px;background:var(--cinza-claro);}
-    .form-section h2{color:var(--azul-claro);margin-bottom:25px;font-size:2rem;font-weight:600;text-align:center;}
-    form{max-width:600px;margin:0 auto;text-align:left;background:var(--branco);padding:35px 25px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.05);}
-    .form-group{margin-bottom:18px;}
-    label{display:block;font-weight:600;margin-bottom:6px;}
-    input,textarea, select{
-      width:100%;padding:12px 15px;border:1px solid #ccc;border-radius:8px;font-size:.95rem;
-    }
-    textarea{min-height:90px;resize:vertical;}
-    .form-actions{text-align:center;margin-top:18px;}
-    .btn-submit{
-      background:var(--azul-claro);color:var(--branco);padding:14px 40px;border:none;border-radius:50px;font-weight:600;cursor:pointer;transition:.25s;
-      /* Acessibilidade de foco */
-      outline: 2px solid transparent;
-      outline-offset: 2px;
-    }
-    .btn-submit:hover{background:var(--azul-claro-hover);}
-    .btn-submit:focus-visible {
-      outline-color: var(--azul-claro);
-    }
-    /* Estilos para validação de formulário */
-    .form-group.error input,
-    .form-group.error textarea,
-    .form-group.error select {
-        border-color: #f00; /* Borda vermelha para campo com erro */
-        outline: 1px solid #f00; /* Pequeno outline para indicar erro */
-    }
-    .error-message {
-        color: #f00;
-        font-size: 0.875em;
-        margin-top: 5px;
-        display: none; /* Escondido por padrão, mostrado via JS */
-    }
-    .sr-only { /* Classe para elementos apenas para leitores de tela */
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0,0,0,0);
-        white-space: nowrap;
-        border-width: 0;
-    }
-
-
-    /* ====== TESTEMUNHOS ====== */
-    .testimonials{padding:60px 20px;background:var(--branco);text-align:center;}
-    .testimonials h2{color:var(--azul-claro);margin-bottom:25px;font-size:2rem;font-weight:600;}
-    .testimonial-cards{display:flex;flex-wrap:wrap;gap:25px;justify-content:center;}
-    .card{
-      flex:1 1 260px;background:var(--cinza-claro);padding:25px;border-radius:10px;
-      box-shadow:0 4px 12px rgba(0,0,0,.04);text-align:left;font-size:.95rem;
-    }
-    .card i{color:#ffc107;margin-right:4px;}
-    .client{font-weight:600;margin-top:10px;}
-
-    /* ====== SOCIAL ====== */
-    .social-section{background:var(--cinza-claro);padding:40px 20px;text-align:center;}
-    .social-section h3{font-size:1.5rem;font-weight:600;margin-bottom:20px;color:var(--azul-escuro);}
-    .social-icons a{margin:0 15px;font-size:2.3rem;color:var(--azul-claro);transition:.25s;}
-    .social-icons a:hover{color:var(--azul-claro-hover);}
-
-    /* ====== FOOTER ====== */
-    footer{background:var(--azul-escuro);color:var(--branco);padding:30px 20px;font-size:.9rem;text-align:center;}
-    footer a{color:var(--azul-claro);}
-    footer a:hover{text-decoration:underline;}
-
-    /* ====== BOTÃO WHATSAPP FLUTUANTE ====== */
-    .wa-float{
-      position:fixed;right:18px;bottom:18px;z-index:999;
-      background:#25D366;color:#fff;width:56px;height:56px;border-radius:50%;
-      display:flex;align-items:center;justify-content:center;font-size:2rem;
-      box-shadow:0 4px 14px rgba(0,0,0,.25);transition:.25s;
-      /* Acessibilidade de foco */
-      outline: 2px solid transparent;
-      outline-offset: 2px;
-    }
-    .wa-float:hover{transform:scale(1.08);}
-    .wa-float:focus-visible {
-      outline-color: #25D366; /* Foco visível no botão WhatsApp */
-    }
-
-    /* ====== MODAL DE ORÇAMENTO ====== */
-    .modal {
-      display: none; /* Oculto por padrão */
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.6);
-      padding-top: 60px;
-    }
-
-    .modal-content {
-      background-color: #fefefe;
-      margin: 5% auto;
-      padding: 30px;
-      border-radius: 10px;
-      max-width: 500px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-      position: relative;
-    }
-
-    .close-btn {
-      color: #aaa;
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .close-btn:hover,
-    .close-btn:focus {
-      color: #333;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .modal-content h3 {
-      text-align: center;
-      color: var(--azul-escuro);
-      margin-bottom: 20px;
-    }
-
-    .modal-content .form-group label {
-      font-size: 0.9em;
-      color: var(--texto);
-    }
-    
-    .modal-content .form-group input {
-      padding: 10px;
-      border-radius: 5px;
-    }
-
-    .modal-content .btn-submit {
-      width: 100%;
-      font-size: 1em;
-      padding: 12px;
-    }
-
-
-    /* ====== MEDIA QUERIES (Responsividade) ====== */
-    @media(max-width:1024px) { /* Tablet breakpoint for testimonial cards */
-      .testimonial-cards {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Exemplo de layout em 2 colunas se for grid */
-      }
-    }
-
-    @media(max-width:768px){
-      header h1{font-size:2rem;}
-      .about-content{flex-direction:column;text-align:center;}
-      .about img{margin:0 auto;}
-      .testimonial-cards {
-        flex-direction: column; /* Empilha verticalmente para mobile */
-      }
-      .card {
-        flex: 1 1 auto; /* Largura total para mobile */
-      }
-      /* Ajuste de contraste para texto do hero em telas menores */
-      header h1, header p {
-        text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Sombra sutil para melhor contraste */
-      }
-      .main-nav ul {
-        flex-direction: column; /* Empilha itens do menu em telas pequenas */
-        gap: 10px;
-      }
-      /* Responsividade da nova seção de ofertas */
-      .offer-cards {
-        flex-direction: column;
-      }
-      .offer-card {
-        max-width: 100%;
-      }
-      .modal-content {
-          margin: 10% 5%;
-          padding: 20px;
-      }
-    }
-
-    @media(max-width:480px){ /* Mobile breakpoint */
-      header h1{font-size:1.8rem;}
-      header p{font-size:1rem;}
-      .btn-top{padding:12px 28px;}
-      .form-group input, .form-group textarea {
-        font-size: 1rem; /* Aproximadamente 16px para legibilidade em mobile */
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="FSR Viagens - Pacotes de lazer, cruzeiros e resorts. Solicite seu orçamento e realize suas férias dos sonhos.">
+<title>FSR Viagens - Viagens de Lazer</title>
+<style>
+body {font-family: Arial, sans-serif; margin:0; padding:0; background:#f5f5f5;}
+header {background:#0077b6; color:#fff; padding:30px 20px; text-align:center;}
+header h1 {margin:0; font-size:2rem;}
+header p {margin:10px 0 0; font-size:1.2rem;}
+.btn-cta {background:#ff6b6b; color:#fff; padding:15px 25px; border:none; border-radius:5px; cursor:pointer; text-decoration:none; font-weight:bold;}
+section {padding:50px 20px;}
+h2 {text-align:center; margin-bottom:30px; font-size:2rem;}
+.container {max-width:1200px; margin:0 auto;}
+.cards {display:flex; flex-wrap:wrap; gap:20px; justify-content:center;}
+.card {background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,0.1); flex:1 1 300px; max-width:350px;}
+.card img {width:100%; display:block;}
+.card-content {padding:20px;}
+.card-content h3 {margin:0 0 10px;}
+.card-content p {margin:0 0 15px;}
+.card-content .btn-detail {background:#0077b6; color:#fff; padding:10px 15px; border:none; border-radius:5px; cursor:pointer; text-decoration:none; display:inline-block;}
+.modal {display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:1000;}
+.modal-content {background:#fff; padding:20px; border-radius:10px; max-width:600px; width:90%; position:relative;}
+.close {position:absolute; top:10px; right:15px; font-size:1.5rem; cursor:pointer;}
+form {background:#fff; padding:20px; border-radius:10px; max-width:500px; margin:0 auto; box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+form input, form select {width:100%; padding:10px; margin-bottom:15px; border-radius:5px; border:1px solid #ccc;}
+form button {width:100%; padding:15px; background:#ff6b6b; color:#fff; border:none; border-radius:5px; font-size:1rem; cursor:pointer;}
+footer {background:#023e8a; color:#fff; padding:30px 20px; text-align:center;}
+footer a {color:#ff6b6b; text-decoration:none; margin:0 10px;}
+</style>
 </head>
-
 <body>
-  <header>
-    <div class="container">
-      <img src="https://i.ibb.co/4RGchy7q/logo-fsr.jpg" alt="Logo FSR Viagens - Agência de viagens personalizadas">
-      <h1>Suas Próximas Férias Começam Aqui!</h1>
-      <p>Pacotes exclusivos para <strong>Costa Cruzeiros</strong>, <strong>Rio Quente Resorts</strong>, <strong>Resort Costa do Sauípe</strong> e muito mais. Atendimento humanizado e suporte completo.</p>
-      <a href="#ofertas" class="btn-top">Ver Nossas Ofertas</a>
-    </div>
-  </header>
-  <nav class="main-nav">
-    <ul>
-      <li><a href="#ofertas" aria-label="Navegar para a seção de ofertas de cruzeiros e resorts">Ofertas</a></li>
-      <li><a href="#sobre" aria-label="Navegar para a seção Quem Somos">Quem Somos</a></li>
-      <li><a href="#orcamento" aria-label="Navegar para a seção Solicitar Orçamento">Orçamento</a></li>
-      <li><a href="#depoimentos" aria-label="Navegar para a seção de Depoimentos de Clientes">Depoimentos</a></li>
-    </ul>
-  </nav>
 
-  <section class="offers" id="ofertas">
-    <div class="container">
-      <h2>Ofertas de Férias Inesquecíveis</h2>
-      <div class="offer-cards">
+<header>
+  <h1>FSR Viagens</h1>
+  <p>Realize suas férias dos sonhos com nossos pacotes de lazer</p>
+  <a href="#form-orcamento" class="btn-cta">Peça seu orçamento agora</a>
+</header>
 
-        <div class="offer-card">
-          <picture>
-            <source srcset="https://i.ibb.co/C0V4qgS/costa-cruzeiros.webp" type="image/webp">
-            <img src="https://i.ibb.co/G0d0c3Z/costa-cruzeiros.jpg" alt="Navio da Costa Cruzeiros em águas tropicais" loading="lazy">
-          </picture>
-          <div class="offer-content">
-            <h3>Costa Cruzeiros</h3>
-            <p>Embarque em uma viagem de sonhos pelo mar. Pacotes All Inclusive, cabines com vista para o mar e entretenimento a bordo para toda a família.</p>
-            <button onclick="abrirModalOrcamento('Costa Cruzeiros')" class="btn-whatsapp">
-              <i class="fab fa-whatsapp" aria-hidden="true"></i> Consultar Pacotes
-            </button>
-          </div>
-        </div>
-
-        <div class="offer-card">
-          <picture>
-            <source srcset="https://i.ibb.co/JR9qsxpW/IMG-20250718-WA0008.webp" type="image/webp">
-            <img src="https://i.ibb.co/JR9qsxpW/IMG-20250718-WA0008.jpg" alt="Família na praia do Resort Costa do Sauípe" loading="lazy">
-          </picture>
-          <div class="offer-content">
-            <h3>Resort Costa do Sauípe</h3>
-            <p>O melhor destino de férias em família. Desfrute de praias paradisíacas, piscinas e um sistema All Inclusive completo. Perfeito para relaxar.</p>
-            <button onclick="abrirModalOrcamento('Resort Costa do Sauípe')" class="btn-whatsapp">
-              <i class="fab fa-whatsapp" aria-hidden="true"></i> Consultar Pacotes
-            </button>
-          </div>
-        </div>
-
-        <div class="offer-card">
-          <picture>
-            <source srcset="https://i.ibb.co/tQk1x4k/rio-quente-resorts.webp" type="image/webp">
-            <img src="https://i.ibb.co/tQk1x4k/rio-quente-resorts.jpg" alt="Piscina de águas quentes no Rio Quente Resorts" loading="lazy">
-          </picture>
-          <div class="offer-content">
-            <h3>Rio Quente Resorts</h3>
-            <p>A aventura te espera no Cerrado. Piscinas de águas naturalmente quentes, parque aquático e muita diversão para todas as idades.</p>
-            <button onclick="abrirModalOrcamento('Rio Quente Resorts')" class="btn-whatsapp">
-              <i class="fab fa-whatsapp" aria-hidden="true"></i> Consultar Pacotes
-            </button>
-          </div>
-        </div>
+<section id="ofertas">
+  <h2>Ofertas Imperdíveis</h2>
+  <div class="container cards">
+    <div class="card">
+      <img src="https://via.placeholder.com/350x200" alt="Resort Costa do Sauípe">
+      <div class="card-content">
+        <h3>Resort Costa do Sauípe</h3>
+        <p>Pacote completo 5 noites, com tudo incluso para você relaxar.</p>
+        <button class="btn-detail" onclick="openModal('modal1')">Detalhes</button>
       </div>
     </div>
-  </section>
-
-  <div class="container" style="text-align:center;">
-    <a href="http://www.awin1.com/awclick.php?mid=18120&id=2208469" target="_blank" rel="noopener" class="btn-booking" aria-label="Buscar hospedagem e serviços no site do Booking.com">
-      🔍 Buscar Hospedagem e Serviços
-    </a>
+    <div class="card">
+      <img src="https://via.placeholder.com/350x200" alt="Cruzeiro Caribe">
+      <div class="card-content">
+        <h3>Cruzeiro Caribe</h3>
+        <p>Uma experiência inesquecível com praias paradisíacas.</p>
+        <button class="btn-detail" onclick="openModal('modal2')">Detalhes</button>
+      </div>
+    </div>
   </div>
+</section>
 
-  <section class="benefits">
-    <div class="container">
-      <h2>Por que viajar com a FSR Viagens?</h2>
-      <div class="benefit-list">
-        <div class="benefit-item">
-          <i class="fas fa-user-friends"></i>
-          <p>Atendimento 100 % humanizado e suporte 24 h.</p>
-        </div>
-        <div class="benefit-item">
-          <i class="fas fa-map-marked-alt"></i>
-          <p>Roteiros personalizados, feitos sob medida para seu perfil.</p>
-        </div>
-        <div class="benefit-item">
-          <i class="fas fa-hand-holding-usd"></i>
-          <p>Condições e parcerias exclusivas, garantindo melhor custo‑benefício.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="about" id="sobre">
-    <div class="container">
-      <h2>Quem Somos</h2>
-      <div class="about-content">
-        <picture>
-          <source srcset="https://i.ibb.co/SDL2wq1L/file-00000000982061f8b82d7dc2ada7c667.webp" type="image/webp">
-          <img src="https://i.ibb.co/SDL2wq1L/file-00000000982061f8b82d7dc2ada7c667.png"
-               alt="Fábio Souza, agente de viagens da FSR Viagens" border="0"
-               loading="lazy">
-        </picture>
-        <div class="about-text">
-          <p>Sou <strong>Fábio Souza</strong>, agente de viagens com mais de 20 anos no mercado. Apaixonado por criar experiências únicas, eu e minha equipe cuidamos de todos os detalhes para que você viaje com tranquilidade, segurança e muita alegria.</p>
-          <p>Missão: transformar sonhos em memórias inesquecíveis, oferecendo atendimento de excelência e soluções personalizadas.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="form-section" id="orcamento">
-    <div class="container">
-      <h2>Solicite seu Orçamento Personalizado</h2>
-      <form id="leadForm">
-        <div class="form-group">
-          <label for="nome">Nome</label>
-          <input type="text" id="nome" placeholder="Seu nome" required aria-required="true" aria-describedby="nome-error" />
-          <p class="error-message" id="nome-error" aria-live="polite" aria-atomic="true">Por favor, digite seu nome.</p>
-        </div>
-        <div class="form-group">
-          <label for="email">E‑mail</label>
-          <input type="email" id="email" placeholder="seu@email.com" required aria-required="true" aria-describedby="email-error" />
-          <p class="error-message" id="email-error" aria-live="polite" aria-atomic="true">Por favor, digite um e-mail válido.</p>
-        </div>
-        <div class="form-group">
-          <label for="whats">WhatsApp</label>
-          <input type="tel" id="whats" placeholder="XX 9XXXX‑XXXX" required aria-required="true" aria-describedby="whats-error" />
-          <p class="error-message" id="whats-error" aria-live="polite" aria-atomic="true">Por favor, digite seu número de WhatsApp.</p>
-        </div><hr style="margin: 25px 0; border: 0; border-top: 1px solid #eee;">
-
-    <h3>Detalhes da Viagem</h3>
-
-    <div class="form-group">
-        <label for="origem">Origem</label>
-        <input type="text" id="origem" placeholder="Cidade de origem" required aria-required="true" aria-describedby="origem-error">
-        <p class="error-message" id="origem-error" aria-live="polite" aria-atomic="true">Por favor, digite a cidade de origem.</p>
-    </div>
-
-    <div class="form-group">
-        <label for="destino">Destino</label>
-        <input type="text" id="destino" placeholder="Cidade de destino" required aria-required="true" aria-describedby="destino-error">
-        <p class="error-message" id="destino-error" aria-live="polite" aria-atomic="true">Por favor, digite a cidade de destino.</p>
-    </div>
-
-    <div class="form-group">
-        <label for="data_ida">Data de Ida</label>
-        <input type="date" id="data_ida" required aria-required="true" aria-describedby="data_ida-error">
-        <p class="error-message" id="data_ida-error" aria-live="polite" aria-atomic="true">Por favor, selecione a data de ida.</p>
-    </div>
-
-    <div class="form-group">
-        <label for="data_retorno">Data de Retorno</label>
-        <input type="date" id="data_retorno" aria-describedby="data_retorno-info">
-        <p class="error-message" id="data_retorno-error" aria-live="polite" aria-atomic="true" style="display:none;">A data de retorno não pode ser menor que a data de ida.</p>
-        <p id="data_retorno-info" class="sr-only">Selecione a data de retorno (opcional).</p>
-    </div>
-
-    <div class="form-group">
-        <label for="adultos">Quantidade de Adultos</label>
-        <input type="number" id="adultos" value="1" min="1" required aria-required="true" aria-describedby="adultos-error">
-        <p class="error-message" id="adultos-error" aria-live="polite" aria-atomic="true">Por favor, informe a quantidade de adultos.</p>
-    </div>
-
-    <div class="form-group">
-        <label for="criancas">Quantidade de Crianças (2 a 17 anos)</label>
-        <input type="number" id="criancas" value="0" min="0" aria-describedby="criancas-info">
-        <p id="criancas-info" class="sr-only">Informe a quantidade de crianças entre 2 e 17 anos.</p>
-    </div>
-
-    <div class="form-group" id="idades_criancas_group" style="display:none;">
-        <label for="idades_criancas">Idade das Crianças (separadas por vírgula)</label>
-        <input type="text" id="idades_criancas" placeholder="Ex: 5, 10, 15" aria-describedby="idades_criancas-info">
-        <p class="error-message" id="idades_criancas-error" aria-live="polite" aria-atomic="true">Por favor, digite a idade de cada criança.</p>
-        <p id="idades_criancas-info" class="sr-only">Informe a idade de cada criança separada por vírgula.</p>
-    </div>
-
-    <div class="form-group">
-        <label for="bebes">Quantidade de Bebês (0 a 11 meses)</label>
-        <input type="number" id="bebes" value="0" min="0" aria-describedby="bebes-info">
-        <p id="bebes-info" class="sr-only">Informe a quantidade de bebês entre 0 e 11 meses.</p>
-    </div>
-
-    <div class="form-group">
-        <label for="tipo_pacote">Tipo de Pacote</label>
-        <select id="tipo_pacote" required aria-required="true" aria-describedby="tipo_pacote-error">
-            <option value="">Selecione</option>
-            <option value="Aéreo">Aéreo</option>
-            <option value="Aéreo + Hotel">Aéreo + Hotel</option>
-            <option value="Apenas Hospedagem">Apenas Hospedagem</option>
-        </select>
-        <p class="error-message" id="tipo_pacote-error" aria-live="polite" aria-atomic="true">Por favor, selecione o tipo de pacote.</p>
-    </div>
-
-    <div class="form-group">
-      <label for="mensagem">Detalhes adicionais da viagem</label>
-      <textarea id="mensagem" placeholder="Tem mais detalhes? Orçamento aproximado, preferências de voo/hotel ou algo mais?" aria-describedby="mensagem-info"></textarea>
-      <p id="mensagem-info" class="sr-only">Descreva os detalhes adicionais da sua viagem.</p>
-    </div>
-    <div class="form-actions">
-      <button type="submit" class="btn-submit">Solicitar Orçamento via WhatsApp</button>
-    </div>
+<section id="form-orcamento">
+  <h2>Solicite seu Orçamento</h2>
+  <form id="orcamentoForm">
+    <input type="text" name="nome" placeholder="Seu nome" required>
+    <input type="email" name="email" placeholder="Seu e-mail" required>
+    <input type="tel" name="telefone" placeholder="Seu WhatsApp" required>
+    <select name="destino" required>
+      <option value="">Escolha seu destino</option>
+      <option value="Costa do Sauípe">Costa do Sauípe</option>
+      <option value="Cruzeiro Caribe">Cruzeiro Caribe</option>
+    </select>
+    <input type="date" name="ida" placeholder="Data de ida" required>
+    <input type="date" name="volta" placeholder="Data de volta" required>
+    <button type="submit">Enviar via WhatsApp</button>
   </form>
+</section>
+
+<!-- Modais -->
+<div id="modal1" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('modal1')">&times;</span>
+    <h3>Resort Costa do Sauípe</h3>
+    <p>Pacote completo de 5 noites, café da manhã incluso, atividades para toda família, traslado e mais.</p>
+  </div>
+</div>
+<div id="modal2" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('modal2')">&times;</span>
+    <h3>Cruzeiro Caribe</h3>
+    <p>10 dias de cruzeiro com pensão completa, shows, atividades a bordo e paradas em ilhas paradisíacas.</p>
+  </div>
 </div>
 
-  </section>
+<footer>
+  <p>FSR Viagens © 2025</p>
+  <p>
+    <a href="https://wa.me/5511999999999" target="_blank">WhatsApp</a> | 
+    <a href="https://www.instagram.com/fsr.viagens" target="_blank">Instagram</a>
+  </p>
+</footer>
 
-  <section class="testimonials" id="depoimentos">
-    <div class="container">
-      <h2>Depoimentos de Clientes</h2>
-      <div class="testimonial-cards">
-        <div class="card">
-          <p><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><span class="sr-only">5 de 5 estrelas</span></p>
-          <p>“Viagem perfeita! Roteiro impecável e suporte o tempo todo. Recomendo demais.”</p>
-          <p class="client">— Carla M., Brasília</p>
-        </div>
-        <div class="card">
-          <p><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><i class="far fa-star" aria-hidden="true"></i><span class="sr-only">4 de 5 estrelas</span></p>
-          <p>“Excelentes opções de hotéis e preço justo. Atendimento diferenciado!”</p>
-          <p class="client">— Rodrigo S., Goiânia</p>
-        </div>
-        <div class="card">
-          <p><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><i class="fas fa-star" aria-hidden="true"></i><span class="sr-only">5 de 5 estrelas</span></p>
-          <p>“Fábio salvou nossa lua‑de‑mel! Tudo perfeito do início ao fim.”</p>
-          <p class="client">— Ana & Lucas, Curitiba</p>
-        </div>
-      </div>
-    </div>
-  </section>
+<script>
+function openModal(id){document.getElementById(id).style.display='flex';}
+function closeModal(id){document.getElementById(id).style.display='none';}
 
-  <section class="social-section">
-    <div class="container">
-      <h3>Siga‑nos nas Redes</h3>
-      <div class="social-icons">
-        <a href="https://instagram.com/fsrviagens" target="_blank" title="Instagram da FSR Viagens"><i class="fab fa-instagram"></i></a>
-        <a href="https://wa.me/5561983163710" target="_blank" title="Fale com FSR Viagens pelo WhatsApp"><i class="fab fa-whatsapp"></i></a>
-      </div>
-    </div>
-  </section>
+// Envio via WhatsApp
+document.getElementById('orcamentoForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const form = e.target;
+  const nome = form.nome.value;
+  const email = form.email.value;
+  const telefone = form.telefone.value;
+  const destino = form.destino.value;
+  const ida = form.ida.value;
+  const volta = form.volta.value;
 
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 FSR Viagens. Todos os direitos reservados.</p>
-      <p><i class="
+  const msg = `Olá, meu nome é ${nome}. Gostaria de solicitar orçamento para ${destino} de ${ida} até ${volta}. Meu email: ${email}, WhatsApp: ${telefone}.`;
+  const url = `https://wa.me/5511999999999?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+});
+</script>
+
+</body>
+</html>
