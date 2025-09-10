@@ -1,137 +1,448 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="FSR Viagens - Pacotes de lazer, cruzeiros e resorts. Solicite seu orçamento e realize suas férias dos sonhos.">
-<title>FSR Viagens - Viagens de Lazer</title>
-<style>
-/* Reset e estilos gerais */
-body {font-family: Arial, sans-serif; margin:0; padding:0; background:#f5f5f5;}
-header {background:#0077b6; color:#fff; padding:30px 20px; text-align:center;}
-header img {max-width:200px; margin-bottom:10px;}
-header h1 {margin:0; font-size:2rem;}
-header p {margin:10px 0 0; font-size:1.2rem;}
-.btn-cta {background:#ff6b6b; color:#fff; padding:15px 25px; border:none; border-radius:5px; cursor:pointer; text-decoration:none; font-weight:bold;}
-section {padding:50px 20px;}
-h2 {text-align:center; margin-bottom:30px; font-size:2rem;}
-.container {max-width:1200px; margin:0 auto;}
-.cards {display:flex; flex-wrap:wrap; gap:20px; justify-content:center;}
-.card {background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,0.1); flex:1 1 300px; max-width:350px;}
-.card img {width:100%; display:block;}
-.card-content {padding:20px;}
-.card-content h3 {margin:0 0 10px;}
-.card-content p {margin:0 0 15px;}
-.card-content .btn-detail {background:#0077b6; color:#fff; padding:10px 15px; border:none; border-radius:5px; cursor:pointer; text-decoration:none; display:inline-block;}
-.modal {display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:1000;}
-.modal-content {background:#fff; padding:20px; border-radius:10px; max-width:600px; width:90%; position:relative;}
-.close {position:absolute; top:10px; right:15px; font-size:1.5rem; cursor:pointer;}
-form {background:#fff; padding:20px; border-radius:10px; max-width:500px; margin:0 auto; box-shadow:0 2px 10px rgba(0,0,0,0.1);}
-form input {width:100%; padding:10px; margin-bottom:15px; border-radius:5px; border:1px solid #ccc;}
-form button {width:100%; padding:15px; background:#ff6b6b; color:#fff; border:none; border-radius:5px; font-size:1rem; cursor:pointer;}
-footer {background:#023e8a; color:#fff; padding:30px 20px; text-align:center;}
-footer a {color:#ff6b6b; text-decoration:none; margin:0 10px;}
-/* Botão flutuante WhatsApp */
-.floating-wa {position:fixed; bottom:20px; right:20px; background:#25d366; color:#fff; padding:15px; border-radius:50%; box-shadow:0 2px 10px rgba(0,0,0,0.2); font-size:1.5rem; text-decoration:none; display:flex; align-items:center; justify-content:center; z-index:1000;}
-@media(max-width:768px){.cards {flex-direction:column; align-items:center;}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FSR Viagens - Pacotes de lazer, cruzeiros e resorts. Solicite seu orçamento e realize suas férias dos sonhos.">
+    <title>FSR Viagens - Viagens de Lazer e Cruzeiros</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* ====================
+           1. Estilos Gerais & Reset
+           ==================== */
+        :root {
+            --primary-color: #0077b6;
+            --secondary-color: #ff6b6b;
+            --dark-blue: #023e8a;
+            --text-color: #333;
+            --light-bg: #f5f5f5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            background: var(--light-bg);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.2rem;
+            color: var(--primary-color);
+        }
+        
+        /* ====================
+           2. Componentes Globais
+           ==================== */
+        .btn-cta {
+            background: var(--secondary-color);
+            color: #fff;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-detail {
+            background: var(--primary-color);
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-detail:hover {
+            background: var(--dark-blue);
+        }
+
+        /* ====================
+           3. Seções da Página
+           ==================== */
+        header {
+            background: var(--primary-color);
+            color: #fff;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        
+        header img {
+            max-width: 250px;
+            height: auto;
+            margin-bottom: 15px;
+            border-radius: 10px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        header p {
+            margin: 10px 0 30px;
+            font-size: 1.1rem;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        /* Seção de Ofertas */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-content h3 {
+            margin: 0 0 10px;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .card-content p {
+            margin: 0 0 20px;
+        }
+        
+        .card-content .btn-detail {
+            margin-top: auto; /* Empurra o botão para o final do card */
+            align-self: flex-start;
+        }
+
+        /* Seção de Formulário */
+        #form-orcamento {
+            background: var(--dark-blue);
+            color: #fff;
+        }
+
+        #form-orcamento h2 {
+            color: #fff;
+        }
+
+        #orcamentoForm {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        #orcamentoForm input,
+        #orcamentoForm button {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        #orcamentoForm input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        #orcamentoForm button {
+            background: var(--secondary-color);
+            color: #fff;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #orcamentoForm button:hover {
+            background: #e05c5c;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-blue);
+            color: #fff;
+            padding: 30px 20px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        footer p {
+            margin: 0 0 10px;
+        }
+
+        footer a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #fff;
+        }
+
+        /* ====================
+           4. Modais
+           ==================== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* ====================
+           5. Botão Flutuante WhatsApp
+           ==================== */
+        .floating-wa {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25d366;
+            color: #fff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-size: 1.8rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .floating-wa:hover {
+            transform: scale(1.1);
+        }
+
+        /* ====================
+           6. Responsividade
+           ==================== */
+        @media (max-width: 768px) {
+            header { padding: 40px 20px; }
+            header h1 { font-size: 2rem; }
+            h2 { font-size: 1.8rem; margin-bottom: 30px; }
+            section { padding: 60px 0; }
+            .floating-wa { width: 50px; height: 50px; font-size: 1.5rem; }
+        }
+    </style>
 </head>
+
 <body>
+    <header>
+        <img src="https://i.ibb.co/4RGchy7q/logo-fsr.jpg" alt="FSR Viagens Logo">
+        <h1>FSR Viagens</h1>
+        <p>Realize suas férias dos sonhos com nossos pacotes de lazer</p>
+        <a href="#form-orcamento" class="btn-cta" aria-label="Peça seu orçamento">Peça seu orçamento agora</a>
+    </header>
 
-<header>
-  <img src="https://i.ibb.co/4RGchy7q/logo-fsr.jpg" alt="FSR Viagens Logo">
-  <h1>FSR Viagens</h1>
-  <p>Realize suas férias dos sonhos com nossos pacotes de lazer</p>
-  <a href="#form-orcamento" class="btn-cta">Peça seu orçamento agora</a>
-</header>
+    <section id="ofertas">
+        <div class="container">
+            <h2>Ofertas Imperdíveis</h2>
+            <div class="cards">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1549294413-26f195200c5c?q=80&w=1778&auto=format&fit=crop" alt="Resort paradisíaco">
+                    <div class="card-content">
+                        <h3>Resort All-Inclusive</h3>
+                        <p>Pacote completo de 5 noites, com tudo incluso para você relaxar e aproveitar. Ideal para famílias e casais.</p>
+                        <button class="btn-detail" onclick="openModal('modal1')" aria-label="Detalhes do pacote Resort All-Inclusive">Detalhes</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1544431526-25f0535e5d3c?q=80&w=1770&auto=format&fit=crop" alt="Navio de cruzeiro no mar do caribe">
+                    <div class="card-content">
+                        <h3>Cruzeiro pelo Caribe</h3>
+                        <p>Uma experiência inesquecível com praias paradisíacas, entretenimento a bordo e pensão completa.</p>
+                        <button class="btn-detail" onclick="openModal('modal2')" aria-label="Detalhes do pacote Cruzeiro pelo Caribe">Detalhes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<section id="ofertas">
-  <h2>Ofertas Imperdíveis</h2>
-  <div class="container cards">
-    <div class="card">
-      <img src="https://via.placeholder.com/350x200" alt="Resort Costa do Sauípe">
-      <div class="card-content">
-        <h3>Resort Costa do Sauípe</h3>
-        <p>Pacote completo 5 noites, com tudo incluso para você relaxar.</p>
-        <button class="btn-detail" onclick="openModal('modal1')">Detalhes</button>
-      </div>
+    <section id="form-orcamento">
+        <div class="container">
+            <h2>Solicite seu Orçamento</h2>
+            <form id="orcamentoForm">
+                <input type="text" name="nome" placeholder="Seu nome" required>
+                <input type="email" name="email" placeholder="Seu e-mail" required>
+                <input type="tel" name="telefone" placeholder="Seu WhatsApp" required>
+                <input type="text" name="destino" placeholder="Destino desejado" required>
+                <input type="date" name="dataIda" placeholder="Data de ida" required>
+                <input type="date" name="dataVolta" placeholder="Data de volta" required>
+                <button type="submit">Enviar via WhatsApp</button>
+            </form>
+        </div>
+    </section>
+
+    <div id="modal1" class="modal" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal1')" aria-label="Fechar">&times;</span>
+            <h3>Resort All-Inclusive</h3>
+            <p>Pacote completo de 5 noites em um resort de luxo, com **tudo incluso**. Você terá acesso a todas as refeições, bebidas não alcoólicas e alcoólicas, além de uma vasta gama de atividades de lazer, como esportes aquáticos, shows noturnos e clubes infantis. O pacote inclui também o traslado do aeroporto.</p>
+        </div>
     </div>
-    <div class="card">
-      <img src="https://via.placeholder.com/350x200" alt="Cruzeiro Caribe">
-      <div class="card-content">
-        <h3>Cruzeiro Caribe</h3>
-        <p>Uma experiência inesquecível com praias paradisíacas.</p>
-        <button class="btn-detail" onclick="openModal('modal2')">Detalhes</button>
-      </div>
+    
+    <div id="modal2" class="modal" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal2')" aria-label="Fechar">&times;</span>
+            <h3>Cruzeiro pelo Caribe</h3>
+            <p>Embarque em uma jornada de 10 dias a bordo de um navio moderno com **pensão completa** e acesso a todas as comodidades. Aproveite shows diários, piscinas, festas temáticas e paradas em ilhas paradisíacas como Cozumel e Aruba. O pacote também inclui o pacote de bebidas não alcoólicas e excursões guiadas em terra.</p>
+        </div>
     </div>
-  </div>
-</section>
 
-<section id="form-orcamento">
-  <h2>Solicite seu Orçamento</h2>
-  <form id="orcamentoForm">
-    <input type="text" name="nome" placeholder="Seu nome" required>
-    <input type="email" name="email" placeholder="Seu e-mail" required>
-    <input type="tel" name="telefone" placeholder="Seu WhatsApp" required>
-    <input type="text" name="destino" placeholder="Destino desejado" required>
-    <input type="date" name="ida" placeholder="Data de ida" required>
-    <input type="date" name="volta" placeholder="Data de volta" required>
-    <button type="submit">Enviar via WhatsApp</button>
-  </form>
-</section>
+    <a href="https://wa.me/5561983163710" target="_blank" class="floating-wa" aria-label="Fale conosco pelo WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
-<!-- Modais -->
-<div id="modal1" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal('modal1')">&times;</span>
-    <h3>Resort Costa do Sauípe</h3>
-    <p>Pacote completo de 5 noites, café da manhã incluso, atividades para toda família, traslado e mais.</p>
-  </div>
-</div>
-<div id="modal2" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal('modal2')">&times;</span>
-    <h3>Cruzeiro Caribe</h3>
-    <p>10 dias de cruzeiro com pensão completa, shows, atividades a bordo e paradas em ilhas paradisíacas.</p>
-  </div>
-</div>
+    <footer>
+        <div class="container">
+            <p>FSR Viagens &copy; 2025</p>
+            <p>
+                <a href="https://wa.me/5561983163710" target="_blank" aria-label="Fale conosco no WhatsApp">WhatsApp</a> | 
+                <a href="https://www.instagram.com/fsr.viagens" target="_blank" aria-label="Siga-nos no Instagram">Instagram</a>
+            </p>
+        </div>
+    </footer>
 
-<!-- Botão flutuante WhatsApp -->
-<a href="https://wa.me/5561983163710" target="_blank" class="floating-wa">💬</a>
+    <script>
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            modal.style.display = 'flex';
+        }
 
-<footer>
-  <p>FSR Viagens © 2025</p>
-  <p>
-    <a href="https://wa.me/5561983163710" target="_blank">WhatsApp</a> | 
-    <a href="https://www.instagram.com/fsr.viagens" target="_blank">Instagram</a>
-  </p>
-</footer>
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            modal.style.display = 'none';
+        }
 
-<script>
-function openModal(id){document.getElementById(id).style.display='flex';}
-function closeModal(id){document.getElementById(id).style.display='none';}
+        document.getElementById('orcamentoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
 
-// Validação de datas e envio via WhatsApp
-document.getElementById('orcamentoForm').addEventListener('submit', function(e){
-  e.preventDefault();
-  const form = e.target;
-  const nome = form.nome.value;
-  const email = form.email.value;
-  const telefone = form.telefone.value;
-  const destino = form.destino.value;
-  const ida = new Date(form.ida.value);
-  const volta = new Date(form.volta.value);
+            const form = e.target;
+            const nome = form.nome.value;
+            const email = form.email.value;
+            const telefone = form.telefone.value;
+            const destino = form.destino.value;
+            const dataIda = form.dataIda.value;
+            const dataVolta = form.dataVolta.value;
 
-  if(volta < ida){
-    alert("A data de retorno não pode ser menor que a data de partida!");
-    return;
-  }
+            // Validação de datas
+            const ida = new Date(dataIda);
+            const volta = new Date(dataVolta);
+            
+            if (ida > volta) {
+                alert("A data de retorno não pode ser anterior à data de partida!");
+                return;
+            }
 
-  const msg = `Olá, meu nome é ${nome}. Gostaria de solicitar orçamento para ${destino} de ${form.ida.value} até ${form.volta.value}. Meu email: ${email}, WhatsApp: ${telefone}.`;
-  const url = `https://wa.me/5561983163710?text=${encodeURIComponent(msg)}`;
-  window.open(url, '_blank');
-});
-</script>
-
+            const message = `Olá, meu nome é ${nome}. Estou interessado em um orçamento de viagem para o destino: ${destino}. As datas de viagem seriam de ${dataIda} a ${dataVolta}. Meu email para contato é ${email} e meu WhatsApp é ${telefone}. Fico no aguardo!`;
+            const whatsappUrl = `https://wa.me/5561983163710?text=${encodeURIComponent(message)}`;
+            
+            window.open(whatsappUrl, '_blank');
+        });
+    </script>
 </body>
 </html>
