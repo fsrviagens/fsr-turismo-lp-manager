@@ -8,6 +8,7 @@
 <style>
 body {font-family: Arial, sans-serif; margin:0; padding:0; background:#f5f5f5;}
 header {background:#0077b6; color:#fff; padding:30px 20px; text-align:center;}
+header img {max-width:200px; margin-bottom:10px;}
 header h1 {margin:0; font-size:2rem;}
 header p {margin:10px 0 0; font-size:1.2rem;}
 .btn-cta {background:#ff6b6b; color:#fff; padding:15px 25px; border:none; border-radius:5px; cursor:pointer; text-decoration:none; font-weight:bold;}
@@ -25,7 +26,7 @@ h2 {text-align:center; margin-bottom:30px; font-size:2rem;}
 .modal-content {background:#fff; padding:20px; border-radius:10px; max-width:600px; width:90%; position:relative;}
 .close {position:absolute; top:10px; right:15px; font-size:1.5rem; cursor:pointer;}
 form {background:#fff; padding:20px; border-radius:10px; max-width:500px; margin:0 auto; box-shadow:0 2px 10px rgba(0,0,0,0.1);}
-form input, form select {width:100%; padding:10px; margin-bottom:15px; border-radius:5px; border:1px solid #ccc;}
+form input {width:100%; padding:10px; margin-bottom:15px; border-radius:5px; border:1px solid #ccc;}
 form button {width:100%; padding:15px; background:#ff6b6b; color:#fff; border:none; border-radius:5px; font-size:1rem; cursor:pointer;}
 footer {background:#023e8a; color:#fff; padding:30px 20px; text-align:center;}
 footer a {color:#ff6b6b; text-decoration:none; margin:0 10px;}
@@ -34,6 +35,7 @@ footer a {color:#ff6b6b; text-decoration:none; margin:0 10px;}
 <body>
 
 <header>
+  <img src="https://fsr.tur.br/logo.png" alt="FSR Viagens Logo">
   <h1>FSR Viagens</h1>
   <p>Realize suas férias dos sonhos com nossos pacotes de lazer</p>
   <a href="#form-orcamento" class="btn-cta">Peça seu orçamento agora</a>
@@ -67,11 +69,7 @@ footer a {color:#ff6b6b; text-decoration:none; margin:0 10px;}
     <input type="text" name="nome" placeholder="Seu nome" required>
     <input type="email" name="email" placeholder="Seu e-mail" required>
     <input type="tel" name="telefone" placeholder="Seu WhatsApp" required>
-    <select name="destino" required>
-      <option value="">Escolha seu destino</option>
-      <option value="Costa do Sauípe">Costa do Sauípe</option>
-      <option value="Cruzeiro Caribe">Cruzeiro Caribe</option>
-    </select>
+    <input type="text" name="destino" placeholder="Destino desejado" required>
     <input type="date" name="ida" placeholder="Data de ida" required>
     <input type="date" name="volta" placeholder="Data de volta" required>
     <button type="submit">Enviar via WhatsApp</button>
@@ -97,7 +95,7 @@ footer a {color:#ff6b6b; text-decoration:none; margin:0 10px;}
 <footer>
   <p>FSR Viagens © 2025</p>
   <p>
-    <a href="https://wa.me/5511999999999" target="_blank">WhatsApp</a> | 
+    <a href="https://wa.me/5561983163710" target="_blank">WhatsApp</a> | 
     <a href="https://www.instagram.com/fsr.viagens" target="_blank">Instagram</a>
   </p>
 </footer>
@@ -106,7 +104,7 @@ footer a {color:#ff6b6b; text-decoration:none; margin:0 10px;}
 function openModal(id){document.getElementById(id).style.display='flex';}
 function closeModal(id){document.getElementById(id).style.display='none';}
 
-// Envio via WhatsApp
+// Validação de datas e envio via WhatsApp
 document.getElementById('orcamentoForm').addEventListener('submit', function(e){
   e.preventDefault();
   const form = e.target;
@@ -114,11 +112,16 @@ document.getElementById('orcamentoForm').addEventListener('submit', function(e){
   const email = form.email.value;
   const telefone = form.telefone.value;
   const destino = form.destino.value;
-  const ida = form.ida.value;
-  const volta = form.volta.value;
+  const ida = new Date(form.ida.value);
+  const volta = new Date(form.volta.value);
 
-  const msg = `Olá, meu nome é ${nome}. Gostaria de solicitar orçamento para ${destino} de ${ida} até ${volta}. Meu email: ${email}, WhatsApp: ${telefone}.`;
-  const url = `https://wa.me/5511999999999?text=${encodeURIComponent(msg)}`;
+  if(volta < ida){
+    alert("A data de retorno não pode ser menor que a data de partida!");
+    return;
+  }
+
+  const msg = `Olá, meu nome é ${nome}. Gostaria de solicitar orçamento para ${destino} de ${form.ida.value} até ${form.volta.value}. Meu email: ${email}, WhatsApp: ${telefone}.`;
+  const url = `https://wa.me/5561983163710?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank');
 });
 </script>
