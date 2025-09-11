@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="FSR Viagens - Pacotes de lazer, cruzeiros e resorts. Solicite seu orçamento e realize suas férias dos sonhos.">
+    <meta name="description" content="FSR Viagens - Pacotes de lazer, cruzeiros e resorts. Solicite seu orçamento com nossa consultoria especializada em viagens.">
+    <meta name="keywords" content="pacotes de viagem, cruzeiros, resorts, all-inclusive, férias, agência de viagens, FSR Viagens, orçamento de viagem">
     <title>FSR Viagens - Viagens de Lazer e Cruzeiros</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -229,6 +230,7 @@
         }
 
         #orcamentoForm input,
+        #orcamentoForm select,
         #orcamentoForm button {
             width: 100%;
             padding: 15px;
@@ -237,7 +239,8 @@
             border: 1px solid #ccc;
         }
 
-        #orcamentoForm input:focus {
+        #orcamentoForm input:focus,
+        #orcamentoForm select:focus {
             outline: none;
             border-color: var(--primary-color);
         }
@@ -432,13 +435,24 @@
     <section id="form-orcamento">
         <div class="container">
             <h2>Solicite seu Orçamento</h2>
+            <p style="text-align: center; margin-bottom: 20px;">Preencha o formulário e nossa consultoria de IA direcionará você para o especialista certo!</p>
             <form id="orcamentoForm">
-                <input type="text" name="nome" placeholder="Seu nome" required>
-                <input type="email" name="email" placeholder="Seu e-mail" required>
-                <input type="tel" name="telefone" placeholder="Seu WhatsApp" required>
-                <input type="text" name="destino" placeholder="Destino desejado" required>
-                <input type="date" name="dataIda" placeholder="Data de ida" required>
-                <input type="date" name="dataVolta" placeholder="Data de volta" required>
+                <input type="text" name="nome" placeholder="Seu nome" required aria-label="Campo para o nome">
+                <input type="email" name="email" placeholder="Seu e-mail" required aria-label="Campo para o e-mail">
+                <input type="tel" name="telefone" placeholder="Seu WhatsApp (apenas números)" required pattern="[0-9]{11,15}" title="Por favor, insira um número de telefone válido com o DDD." aria-label="Campo para o telefone">
+                
+                <label for="preferencia" style="color: #fff;">Tipo de Viagem:</label>
+                <select name="preferencia" id="preferencia" required aria-label="Preferência de viagem">
+                    <option value="" disabled selected>Escolha o tipo de viagem</option>
+                    <option value="lazer">Lazer / Resort</option>
+                    <option value="cruzeiro">Cruzeiro</option>
+                </select>
+                
+                <input type="text" name="destino" placeholder="Destino desejado (opcional)" aria-label="Campo para o destino">
+                <label for="dataIda" style="color: #fff;">Data de ida:</label>
+                <input type="date" name="dataIda" id="dataIda" required aria-label="Data de ida">
+                <label for="dataVolta" style="color: #fff;">Data de volta:</label>
+                <input type="date" name="dataVolta" id="dataVolta" required aria-label="Data de volta">
                 <button type="submit">Enviar via WhatsApp</button>
             </form>
         </div>
@@ -478,11 +492,24 @@
         function openModal(id) {
             const modal = document.getElementById(id);
             modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Evita rolagem da página quando o modal está aberto
         }
 
         function closeModal(id) {
             const modal = document.getElementById(id);
             modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restaura a rolagem
+        }
+
+        // Fecha o modal ao clicar fora dele
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
         }
 
         document.getElementById('orcamentoForm').addEventListener('submit', function(e) {
@@ -492,7 +519,8 @@
             const nome = form.nome.value;
             const email = form.email.value;
             const telefone = form.telefone.value;
-            const destino = form.destino.value;
+            const preferencia = form.preferencia.value;
+            const destino = form.destino.value || 'Não informado';
             const dataIda = form.dataIda.value;
             const dataVolta = form.dataVolta.value;
 
@@ -505,7 +533,15 @@
                 return;
             }
 
-            const message = `Olá, meu nome é ${nome}. Estou interessado em um orçamento de viagem para o destino: ${destino}. As datas de viagem seriam de ${dataIda} a ${dataVolta}. Meu email para contato é ${email} e meu WhatsApp é ${telefone}. Fico no aguardo!`;
+            let message = `*Novo Lead FSR Viagens*\n\n`;
+            message += `*Nome:* ${nome}\n`;
+            message += `*Email:* ${email}\n`;
+            message += `*Telefone:* ${telefone}\n`;
+            message += `*Preferência:* ${preferencia.charAt(0).toUpperCase() + preferencia.slice(1)}\n`;
+            message += `*Destino:* ${destino}\n`;
+            message += `*Período:* De ${dataIda} a ${dataVolta}\n\n`;
+            message += `_Este lead foi capturado através do formulário de orçamento no site. Funil de Vendas: ${preferencia.toUpperCase()}_`;
+
             const whatsappUrl = `https://wa.me/5561983163710?text=${encodeURIComponent(message)}`;
             
             window.open(whatsappUrl, '_blank');
