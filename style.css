@@ -486,3 +486,17 @@ footer a:hover {
 .link-login {
     margin-top: 20px;
 }
+
+/* ====================
+   8. Ajustes de Responsividade
+   ==================== */
+@media (max-width: 600px) {
+    .nav-menu ul {
+        gap: 15px;
+        justify-content: center;
+    }
+
+    .nav-menu li a {
+        font-size: 0.9rem;
+    }
+}
