@@ -55,3 +55,28 @@ document.getElementById('orcamentoForm').addEventListener('submit', function(e) 
     
     window.open(whatsappUrl, '_blank');
 });
+document.getElementById('cadastroForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const nome = form.nome.value;
+    const whatsapp = form.whatsapp.value;
+    const email = form.email.value;
+
+    alert(`Olá, ${nome}! Seu cadastro foi recebido com sucesso. Em breve, enviaremos informações para o seu WhatsApp e e-mail.`);
+
+    // Você pode adicionar a lógica de envio para o seu backend PHP aqui no futuro.
+    // Exemplo:
+    /*
+    fetch('processa_cadastro.php', {
+        method: 'POST',
+        body: new URLSearchParams({
+            nome: nome,
+            whatsapp: whatsapp,
+            email: email
+        })
+    });
+    */
+
+    form.reset();
+});
