@@ -28,6 +28,7 @@
                         <li><a href="#ofertas">Pacotes</a></li>
                         <li><a href="#depoimentos">Depoimentos</a></li>
                         <li><a href="#form-orcamento">Orçamento</a></li>
+                        <li><a href="cadastro.html">Cadastro</a></li>
                     </ul>
                 </nav>
             </div>
@@ -92,9 +93,12 @@
                 <h2>Solicite seu Orçamento</h2>
                 <p class="slogan-form">Preencha o formulário e nossa consultoria de IA direcionará você para o especialista certo!</p>
                 <form id="orcamentoForm">
-                    <input type="text" name="nome" placeholder="Seu nome" required aria-label="Campo para o nome">
-                    <input type="email" name="email" placeholder="Seu e-mail" required aria-label="Campo para o e-mail">
-                    <input type="tel" name="telefone" placeholder="Seu WhatsApp (apenas números)" required aria-label="Campo para o telefone">
+                    <label for="nome" class="sr-only">Nome:</label>
+                    <input type="text" name="nome" id="nome" placeholder="Seu nome" required aria-label="Campo para o nome">
+                    <label for="email" class="sr-only">E-mail:</label>
+                    <input type="email" name="email" id="email" placeholder="Seu e-mail" required aria-label="Campo para o e-mail">
+                    <label for="telefone" class="sr-only">WhatsApp:</label>
+                    <input type="tel" name="telefone" id="telefone" placeholder="Seu WhatsApp (apenas números)" required aria-label="Campo para o telefone">
                     
                     <label for="preferencia">Tipo de Viagem:</label>
                     <select name="preferencia" id="preferencia" required aria-label="Preferência de viagem">
@@ -103,7 +107,8 @@
                         <option value="cruzeiro">Cruzeiro</option>
                     </select>
                     
-                    <input type="text" name="destino" placeholder="Destino desejado (opcional)" aria-label="Campo para o destino">
+                    <label for="destino" class="sr-only">Destino:</label>
+                    <input type="text" name="destino" id="destino" placeholder="Destino desejado (opcional)" aria-label="Campo para o destino">
                     <label for="dataIda">Data de ida:</label>
                     <input type="date" name="dataIda" id="dataIda" required aria-label="Data de ida">
                     <label for="dataVolta">Data de volta:</label>
