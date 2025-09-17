@@ -1,17 +1,18 @@
 <?php
 
-// Acessar as credenciais do seu banco de dados
-$servername = "localhost"; // Geralmente, o servidor local é "localhost"
-$username = "seu_usuario"; // SUBSTITUA pelo seu usuário do banco de dados
-$password = "sua_senha";   // SUBSTITUA pela sua senha do banco de dados
-$dbname = "fsr_viagens";   // SUBSTITUA pelo nome do seu banco de dados
+// Acessar as credenciais do seu banco de dados a partir das variáveis de ambiente do Render
+$db_host = getenv('DB_HOST');
+$db_name = getenv('DB_NAME');
+$db_user = getenv('DB_USER');
+$db_pass = getenv('DB_PASS');
 
-// Crie a conexão com o banco de dados
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verifique se a conexão foi bem-sucedida
-if ($conn->connect_error) {
-    die("Falha na conexão: " . $conn->connect_error);
+// Crie a conexão com o banco de dados usando PDO para PostgreSQL
+try {
+    $dsn = "pgsql:host=$db_host;dbname=$db_name;user=$db_user;password=$db_pass";
+    $conn = new PDO($dsn);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Falha na conexão: " . $e->getMessage());
 }
 
 // Receba os dados do formulário
@@ -22,23 +23,22 @@ $email = $_POST['email'];
 // Verifique se os dados não estão vazios
 if (empty($nome) || empty($whatsapp) || empty($email)) {
     echo "Erro: Todos os campos são obrigatórios.";
-    $conn->close();
     exit;
 }
 
 // Prepara a query SQL para inserir os dados de forma segura
-$stmt = $conn->prepare("INSERT INTO clientes (nome, whatsapp, email) VALUES (?, ?, ?)");
-$stmt->bind_param("sss", $nome, $whatsapp, $email);
+$sql = "INSERT INTO clientes (nome, whatsapp, email) VALUES (?, ?, ?)";
+$stmt = $conn->prepare($sql);
 
 // Execute a query
-if ($stmt->execute()) {
+if ($stmt->execute([$nome, $whatsapp, $email])) {
     echo "Cadastro realizado com sucesso!";
     // Redirecione o usuário para uma página de sucesso
     // header("Location: sucesso.html");
 } else {
-    echo "Erro: " . $stmt->error;
+    echo "Erro: " . $stmt->errorInfo()[2];
 }
 
-$stmt->close();
-$conn->close();
+// O PDO não precisa de um método de fechamento explícito, pois a conexão é encerrada automaticamente.
+
 ?>
