@@ -1,0 +1,5 @@
+<Files "processa_cadastro.php">
+    <Limit POST>
+        Require all granted
+    </Limit>
+</Files>
