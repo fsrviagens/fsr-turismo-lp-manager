@@ -16,15 +16,15 @@
 </head>
 
 <body>
-    <header>
+    <header class="header-principal">
         <div class="container">
             <div class="header-content">
                 <a href="index.html" class="logo">
                     <img src="https://i.ibb.co/4RGchy7q/logo-fsr.jpg" alt="FSR Viagens Logo">
                     <h1>FSR Viagens</h1>
                 </a>
-                <nav class="nav-menu">
-                    <ul>
+                <nav aria-label="Menu principal de navegação">
+                    <ul class="nav-menu">
                         <li><a href="#ofertas">Pacotes</a></li>
                         <li><a href="#depoimentos">Depoimentos</a></li>
                         <li><a href="#form-orcamento">Orçamento</a></li>
@@ -33,86 +33,100 @@
                 </nav>
             </div>
             <p>Realize suas férias dos sonhos com nossos pacotes de lazer</p>
-            <a href="#form-orcamento" class="btn-cta" aria-label="Peça seu orçamento">Peça seu orçamento agora</a>
+            <a href="#form-orcamento" class="btn-cta" aria-label="Peça seu orçamento agora">Peça seu orçamento agora</a>
         </div>
     </header>
 
     <main>
-        <section id="ofertas">
+        <section id="ofertas" class="secao-ofertas">
             <div class="container">
                 <h2>Ofertas Imperdíveis</h2>
-                <div class="cards">
-                    <div class="card">
+                <div class="cards-grid">
+                    <article class="card">
                         <img src="https://oaidalleapiprod.blob.core.windows.net/private/org-qUq16fF4j6N8n74cK3S12N5O/user-v16fBq4G2x4C08XhIqH5X87i/img-l1y8IuE2B1h6h1c4GgQy1fGz.png?params=image-dall-e-3" alt="Resort paradisíaco" loading="lazy">
                         <div class="card-content">
                             <h3>Resort All-Inclusive</h3>
                             <p>Pacote completo de 5 noites, com tudo incluso para você relaxar e aproveitar. Ideal para famílias e casais.</p>
-                            <button class="btn-detail" onclick="openModal('modal1')" aria-label="Detalhes do pacote Resort All-Inclusive">Detalhes</button>
+                            <button class="btn-detail" onclick="openModal('modal1')" aria-controls="modal1" aria-haspopup="dialog" aria-label="Detalhes do pacote Resort All-Inclusive">Detalhes</button>
                         </div>
-                    </div>
-                    <div class="card">
+                    </article>
+                    <article class="card">
                         <img src="https://oaidalleapiprod.blob.core.windows.net/private/org-qUq16fF4j6N8n74cK3S12N5O/user-v16fBq4G2x4C08XhIqH5X87i/img-k89c1G0p0iYw8c9k1P5c9P4P.png?params=image-dall-e-3" alt="Navio de cruzeiro no mar do caribe" loading="lazy">
                         <div class="card-content">
                             <h3>Cruzeiro pelo Caribe</h3>
                             <p>Uma experiência inesquecível com praias paradisíacas, entretenimento a bordo e pensão completa.</p>
-                            <button class="btn-detail" onclick="openModal('modal2')" aria-label="Detalhes do pacote Cruzeiro pelo Caribe">Detalhes</button>
+                            <button class="btn-detail" onclick="openModal('modal2')" aria-controls="modal2" aria-haspopup="dialog" aria-label="Detalhes do pacote Cruzeiro pelo Caribe">Detalhes</button>
                         </div>
-                    </div>
+                    </article>
                 </div>
             </div>
         </section>
     
-        <section id="depoimentos">
+        <section id="depoimentos" class="secao-depoimentos">
             <div class="container">
                 <h2>O que nossos clientes dizem</h2>
-                <div class="cards depoimento-grid">
-                    <div class="card depoimento-card">
+                <div class="cards-grid depoimento-grid">
+                    <article class="card depoimento-card">
                         <div class="depoimento-content">
-                            <p class="citação">"A equipe da FSR Viagens superou todas as expectativas! O cruzeiro foi inesquecível e todo o suporte, do início ao fim, foi impecável. Já estamos planejando a próxima com eles!"</p>
-                            <p class="autor">— Ana Paula, Brasília</p>
+                            <p class="citacao">"A equipe da FSR Viagens superou todas as expectativas! O cruzeiro foi inesquecível e todo o suporte, do início ao fim, foi impecável. Já estamos planejando a próxima com eles!"</p>
+                            <cite class="autor">— Ana Paula, Brasília</cite>
                         </div>
-                    </div>
-                    <div class="card depoimento-card">
+                    </article>
+                    <article class="card depoimento-card">
                         <div class="depoimento-content">
-                            <p class="citação">"Nunca me senti tão seguro e bem assistido em uma viagem. O pacote para o resort era exatamente o que buscávamos para relaxar. Parabéns pelo serviço!"</p>
-                            <p class="autor">— Ricardo Melo, São Paulo</p>
+                            <p class="citacao">"Nunca me senti tão seguro e bem assistido em uma viagem. O pacote para o resort era exatamente o que buscávamos para relaxar. Parabéns pelo serviço!"</p>
+                            <cite class="autor">— Ricardo Melo, São Paulo</cite>
                         </div>
-                    </div>
-                    <div class="card depoimento-card">
+                    </article>
+                    <article class="card depoimento-card">
                         <div class="depoimento-content">
-                            <p class="citação">"Simplesmente a melhor agência que já usei! O atendimento é personalizado e o cuidado com cada detalhe faz toda a diferença. Recomendo de olhos fechados!"</p>
-                            <p class="autor">— Juliana Santos, Rio de Janeiro</p>
+                            <p class="citacao">"Simplesmente a melhor agência que já usei! O atendimento é personalizado e o cuidado com cada detalhe faz toda a diferença. Recomendo de olhos fechados!"</p>
+                            <cite class="autor">— Juliana Santos, Rio de Janeiro</cite>
                         </div>
-                    </div>
+                    </article>
                 </div>
             </div>
         </section>
     
-        <section id="form-orcamento">
+        <section id="form-orcamento" class="secao-orcamento">
             <div class="container">
                 <h2>Solicite seu Orçamento</h2>
                 <p class="slogan-form">Preencha o formulário e nossa consultoria de IA direcionará você para o especialista certo!</p>
-                <form id="orcamentoForm">
-                    <label for="nome" class="sr-only">Nome:</label>
-                    <input type="text" name="nome" id="nome" placeholder="Seu nome" required aria-label="Campo para o nome">
-                    <label for="email" class="sr-only">E-mail:</label>
-                    <input type="email" name="email" id="email" placeholder="Seu e-mail" required aria-label="Campo para o e-mail">
-                    <label for="telefone" class="sr-only">WhatsApp:</label>
-                    <input type="tel" name="telefone" id="telefone" placeholder="Seu WhatsApp (apenas números)" required aria-label="Campo para o telefone">
+                <form id="orcamentoForm" method="POST" action="/submit-form">
+                    <div class="form-group">
+                        <label for="nome" class="sr-only">Nome:</label>
+                        <input type="text" name="nome" id="nome" placeholder="Seu nome" required aria-label="Campo para o nome">
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="sr-only">E-mail:</label>
+                        <input type="email" name="email" id="email" placeholder="Seu e-mail" required aria-label="Campo para o e-mail">
+                    </div>
+                    <div class="form-group">
+                        <label for="telefone" class="sr-only">WhatsApp:</label>
+                        <input type="tel" name="telefone" id="telefone" placeholder="Seu WhatsApp (apenas números)" required aria-label="Campo para o telefone">
+                    </div>
                     
-                    <label for="preferencia">Tipo de Viagem:</label>
-                    <select name="preferencia" id="preferencia" required aria-label="Preferência de viagem">
-                        <option value="" disabled selected>Escolha o tipo de viagem</option>
-                        <option value="lazer">Lazer / Resort</option>
-                        <option value="cruzeiro">Cruzeiro</option>
-                    </select>
+                    <div class="form-group">
+                        <label for="preferencia">Tipo de Viagem:</label>
+                        <select name="preferencia" id="preferencia" required aria-label="Preferência de viagem">
+                            <option value="" disabled selected>Escolha o tipo de viagem</option>
+                            <option value="lazer">Lazer / Resort</option>
+                            <option value="cruzeiro">Cruzeiro</option>
+                        </select>
+                    </div>
                     
-                    <label for="destino" class="sr-only">Destino:</label>
-                    <input type="text" name="destino" id="destino" placeholder="Destino desejado (opcional)" aria-label="Campo para o destino">
-                    <label for="dataIda">Data de ida:</label>
-                    <input type="date" name="dataIda" id="dataIda" required aria-label="Data de ida">
-                    <label for="dataVolta">Data de volta:</label>
-                    <input type="date" name="dataVolta" id="dataVolta" required aria-label="Data de volta">
+                    <div class="form-group">
+                        <label for="destino" class="sr-only">Destino:</label>
+                        <input type="text" name="destino" id="destino" placeholder="Destino desejado (opcional)" aria-label="Campo para o destino">
+                    </div>
+                    <div class="form-group">
+                        <label for="dataIda">Data de ida:</label>
+                        <input type="date" name="dataIda" id="dataIda" required aria-label="Data de ida">
+                    </div>
+                    <div class="form-group">
+                        <label for="dataVolta">Data de volta:</label>
+                        <input type="date" name="dataVolta" id="dataVolta" required aria-label="Data de volta">
+                    </div>
                     <button type="submit">Solicitar Orçamento</button>
                 </form>
             </div>
@@ -121,7 +135,7 @@
 
     <div id="modal1" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-1">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('modal1')" aria-label="Fechar">&times;</span>
+            <span class="close-btn" onclick="closeModal('modal1')" aria-label="Fechar">&times;</span>
             <h3 id="modal-title-1">Resort All-Inclusive</h3>
             <p>Pacote completo de 5 noites em um resort de luxo, com **tudo incluso**. Você terá acesso a todas as refeições, bebidas não alcoólicas e alcoólicas, além de uma vasta gama de atividades de lazer, como esportes aquáticos, shows noturnos e clubes infantis. O pacote inclui também o traslado do aeroporto.</p>
         </div>
@@ -129,19 +143,19 @@
     
     <div id="modal2" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-2">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('modal2')" aria-label="Fechar">&times;</span>
+            <span class="close-btn" onclick="closeModal('modal2')" aria-label="Fechar">&times;</span>
             <h3 id="modal-title-2">Cruzeiro pelo Caribe</h3>
             <p>Embarque em uma jornada de 10 dias a bordo de um navio moderno com **pensão completa** e acesso a todas as comodidades. Aproveite shows diários, piscinas, festas temáticas e paradas em ilhas paradisíacas como Cozumel e Aruba. O pacote também inclui o pacote de bebidas não alcoólicas e excursões guiadas em terra.</p>
         </div>
     </div>
 
-    <a href="https://wa.me/5561983163710" target="_blank" class="floating-wa" aria-label="Fale conosco pelo WhatsApp">
+    <a href="https://wa.me/5561983163710" target="_blank" class="btn-floating-wa" aria-label="Fale conosco pelo WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
 
     <footer>
         <div class="container">
-            <p>FSR Viagens &copy; 2025</p>
+            <p>&copy; <time datetime="2025">2025</time> FSR Viagens</p>
             <div class="social-links">
                 <a href="https://wa.me/5561983163710" target="_blank" aria-label="Fale conosco no WhatsApp">WhatsApp</a>
                 <a href="https://www.instagram.com/fsr.viagens" target="_blank" aria-label="Siga-nos no Instagram">Instagram</a>
@@ -149,6 +163,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
