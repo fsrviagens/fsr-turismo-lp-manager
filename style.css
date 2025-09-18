@@ -13,7 +13,7 @@
 
     /* Fontes e Tamanhos */
     --font-primary: 'Poppins', sans-serif;
-    --heading-size-1: 2.2rem;
+    --heading-size-1: 2.5rem; /* Aumentado para mais impacto */
     --heading-size-2: 1.8rem;
     --text-size: 1rem;
     
@@ -152,6 +152,29 @@ h2 {
 .navigation__link:hover {
     color: var(--secondary-color);
 }
+
+/* Hero Section (Novo) */
+.hero {
+    padding: var(--space-xl) 0;
+}
+
+.hero__headline {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: var(--space-md);
+    line-height: 1.2;
+}
+
+.hero__slogan {
+    font-size: 1.1rem;
+    margin-bottom: var(--space-lg);
+}
+
+.btn--hero {
+    font-size: 1.1rem;
+    padding: var(--space-md) var(--space-xxl);
+}
+
 
 /* Sections */
 .section {
@@ -381,6 +404,7 @@ h2 {
         gap: var(--space-md);
         text-align: center;
     }
+    .hero__headline { font-size: 2rem; }
     h2 { font-size: var(--heading-size-2); }
     .section { padding: var(--space-xl) 0; }
 }
@@ -388,4 +412,3 @@ h2 {
 @media (max-width: 600px) {
     .navigation__list { flex-direction: column; align-items: center; }
 }
-
