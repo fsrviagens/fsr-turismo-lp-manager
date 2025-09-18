@@ -98,7 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 2. Envio Assíncrono para o Backend
         try {
-            const response = await fetch('processa_cadastro.php', {
+            // AQUI ESTÁ A CORREÇÃO: a URL agora aponta para um caminho no servidor, não para um arquivo PHP.
+            const response = await fetch('/processa_cadastro', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -126,3 +127,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
