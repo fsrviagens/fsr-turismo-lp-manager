@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
+    <title>Sua Viagem Sob Medida | FSR Viagens</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='cadastro.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -17,7 +17,7 @@
         <nav>
             <ul>
                 <li><a href="/">Início</a></li>
-                <li><a href="/cadastro.html">Cadastre-se</a></li>
+                <li><a href="/cadastro.html">Planeje sua Viagem</a></li>
                 <li><a href="/login.html">Login</a></li>
             </ul>
         </nav>
@@ -25,21 +25,68 @@
 
     <main>
         <div class="form-container">
-            <h2>Cadastre-se</h2>
+            <h2>Vamos Planejar sua Próxima Aventura?</h2>
+            <p class="subtitle">Preencha o formulário para receber propostas de viagem personalizadas, pensadas só para você. </p>
+            
             <form action="/processa_cadastro" method="post">
-                <div class="form-group">
-                    <label for="nome">Nome completo:</label>
-                    <input type="text" id="nome" name="nome" required>
+                
+                <div class="form-section">
+                    <h3>1. Informações de Contato</h3>
+                    <div class="form-group">
+                        <label for="nome">Nome completo</label>
+                        <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" placeholder="seu.email@exemplo.com" required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="email">E-mail:</label>
-                    <input type="email" id="email" name="email" required>
+
+                <div class="form-section">
+                    <h3>2. Seus Interesses de Viagem</h3>
+                    <div class="form-group">
+                        <label>Tipo de Viagem</label>
+                        <div class="radio-group">
+                            <input type="radio" id="viagem_lazer" name="tipo_viagem" value="lazer" required>
+                            <label for="viagem_lazer"><i class="fas fa-plane-departure"></i> Pacote de Lazer</label>
+                            
+                            <input type="radio" id="viagem_cruzeiro" name="tipo_viagem" value="cruzeiro">
+                            <label for="viagem_cruzeiro"><i class="fas fa-ship"></i> Cruzeiro</label>
+                            
+                            <input type="radio" id="viagem_resort" name="tipo_viagem" value="resort">
+                            <label for="viagem_resort"><i class="fas fa-hotel"></i> Resort</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="destino">Destino dos Sonhos</label>
+                        <input type="text" id="destino" name="destino" placeholder="Ex: Maldivas, Caribe, Nordeste do Brasil...">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="orcamento">Orçamento aproximado por pessoa</label>
+                        <select id="orcamento" name="orcamento">
+                            <option value="" disabled selected>Selecione uma faixa</option>
+                            <option value="ate_5000">Até R$ 5.000</option>
+                            <option value="5000_10000">R$ 5.000 - R$ 10.000</option>
+                            <option value="10000_20000">R$ 10.000 - R$ 20.000</option>
+                            <option value="mais_20000">Acima de R$ 20.000</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pessoas">Número de Viajantes</label>
+                        <input type="number" id="pessoas" name="pessoas" min="1" placeholder="Ex: 2">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="data_viagem">Quando você pretende viajar?</label>
+                        <input type="text" id="data_viagem" name="data_viagem" placeholder="Ex: Férias de julho, próximo feriado, em 2026...">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="senha">Senha:</label>
-                    <input type="password" id="senha" name="senha" required>
-                </div>
-                <button type="submit">Cadastrar</button>
+
+                <button type="submit">Receber Propostas Personalizadas</button>
+
             </form>
         </div>
     </main>
@@ -47,8 +94,8 @@
     <footer>
         <div class="contato">
             <h4>Fale Conosco</h4>
-            <p><i class="fas fa-phone"></i> (11) 98765-4321</p>
-            <p><i class="fas fa-envelope"></i> contato@fsrviagens.com.br</p>
+            <p><i class="fas fa-phone"></i> (41) 4042-2929</p>
+            <p><i class="fas fa-envelope"></i> fsrbrasil@fsrbrasil.com.br</p>
         </div>
         <div class="social-media">
             <h4>Siga-nos</h4>
