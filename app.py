@@ -14,6 +14,20 @@ def index():
 def cadastro():
     return render_template('cadastro.html')
 
+# Rota para a página de leads
+@app.route('/leads.html', methods=['GET'])
+def leads():
+    try:
+        conn = psycopg2.connect(os.environ['DATABASE_URL'])
+        cur = conn.cursor()
+        cur.execute("SELECT nome, email, senha FROM cadastro ORDER BY nome")
+        leads = cur.fetchall()
+        cur.close()
+        conn.close()
+        return render_template('leads.html', leads=leads)
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
 # Rota para o processamento do formulário de cadastro
 @app.route('/processa_cadastro', methods=['POST'])
 def processa_cadastro():
