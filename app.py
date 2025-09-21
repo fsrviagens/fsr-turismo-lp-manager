@@ -10,7 +10,7 @@ def index():
     return render_template('index.html')
 
 # Rota para a página de cadastro (cadastro.html)
-@app.route('/cadastro.html')
+@app.route('/cadastro.html', methods=['GET'])
 def cadastro():
     return render_template('cadastro.html')
 
