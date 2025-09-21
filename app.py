@@ -67,3 +67,27 @@ def processa_cadastro():
 
 if __name__ == '__main__':
     app.run(debug=True)
+@app.route('/setup')
+def setup_database():
+    try:
+        conn = psycopg2.connect(os.environ['DATABASE_URL'])
+        cur = conn.cursor()
+        
+        # Cria a tabela 'cadastro' se ela ainda não existir
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS cadastro (
+                nome VARCHAR(255),
+                email VARCHAR(255),
+                senha VARCHAR(255)
+            );
+        """)
+        
+        conn.commit()
+        cur.close()
+        conn.close()
+        
+        return "Tabela 'cadastro' verificada/criada com sucesso!", 200
+    except Exception as e:
+        return f"Erro ao configurar o banco de dados: {e}", 500
+
+
