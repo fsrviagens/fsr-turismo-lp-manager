@@ -18,9 +18,12 @@ def cadastro():
 @app.route('/processa_cadastro', methods=['POST'])
 def processa_cadastro():
     try:
-        data = request.json
+        # Tenta ler os dados do formulário HTML primeiro
+        data = request.form
+        
+        # Se não houver dados de formulário, tenta ler JSON (para compatibilidade futura)
         if not data:
-            data = request.form
+            data = request.json
         
         nome = data.get('nome')
         email = data.get('email')
