@@ -1,49 +1,52 @@
 import os
 import psycopg2
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 
 app = Flask(__name__)
 
-# Configuração da conexão com o banco de dados
-def get_db_connection():
-    conn = psycopg2.connect(
-        host=os.environ.get("DB_HOST"),
-        database=os.environ.get("DB_NAME"),
-        user=os.environ.get("DB_USER"),
-        password=os.environ.get("DB_PASS")
-    )
-    return conn
+# Rota para a página inicial (index.html)
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-# Rota para receber os dados do formulário
+# Rota para a página de cadastro (cadastro.html)
+@app.route('/cadastro.html')
+def cadastro():
+    return render_template('cadastro.html')
+
+# Rota para o processamento do formulário de cadastro
 @app.route('/processa_cadastro', methods=['POST'])
 def processa_cadastro():
     try:
-        dados = request.get_json()
-        nome = dados.get('nome')
-        email = dados.get('email')
-        telefone = dados.get('telefone')
-        preferencia = dados.get('preferencia')
-        destino = dados.get('destino')
-        data_ida = dados.get('dataIda')
-        data_volta = dados.get('dataVolta')
+        data = request.json
+        if not data:
+            data = request.form
+        
+        nome = data.get('nome')
+        email = data.get('email')
+        senha = data.get('senha')
+        
+        if not nome or not email or not senha:
+            return jsonify({'success': False, 'message': 'Dados incompletos'}), 400
 
-        conn = get_db_connection()
+        # Conectar ao banco de dados usando as variáveis de ambiente do Render
+        conn = psycopg2.connect(os.environ['DATABASE_URL'])
         cur = conn.cursor()
-
-        cur.execute(
-            "INSERT INTO clientes (nome, email, telefone, preferencia, destino, data_ida, data_volta) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-            (nome, email, telefone, preferencia, destino, data_ida, data_volta)
-        )
+        
+        # Inserir os dados na tabela 'cadastro'
+        cur.execute("INSERT INTO cadastro (nome, email, senha) VALUES (%s, %s, %s)",
+                    (nome, email, senha))
+        
         conn.commit()
         cur.close()
         conn.close()
-
-        return jsonify({'success': True, 'message': 'Orçamento solicitado com sucesso!'})
+        
+        # Retornar uma resposta de sucesso
+        return jsonify({'success': True, 'message': 'Dados recebidos com sucesso!'}), 200
 
     except Exception as e:
-        print(f"Erro: {e}")
-        return jsonify({'success': False, 'message': 'Erro na conexão com o banco de dados.'})
+        # Em caso de erro, retornar uma mensagem de erro
+        return jsonify({'success': False, 'message': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
-
