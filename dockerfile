@@ -1,24 +1,19 @@
-FROM php:8.2-apache
+# Use a imagem oficial do Python como base
+FROM python:3.9-slim
 
-# Instala as dependências necessárias para o driver do PostgreSQL
-RUN apt-get update && apt-get install -y libpq-dev
+# Defina o diretório de trabalho dentro do contêiner
+WORKDIR /usr/src/app
 
-# Instala as extensões PDO e PDO_PGSQL para se conectar ao PostgreSQL
-RUN docker-php-ext-install pdo pdo_pgsql
+# Copie os arquivos de requisitos e instale as dependências
+# Crie um arquivo requirements.txt com as dependências do seu projeto (flask, psycopg2)
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Habilita o módulo de reescrita de URL do Apache
-RUN a2enmod rewrite
+# Copie todo o código-fonte do seu projeto para o contêiner
+COPY . .
 
-# Set the working directory
-WORKDIR /var/www/html
+# Expõe a porta que o aplicativo irá rodar
+EXPOSE 8000
 
-# Copia o arquivo .htaccess para o servidor
-COPY .htaccess /var/www/html/
-
-# Copy all project files into the image's web directory
-COPY . /var/www/html/
-
-# Expose port 80 for the web server
-EXPOSE 80
-
-
+# Comando para iniciar o servidor Gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]
