@@ -65,34 +65,28 @@ def processa_cadastro():
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 500
 
-# Rota para configurar o banco de dados (Cria a tabela e colunas se não existirem)
+# Rota para configurar o banco de dados (Adiciona colunas se não existirem)
 @app.route('/setup')
 def setup_database():
     try:
         conn = psycopg2.connect(os.environ['DATABASE_URL'])
         cur = conn.cursor()
         
-        # Cria a tabela 'cadastro' com todas as colunas
-        cur.execute("""
-            CREATE TABLE IF NOT EXISTS cadastro (
-                id SERIAL PRIMARY KEY,
-                nome VARCHAR(255),
-                email VARCHAR(255),
-                whatsapp VARCHAR(255),
-                tipo_viagem VARCHAR(50),
-                destino VARCHAR(255),
-                orcamento VARCHAR(50),
-                pessoas VARCHAR(10),
-                data_viagem VARCHAR(255),
-                data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            );
-        """)
+        # Adiciona as colunas uma por uma para garantir que a tabela seja atualizada corretamente
+        cur.execute("ALTER TABLE cadastro ADD COLUMN IF NOT EXISTS whatsapp VARCHAR(255);")
+        cur.execute("ALTER TABLE cadastro ADD COLUMN IF NOT EXISTS tipo_viagem VARCHAR(50);")
+        cur.execute("ALTER TABLE cadastro ADD COLUMN IF NOT EXISTS destino VARCHAR(255);")
+        cur.execute("ALTER TABLE cadastro ADD COLUMN IF NOT EXISTS orcamento VARCHAR(50);")
+        cur.execute("ALTER TABLE cadastro ADD COLUMN IF NOT EXISTS pessoas VARCHAR(10);")
+        cur.execute("ALTER TABLE cadastro ADD COLUMN IF NOT EXISTS data_viagem VARCHAR(255);")
+        cur.execute("ALTER TABLE cadastro ADD COLUMN IF NOT EXISTS id SERIAL PRIMARY KEY;")
+        cur.execute("ALTER TABLE cadastro ADD COLUMN IF NOT EXISTS data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP;")
         
         conn.commit()
         cur.close()
         conn.close()
         
-        return "Tabela 'cadastro' verificada/criada com sucesso com as novas colunas!", 200
+        return "Tabela 'cadastro' atualizada com sucesso com as novas colunas!", 200
     except Exception as e:
         return f"Erro ao configurar o banco de dados: {e}", 500
 
