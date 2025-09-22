@@ -8,18 +8,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <header>
-        <div class="logo-container">
-            <img src="logo.png" alt="FSR Viagens Logo" class="logo">
-            <h1 class="agencia-nome">FSR Viagens</h1>
+    <header class="header">
+        <div class="container header__content">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="FSR Viagens Logo" class="logo__image">
+                <h1 class="logo__text">FSR Viagens</h1>
+            </div>
+            <nav class="navigation">
+                <ul class="navigation__list">
+                    <li><a href="/" class="navigation__link">Início</a></li>
+                    <li><a href="/cadastro.html" class="navigation__link">Planeje sua Viagem</a></li>
+                    <li><a href="/login.html" class="navigation__link">Login</a></li>
+                </ul>
+            </nav>
         </div>
-        <nav>
-            <ul>
-                <li><a href="/">Início</a></li>
-                <li><a href="/cadastro.html">Planeje sua Viagem</a></li>
-                <li><a href="/login.html">Login</a></li>
-            </ul>
-        </nav>
     </header>
 
     <main>
