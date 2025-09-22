@@ -9,18 +9,20 @@
 </head>
 <body>
     <header class="header">
-        <div class="container header__content">
-            <div class="logo">
-                <img src="{{ url_for('static', filename='logo.png') }}" alt="FSR Viagens Logo" class="logo__image">
-                <h1 class="logo__text">FSR Viagens</h1>
+        <div class="container">
+            <div class="header__content">
+                <a href="/" class="logo">
+                    <img class="logo__image" src="https://i.ibb.co/4RGchy7q/logo-fsr.jpg" alt="FSR Viagens Logo">
+                    <h1 class="logo__text">FSR Viagens</h1>
+                </a>
+                <nav class="navigation">
+                    <ul class="navigation__list">
+                        <li><a href="/" class="navigation__link">Início</a></li>
+                        <li><a href="/cadastro.html" class="navigation__link">Planeje sua Viagem</a></li>
+                        <li><a href="/login.html" class="navigation__link">Login</a></li>
+                    </ul>
+                </nav>
             </div>
-            <nav class="navigation">
-                <ul class="navigation__list">
-                    <li><a href="/" class="navigation__link">Início</a></li>
-                    <li><a href="/cadastro.html" class="navigation__link">Planeje sua Viagem</a></li>
-                    <li><a href="/login.html" class="navigation__link">Login</a></li>
-                </ul>
-            </nav>
         </div>
     </header>
 
