@@ -97,87 +97,112 @@
             };
 
             return (
-                <div className="landing-page-container">
-                    <header className="landing-page-header">
-                        <img src="{{ url_for('static', filename='logo-fsr.png') }}" alt="FSR Viagens & Turismo Logo" className="agency-logo" />
-                        <h1>Escolha o seu Pacote FSR e Fale Conosco!</h1>
-                        <p>Preencha os dados abaixo para receber um atendimento personalizado via WhatsApp.</p>
+                <div className="container form-container">
+                    <header className="header__content" style={{ display: 'block', padding: 'var(--space-md)' }}>
+                        {/* 1. CORREÇÃO DA LOGO: Usa o arquivo 7545.webp e a classe BEM logo__image */}
+                        <img 
+                            src="{{ url_for('static', filename='7545.webp') }}" 
+                            alt="FSR Viagens & Turismo Logo" 
+                            className="logo__image" 
+                            style={{ maxWidth: '180px', margin: '0 auto', marginBottom: 'var(--space-md)' }} 
+                        />
+                        {/* 2. CORREÇÃO DAS CLASSES DE TÍTULO */}
+                        <h2 className="hero__headline" style={{ color: 'var(--primary-color)', marginBottom: 'var(--space-sm)' }}>
+                            Escolha o seu Pacote FSR e Fale Conosco!
+                        </h2>
+                        <p className="hero__slogan">
+                            Preencha os dados abaixo para receber um atendimento personalizado via WhatsApp.
+                        </p>
                     </header>
 
-                    <form onSubmit={handleWhatsAppRedirect} className="landing-page-form">
-                        <div className="form-group">
-                            <label htmlFor="pacote-select">Selecione o Pacote de Interesse:</label>
-                            <select
-                                id="pacote-select"
-                                value={pacoteSelecionado}
-                                onChange={(e) => setPacoteSelecionado(e.target.value)}
-                                required
-                            >
-                                <option value="">-- Escolha um destino --</option>
-                                {pacotesExemplo.map((pacote) => (
-                                    <option key={pacote.id} value={pacote.nome}>
-                                        {pacote.nome} (Saída: {pacote.saida})
-                                    </option>
-                                ))}
-                            </select>
+                    {/* 3. CORREÇÃO DA CLASSE DO FORMULÁRIO: Usa a classe BEM form */}
+                    <form onSubmit={handleWhatsAppRedirect} className="form">
+                        
+                        {/* Seção de Pacote */}
+                        <div className="form-section">
+                            <h3>1. Pacote e Destino</h3>
+                            <div className="form__group">
+                                <label htmlFor="pacote-select">Selecione o Pacote de Interesse:</label>
+                                <select
+                                    id="pacote-select"
+                                    value={pacoteSelecionado}
+                                    onChange={(e) => setPacoteSelecionado(e.target.value)}
+                                    required
+                                >
+                                    <option value="">-- Escolha um destino --</option>
+                                    {pacotesExemplo.map((pacote) => (
+                                        <option key={pacote.id} value={pacote.nome}>
+                                            {pacote.nome} (Saída: {pacote.saida})
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
                         
-                        <hr className="divider" />
+                        {/* Seção de Contato e Passageiros */}
+                        <div className="form-section">
+                            <h3>2. Dados Pessoais e da Viagem</h3>
+                            
+                            <div className="form__group">
+                                <label htmlFor="nome-input">*Seu Nome Completo:</label>
+                                <input
+                                    id="nome-input"
+                                    type="text"
+                                    value={nome}
+                                    onChange={(e) => setNome(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            
+                            <div className="form__group">
+                                <label htmlFor="telefone-input">*Seu Telefone (com DDD):</label>
+                                <input
+                                    id="telefone-input"
+                                    type="tel"
+                                    value={telefone}
+                                    onChange={(e) => setTelefone(e.target.value.replace(/[^0-9]/g, ''))} 
+                                    required
+                                />
+                            </div>
 
-                        {/* Campos OBRIGATÓRIOS do Lead */}
-                        <div className="form-group">
-                            <label htmlFor="nome-input">*Seu Nome Completo:</label>
-                            <input
-                                id="nome-input"
-                                type="text"
-                                value={nome}
-                                onChange={(e) => setNome(e.target.value)}
-                                required
-                            />
+                            <div className="form__group">
+                                <label htmlFor="passageiros-input">*Quantidade de Passageiros:</label>
+                                <input
+                                    id="passageiros-input"
+                                    type="number"
+                                    min="1"
+                                    value={passageiros}
+                                    onChange={(e) => setPassageiros(parseInt(e.target.value) || 1)}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form__group">
+                                <label htmlFor="data-viagem-input">Data Preferencial de Viagem:</label>
+                                <input
+                                    id="data-viagem-input"
+                                    type="date" 
+                                    value={dataViagem}
+                                    onChange={(e) => setDataViagem(e.target.value)}
+                                />
+                                {/* CORREÇÃO DA CLASSE DE TEXTO DE AJUDA */}
+                                <small className="help-text">
+                                    Se não tiver certeza, deixe em branco. A consultoria ajustará a melhor data!
+                                </small>
+                            </div>
                         </div>
-                        {/* ... (Os outros inputs de telefone, passageiros e data seguem o mesmo padrão) ... */}
                         
-                        <div className="form-group">
-                            <label htmlFor="telefone-input">*Seu Telefone (com DDD):</label>
-                            <input
-                                id="telefone-input"
-                                type="tel"
-                                value={telefone}
-                                onChange={(e) => setTelefone(e.target.value.replace(/[^0-9]/g, ''))} 
-                                required
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="passageiros-input">*Quantidade de Passageiros:</label>
-                            <input
-                                id="passageiros-input"
-                                type="number"
-                                min="1"
-                                value={passageiros}
-                                onChange={(e) => setPassageiros(parseInt(e.target.value) || 1)}
-                                required
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="data-viagem-input">Data Preferencial de Viagem:</label>
-                            <input
-                                id="data-viagem-input"
-                                type="date" 
-                                value={dataViagem}
-                                onChange={(e) => setDataViagem(e.target.value)}
-                            />
-                            <small className="help-text">Se não tiver certeza, deixe em branco. A consultoria ajustará a melhor data!</small>
-                        </div>
-
+                        {/* CORREÇÃO DA CLASSE DE ERRO */}
                         {erro && <p className="error-message">{erro}</p>}
 
-                        <button type="submit" className="whatsapp-button" disabled={loading}>
+                        {/* 4. CORREÇÃO DO BOTÃO: Usa a classe BEM btn btn--form */}
+                        <button type="submit" className="btn btn--form" disabled={loading}>
                             <i className="fab fa-whatsapp"></i> {loading ? 'Salvando Lead...' : 'Enviar Pedido via WhatsApp'}
                         </button>
                     </form>
-                    <footer className="landing-page-footer">
+                    
+                    {/* 5. CORREÇÃO DO RODAPÉ: Usa a classe BEM footer */}
+                    <footer className="footer" style={{ background: 'transparent', color: 'var(--text-color)', padding: 'var(--space-md) 0' }}>
                         <p>&copy; 2023 FSR Viagens & Turismo. Todos os direitos reservados.</p>
                     </footer>
                 </div>
