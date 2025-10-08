@@ -2,6 +2,7 @@ import os
 import psycopg2
 from flask import Flask, request, jsonify, render_template, redirect, url_for
 
+# --- Configuração do App ---
 app = Flask(__name__)
 
 # --- ROTAS DA LANDING PAGE (REACT FRONTEND) ---
@@ -20,24 +21,27 @@ def capturar_lead():
     data = request.json 
 
     try:
-        # Mapeamento dos campos do novo formulário (React) para os campos do BD ('cadastro')
+        # Mapeamento e Tratamento de Campos do Formulário
         nome = data.get('nome')
-        whatsapp = data.get('telefone') # O campo 'telefone' do React vai para a coluna 'whatsapp'
-        destino = data.get('pacoteSelecionado') # O 'pacoteSelecionado' do React vai para a coluna 'destino'
+        whatsapp = data.get('telefone') # 'telefone' do React -> 'whatsapp' do BD
+        destino = data.get('pacoteSelecionado') # 'pacoteSelecionado' do React -> 'destino' do BD
         pessoas = data.get('passageiros')
-        data_viagem = data.get('dataViagem') or None # Usa None se for string vazia
         
-        # Campos que o novo formulário NÃO coleta (são inseridos como NULL)
+        # CORREÇÃO: Trata string vazia ('') do input de data como None (NULL no BD)
+        data_viagem_input = data.get('dataViagem')
+        data_viagem = data_viagem_input if data_viagem_input else None 
+        
+        # Campos que o novo formulário NÃO coleta (inseridos como NULL)
         email = None
         tipo_viagem = None
         orcamento = None
         
         # Conectar ao banco de dados usando as variáveis de ambiente
+        # ATENÇÃO: Verifique se a variável DATABASE_URL está configurada no seu ambiente Termux/Hospedagem
         conn = psycopg2.connect(os.environ['DATABASE_URL'])
         cur = conn.cursor()
         
         # Inserir os dados na tabela 'cadastro'
-        # Note o uso de %s para NULL para os campos não coletados
         cur.execute(
             """
             INSERT INTO cadastro (nome, email, whatsapp, tipo_viagem, destino, orcamento, pessoas, data_viagem) 
@@ -54,13 +58,13 @@ def capturar_lead():
         return jsonify({'success': True, 'message': 'Lead salvo com sucesso!'}), 200
 
     except Exception as e:
-        # Em caso de falha no banco, ainda assim informamos para o frontend continuar
-        # com o fluxo do WhatsApp, para não perder o cliente.
+        # Fluxo de Falha Elegante: O loga o erro, mas informa ao frontend que pode continuar
+        # com o fluxo do WhatsApp (abrir o chat) para não perder o lead.
         print(f"ERRO DE BANCO DE DADOS: {e}")
-        return jsonify({'success': False, 'message': f'Erro no servidor ao salvar lead: {str(e)}'}), 500
+        return jsonify({'success': False, 'message': f'Erro no servidor ao salvar lead: {str(e)}'}), 200 # Retorna 200, não 500
 
 
-# --- ROTAS DE GERENCIAMENTO (MANTIDAS) ---
+# --- ROTAS DE GERENCIAMENTO ---
 
 # Rota para a página de leads (mantida)
 @app.route('/leads.html', methods=['GET'])
@@ -69,14 +73,13 @@ def leads():
         conn = psycopg2.connect(os.environ['DATABASE_URL'])
         cur = conn.cursor()
         
-        # Ajuste o SELECT para mostrar as colunas mais relevantes do novo formulário
+        # O SELECT foi ajustado para mostrar APENAS os campos coletados pelo novo formulário
         cur.execute("SELECT nome, whatsapp, destino, pessoas, data_viagem FROM cadastro ORDER BY nome")
         leads_data = cur.fetchall()
         cur.close()
         conn.close()
         
-        # ATENÇÃO: Se o leads.html original esperava 8 colunas, pode ser necessário 
-        # ajustar o loop no leads.html para esperar apenas as 5 colunas acima.
+        # Se o seu leads.html precisar de ajustes de colunas, você terá que fazê-los separadamente
         return render_template('leads.html', leads=leads_data)
         
     except Exception as e:
@@ -89,13 +92,7 @@ def setup_database():
         conn = psycopg2.connect(os.environ['DATABASE_URL'])
         cur = conn.cursor()
         
-        # Adiciona as colunas uma por uma para garantir que a tabela seja atualizada corretamente
-        # É importante que a coluna 'whatsapp' já exista, assim como 'destino', 'pessoas', 'data_viagem'
-        # O restante do código pode ser mantido se for apenas para fins de migração:
-        # cur.execute("ALTER TABLE cadastro ADD COLUMN IF NOT EXISTS whatsapp VARCHAR(255);")
-        # ... (etc)
-        
-        # Apenas um comando de exemplo para garantir a coluna 'pessoas' (que corresponde a passageiros)
+        # Comando para garantir a coluna 'pessoas' (que corresponde a passageiros) exista
         cur.execute("ALTER TABLE cadastro ADD COLUMN IF NOT EXISTS pessoas INTEGER;")
 
         conn.commit()
@@ -106,23 +103,9 @@ def setup_database():
     except Exception as e:
         return f"Erro ao configurar o banco de dados: {e}", 500
 
-# --- ROTAS ANTIGAS (REMOVIDAS / COMENTADAS) ---
-# As rotas abaixo foram removidas pois a nova Landing Page usa o endpoint /capturar_lead e o WhatsApp.
-
-# @app.route('/cadastro.html', methods=['GET'])
-# def cadastro():
-#     return render_template('cadastro.html')
-
-# @app.route('/obrigado.html', methods=['GET'])
-# def obrigado():
-#     return render_template('obrigado.html')
-
-# @app.route('/processa_cadastro', methods=['POST'])
-# def processa_cadastro():
-#     # Rota antiga de processamento de formulário - SUBSTITUÍDA por /capturar_lead
-#     pass
+# --- INICIALIZAÇÃO ---
 
 if __name__ == '__main__':
-    # Quando rodando em produção (com gunicorn), a variável de ambiente DEBUG será False.
-    # Para testes no Termux, pode ser útil manter debug=True.
+    # Usar 'gunicorn app:app' é a forma recomendada de iniciar em produção
+    # Este bloco é apenas para testes locais (como no Termux)
     app.run(host='0.0.0.0', port=os.environ.get('PORT', 5000), debug=True)
