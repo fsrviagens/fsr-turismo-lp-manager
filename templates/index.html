@@ -3,170 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="FSR Viagens - Consultoria especializada em pacotes de lazer, cruzeiros e resorts. Realize as férias dos seus sonhos com a nossa ajuda.">
-    <meta name="keywords" content="pacotes de viagem, cruzeiros, resorts, all-inclusive, férias, agência de viagens, FSR Viagens, orçamento de viagem, consultoria de viagem">
-    <title>FSR Viagens - Realize as Férias dos Seus Sonhos</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>FSR Viagens | Vitrine de Pacotes</title>
     
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
 </head>
-
 <body>
-    <header class="header">
-        <div class="container">
-            <div class="header__content">
-                <a href="{{ url_for('index') }}" class="logo">
-                    <img class="logo__image" src="https://i.ibb.co/4RGchy7q/logo-fsr.jpg" alt="FSR Viagens Logo">
-                    <h1 class="logo__text">FSR Viagens</h1>
-                </a>
-                <nav class="navigation" aria-label="Menu principal de navegação">
-                    <ul class="navigation__list">
-                        <li class="navigation__item"><a href="#ofertas" class="navigation__link">Pacotes</a></li>
-                        <li class="navigation__item"><a href="#depoimentos" class="navigation__link">Depoimentos</a></li>
-                        <li class="navigation__item"><a href="#form-orcamento" class="navigation__link">Orçamento</a></li>
-                        <li class="navigation__item"><a href="{{ url_for('cadastro') }}" class="navigation__link">Cadastro</a></li>
-                    </ul>
-                </nav>
-            </div>
-            <div class="hero">
-                <h1 class="hero__headline">Realize as férias dos seus sonhos com a nossa consultoria</h1>
-                <p class="hero__slogan">Pacotes de lazer, cruzeiros e resorts selecionados para você viver momentos inesquecíveis.</p>
-                <a href="#form-orcamento" class="btn btn--primary btn--hero" aria-label="Peça seu orçamento agora e comece a planejar">Peça seu orçamento agora</a>
-            </div>
+    <div id="root">
         </div>
-    </div>
-</header>
 
-<main>
-    <section id="ofertas" class="section section--light">
-        <div class="container">
-            <h2>Ofertas Imperdíveis</h2>
-            <div class="cards-grid">
-                <article class="card">
-                    <img class="card__image" src="https://oaidalleapiprod.blob.core.windows.net/private/org-qUq16fF4j6N8n74cK3S12N5O/user-v16fBq4G2x4C08XhIqH5X87i/img-l1y8IuE2B1h6h1c4GgQy1fGz.png?params=image-dall-e-3" alt="Resort paradisíaco" loading="lazy">
-                    <div class="card__content">
-                        <h3 class="card__title">Resort All-Inclusive</h3>
-                        <p class="card__text">Pacote completo de 5 noites, com tudo incluso para você relaxar e aproveitar. Ideal para famílias e casais.</p>
-                        <button class="btn btn--secondary btn--detail" aria-controls="modal-resort" aria-haspopup="dialog" aria-label="Detalhes do pacote Resort All-Inclusive">Detalhes</button>
-                    </div>
-                </article>
-                <article class="card">
-                    <img class="card__image" src="https://oaidalleapiprod.blob.core.windows.net/private/org-qUq16fF4j6N8n74cK3S12N5O/user-v16fBq4G2x4C08XhIqH5X87i/img-k89c1G0p0iYw8c9k1P5c9P4P.png?params=image-dall-e-3" alt="Navio de cruzeiro no mar do caribe" loading="lazy">
-                    <div class="card__content">
-                        <h3 class="card__title">Cruzeiro pelo Caribe</h3>
-                        <p class="card__text">Uma experiência inesquecível com praias paradisíacas, entretenimento a bordo e pensão completa.</p>
-                        <button class="btn btn--secondary btn--detail" aria-controls="modal-cruzeiro" aria-haspopup="dialog" aria-label="Detalhes do pacote Cruzeiro pelo Caribe">Detalhes</button>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </section>
+    <script type="text/babel">
+        // Dados de Exemplo (Pacotes da Vitrine)
+        const pacotesExemplo = [
+            { id: 1, nome: "Fortaleza com Praia da Lagoinha", saida: "Curitiba, Londrina e Cascavel" },
+            { id: 2, nome: "Salvador com Morro de São Paulo", saida: "Variadas" },
+            { id: 3, nome: "Egito 2X1 | Pacote 08 dias e 07 noites", saida: "São Paulo, Rio de Janeiro (bloqueios)" },
+            { id: 4, nome: "Réveillon na Tailândia com Festival das Lanternas", saida: "Variadas" },
+        ];
 
-    <section id="depoimentos" class="section section--testimonial">
-        <div class="container">
-            <h2>O que nossos clientes dizem</h2>
-            <div class="cards-grid">
-                <article class="testimonial-card">
-                    <div class="testimonial-card__content">
-                        <p class="testimonial-card__quote">"A equipe da FSR Viagens superou todas as expectativas! O cruzeiro foi inesquecível e todo o suporte, do início ao fim, foi impecável. Já estamos planejando a próxima com eles!"</p>
-                        <cite class="testimonial-card__author">— Ana Paula, Brasília</cite>
-                    </div>
-                </article>
-                <article class="testimonial-card">
-                    <div class="testimonial-card__content">
-                        <p class="testimonial-card__quote">"Nunca me senti tão seguro e bem assistido em uma viagem. O pacote para o resort era exatamente o que buscávamos para relaxar. Parabéns pelo serviço!"</p>
-                        <cite class="testimonial-card__author">— Ricardo Melo, São Paulo</cite>
-                    </div>
-                </article>
-                <article class="testimonial-card">
-                    <div class="testimonial-card__content">
-                        <p class="testimonial-card__quote">"Simplesmente a melhor agência que já usei! O atendimento é personalizado e o cuidado com cada detalhe faz toda a diferença. Recomendo de olhos fechados!"</p>
-                        <cite class="testimonial-card__author">— Juliana Santos, Rio de Janeiro</cite>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </section>
+        const WHATSAPP_NUMBER = '5561983163710';
+        const API_URL = '/capturar_lead'; // Rota Python para salvar o lead
 
-    <section id="form-orcamento" class="section section--dark">
-        <div class="container">
-            <h2>Solicite seu Orçamento</h2>
-            <p class="section__slogan">Preencha o formulário e receba uma consultoria especializada em suas férias.</p>
-            <form id="orcamentoForm" class="form">
-                <div class="form__group">
-                    <label for="nome" class="sr-only">Nome:</label>
-                    <input type="text" name="nome" id="nome" placeholder="Seu nome" required aria-label="Campo para o nome">
-                </div>
-                <div class="form__group">
-                    <label for="email" class="sr-only">E-mail:</label>
-                    <input type="email" name="email" id="email" placeholder="Seu e-mail" required aria-label="Campo para o e-mail">
-                </div>
-                <div class="form__group">
-                    <label for="telefone" class="sr-only">WhatsApp:</label>
-                    <input type="tel" name="telefone" id="telefone" placeholder="Seu WhatsApp (apenas números)" required aria-label="Campo para o telefone">
-                </div>
+        const LandingPageIncomum = () => {
+            const [nome, setNome] = React.useState('');
+            const [telefone, setTelefone] = React.useState('');
+            const [pacoteSelecionado, setPacoteSelecionado] = React.useState('');
+            const [dataViagem, setDataViagem] = React.useState('');
+            const [passageiros, setPassageiros] = React.useState(1);
+            const [erro, setErro] = React.useState('');
+            const [loading, setLoading] = React.useState(false);
+
+            const handleWhatsAppRedirect = async (e) => {
+                e.preventDefault();
+                setErro('');
                 
-                <div class="form__group">
-                    <label for="preferencia">Tipo de Viagem:</label>
-                    <select name="preferencia" id="preferencia" required aria-label="Preferência de viagem">
-                        <option value="" disabled selected>Escolha o tipo de viagem</option>
-                        <option value="lazer">Lazer / Resort</option>
-                        <option value="cruzeiro">Cruzeiro</option>
-                    </select>
-                </div>
+                // 1. Validação OBRIGATÓRIA
+                if (!nome || !telefone || !pacoteSelecionado || passageiros < 1) {
+                    setErro('Por favor, preencha seu Nome, Telefone, Pacote e Quantidade de Passageiros.');
+                    return;
+                }
                 
-                <div class="form__group">
-                    <label for="destino" class="sr-only">Destino:</label>
-                    <input type="text" name="destino" id="destino" placeholder="Destino desejado (opcional)" aria-label="Campo para o destino">
+                setLoading(true);
+
+                const formData = {
+                    nome, telefone, pacoteSelecionado, dataViagem, passageiros
+                };
+
+                // 2. Tenta capturar o lead (AUTOMAÇÃO PRINCIPAL no Python)
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const result = await response.json();
+
+                    if (!response.ok) {
+                        // Se o Python falhar em salvar (raro), ainda assim tentamos o WhatsApp
+                        console.error("Erro ao salvar o lead no Python:", result.message);
+                    }
+                    
+                    // 3. Montagem da Mensagem e Redirecionamento para o WhatsApp
+                    let mensagem = `Olá, FSR Viagens & Turismo! Meu nome é ${nome}.`;
+                    mensagem += `\nTenho interesse no pacote: *${pacoteSelecionado}*`;
+                    mensagem += `\nQuantidade de passageiros: ${passageiros}`;
+                    
+                    if (dataViagem) {
+                        mensagem += `\nData pretendida: ${dataViagem}`;
+                    } else {
+                        mensagem += `\n**IMPORTANTE:** A data ainda não foi definida, mas gostaria de ver as opções.`;
+                    }
+                    
+                    mensagem += `\nMeu telefone para contato é: ${telefone}. Aguardo o retorno!`;
+
+                    const encodedMessage = encodeURIComponent(mensagem);
+                    const whatsappURL = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodedMessage}`;
+
+                    window.open(whatsappURL, '_blank');
+
+                } catch (error) {
+                    setErro('Ocorreu um erro de comunicação. Tente novamente.');
+                    console.error("Erro de rede:", error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            return (
+                <div className="landing-page-container">
+                    <header className="landing-page-header">
+                        <img src="{{ url_for('static', filename='logo-fsr.png') }}" alt="FSR Viagens & Turismo Logo" className="agency-logo" />
+                        <h1>Escolha o seu Pacote FSR e Fale Conosco!</h1>
+                        <p>Preencha os dados abaixo para receber um atendimento personalizado via WhatsApp.</p>
+                    </header>
+
+                    <form onSubmit={handleWhatsAppRedirect} className="landing-page-form">
+                        <div className="form-group">
+                            <label htmlFor="pacote-select">Selecione o Pacote de Interesse:</label>
+                            <select
+                                id="pacote-select"
+                                value={pacoteSelecionado}
+                                onChange={(e) => setPacoteSelecionado(e.target.value)}
+                                required
+                            >
+                                <option value="">-- Escolha um destino --</option>
+                                {pacotesExemplo.map((pacote) => (
+                                    <option key={pacote.id} value={pacote.nome}>
+                                        {pacote.nome} (Saída: {pacote.saida})
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        
+                        <hr className="divider" />
+
+                        {/* Campos OBRIGATÓRIOS do Lead */}
+                        <div className="form-group">
+                            <label htmlFor="nome-input">*Seu Nome Completo:</label>
+                            <input
+                                id="nome-input"
+                                type="text"
+                                value={nome}
+                                onChange={(e) => setNome(e.target.value)}
+                                required
+                            />
+                        </div>
+                        {/* ... (Os outros inputs de telefone, passageiros e data seguem o mesmo padrão) ... */}
+                        
+                        <div className="form-group">
+                            <label htmlFor="telefone-input">*Seu Telefone (com DDD):</label>
+                            <input
+                                id="telefone-input"
+                                type="tel"
+                                value={telefone}
+                                onChange={(e) => setTelefone(e.target.value.replace(/[^0-9]/g, ''))} 
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="passageiros-input">*Quantidade de Passageiros:</label>
+                            <input
+                                id="passageiros-input"
+                                type="number"
+                                min="1"
+                                value={passageiros}
+                                onChange={(e) => setPassageiros(parseInt(e.target.value) || 1)}
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="data-viagem-input">Data Preferencial de Viagem:</label>
+                            <input
+                                id="data-viagem-input"
+                                type="date" 
+                                value={dataViagem}
+                                onChange={(e) => setDataViagem(e.target.value)}
+                            />
+                            <small className="help-text">Se não tiver certeza, deixe em branco. A consultoria ajustará a melhor data!</small>
+                        </div>
+
+                        {erro && <p className="error-message">{erro}</p>}
+
+                        <button type="submit" className="whatsapp-button" disabled={loading}>
+                            <i className="fab fa-whatsapp"></i> {loading ? 'Salvando Lead...' : 'Enviar Pedido via WhatsApp'}
+                        </button>
+                    </form>
+                    <footer className="landing-page-footer">
+                        <p>&copy; 2023 FSR Viagens & Turismo. Todos os direitos reservados.</p>
+                    </footer>
                 </div>
-                <div class="form__group">
-                    <label for="dataIda">Data de ida:</label>
-                    <input type="date" name="dataIda" id="dataIda" required aria-label="Data de ida">
-                </div>
-                <div class="form__group">
-                    <label for="dataVolta">Data de volta:</label>
-                    <input type="date" name="dataVolta" id="dataVolta" required aria-label="Data de volta">
-                </div>
-                <button type="submit" class="btn btn--form">Solicitar Orçamento</button>
-            </form>
-        </div>
-    </section>
-</main>
-
-<div id="modal-resort" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-resort-title">
-    <div class="modal__content">
-        <button class="modal__close" aria-label="Fechar">&times;</button>
-        <h3 id="modal-resort-title">Resort All-Inclusive</h3>
-        <p>Pacote completo de 5 noites em um resort de luxo, com **tudo incluso**. Você terá acesso a todas as refeições, bebidas não alcoólicas e alcoólicas, além de uma vasta gama de atividades de lazer, como esportes aquáticos, shows noturnos e clubes infantis. O pacote inclui também o traslado do aeroporto.</p>
-    </div>
-</div>
-
-<div id="modal-cruzeiro" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-cruzeiro-title">
-    <div class="modal__content">
-        <button class="modal__close" aria-label="Fechar">&times;</button>
-        <h3 id="modal-cruzeiro-title">Cruzeiro pelo Caribe</h3>
-        <p>Embarque em uma jornada de 10 dias a bordo de um navio moderno com **pensão completa** e acesso a todas as comodidades. Aproveite shows diários, piscinas, festas temáticas e paradas em ilhas paradisíacas como Cozumel e Aruba. O pacote também inclui o pacote de bebidas não alcoólicas e excursões guiadas em terra.</p>
-    </div>
-</div>
-
-<a href="https://wa.me/5561983163710" target="_blank" class="btn-floating-wa" aria-label="Fale conosco pelo WhatsApp">
-    <i class="fab fa-whatsapp"></i>
-</a>
-
-<footer class="footer">
-    <div class="container">
-        <p>&copy; <time datetime="2025">2025</time> FSR Viagens</p>
-        <div class="social-links">
-            <a href="https://wa.me/5561983163710" target="_blank" aria-label="Fale conosco no WhatsApp">WhatsApp</a>
-            <a href="https://www.instagram.com/fsr.viagens" target="_blank" aria-label="Siga-nos no Instagram">Instagram</a>
-        </div>
-    </div>
-</footer>
-
-<script src="{{ url_for('static', filename='script.js') }}" defer></script>
+            );
+        };
+        
+        // Renderiza o componente React
+        const container = document.getElementById('root');
+        const root = ReactDOM.createRoot(container);
+        root.render(<LandingPageIncomum />);
+    </script>
 </body>
 </html>
