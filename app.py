@@ -2,6 +2,17 @@ import os
 import psycopg2
 from flask import Flask, request, jsonify, render_template, redirect, url_for
 
+# --- Funções Auxiliares ---
+
+def corrigir_url_db(url):
+    """
+    Corrige o esquema da URL do banco de dados para ser compatível com o psycopg2.
+    O Render usa 'postgresql://', mas o psycopg2 (e alguns ambientes) preferem 'postgres://'.
+    """
+    if url and url.startswith("postgresql://"):
+        return url.replace("postgresql://", "postgres://", 1)
+    return url
+
 # --- Configuração do App ---
 app = Flask(__name__)
 
@@ -10,24 +21,21 @@ app = Flask(__name__)
 # Rota para servir a página principal (index.html)
 @app.route('/')
 def index():
-    # Esta página agora contém o código React (JSX) e o formulário
     return render_template('index.html')
 
 # Rota para capturar o Lead (Endpoint da Automação)
-# O frontend React enviará os dados para esta rota via JSON (fetch/POST)
 @app.route('/capturar_lead', methods=['POST'])
 def capturar_lead():
-    # O React envia dados via JSON, então usamos request.json
     data = request.json 
 
     try:
         # Mapeamento e Tratamento de Campos do Formulário
         nome = data.get('nome')
-        whatsapp = data.get('telefone') # 'telefone' do React -> 'whatsapp' do BD
-        destino = data.get('pacoteSelecionado') # 'pacoteSelecionado' do React -> 'destino' do BD
+        whatsapp = data.get('telefone')
+        destino = data.get('pacoteSelecionado')
         pessoas = data.get('passageiros')
         
-        # CORREÇÃO: Trata string vazia ('') do input de data como None (NULL no BD)
+        # Garante que string vazia ('') se torne None (NULL no BD)
         data_viagem_input = data.get('dataViagem')
         data_viagem = data_viagem_input if data_viagem_input else None 
         
@@ -36,9 +44,13 @@ def capturar_lead():
         tipo_viagem = None
         orcamento = None
         
-        # Conectar ao banco de dados usando as variáveis de ambiente
-        # ATENÇÃO: Verifique se a variável DATABASE_URL está configurada no seu ambiente Termux/Hospedagem
-        conn = psycopg2.connect(os.environ['DATABASE_URL'])
+        # Conectar ao banco de dados com a correção da URL
+        db_url_corrigida = corrigir_url_db(os.environ.get('DATABASE_URL'))
+        
+        if not db_url_corrigida:
+            raise ValueError("DATABASE_URL não está configurada no ambiente.")
+
+        conn = psycopg2.connect(db_url_corrigida)
         cur = conn.cursor()
         
         # Inserir os dados na tabela 'cadastro'
@@ -58,10 +70,9 @@ def capturar_lead():
         return jsonify({'success': True, 'message': 'Lead salvo com sucesso!'}), 200
 
     except Exception as e:
-        # Fluxo de Falha Elegante: O loga o erro, mas informa ao frontend que pode continuar
-        # com o fluxo do WhatsApp (abrir o chat) para não perder o lead.
-        print(f"ERRO DE BANCO DE DADOS: {e}")
-        return jsonify({'success': False, 'message': f'Erro no servidor ao salvar lead: {str(e)}'}), 200 # Retorna 200, não 500
+        # Fluxo de Falha Elegante: Retorna 200 para que o frontend abra o WhatsApp
+        print(f"ERRO DE BANCO DE DADOS/SERVIDOR: {e}")
+        return jsonify({'success': False, 'message': f'Erro no servidor ao salvar lead: {str(e)}'}), 200 
 
 
 # --- ROTAS DE GERENCIAMENTO ---
@@ -70,29 +81,35 @@ def capturar_lead():
 @app.route('/leads.html', methods=['GET'])
 def leads():
     try:
-        conn = psycopg2.connect(os.environ['DATABASE_URL'])
+        db_url_corrigida = corrigir_url_db(os.environ.get('DATABASE_URL'))
+        if not db_url_corrigida:
+            raise ValueError("DATABASE_URL não está configurada.")
+            
+        conn = psycopg2.connect(db_url_corrigida)
         cur = conn.cursor()
         
-        # O SELECT foi ajustado para mostrar APENAS os campos coletados pelo novo formulário
         cur.execute("SELECT nome, whatsapp, destino, pessoas, data_viagem FROM cadastro ORDER BY nome")
         leads_data = cur.fetchall()
         cur.close()
         conn.close()
         
-        # Se o seu leads.html precisar de ajustes de colunas, você terá que fazê-los separadamente
         return render_template('leads.html', leads=leads_data)
         
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 500
 
-# Rota para configurar o banco de dados (Mantida para fins de manutenção)
+# Rota para configurar o banco de dados (Manutenção)
 @app.route('/setup')
 def setup_database():
     try:
-        conn = psycopg2.connect(os.environ['DATABASE_URL'])
+        db_url_corrigida = corrigir_url_db(os.environ.get('DATABASE_URL'))
+        if not db_url_corrigida:
+            raise ValueError("DATABASE_URL não está configurada.")
+            
+        conn = psycopg2.connect(db_url_corrigida)
         cur = conn.cursor()
         
-        # Comando para garantir a coluna 'pessoas' (que corresponde a passageiros) exista
+        # Garante a existência da coluna 'pessoas'
         cur.execute("ALTER TABLE cadastro ADD COLUMN IF NOT EXISTS pessoas INTEGER;")
 
         conn.commit()
@@ -106,6 +123,4 @@ def setup_database():
 # --- INICIALIZAÇÃO ---
 
 if __name__ == '__main__':
-    # Usar 'gunicorn app:app' é a forma recomendada de iniciar em produção
-    # Este bloco é apenas para testes locais (como no Termux)
     app.run(host='0.0.0.0', port=os.environ.get('PORT', 5000), debug=True)
