@@ -42,12 +42,12 @@
         // Rotas de Imagens de uso livre (Placeholder - Use imagens do seu servidor)
         const getImageUrl = (key) => {
             const IMAGENS = {
-                // IMAGENS ATUALIZADAS PELO CLIENTE (Root do repositório)
-                'Lençóis Maranhenses': 'Duna-e-agua-dos-lencois-Maranhenses.jpg', 
-                'Tailândia': 'Festival_Lanternas_Chiang_Mai_Tailandia_Fogos.jpg', 
-                'Gramado': 'GramadoSuaViagem-GrandeDesfileDeNatal2.webp', 
-                'Porto de Galinhas': 'dicas-de-porto-de-galinhas.jpg', 
-                'Salvador': 'tucamorais3.jpg', 
+                // IMAGENS ATUALIZADAS COM O CAMINHO CORRETO /static/
+                'Lençóis Maranhenses': '/static/Duna-e-agua-dos-lencois-Maranhenses.jpg', 
+                'Tailândia': '/static/Festival_Lanternas_Chiang_Mai_Tailandia_Fogos.jpg', 
+                'Gramado': '/static/GramadoSuaViagem-GrandeDesfileDeNatal2.webp', 
+                'Porto de Galinhas': '/static/dicas-de-porto-de-galinhas.jpg', 
+                'Salvador': '/static/tucamorais3.jpg', 
                 
                 // Imagens que mantêm os links de placeholder
                 'Fortaleza': 'https://images.unsplash.com/photo-1549419163-912a52af5f5d?w=400&h=200&fit=crop', 
@@ -508,5 +508,5 @@ ${descritivoRoteiro}
         }
 {% endraw %}
     </script>
-</body>
+    </body>
 </html>
