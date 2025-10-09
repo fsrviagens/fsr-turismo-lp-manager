@@ -1,6 +1,9 @@
 import os
 import psycopg2
 from flask import Flask, request, jsonify, render_template, redirect, url_for
+from flask_cors import CORS # Importado para evitar problemas de origem
+import time # Importado para simular o atraso de varredura (3s)
+from pacotes_data import MOCK_PACOTES # Importando os dados
 
 # --- Funções Auxiliares ---
 
@@ -15,6 +18,9 @@ def corrigir_url_db(url):
 
 # --- Configuração do App ---
 app = Flask(__name__)
+CORS(app) # Adicionado para garantir a comunicação segura com o frontend
+# --- Fim da Configuração do App ---
+
 
 # --- ROTAS DA LANDING PAGE (REACT FRONTEND) ---
 
@@ -22,6 +28,16 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template('index.html')
+
+# NOVO ENDPOINT: Rota para buscar os Pacotes (Simulação de Varredura)
+@app.route('/api/pacotes', methods=['GET'])
+def get_pacotes():
+    # Simulação de atraso de 3 segundos (tempo para o frontend mostrar o loading)
+    # SUBSTITUIR PELO CÓDIGO DE WEB SCRAPING REAL AQUI
+    time.sleep(3) 
+
+    # Retorna os pacotes mockados (Substituir por pacotes_reais depois)
+    return jsonify(MOCK_PACOTES)
 
 # Rota para capturar o Lead (Endpoint da Automação)
 @app.route('/capturar_lead', methods=['POST'])
@@ -70,8 +86,9 @@ def capturar_lead():
         return jsonify({'success': True, 'message': 'Lead salvo com sucesso!'}), 200
 
     except Exception as e:
-        # Fluxo de Falha Elegante: Retorna 200 para que o frontend abra o WhatsApp
-        print(f"ERRO DE BANCO DE DADOS/SERVIDOR: {e}")
+        # Ponto de Revisão: Fluxo de Falha Elegante
+        # Mantemos o retorno 200 para que o frontend SEMPRE abra o WhatsApp e não perca a conversão.
+        print(f"ERRO DE BANCO DE DADOS/SERVIDOR (Lead capturado via WhatsApp): {e}")
         return jsonify({'success': False, 'message': f'Erro no servidor ao salvar lead: {str(e)}'}), 200 
 
 
@@ -80,6 +97,7 @@ def capturar_lead():
 # Rota para a página de leads (mantida)
 @app.route('/leads.html', methods=['GET'])
 def leads():
+    # O restante do seu código para leads.html permanece o mesmo
     try:
         db_url_corrigida = corrigir_url_db(os.environ.get('DATABASE_URL'))
         if not db_url_corrigida:
@@ -101,6 +119,7 @@ def leads():
 # Rota para configurar o banco de dados (Manutenção)
 @app.route('/setup')
 def setup_database():
+    # O restante do seu código de setup permanece o mesmo
     try:
         db_url_corrigida = corrigir_url_db(os.environ.get('DATABASE_URL'))
         if not db_url_corrigida:
@@ -109,14 +128,16 @@ def setup_database():
         conn = psycopg2.connect(db_url_corrigida)
         cur = conn.cursor()
         
-        # Garante a existência da coluna 'pessoas'
+        # Garante a existência da coluna 'pessoas' e a coluna 'data_viagem'
         cur.execute("ALTER TABLE cadastro ADD COLUMN IF NOT EXISTS pessoas INTEGER;")
+        cur.execute("ALTER TABLE cadastro ADD COLUMN IF NOT EXISTS data_viagem DATE;")
+
 
         conn.commit()
         cur.close()
         conn.close()
         
-        return "Tabela 'cadastro' verificada e atualizada com sucesso com as colunas necessárias!", 200
+        return "Tabela 'cadastro' verificada e atualizada com sucesso com as colunas necessárias (pessoas, data_viagem)! ", 200
     except Exception as e:
         return f"Erro ao configurar o banco de dados: {e}", 500
 
