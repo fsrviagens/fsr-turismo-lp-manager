@@ -1,6 +1,7 @@
 # requirements.txt
 Flask
 flask-cors
-psycopg2-binary # Usamos o binário para facilitar a instalação em diversos ambientes
+psycopg2-binary
 requests
 beautifulsoup4
+gunicorn
