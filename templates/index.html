@@ -98,16 +98,13 @@
 
             return (
                 <div className="container form-container">
-                    <header className="header__content" style={{ display: 'block', padding: 'var(--space-md)' }}>
-                        {/* 1. CORREÇÃO DA LOGO: Usa o arquivo 7545.webp e a classe BEM logo__image */}
+                    <header className="header__content">
                         <img 
                             src="{{ url_for('static', filename='7545.webp') }}" 
                             alt="FSR Viagens & Turismo Logo" 
                             className="logo__image" 
-                            style={{ maxWidth: '180px', margin: '0 auto', marginBottom: 'var(--space-md)' }} 
                         />
-                        {/* 2. CORREÇÃO DAS CLASSES DE TÍTULO */}
-                        <h2 className="hero__headline" style={{ color: 'var(--primary-color)', marginBottom: 'var(--space-sm)' }}>
+                        <h2 className="hero__headline">
                             Escolha o seu Pacote FSR e Fale Conosco!
                         </h2>
                         <p className="hero__slogan">
@@ -115,10 +112,8 @@
                         </p>
                     </header>
 
-                    {/* 3. CORREÇÃO DA CLASSE DO FORMULÁRIO: Usa a classe BEM form */}
                     <form onSubmit={handleWhatsAppRedirect} className="form">
                         
-                        {/* Seção de Pacote */}
                         <div className="form-section">
                             <h3>1. Pacote e Destino</h3>
                             <div className="form__group">
@@ -139,7 +134,6 @@
                             </div>
                         </div>
                         
-                        {/* Seção de Contato e Passageiros */}
                         <div className="form-section">
                             <h3>2. Dados Pessoais e da Viagem</h3>
                             
@@ -185,24 +179,20 @@
                                     value={dataViagem}
                                     onChange={(e) => setDataViagem(e.target.value)}
                                 />
-                                {/* CORREÇÃO DA CLASSE DE TEXTO DE AJUDA */}
                                 <small className="help-text">
                                     Se não tiver certeza, deixe em branco. A consultoria ajustará a melhor data!
                                 </small>
                             </div>
                         </div>
                         
-                        {/* CORREÇÃO DA CLASSE DE ERRO */}
                         {erro && <p className="error-message">{erro}</p>}
 
-                        {/* 4. CORREÇÃO DO BOTÃO: Usa a classe BEM btn btn--form */}
                         <button type="submit" className="btn btn--form" disabled={loading}>
                             <i className="fab fa-whatsapp"></i> {loading ? 'Salvando Lead...' : 'Enviar Pedido via WhatsApp'}
                         </button>
                     </form>
                     
-                    {/* 5. CORREÇÃO DO RODAPÉ: Usa a classe BEM footer */}
-                    <footer className="footer" style={{ background: 'transparent', color: 'var(--text-color)', padding: 'var(--space-md) 0' }}>
+                    <footer className="footer">
                         <p>&copy; 2023 FSR Viagens & Turismo. Todos os direitos reservados.</p>
                     </footer>
                 </div>
