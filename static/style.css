@@ -1,7 +1,7 @@
 /* ====================
    1. Estilos Base e Variáveis
    ==================== */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap'); /* Adicionado peso 800 */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
 
 :root {
     /* Cores FSR (Baseado na logo) */
@@ -30,7 +30,6 @@
     --space-lg: 30px;
     --space-md: 20px;
     --space-sm: 10px;
-    /* NOVO: Borda mais arredondada */
     --border-radius-base: 8px; 
 }
 
@@ -49,19 +48,18 @@ body {
 
 /* O container principal da Landing Page de formulário */
 .container.form-container {
-    max-width: 650px; /* Largura ideal para formulário de uma coluna */
+    max-width: 650px; 
     margin: var(--space-xl) auto;
     padding: var(--space-lg);
     background: var(--white);
     border-radius: 12px;
-    /* Box Shadow mais sutil e moderno */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 h1.hero__headline {
     font-size: var(--heading-size-2);
     color: var(--primary-color);
-    font-weight: 800; /* Maior impacto */
+    font-weight: 800; 
     margin-bottom: var(--space-sm);
 }
 
@@ -91,7 +89,7 @@ h1.hero__headline {
 
 /* --- GATILHO DE VENDA (OFERTA 5% OFF) --- */
 .offer-banner {
-    background-color: var(--alert-yellow); /* Amarelo vibrante para urgência */
+    background-color: var(--alert-yellow); 
     color: var(--text-color);
     padding: var(--space-md);
     text-align: center;
@@ -99,7 +97,6 @@ h1.hero__headline {
     font-size: 1.1rem;
     border-radius: var(--border-radius-base);
     margin-bottom: var(--space-lg);
-    /* Efeito de PULSAÇÃO para criar urgência */
     animation: pulse 1.5s infinite;
     box-shadow: 0 4px 10px rgba(255, 195, 0, 0.4);
 }
@@ -118,13 +115,12 @@ h1.hero__headline {
     border-radius: var(--border-radius-base);
     padding: var(--space-md) var(--space-lg) var(--space-sm) var(--space-lg);
     margin-bottom: var(--space-lg);
-    /* Leve efeito de profundidade para destacar a etapa */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .form__legend {
     color: var(--primary-color);
-    font-size: 1.25rem; /* Maior destaque */
+    font-size: 1.25rem; 
     font-weight: 700;
     padding: 0 var(--space-sm);
 }
@@ -138,19 +134,16 @@ h1.hero__headline {
     display: block;
     margin-bottom: var(--space-sm);
     font-weight: 600;
-    color: #444; /* Cor mais escura para melhor legibilidade */
+    color: #444; 
 }
 
-/* AJUSTE AQUI: Melhorar Contraste e Espaçamento */
 .form input, .form select {
     width: 100%;
     padding: var(--space-sm) var(--space-md); 
     border-radius: var(--border-radius-base);
     border: 1px solid #ccc;
     font-size: var(--text-size);
-    /* NOVO: Aumentar o contraste do texto digitado */
     color: var(--text-color); 
-    /* NOVO: Aumentar a altura do campo para toque mobile */
     min-height: 44px; 
     transition: all 0.3s ease;
 }
@@ -158,7 +151,7 @@ h1.hero__headline {
 .form input:focus, .form select:focus {
     border-color: var(--primary-color); 
     outline: none;
-    box-shadow: 0 0 0 3px rgba(2, 62, 138, 0.15); /* Sombra de foco ligeiramente mais forte */
+    box-shadow: 0 0 0 3px rgba(2, 62, 138, 0.15); 
 }
 
 /* --- MENSAGEM DE CARREGAMENTO (UX OTIMIZADA) --- */
@@ -167,7 +160,7 @@ h1.hero__headline {
     color: var(--primary-color);
     font-weight: 600;
     padding: var(--space-md);
-    background-color: #e6f3ff; /* Fundo azul claro para indicar processo */
+    background-color: #e6f3ff; 
     border-radius: var(--border-radius-base);
     border: 1px solid #b3d9ff; 
     overflow: hidden; 
@@ -179,12 +172,10 @@ h1.hero__headline {
     font-size: 1.2rem;
 }
 
-/* ANIMAÇÃO DE FUNDO (SHIMMER) PARA O CARREGAMENTO */
 .loading-animation {
-    /* AJUSTE AQUI: Degradê mais suave e menos contraste */
     background: linear-gradient(90deg, #e6f3ff 0%, #dbe9fc 50%, #e6f3ff 100%); 
     background-size: 200% 100%;
-    animation: shimmer 2s infinite linear; /* Tempo de animação mais longo (mais suave) */
+    animation: shimmer 2s infinite linear; 
 }
 
 @keyframes shimmer {
@@ -193,6 +184,158 @@ h1.hero__headline {
 }
 /* FIM DA ANIMAÇÃO */
 
+/* --- VITRINE DE PACOTES (PacoteCard e VitrinePacotes) --- */
+
+.vitrine-pacotes {
+    margin-top: var(--space-lg);
+    padding: var(--space-md);
+    background: var(--loading-blue-light); 
+    border-radius: var(--border-radius-base);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #dcdcdc;
+    margin-bottom: var(--space-xl);
+}
+
+.vitrine-pacotes h2 {
+    text-align: center;
+    color: var(--primary-color); 
+    font-weight: 700;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 2px solid var(--alert-yellow); 
+}
+
+.pacotes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: var(--space-md);
+}
+
+.pacote-card {
+    background: var(--white);
+    border-radius: var(--border-radius-base);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 430px; 
+}
+
+.pacote-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.pacote-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.pacote-card:hover img {
+    transform: scale(1.05); 
+}
+
+.pacote-content {
+    padding: var(--space-md);
+    flex-grow: 1;
+}
+
+.pacote-content h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+    font-size: 1.15em;
+    font-weight: 600;
+    min-height: 40px;
+}
+.pacote-content h3 i {
+    margin-right: 5px;
+    color: var(--alert-yellow);
+}
+
+.pacote-content p {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: var(--space-sm);
+    min-height: 60px; 
+}
+
+.pacote-content .saida {
+    font-weight: 700;
+    color: #28a745; 
+    display: block;
+    margin-bottom: var(--space-md);
+}
+
+/* Botão de seleção dentro do card */
+.pacote-card .btn-selecionar {
+    background-color: var(--secondary-color); 
+    color: var(--white);
+    border: none;
+    padding: var(--space-sm) var(--space-md);
+    width: 100%;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    margin-top: auto; 
+    border-radius: 0 0 var(--border-radius-base) var(--border-radius-base);
+    font-size: 0.95rem;
+}
+
+.pacote-card .btn-selecionar:hover {
+    background-color: #c0392b;
+}
+
+
+/* --- ESTILO ESPECIAL: CARD DE CONSULTORIA --- */
+
+.card-consultoria {
+    background: var(--primary-color); 
+    color: var(--white);
+    border: 2px dashed var(--alert-yellow);
+    text-align: center;
+    min-height: 430px; 
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-lg);
+}
+
+.card-consultoria i {
+    color: var(--alert-yellow);
+    margin-bottom: var(--space-sm);
+}
+
+.card-consultoria h3 {
+    color: var(--white);
+    font-size: 1.4em;
+    font-weight: 800;
+    margin-bottom: var(--space-sm);
+}
+
+.card-consultoria p {
+    color: #cce5ff;
+    font-size: 1em;
+    margin-bottom: var(--space-lg);
+    min-height: auto; 
+}
+
+.card-consultoria .btn-selecionar {
+    background-color: var(--alert-yellow); 
+    color: var(--text-color);
+    font-size: 1.0rem;
+    padding: 12px var(--space-md);
+    border-radius: var(--border-radius-base);
+    box-shadow: 0 3px 8px rgba(255, 195, 0, 0.4);
+}
+
+.card-consultoria .btn-selecionar:hover {
+    background-color: #e0a800;
+}
 
 /* Botão de Envio (WhatsApp) */
 .btn {
@@ -239,7 +382,7 @@ h1.hero__headline {
     padding: var(--space-md);
     border: 2px solid var(--secondary-color); 
     background-color: #ffe6e6; 
-    border-radius: var(--border-radius-base); /* Ajustado para variável */
+    border-radius: var(--border-radius-base); 
 }
 
 .help-text {
@@ -289,9 +432,8 @@ h1.hero__headline {
         padding: var(--space-md);
     }
     
-    /* AJUSTE AQUI: Reduzir títulos e slogans em mobile para evitar quebras de linha */
     h1.hero__headline {
-        font-size: 1.5rem; /* Um pouco menor para caber melhor */
+        font-size: 1.5rem; 
     }
     .hero__slogan {
         font-size: 1.0rem;
@@ -303,6 +445,13 @@ h1.hero__headline {
     }
     .btn--cta { 
         font-size: 1.0rem;
-        padding: 12px var(--space-md); /* Um pouco menos de padding vertical */
+        padding: 12px var(--space-md); 
     }
+    
+    /* Aumenta o espaçamento entre cards para toque em mobile */
+    .pacotes-grid {
+        gap: var(--space-lg);
+    }
+
+    /* Remove a altura mínima forçada em cards mobile se necessário, mas mantive a original (430px) para consistência */
 }
