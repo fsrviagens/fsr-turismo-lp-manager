@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FSR Viagens | Consultoria Especializada e Pacotes Exclusivos (5% OFF)</title>
+    <title>FSR Viagens | Desconto VIP na 1ª Viagem e Consultoria Especializada</title>
     
     <link rel="stylesheet" href="/static/style.css"> 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <meta name="description" content="Consultoria de viagens especializada desde 2004. Escolha seu pacote FSR e garanta 5% de comissão no fechamento imediato.">
+    <meta name="description" content="Consultoria de viagens especializada desde 2004. Escolha seu pacote FSR e garanta um Desconto VIP de 5% OFF.">
 
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    
-    </head>
+</head>
 <body>
     <div id="root">
     </div>
@@ -27,22 +26,32 @@
         const API_LEAD_URL = '/capturar_lead';
         const TELEFONE_REGEX = /^\d{10,11}$/; 
         
-        // Gatilho de Compra / Comissão
-        const PROSPECT_COMMISSION = '5%';
-        const BASE_COMMISSION = '10%'; 
+        // Gatilho de Compra / Desconto VIP
+        const PROSPECT_DISCOUNT = '5%';
         
+        // --- FALLBACK DE PACOTES (CASO O WEBSCRAPING FALHE) ---
+        const DADOS_FALLBACK = [
+            { id: 101, nome: "Fortaleza com Praia da Lagoinha", saida: "Curitiba, Londrina e Cascavel" },
+            { id: 102, nome: "Salvador com Morro de São Paulo", saida: "Variadas" },
+            { id: 103, nome: "Egito 2X1 | Pacote 08 dias e 07 noites", saida: "São Paulo, Rio de Janeiro (Bloqueios)" },
+            { id: 104, nome: "Réveillon na Tailândia com Festival das Lanternas", saida: "Variadas" },
+            { id: 105, nome: "Porto de Galinhas e Maragogi", saida: "Londrina e Maringá" },
+            { id: 106, nome: "Grand Turquia Extra 2026 Essencial", saida: "Variadas" },
+        ];
+        // -----------------------------------------------------
+
         // Mapeamento de Descritivos (Para enriquecer a mensagem do WhatsApp)
         const DESCRITIVOS_ROTEIROS = {
-            "Fortaleza com Praia da Lagoinha": "☀️ Fortaleza: Roteiro perfeito para quem ama sol, mar e aventura. Inclui a beleza rústica da Praia da Lagoinha e o agito da capital cearense.",
-            "Salvador com Morro de São Paulo": "🏝️ Salvador e Morro: Uma combinação imbatível de cidade histórica e ilha sem carros. Descanse e explore as famosas praias de Morro de São Paulo.",
-            "Egito 2X1 | Pacote 08 dias e 07 noites": "🐪 Egito: Viaje com quem entende! Pacote 2X1, uma jornada pela história milenar, pirâmides e cruzeiro pelo Nilo. Oportunidade única!",
-            "Réveillon na Tailândia com Festival das Lanternas": "🎇 Tailândia: Celebre o Réveillon com o mágico Festival das Lanternas (Yi Peng). Praias paradisíacas e templos milenares esperam por você. Exclusivo!",
-            "Lençóis Maranhenses - São Luís e Barreirinhas": "💧 Lençóis Maranhenses: Descubra a beleza surreal das lagoas entre dunas. Um ecoturismo inesquecível combinando São Luís e Barreirinhas.",
-            "Porto de Galinhas e Maragogi": "🐠 Porto de Galinhas e Maragogi: O melhor do Nordeste! Mergulhe nas piscinas naturais e desfrute do famoso 'Caribe Brasileiro'.",
-            "Réveillon 2026 - Costão do Santinho Resort": "🎉 Costão do Santinho: Réveillon All Inclusive em um dos resorts mais desejados do Brasil. Garanta sua vaga com as melhores condições.",
-            "Grand Turquia Extra 2026 Essencial": "🇹🇷 Turquia: Pacote Essencial pela Turquia, visitando Istambul, Capadócia e Pamukkale. Cultura, história e paisagens inesquecíveis.",
-            "Montevidéu Bloqueio Exclusivo": "🍷 Montevidéu: Bloqueio exclusivo para a capital uruguaia. História, gastronomia e vinhos em uma viagem charmosa e acessível.",
-            // **IMPORTANTE: ADICIONE MAIS CHAVES:VALORES AQUI** para o restante dos pacotes varridos.
+            "Fortaleza com Praia da Lagoinha": "☀️ Roteiro perfeito para quem ama sol, mar e aventura. Inclui a beleza rústica da Praia da Lagoinha e o agito da capital cearense.",
+            "Salvador com Morro de São Paulo": "🏝️ Uma combinação imbatível de cidade histórica e ilha sem carros. Descanse e explore as famosas praias de Morro de São Paulo.",
+            "Egito 2X1 | Pacote 08 dias e 07 noites": "🐪 Viaje com quem entende! Pacote 2X1, uma jornada pela história milenar, pirâmides e cruzeiro pelo Nilo. Oportunidade única!",
+            "Réveillon na Tailândia com Festival das Lanternas": "🎇 Celebre a virada do ano com o mágico Festival das Lanternas (Yi Peng). Praias paradisíacas e templos milenares esperam por você.",
+            "Lençóis Maranhenses - São Luís e Barreirinhas": "💧 Descubra a beleza surreal das lagoas entre dunas. Um ecoturismo inesquecível combinando São Luís e Barreirinhas.",
+            "Porto de Galinhas e Maragogi": "🐠 O melhor do Nordeste! Mergulhe nas piscinas naturais e desfrute do famoso 'Caribe Brasileiro'.",
+            "Réveillon 2026 - Costão do Santinho Resort": "🎉 Réveillon All Inclusive em um dos resorts mais desejados do Brasil. Garanta sua vaga com as melhores condições.",
+            "Grand Turquia Extra 2026 Essencial": "🇹🇷 Pacote Essencial pela Turquia, visitando Istambul, Capadócia e Pamukkale. Cultura, história e paisagens inesquecíveis.",
+            "Montevidéu Bloqueio Exclusivo": "🍷 Bloqueio exclusivo para a capital uruguaia. História, gastronomia e vinhos em uma viagem charmosa e acessível.",
+            // Adicione mais descritivos aqui...
         };
 
         // Função utilitária para obter a data mínima permitida (hoje + 4 dias)
@@ -54,12 +63,9 @@
         
         // Função para obter o descritivo a partir do nome do pacote
         const obterDescritivoRoteiro = (pacoteNomeCompleto) => {
-            // Tenta encontrar a chave no mapeamento, ignorando a Saída
-            // Ex: Transforma "Egito 2X1 | Pacote..." em "Egito 2X1 | Pacote 08 dias e 07 noites"
             const nomeBase = pacoteNomeCompleto.split('|')[0].trim(); 
             
-            // Retorna a descrição mapeada ou um fallback de consultoria
-            return DESCRITIVOS_ROTEIROS[nomeBase] || "✈️ Consultoria Exclusiva: Conte-nos seus sonhos para criarmos uma experiência Incomum, com 5% de comissão extra no fechamento imediato!";
+            return DESCRITIVOS_ROTEIROS[nomeBase] || `✈️ Consultoria Exclusiva: Conte-nos seus sonhos para criarmos uma experiência Incomum e aplicarmos seu ${PROSPECT_DISCOUNT} de Desconto VIP!`;
         };
 
         const LandingPageFSR = () => { 
@@ -71,7 +77,6 @@
             const [erro, setErro] = React.useState('');
             const [loadingLead, setLoadingLead] = React.useState(false); 
             
-            // Novos estados para o carregamento dos pacotes
             const [pacotes, setPacotes] = React.useState([]);
             const [pacotesLoading, setPacotesLoading] = React.useState(true);
             const [erroPacotes, setErroPacotes] = React.useState('');
@@ -79,7 +84,7 @@
             const minDate = React.useMemo(() => getMinDate(), []); 
 
             // ----------------------------------------------------
-            // USE EFFECT: Busca de pacotes (Chamada Real do Backend)
+            // USE EFFECT: Busca de pacotes (Com Fallback)
             // ----------------------------------------------------
             React.useEffect(() => {
                 const fetchPacotes = async () => {
@@ -87,22 +92,22 @@
                     setErroPacotes('');
 
                     try {
-                        // CHAMA O ENDPOINT REAL (Gunicorn e Scraping)
                         const response = await fetch(API_PAC_URL); 
                         const data = await response.json();
                         
-                        if (response.ok) {
+                        if (response.ok && data.length > 0) {
                             setPacotes(data);
                         } else {
-                            // Erro retornado pelo backend
-                            setErroPacotes(data.message || 'Erro ao carregar os pacotes do servidor.');
-                            setPacotes([]); // Garante que a lista esteja vazia em caso de erro.
+                            // CÓDIGO DE FALLBACK: Usa a lista de reserva
+                            setErroPacotes('Não foi possível varrer a vitrine completa. Usando pacotes em destaque.');
+                            setPacotes(DADOS_FALLBACK);
                         }
                         
                     } catch (error) {
-                        console.error("Erro de rede ao carregar pacotes:", error);
-                        setErroPacotes('Falha de conexão. Por favor, tente recarregar a página.');
-                        setPacotes([]);
+                        // CÓDIGO DE FALLBACK: Usa a lista de reserva
+                        console.error("Erro de rede ao carregar pacotes. Usando Fallback.", error);
+                        setErroPacotes('Falha na conexão com a vitrine. Apresentando pacotes em destaque.');
+                        setPacotes(DADOS_FALLBACK);
                     } finally {
                         setPacotesLoading(false);
                     }
@@ -115,20 +120,10 @@
 
             const handlePassageirosChange = (e) => {
                 const value = e.target.value;
-                
-                if (value === '') {
-                    setPassageiros(''); 
-                    return;
-                }
-
+                if (value === '') { setPassageiros(''); return; }
                 let num = parseInt(value);
-                
-                if (!isNaN(num) && num >= 1) {
-                    setPassageiros(num);
-                } 
-                else if (num < 1) {
-                    setPassageiros(1);
-                }
+                if (!isNaN(num) && num >= 1) { setPassageiros(num); } 
+                else if (num < 1) { setPassageiros(1); }
             };
 
             const validateForm = (finalPassageiros) => {
@@ -147,7 +142,6 @@
                     return false;
                 }
 
-                // VALIDAÇÃO DE DATA: Mínimo 4 dias de antecedência
                 if (dataViagem && dataViagem < minDate) {
                     const minDateFormatted = new Date(minDate).toLocaleDateString('pt-BR');
                     setErro(`❌ A data de viagem deve ser no mínimo ${minDateFormatted} (4 dias de antecedência para processamento).`);
@@ -176,22 +170,22 @@
                 // --- Geração do Descritivo e Mensagem para o WhatsApp ---
                 const descritivoRoteiro = obterDescritivoRoteiro(pacoteSelecionado);
 
-                let mensagem = `*PRIORIDADE - NOVO LEAD (SITE)*
-Olá, FSR Viagens & Turismo! Meu nome é ${nome}.
-Estou entrando em contato para garantir a comissão especial de ${PROSPECT_COMMISSION}%.
+                let mensagem = `*ATENDIMENTO PRIORITÁRIO - VIAJANTE SITE*
+Olá, Consultor Especializado da FSR Viagens! Meu nome é ${nome}.
+Tenho interesse em garantir meu *Desconto VIP de ${PROSPECT_DISCOUNT} OFF* na minha primeira compra.
 
 *1. Pacote de Interesse:*
 ✈️ *${pacoteSelecionado}*
 ${descritivoRoteiro}
 
-*2. Detalhes da Solicitação:*
+*2. Detalhes da Viagem:*
 - Passageiros: ${finalPassageiros}
 - Data Pretendida: ${dataViagem ? new Date(dataViagem).toLocaleDateString('pt-BR', {timeZone: 'UTC'}) : 'Ainda a definir (Gostaria de opções)'}
 
-*3. Dados do Lead (Para Funil Power BI):*
+*3. Dados do Lead (Para Funil Interno):*
 - Nome: ${nome}
 - Telefone: ${telefone}
-- Ação: Fechamento Imediato (${PROSPECT_COMMISSION} OFF)
+- Ação: Desconto VIP (${PROSPECT_DISCOUNT} OFF)
 `;
 
                 const encodedMessage = encodeURIComponent(mensagem);
@@ -234,46 +228,43 @@ ${descritivoRoteiro}
                             height="100" 
                         />
                         <h1 className="hero__headline">
-                            Pacotes Exclusivos com Consultoria Técnica Especializada
+                            Pacotes com Consultoria Técnica e **Benefício VIP**
                         </h1>
                         <p className="hero__slogan">
-                            Sua viagem Incomum começa aqui! Selecione o roteiro e garanta um atendimento **prioritário** e a sua **Comissão Exclusiva**.
+                            Sua viagem Incomum começa aqui! Selecione seu roteiro e garanta um atendimento **prioritário** e seu Desconto Exclusivo.
                         </p>
                         
-                        {/* GATILHO DE ESCASSEZ E URGÊNCIA */}
+                        {/* GATILHO DE VENDA: DESCONTO VIP */}
                         <div className="offer-banner">
-                            ✨ OFERTA RELÂMPAGO: Fechamento Imediato garante **${PROSPECT_COMMISSION}** de Comissão! (Comissão base: ${BASE_COMMISSION})
+                            ✨ OFERTA EXCLUSIVA: Sua primeira compra garante um **Desconto VIP de ${PROSPECT_DISCOUNT}**!
                         </div>
                     </header>
 
                     <form onSubmit={handleWhatsAppRedirect} className="form">
                         
                         {/* 1. Seleção do Pacote */}
-                        <fieldset className="form__fieldset" disabled={pacotesLoading}> 
+                        <fieldset className="form__fieldset" disabled={pacotesLoading && pacotes.length === 0}> 
                             <legend className="form__legend">1. Selecione a Viagem dos Seus Sonhos *</legend>
                             <div className="form__group">
                                 <label htmlFor="pacote-select">Pacote de Interesse:</label>
                                 
-                                {/* ESTADO DE CARREGAMENTO REALISTA (UX OTIMIZADA) */}
-                                {pacotesLoading && (
+                                {pacotesLoading && pacotes.length === 0 && (
                                     <p className="loading-message">
                                         <i className="fas fa-plane fa-spin"></i> Varrendo as opções da Vitrine em tempo real...
                                     </p>
                                 )}
 
-                                {/* MENSAGEM DE ERRO DOS PACOTES */}
-                                {erroPacotes && (
-                                    <p className="error-message">{erroPacotes}. Tente recarregar ou consulte por WhatsApp.</p>
+                                {erroPacotes && pacotes.length > 0 && (
+                                    <p className="warning-message">{erroPacotes}. Você está vendo a lista de pacotes em destaque.</p>
                                 )}
-
-                                {/* SELETOR DE PACOTES CARREGADOS */}
-                                {!pacotesLoading && pacotes.length > 0 && (
+                                
+                                {(!pacotesLoading || pacotes.length > 0) && (
                                     <select
                                         id="pacote-select"
                                         value={pacoteSelecionado}
                                         onChange={(e) => setPacoteSelecionado(e.target.value)}
                                         required
-                                        title="Escolha um dos pacotes varridos diretamente da vitrine FSR."
+                                        title="Escolha um dos pacotes varridos ou em destaque FSR."
                                     >
                                         <option value="">-- Escolha um Destino Irresistível --</option>
                                         {pacotes.map((pacote) => (
@@ -284,9 +275,9 @@ ${descritivoRoteiro}
                                     </select>
                                 )}
                                 
-                                {/* Fallback se não houver pacotes */}
-                                {!pacotesLoading && pacotes.length === 0 && !erroPacotes && (
-                                    <p className="error-message">Nenhum pacote disponível. Por favor, entre em contato para **Consultoria Personalizada**.</p>
+                                {/* Fallback final, caso falhe o scraping E o fallback */}
+                                {!pacotesLoading && pacotes.length === 0 && (
+                                    <p className="error-message">❌ Não foi possível carregar pacotes. Por favor, entre em contato para **Consultoria Personalizada**.</p>
                                 )}
                             </div>
                         </fieldset>
@@ -309,7 +300,7 @@ ${descritivoRoteiro}
                         <fieldset className="form__fieldset">
                             <legend className="form__legend">3. Detalhes da Viagem (Consultoria Especializada)</legend>
                             <div className="form__group">
-                                <label htmlFor="passageiros-input">Quantidade de Passageiros *:</label>
+                                <label htmlFor="passageiros-input">Quantidade de Viajantes *:</label>
                                 <input id="passageiros-input" type="number" min="1" value={passageiros} onChange={handlePassageirosChange} required/>
                             </div>
                             <div className="form__group">
@@ -329,20 +320,20 @@ ${descritivoRoteiro}
                         {/* Acessibilidade para mensagens de erro */}
                         {erro && <p className="error-message form__alert" role="alert" aria-live="assertive" aria-atomic="true">{erro}</p>}
 
-                        <button type="submit" className="btn btn--cta" disabled={loadingLead || pacotesLoading}>
+                        <button type="submit" className="btn btn--cta" disabled={loadingLead || (pacotesLoading && pacotes.length === 0)}>
                             <i className="fab fa-whatsapp"></i> 
                             {loadingLead ? 'Processando dados e Conectando...' : 
-                            `Quero ${PROSPECT_COMMISSION} OFF! Falar com o Consultor Especialista`}
+                            `Garantir meu Desconto VIP e Falar com Consultor`}
                         </button>
                         
                         <p className="final-call-to-action">
-                            <i className="fas fa-tag"></i> *Oferta por tempo limitado. O valor da comissão será aplicado no fechamento final do pacote.
+                            <i className="fas fa-tag"></i> *O Desconto VIP será aplicado no fechamento final do seu pacote.
                         </p>
                     </form>
                     
                     <footer className="footer">
                         <p className="expert-seal">
-                            Consultoria Técnica Especializada desde <i className="fas fa-user-tie"></i> **2004** | Seu desenvolvedor e vendedor com bagagem de mercado.
+                            Consultoria Técnica Especializada desde <i className="fas fa-user-tie"></i> **2004** | Seu especialista com vasta experiência de mercado.
                         </p>
                         <p>Atendimento Rápido e Personalizado | <span className="whatsapp-link">WhatsApp: {WHATSAPP_NUMBER}</span></p>
                         <p>&copy; 2023 FSR Viagens & Turismo. Todos os direitos reservados.</p>
