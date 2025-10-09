@@ -24,6 +24,7 @@
         const API_PAC_URL = '/api/pacotes'; 
         const WHATSAPP_NUMBER = '5561983163710';
         const API_LEAD_URL = '/capturar_lead';
+        // Ajuste no regex para aceitar de 10 a 11 dígitos, que é o padrão com/sem '9' (DDD + Telefone)
         const TELEFONE_REGEX = /^\d{10,11}$/; 
         
         // Gatilho de Compra / Desconto VIP
@@ -44,7 +45,7 @@
         const DESCRITIVOS_ROTEIROS = {
             "Fortaleza com Praia da Lagoinha": "☀️ Roteiro perfeito para quem ama sol, mar e aventura. Inclui a beleza rústica da Praia da Lagoinha e o agito da capital cearense.",
             "Salvador com Morro de São Paulo": "🏝️ Uma combinação imbatível de cidade histórica e ilha sem carros. Descanse e explore as famosas praias de Morro de São Paulo.",
-            "Egito 2X1 | Pacote 08 dias e 07 noites": "🐪 Viaje com quem entende! Pacote 2X1, uma jornada pela história milenar, pirâmides e cruzeiro pelo Nilo. Oportunidade única!",
+            "Egito 2X1 | Pacote 08 dias e 07 noites": "🐪 Pacote 2X1, uma jornada pela história milenar, pirâmides e cruzeiro pelo Nilo. Oportunidade única para ir além do comum!",
             "Réveillon na Tailândia com Festival das Lanternas": "🎇 Celebre a virada do ano com o mágico Festival das Lanternas (Yi Peng). Praias paradisíacas e templos milenares esperam por você.",
             "Lençóis Maranhenses - São Luís e Barreirinhas": "💧 Descubra a beleza surreal das lagoas entre dunas. Um ecoturismo inesquecível combinando São Luís e Barreirinhas.",
             "Porto de Galinhas e Maragogi": "🐠 O melhor do Nordeste! Mergulhe nas piscinas naturais e desfrute do famoso 'Caribe Brasileiro'.",
@@ -84,7 +85,7 @@
             
             const [pacotes, setPacotes] = React.useState([]);
             const [pacotesLoading, setPacotesLoading] = React.useState(true);
-            const [destinoLivre, setDestinoLivre] = React.useState(''); // NOVO: Para o campo de texto livre
+            const [destinoLivre, setDestinoLivre] = React.useState(''); 
 
             const minDate = React.useMemo(() => getMinDate(), []); 
 
@@ -95,10 +96,8 @@
                 const fetchPacotes = async () => {
                     setPacotesLoading(true);
                     
-                    // --- INÍCIO: Captura o tempo para garantir o delay mínimo ---
                     const startTime = Date.now(); 
                     let fetchedPacotes = [];
-                    // Removed fetchError and erroPacotes logic to suppress error display
 
                     try {
                         const response = await fetch(API_PAC_URL); 
@@ -117,7 +116,6 @@
                         fetchedPacotes = DADOS_FALLBACK;
                     }
                     
-                    // --- FIM: Calcula o tempo de espera e aplica o delay ---
                     const elapsed = Date.now() - startTime;
                     const requiredDelay = 5000; // 5 SEGUNDOS de pausa MÍNIMA
 
@@ -157,7 +155,7 @@
 
             const validateForm = (finalPacote, finalPassageiros) => {
                 if (!nome || !telefone || !finalPacote) {
-                    setErro('❌ Falta pouco! Por favor, preencha o Nome, Telefone e Pacote/Destino antes de prosseguir.');
+                    setErro('❌ Informações Cruciais Faltando! Por favor, preencha o Nome, Telefone e Pacote/Destino antes de prosseguir.');
                     return false;
                 }
                 
@@ -201,29 +199,37 @@
                 
                 setLoadingLead(true);
 
+                // DADOS PARA O FUNIL INTERNO (MANTIDOS DE FORMA SUBLIMINAR NO CÓDIGO)
                 const formData = {
-                    nome, telefone, pacoteSelecionado: finalPacote, dataViagem, passageiros: finalPassageiros
+                    nome, telefone, pacoteSelecionado: finalPacote, dataViagem, passageiros: finalPassageiros,
+                    origem_lead: 'LandingPage_VIP',
+                    data_captura: new Date().toISOString()
                 };
 
-                // --- Geração do Descritivo e Mensagem para o WhatsApp ---
+                // --- Geração do Descritivo e Mensagem para o WhatsApp (Vendedora) ---
                 const descritivoRoteiro = obterDescritivoRoteiro(finalPacote);
+                
+                // Formatação da data (Mais visual para o consultor)
+                const dataFormatada = dataViagem 
+                    ? new Date(dataViagem).toLocaleDateString('pt-BR', {timeZone: 'UTC'}) 
+                    : '🗓️ A DEFINIR (Gostaria de opções)';
 
                 let mensagem = `*ATENDIMENTO PRIORITÁRIO - VIAJANTE SITE*
-Olá, Consultor Especializado da FSR Viagens! Meu nome é ${nome}.
-Tenho interesse em garantir meu *Desconto VIP de ${PROSPECT_DISCOUNT} OFF* na minha primeira compra.
 
-*1. Pacote de Interesse:*
+Olá, Consultor Especializado da FSR Viagens! Meu nome é *${nome}* e meu WhatsApp é *${telefone}*.
+Tenho interesse em garantir meu *Desconto VIP de ${PROSPECT_DISCOUNT} OFF* na minha primeira compra e prosseguir com a consultoria.
+
+*1. Pacote de Interesse (Foco da Consultoria):*
 ✈️ *${finalPacote}*
 ${descritivoRoteiro}
 
 *2. Detalhes da Viagem:*
 - Passageiros: ${finalPassageiros}
-- Data Pretendida: ${dataViagem ? new Date(dataViagem).toLocaleDateString('pt-BR', {timeZone: 'UTC'}) : 'Ainda a definir (Gostaria de opções)'}
+- Data Pretendida: ${dataFormatada}
 
-*3. Dados do Lead (Para Funil Interno):*
-- Nome: ${nome}
-- Telefone: ${telefone}
-- Ação: Desconto VIP (${PROSPECT_DISCOUNT} OFF)
+*3. Próximos Passos (Para o Consultor):*
+- Cliente já ciente do Desconto VIP e buscando fechar a consultoria.
+- Solicite a melhor data/horário para iniciar o planejamento estratégico.
 `;
 
                 const encodedMessage = encodeURIComponent(mensagem);
@@ -231,7 +237,7 @@ ${descritivoRoteiro}
                 // --- Fim da Mensagem ---
 
 
-                // Enviando Lead para /capturar_lead (Funil Power BI)
+                // Enviando Lead para /capturar_lead (Funil Power BI) - Processo em background
                 try {
                     const response = await fetch(API_LEAD_URL, {
                         method: 'POST',
@@ -269,12 +275,12 @@ ${descritivoRoteiro}
                             Pacotes com Consultoria Técnica e **Benefício VIP**
                         </h1>
                         <p className="hero__slogan">
-                            Sua viagem Incomum começa aqui! Selecione seu roteiro e garanta um atendimento **prioritário** e seu Desconto Exclusivo.
+                            Sua viagem Incomum começa aqui! Selecione seu roteiro e garanta um atendimento **prioritário** e seu **Desconto Exclusivo**.
                         </p>
                         
                         {/* GATILHO DE VENDA: DESCONTO VIP */}
                         <div className="offer-banner">
-                            ✨ OFERTA EXCLUSIVA: Sua primeira compra garante um **Desconto VIP de ${PROSPECT_DISCOUNT}**!
+                            ✨ OFERTA EXCLUSIVA: Sua primeira compra garante um **Desconto VIP de ${PROSPECT_DISCOUNT} OFF**!
                         </div>
                     </header>
 
@@ -284,13 +290,13 @@ ${descritivoRoteiro}
                         <fieldset className="form__fieldset"> 
                             <legend className="form__legend">1. Selecione a Viagem dos Seus Sonhos *</legend>
                             <div className="form__group">
-                                <label htmlFor="pacote-select">Pacote de Interesse:</label>
+                                <label htmlFor="pacote-select">Pacote de Interesse (Selecione ou use Consultoria):</label>
                                 
                                 {/* 1. MENSAGEM DE CARREGAMENTO PERSUASIVA (Durante os 5s) */}
 {% raw %}
                                 {pacotesLoading && (
                                     <p className="loading-message loading-animation">
-                                        <i className="fas fa-spinner fa-spin"></i> **Analisando milhares de ofertas** para encontrar o seu pacote ideal... Aguarde um instante!
+                                        <i className="fas fa-spinner fa-spin"></i> **Analisando milhares de ofertas exclusivas** para encontrar o seu pacote ideal... Otimizando seu tempo!
                                     </p>
                                 )}
                                 
@@ -306,7 +312,7 @@ ${descritivoRoteiro}
                                         >
                                             <option value="">-- Escolha um Destino Irresistível --</option>
                                             {/* OPÇÃO DE OUTRO DESTINO SEMPRE DISPONÍVEL */}
-                                            <option value="Consultoria Personalizada / Outro Destino">✈️ OUTRO DESTINO (Consultoria Personalizada)</option>
+                                            <option value="Consultoria Personalizada / Outro Destino">✈️ OUTRO DESTINO (Consultoria Personalizada / Desconto VIP)</option>
                                             
                                             {pacotes.map((pacote) => (
                                                 <option key={pacote.id} value={`${pacote.nome} | Saída: ${pacote.saida}`}>
@@ -322,7 +328,7 @@ ${descritivoRoteiro}
                                                     type="text" 
                                                     value={destinoLivre} 
                                                     onChange={(e) => setDestinoLivre(e.target.value)} 
-                                                    placeholder="Digite o destino ou roteiro desejado (Ex: Patagônia em Janeiro)"
+                                                    placeholder="Digite o destino ou roteiro desejado (Ex: Patagônia em Janeiro, 2026)"
                                                     required
                                                 />
                                             </div>
@@ -335,7 +341,7 @@ ${descritivoRoteiro}
                         
                         {/* 2. Dados Pessoais */}
                         <fieldset className="form__fieldset">
-                            <legend className="form__legend">2. Seus Dados * (Atendimento Prioritário)</legend>
+                            <legend className="form__legend">2. Seus Dados * (Para Atendimento Prioritário Imediato)</legend>
                             <div className="form__group">
                                 <label htmlFor="nome-input">Nome Completo:</label>
                                 <input id="nome-input" type="text" value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Seu nome (Obrigatório)" required/>
@@ -343,28 +349,28 @@ ${descritivoRoteiro}
                             <div className="form__group">
                                 <label htmlFor="telefone-input">WhatsApp (apenas números, com DDD):</label>
                                 <input id="telefone-input" type="tel" value={telefone} onChange={(e) => setTelefone(e.target.value.replace(/[^0-9]/g, ''))} placeholder="Ex: 61983163710 (Obrigatório)" minLength="10" maxLength="11" required/>
-                                <small className="help-text">Prioridade no contato se for número de WhatsApp válido.</small>
+                                <small className="help-text">Garantimos a **prioridade** no contato se for um número de WhatsApp válido.</small>
                             </div>
                         </fieldset>
 
                         {/* 3. Detalhes da Viagem */}
                         <fieldset className="form__fieldset">
-                            <legend className="form__legend">3. Detalhes da Viagem (Consultoria Especializada)</legend>
+                            <legend className="form__legend">3. Detalhes (Para Agilizar a Consultoria)</legend>
                             <div className="form__group">
                                 <label htmlFor="passageiros-input">Quantidade de Viajantes *:</label>
                                 <input id="passageiros-input" type="number" min="1" value={passageiros} onChange={handlePassageirosChange} required/>
                             </div>
                             <div className="form__group">
-                                <label htmlFor="data-viagem-input">Data Preferencial (Mínimo 4 dias):</label>
+                                <label htmlFor="data-viagem-input">Data Preferencial para Viagem (Mínimo 4 dias):</label>
                                 <input 
                                     id="data-viagem-input" 
                                     type="date" 
                                     value={dataViagem} 
                                     onChange={(e) => setDataViagem(e.target.value)} 
                                     min={minDate}
-                                    title="A data deve ter no mínimo 4 dias de antecedência."
+                                    title="A data deve ter no mínimo 4 dias de antecedência para planejamento."
                                 />
-                                <small className="help-text">Quanto mais detalhado, mais rápida a consultoria.</small>
+                                <small className="help-text">Selecione uma data para um orçamento mais preciso.</small>
                             </div>
                         </fieldset>
 
@@ -374,13 +380,13 @@ ${descritivoRoteiro}
 
                         <button type="submit" className="btn btn--cta" disabled={loadingLead || pacotesLoading}>
                             <i className="fab fa-whatsapp"></i> 
-                            {loadingLead ? 'Processando dados e Conectando...' : 
-                            `Garantir meu Desconto VIP e Falar com Consultor`}
+                            {loadingLead ? 'Processando dados e Encaminhando ao Consultor...' : 
+                            `Falar com Especialista e Aplicar Meu Desconto VIP`}
                         </button>
 {% endraw %}
                         
                         <p className="final-call-to-action">
-                            <i className="fas fa-tag"></i> *O Desconto VIP será aplicado no fechamento final do seu pacote.
+                            <i className="fas fa-tag"></i> *O **Desconto VIP** de ${PROSPECT_DISCOUNT} será aplicado no fechamento final do seu pacote exclusivo.
                         </p>
                     </form>
                     
@@ -389,7 +395,7 @@ ${descritivoRoteiro}
                             Consultoria Técnica Especializada desde <i className="fas fa-user-tie"></i> **2004** | Seu especialista com vasta experiência de mercado.
                         </p>
                         <p>Atendimento Rápido e Personalizado | <span className="whatsapp-link">WhatsApp: {WHATSAPP_NUMBER}</span></p>
-                        <p>&copy; 2023 FSR Viagens & Turismo. Todos os direitos reservados.</p>
+                        <p>&copy; {new Date().getFullYear()} FSR Viagens & Turismo. Todos os direitos reservados.</p>
                     </footer>
                 </div>
             );
