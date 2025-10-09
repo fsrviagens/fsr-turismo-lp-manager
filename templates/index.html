@@ -84,32 +84,67 @@
             const minDate = React.useMemo(() => getMinDate(), []); 
 
             // ----------------------------------------------------
-            // USE EFFECT: Busca de pacotes (Com Fallback)
+            // USE EFFECT: Busca de pacotes (Com Pausa Mínima Otimizada: 5s)
             // ----------------------------------------------------
             React.useEffect(() => {
                 const fetchPacotes = async () => {
                     setPacotesLoading(true);
                     setErroPacotes('');
+                    
+                    // --- INÍCIO: Captura o tempo para garantir o delay mínimo ---
+                    const startTime = Date.now(); 
 
                     try {
                         const response = await fetch(API_PAC_URL); 
                         const data = await response.json();
                         
-                        if (response.ok && data.length > 0) {
-                            setPacotes(data);
+                        let fetchedPacotes = [];
+                        
+                        if (response.ok && Array.isArray(data) && data.length > 0) {
+                            fetchedPacotes = data;
                         } else {
                             // CÓDIGO DE FALLBACK: Usa a lista de reserva
                             setErroPacotes('Não foi possível varrer a vitrine completa. Usando pacotes em destaque.');
-                            setPacotes(DADOS_FALLBACK);
+                            fetchedPacotes = DADOS_FALLBACK;
+                        }
+                        
+                        // --- FIM: Calcula o tempo de espera ---
+                        const elapsed = Date.now() - startTime;
+                        const requiredDelay = 5000; // 5 SEGUNDOS de pausa MÍNIMA
+
+                        const finalAction = () => {
+                            setPacotes(fetchedPacotes);
+                            setPacotesLoading(false);
+                        };
+
+                        if (elapsed < requiredDelay) {
+                            // Se o carregamento foi muito rápido, espera o tempo restante
+                            setTimeout(finalAction, requiredDelay - elapsed);
+                        } else {
+                            // Se demorou mais que o mínimo, executa imediatamente
+                            finalAction();
                         }
                         
                     } catch (error) {
-                        // CÓDIGO DE FALLBACK: Usa a lista de reserva
+                        // CÓDIGO DE FALLBACK: Usa a lista de reserva em caso de erro de rede
                         console.error("Erro de rede ao carregar pacotes. Usando Fallback.", error);
                         setErroPacotes('Falha na conexão com a vitrine. Apresentando pacotes em destaque.');
-                        setPacotes(DADOS_FALLBACK);
-                    } finally {
-                        setPacotesLoading(false);
+                        
+                        // Garante que o delay mínimo seja respeitado mesmo com erro de rede
+                        const elapsed = Date.now() - startTime;
+                        const requiredDelay = 5000; // 5 SEGUNDOS de pausa MÍNIMA
+
+                        const finalAction = () => {
+                            setPacotes(DADOS_FALLBACK);
+                            setPacotesLoading(false);
+                        };
+
+                        if (elapsed < requiredDelay) {
+                            setTimeout(finalAction, requiredDelay - elapsed);
+                        } else {
+                            finalAction();
+                        }
+
                     }
                 };
 
@@ -248,9 +283,10 @@ ${descritivoRoteiro}
                             <div className="form__group">
                                 <label htmlFor="pacote-select">Pacote de Interesse:</label>
                                 
+                                {/* MENSAGEM DE CARREGAMENTO OTIMIZADA (com 5s de pausa e fa-spinner) */}
                                 {pacotesLoading && pacotes.length === 0 && (
-                                    <p className="loading-message">
-                                        <i className="fas fa-plane fa-spin"></i> Varrendo as opções da Vitrine em tempo real...
+                                    <p className="loading-message loading-animation">
+                                        <i className="fas fa-spinner fa-spin"></i> **Analisando milhares de ofertas** para encontrar o seu pacote ideal... Aguarde um instante!
                                     </p>
                                 )}
 
