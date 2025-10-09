@@ -15,6 +15,7 @@
     --light-bg: #f5f5f5;
     --white: #fff;
     --alert-yellow: #FFC300; /* Cor para destaque/oferta */
+    --warning-blue: #cce5ff; /* Cor para aviso suave (fallback) */
 
     /* Fontes e Tamanhos */
     --font-primary: 'Poppins', sans-serif;
@@ -162,9 +163,22 @@ h1.hero__headline {
     border-radius: 8px;
 }
 
-.loading-message .fa-spinner {
+.loading-message .fa-plane { /* Mudando de fa-spinner para fa-plane conforme o index.html */
     margin-right: var(--space-sm);
     color: var(--primary-color);
+}
+
+/* --- NOVO: MENSAGEM DE AVISO (FALLBACK) --- */
+.warning-message {
+    text-align: center;
+    color: #004085; /* Azul escuro do aviso */
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: var(--space-sm);
+    background-color: var(--warning-blue); /* Fundo azul suave */
+    border: 1px solid #b8daff;
+    border-radius: 6px;
+    margin-bottom: var(--space-md);
 }
 
 /* Botão de Envio (WhatsApp) */
