@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FSR Viagens | Escolha seu Pacote e Fale Conosco</title>
     
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="/static/style.css"> 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -35,21 +35,30 @@
             const [telefone, setTelefone] = React.useState('');
             const [pacoteSelecionado, setPacoteSelecionado] = React.useState('');
             const [dataViagem, setDataViagem] = React.useState('');
-            // Mudança UX: valor inicial 1, e sempre número
+            // CORREÇÃO 3 (Parte 1): O estado pode começar como 1 ou ser string vazia para melhor UX
             const [passageiros, setPassageiros] = React.useState(1); 
             const [erro, setErro] = React.useState('');
             const [loading, setLoading] = React.useState(false);
 
-            // CORREÇÃO UX: Ajuste na lógica de onChange para evitar que o campo "trave"
+            // CORREÇÃO 3 (Parte 2): Lógica para permitir apagar o campo e corrigir o 'NaN'
             const handlePassageirosChange = (e) => {
                 const value = e.target.value;
+                
+                // Permite que o campo fique vazio (estado = '')
+                if (value === '') {
+                    setPassageiros(''); 
+                    return;
+                }
+
                 let num = parseInt(value);
                 
-                // Se for NaN, string vazia ou < 1, definimos como 1 (mínimo lógico)
-                if (isNaN(num) || num < 1) {
-                    setPassageiros(1); 
-                } else {
+                // Se for um número válido E maior ou igual a 1
+                if (!isNaN(num) && num >= 1) {
                     setPassageiros(num);
+                } 
+                // Se for 0 ou negativo, definimos 1 como mínimo
+                else if (num < 1) {
+                    setPassageiros(1);
                 }
             };
 
@@ -57,8 +66,10 @@
                 e.preventDefault();
                 setErro('');
                 
-                // 1. Validação OBRIGATÓRIA
-                if (!nome || !telefone || !pacoteSelecionado || passageiros < 1) {
+                // 1. Validação OBRIGATÓRIA (Força o valor para 1 se for 'vazio' no momento do envio)
+                const finalPassageiros = parseInt(passageiros) || 1;
+                
+                if (!nome || !telefone || !pacoteSelecionado || finalPassageiros < 1) {
                     setErro('Por favor, preencha seu Nome, Telefone, Pacote e Quantidade de Passageiros.');
                     return;
                 }
@@ -66,10 +77,10 @@
                 setLoading(true);
 
                 const formData = {
-                    nome, telefone, pacoteSelecionado, dataViagem, passageiros
+                    nome, telefone, pacoteSelecionado, dataViagem, passageiros: finalPassageiros
                 };
 
-                // 2. Tenta capturar o lead (AUTOMAÇÃO PRINCIPAL no Python)
+                // 2. Tenta capturar o lead
                 try {
                     const response = await fetch(API_URL, {
                         method: 'POST',
@@ -86,7 +97,7 @@
                     // 3. Montagem da Mensagem e Redirecionamento para o WhatsApp
                     let mensagem = `Olá, FSR Viagens & Turismo! Meu nome é ${nome}.`;
                     mensagem += `\nTenho interesse no pacote: *${pacoteSelecionado}*`;
-                    mensagem += `\nQuantidade de passageiros: ${passageiros}`;
+                    mensagem += `\nQuantidade de passageiros: ${finalPassageiros}`; // Usa o valor validado
                     
                     if (dataViagem) {
                         mensagem += `\nData pretendida: ${dataViagem}`;
@@ -113,7 +124,7 @@
                 <div className="container form-container">
                     <header className="header__content">
                         <img 
-                            src="{{ url_for('static', filename='7545.webp') }}" 
+                            src="/static/logo_fsr0.webp" 
                             alt="FSR Viagens & Turismo Logo" 
                             className="logo__image" 
                         />
@@ -184,7 +195,7 @@
                                     id="passageiros-input"
                                     type="number"
                                     min="1"
-                                    value={passageiros}
+                                    value={passageiros} 
                                     onChange={handlePassageirosChange}
                                     required
                                 />
