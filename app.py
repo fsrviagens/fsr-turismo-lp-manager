@@ -1,16 +1,16 @@
 import os
 import psycopg2
 from flask import Flask, request, jsonify, render_template, redirect, url_for
-from flask_cors import CORS # Importado para evitar problemas de origem
-import time # Importado para simular o atraso de varredura (3s)
-from pacotes_data import MOCK_PACOTES # Importando os dados
+from flask_cors import CORS 
+# import time # REMOVIDO: O time.sleep(3) não é mais necessário, pois o scraping gera a latência.
+# from pacotes_data import MOCK_PACOTES # REMOVIDO: Agora importamos a função de scraping real.
+from pacotes_data import realizar_web_scraping_da_vitrine # NOVO: Importa a função de scraping real
 
 # --- Funções Auxiliares ---
 
 def corrigir_url_db(url):
     """
     Corrige o esquema da URL do banco de dados para ser compatível com o psycopg2.
-    O Render usa 'postgresql://', mas o psycopg2 (e alguns ambientes) preferem 'postgres://'.
     """
     if url and url.startswith("postgresql://"):
         return url.replace("postgresql://", "postgres://", 1)
@@ -18,7 +18,7 @@ def corrigir_url_db(url):
 
 # --- Configuração do App ---
 app = Flask(__name__)
-CORS(app) # Adicionado para garantir a comunicação segura com o frontend
+CORS(app) 
 # --- Fim da Configuração do App ---
 
 
@@ -29,15 +29,21 @@ CORS(app) # Adicionado para garantir a comunicação segura com o frontend
 def index():
     return render_template('index.html')
 
-# NOVO ENDPOINT: Rota para buscar os Pacotes (Simulação de Varredura)
+# ENDPOINT: Rota para buscar os Pacotes (Busca REAL através do Web Scraping)
 @app.route('/api/pacotes', methods=['GET'])
 def get_pacotes():
-    # Simulação de atraso de 3 segundos (tempo para o frontend mostrar o loading)
-    # SUBSTITUIR PELO CÓDIGO DE WEB SCRAPING REAL AQUI
-    time.sleep(3) 
+    try:
+        # Chama a função de Web Scraping real da vitrine
+        pacotes_atuais = realizar_web_scraping_da_vitrine()
+        
+        # Retorna a lista de pacotes (pode ser vazia em caso de falha de scraping)
+        return jsonify(pacotes_atuais), 200
 
-    # Retorna os pacotes mockados (Substituir por pacotes_reais depois)
-    return jsonify(MOCK_PACOTES)
+    except Exception as e:
+        print(f"ERRO CRÍTICO no endpoint /api/pacotes: {e}")
+        # Retorna lista vazia em caso de falha grave, para não quebrar o frontend.
+        return jsonify([]), 500
+
 
 # Rota para capturar o Lead (Endpoint da Automação)
 @app.route('/capturar_lead', methods=['POST'])
@@ -51,7 +57,6 @@ def capturar_lead():
         destino = data.get('pacoteSelecionado')
         pessoas = data.get('passageiros')
         
-        # Garante que string vazia ('') se torne None (NULL no BD)
         data_viagem_input = data.get('dataViagem')
         data_viagem = data_viagem_input if data_viagem_input else None 
         
@@ -86,7 +91,6 @@ def capturar_lead():
         return jsonify({'success': True, 'message': 'Lead salvo com sucesso!'}), 200
 
     except Exception as e:
-        # Ponto de Revisão: Fluxo de Falha Elegante
         # Mantemos o retorno 200 para que o frontend SEMPRE abra o WhatsApp e não perca a conversão.
         print(f"ERRO DE BANCO DE DADOS/SERVIDOR (Lead capturado via WhatsApp): {e}")
         return jsonify({'success': False, 'message': f'Erro no servidor ao salvar lead: {str(e)}'}), 200 
@@ -94,10 +98,8 @@ def capturar_lead():
 
 # --- ROTAS DE GERENCIAMENTO ---
 
-# Rota para a página de leads (mantida)
 @app.route('/leads.html', methods=['GET'])
 def leads():
-    # O restante do seu código para leads.html permanece o mesmo
     try:
         db_url_corrigida = corrigir_url_db(os.environ.get('DATABASE_URL'))
         if not db_url_corrigida:
@@ -116,10 +118,8 @@ def leads():
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 500
 
-# Rota para configurar o banco de dados (Manutenção)
 @app.route('/setup')
 def setup_database():
-    # O restante do seu código de setup permanece o mesmo
     try:
         db_url_corrigida = corrigir_url_db(os.environ.get('DATABASE_URL'))
         if not db_url_corrigida:
@@ -128,7 +128,7 @@ def setup_database():
         conn = psycopg2.connect(db_url_corrigida)
         cur = conn.cursor()
         
-        # Garante a existência da coluna 'pessoas' e a coluna 'data_viagem'
+        # Garante a existência das colunas necessárias
         cur.execute("ALTER TABLE cadastro ADD COLUMN IF NOT EXISTS pessoas INTEGER;")
         cur.execute("ALTER TABLE cadastro ADD COLUMN IF NOT EXISTS data_viagem DATE;")
 
