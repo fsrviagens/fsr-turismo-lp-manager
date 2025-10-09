@@ -16,7 +16,6 @@
     --white: #fff;
     --alert-yellow: #FFC300; /* Cor para destaque/oferta */
     --warning-blue: #cce5ff; /* Cor para aviso suave (fallback) */
-    /* NOVO: Cor de fundo suave para o loading */
     --loading-blue-light: #f0f7ff; 
 
     /* Fontes e Tamanhos */
@@ -31,6 +30,8 @@
     --space-lg: 30px;
     --space-md: 20px;
     --space-sm: 10px;
+    /* NOVO: Borda mais arredondada */
+    --border-radius-base: 8px; 
 }
 
 * {
@@ -96,7 +97,7 @@ h1.hero__headline {
     text-align: center;
     font-weight: 700;
     font-size: 1.1rem;
-    border-radius: 8px;
+    border-radius: var(--border-radius-base);
     margin-bottom: var(--space-lg);
     /* Efeito de PULSAÇÃO para criar urgência */
     animation: pulse 1.5s infinite;
@@ -114,7 +115,7 @@ h1.hero__headline {
 
 .form__fieldset {
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: var(--border-radius-base);
     padding: var(--space-md) var(--space-lg) var(--space-sm) var(--space-lg);
     margin-bottom: var(--space-lg);
     /* Leve efeito de profundidade para destacar a etapa */
@@ -140,19 +141,24 @@ h1.hero__headline {
     color: #444; /* Cor mais escura para melhor legibilidade */
 }
 
+/* AJUSTE AQUI: Melhorar Contraste e Espaçamento */
 .form input, .form select {
     width: 100%;
-    padding: var(--space-sm) var(--space-md); /* Ajustado para ser mais compacto */
-    border-radius: 8px;
-    border: 1px solid #ccc; /* Borda mais clara */
+    padding: var(--space-sm) var(--space-md); 
+    border-radius: var(--border-radius-base);
+    border: 1px solid #ccc;
     font-size: var(--text-size);
+    /* NOVO: Aumentar o contraste do texto digitado */
+    color: var(--text-color); 
+    /* NOVO: Aumentar a altura do campo para toque mobile */
+    min-height: 44px; 
     transition: all 0.3s ease;
 }
 
 .form input:focus, .form select:focus {
     border-color: var(--primary-color); 
     outline: none;
-    box-shadow: 0 0 0 3px rgba(2, 62, 138, 0.1); /* Sombra de foco mais leve */
+    box-shadow: 0 0 0 3px rgba(2, 62, 138, 0.15); /* Sombra de foco ligeiramente mais forte */
 }
 
 /* --- MENSAGEM DE CARREGAMENTO (UX OTIMIZADA) --- */
@@ -162,10 +168,9 @@ h1.hero__headline {
     font-weight: 600;
     padding: var(--space-md);
     background-color: #e6f3ff; /* Fundo azul claro para indicar processo */
-    border-radius: 8px;
-    /* Estilo base para a animação */
+    border-radius: var(--border-radius-base);
     border: 1px solid #b3d9ff; 
-    overflow: hidden; /* Garante que o gradiente fique dentro do box */
+    overflow: hidden; 
 }
 
 .loading-message .fa-spinner {
@@ -176,9 +181,10 @@ h1.hero__headline {
 
 /* ANIMAÇÃO DE FUNDO (SHIMMER) PARA O CARREGAMENTO */
 .loading-animation {
-    background: linear-gradient(90deg, #e6f3ff 0%, #d0e7ff 50%, #e6f3ff 100%);
+    /* AJUSTE AQUI: Degradê mais suave e menos contraste */
+    background: linear-gradient(90deg, #e6f3ff 0%, #dbe9fc 50%, #e6f3ff 100%); 
     background-size: 200% 100%;
-    animation: shimmer 1.5s infinite linear;
+    animation: shimmer 2s infinite linear; /* Tempo de animação mais longo (mais suave) */
 }
 
 @keyframes shimmer {
@@ -188,22 +194,19 @@ h1.hero__headline {
 /* FIM DA ANIMAÇÃO */
 
 
-/* --- AVISO: CLASSE .warning-message REMOVIDA POIS NÃO É MAIS UTILIZADA NO HTML --- */
-
-
 /* Botão de Envio (WhatsApp) */
 .btn {
     padding: var(--space-md) var(--space-lg);
     border: none;
     text-decoration: none;
-    font-weight: 700; /* Mais negrito */
+    font-weight: 700; 
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     gap: var(--space-sm);
-    text-transform: uppercase; /* Mais impactante */
+    text-transform: uppercase; 
 }
 
 .btn--cta {
@@ -213,13 +216,12 @@ h1.hero__headline {
     border-radius: 50px;
     font-size: 1.15rem;
     margin-top: var(--space-lg); 
-    /* Box-shadow mais forte para atrair o clique */
     box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4); 
 }
 
 .btn--cta:hover:not(:disabled) {
     background-color: #1da851;
-    transform: translateY(-3px); /* Efeito de elevação mais notável */
+    transform: translateY(-3px); 
     box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
 }
 
@@ -233,15 +235,15 @@ h1.hero__headline {
     color: var(--secondary-color);
     font-weight: 600;
     text-align: center;
-    margin: var(--space-lg) 0; /* Mais espaçamento */
+    margin: var(--space-lg) 0; 
     padding: var(--space-md);
-    border: 2px solid var(--secondary-color); /* Borda sólida e grossa */
-    background-color: #ffe6e6; /* Fundo levemente vermelho */
-    border-radius: 8px;
+    border: 2px solid var(--secondary-color); 
+    background-color: #ffe6e6; 
+    border-radius: var(--border-radius-base); /* Ajustado para variável */
 }
 
 .help-text {
-    font-size: 0.85rem; /* Um pouco menor para não competir */
+    font-size: 0.85rem; 
     color: #888;
     display: block;
     margin-top: 5px;
@@ -262,20 +264,19 @@ h1.hero__headline {
     padding: var(--space-md) 0;
     text-align: center;
     font-size: 0.9rem;
-    margin-top: var(--space-lg); /* Mais espaçamento */
+    margin-top: var(--space-lg); 
     border-top: 1px solid #ddd;
 }
 
 .expert-seal {
     color: var(--primary-color);
     font-weight: 700;
-    /* Destaque visual na fonte e separação */
     display: block;
     margin-bottom: 5px;
 }
 
 .expert-seal i {
-    color: var(--alert-yellow); /* Ícone em destaque */
+    color: var(--alert-yellow); 
     margin-right: 5px;
 }
 
@@ -287,14 +288,21 @@ h1.hero__headline {
         margin: var(--space-md);
         padding: var(--space-md);
     }
+    
+    /* AJUSTE AQUI: Reduzir títulos e slogans em mobile para evitar quebras de linha */
     h1.hero__headline {
-        font-size: 1.6rem;
+        font-size: 1.5rem; /* Um pouco menor para caber melhor */
     }
+    .hero__slogan {
+        font-size: 1.0rem;
+    }
+
     .offer-banner {
         font-size: 1rem;
         padding: var(--space-sm);
     }
     .btn--cta { 
         font-size: 1.0rem;
+        padding: 12px var(--space-md); /* Um pouco menos de padding vertical */
     }
 }
