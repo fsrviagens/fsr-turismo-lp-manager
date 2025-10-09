@@ -5,15 +5,17 @@ FROM python:3.9-slim
 WORKDIR /usr/src/app
 
 # Copie os arquivos de requisitos e instale as dependências
-# Crie um arquivo requirements.txt com as dependências do seu projeto (flask, psycopg2)
 COPY requirements.txt ./
+# O Render tem todas as dependências de compilação (libpq) que faltavam no Termux
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copie todo o código-fonte do seu projeto para o contêiner
 COPY . .
 
-# Expõe a porta que o aplicativo irá rodar
-EXPOSE 8000
+# EXPOSE é opcional, mas se mantido, deve ser 0.0.0.0:$PORT.
+# Melhor remover esta linha ou deixá-la genérica, mas o comando CMD é o que importa.
+# EXPOSE 8000  <-- Remova esta linha ou deixe-a assim: EXPOSE $PORT
 
 # Comando para iniciar o servidor Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]
+# CORREÇÃO: Usa $PORT para o Render.
+CMD gunicorn --bind 0.0.0.0:$PORT app:app
