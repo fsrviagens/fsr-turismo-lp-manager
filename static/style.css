@@ -16,6 +16,8 @@
     --white: #fff;
     --alert-yellow: #FFC300; /* Cor para destaque/oferta */
     --warning-blue: #cce5ff; /* Cor para aviso suave (fallback) */
+    /* NOVO: Cor de fundo suave para o loading */
+    --loading-blue-light: #f0f7ff; 
 
     /* Fontes e Tamanhos */
     --font-primary: 'Poppins', sans-serif;
@@ -161,12 +163,30 @@ h1.hero__headline {
     padding: var(--space-md);
     background-color: #e6f3ff; /* Fundo azul claro para indicar processo */
     border-radius: 8px;
+    /* NOVO: Estilo base para a animação */
+    border: 1px solid #b3d9ff; 
+    overflow: hidden; /* Garante que o gradiente fique dentro do box */
 }
 
-.loading-message .fa-plane { /* Mudando de fa-spinner para fa-plane conforme o index.html */
+.loading-message .fa-spinner { /* Ajustado de .fa-plane para .fa-spinner */
     margin-right: var(--space-sm);
     color: var(--primary-color);
+    font-size: 1.2rem;
 }
+
+/* NOVO: ANIMAÇÃO DE FUNDO (SHIMMER) PARA O CARREGAMENTO */
+.loading-animation {
+    background: linear-gradient(90deg, #e6f3ff 0%, #d0e7ff 50%, #e6f3ff 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+/* FIM DA ANIMAÇÃO */
+
 
 /* --- NOVO: MENSAGEM DE AVISO (FALLBACK) --- */
 .warning-message {
