@@ -287,115 +287,15 @@ ${descritivoRoteiro}
                                 <label htmlFor="pacote-select">Pacote de Interesse:</label>
                                 
                                 {/* 1. MENSAGEM DE CARREGAMENTO PERSUASIVA (Durante os 5s) */}
+{% raw %}
                                 {pacotesLoading && (
                                     <p className="loading-message loading-animation">
                                         <i className="fas fa-spinner fa-spin"></i> **Analisando milhares de ofertas** para encontrar o seu pacote ideal... Aguarde um instante!
                                     </p>
                                 )}
+{% endraw %}
                                 
                                 {/* 2. SELETOR DE PACOTES (Aparece após o loading, com sucesso ou fallback) */}
+{% raw %}
                                 {!pacotesLoading && (
                                     <>
-                                        <select
-                                            id="pacote-select"
-                                            value={pacoteSelecionado}
-                                            onChange={handlePacoteChange}
-                                            required
-                                            title="Escolha um dos pacotes varridos ou a opção de consultoria personalizada."
-                                        >
-                                            <option value="">-- Escolha um Destino Irresistível --</option>
-                                            {/* OPÇÃO DE OUTRO DESTINO SEMPRE DISPONÍVEL */}
-                                            <option value="Consultoria Personalizada / Outro Destino">✈️ OUTRO DESTINO (Consultoria Personalizada)</option>
-                                            
-                                            {pacotes.map((pacote) => (
-                                                <option key={pacote.id} value={`${pacote.nome} | Saída: ${pacote.saida}`}>
-                                                    {pacote.nome} (Saída: {pacote.saida})
-                                                </option>
-                                            ))}
-                                        </select>
-                                        
-                                        {/* CAMPO DE TEXTO LIVRE CONDICIONAL */}
-                                        {pacoteSelecionado === 'Consultoria Personalizada / Outro Destino' && (
-                                            <div style={{ marginTop: '10px' }}>
-                                                <input 
-                                                    type="text" 
-                                                    value={destinoLivre} 
-                                                    onChange={(e) => setDestinoLivre(e.target.value)} 
-                                                    placeholder="Digite o destino ou roteiro desejado (Ex: Patagônia em Janeiro)"
-                                                    required
-                                                />
-                                            </div>
-                                        )}
-                                    </>
-                                )}
-
-                            </div>
-                        </fieldset>
-                        
-                        {/* 2. Dados Pessoais */}
-                        <fieldset className="form__fieldset">
-                            <legend className="form__legend">2. Seus Dados * (Atendimento Prioritário)</legend>
-                            <div className="form__group">
-                                <label htmlFor="nome-input">Nome Completo:</label>
-                                <input id="nome-input" type="text" value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Seu nome (Obrigatório)" required/>
-                            </div>
-                            <div className="form__group">
-                                <label htmlFor="telefone-input">WhatsApp (apenas números, com DDD):</label>
-                                <input id="telefone-input" type="tel" value={telefone} onChange={(e) => setTelefone(e.target.value.replace(/[^0-9]/g, ''))} placeholder="Ex: 61983163710 (Obrigatório)" minLength="10" maxLength="11" required/>
-                                <small className="help-text">Prioridade no contato se for número de WhatsApp válido.</small>
-                            </div>
-                        </fieldset>
-
-                        {/* 3. Detalhes da Viagem */}
-                        <fieldset className="form__fieldset">
-                            <legend className="form__legend">3. Detalhes da Viagem (Consultoria Especializada)</legend>
-                            <div className="form__group">
-                                <label htmlFor="passageiros-input">Quantidade de Viajantes *:</label>
-                                <input id="passageiros-input" type="number" min="1" value={passageiros} onChange={handlePassageirosChange} required/>
-                            </div>
-                            <div className="form__group">
-                                <label htmlFor="data-viagem-input">Data Preferencial (Mínimo 4 dias):</label>
-                                <input 
-                                    id="data-viagem-input" 
-                                    type="date" 
-                                    value={dataViagem} 
-                                    onChange={(e) => setDataViagem(e.target.value)} 
-                                    min={minDate}
-                                    title="A data deve ter no mínimo 4 dias de antecedência."
-                                />
-                                <small className="help-text">Quanto mais detalhado, mais rápida a consultoria.</small>
-                            </div>
-                        </fieldset>
-
-                        {/* Acessibilidade para mensagens de erro */}
-                        {erro && <p className="error-message form__alert" role="alert" aria-live="assertive" aria-atomic="true">{erro}</p>}
-
-                        <button type="submit" className="btn btn--cta" disabled={loadingLead || pacotesLoading}>
-                            <i className="fab fa-whatsapp"></i> 
-                            {loadingLead ? 'Processando dados e Conectando...' : 
-                            `Garantir meu Desconto VIP e Falar com Consultor`}
-                        </button>
-                        
-                        <p className="final-call-to-action">
-                            <i className="fas fa-tag"></i> *O Desconto VIP será aplicado no fechamento final do seu pacote.
-                        </p>
-                    </form>
-                    
-                    <footer className="footer">
-                        <p className="expert-seal">
-                            Consultoria Técnica Especializada desde <i className="fas fa-user-tie"></i> **2004** | Seu especialista com vasta experiência de mercado.
-                        </p>
-                        <p>Atendimento Rápido e Personalizado | <span className="whatsapp-link">WhatsApp: {WHATSAPP_NUMBER}</span></p>
-                        <p>&copy; 2023 FSR Viagens & Turismo. Todos os direitos reservados.</p>
-                    </footer>
-                </div>
-            );
-        };
-        
-        // Renderiza o componente React
-        const container = document.getElementById('root');
-        const root = ReactDOM.createRoot(container);
-        root.render(<LandingPageFSR />);
-    </script>
-</body>
-</html>
