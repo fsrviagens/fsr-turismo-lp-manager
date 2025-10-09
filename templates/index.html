@@ -19,76 +19,144 @@
         </div>
 
     <script type="text/babel">
-        // Dados de Exemplo (Pacotes da Vitrine)
-        const pacotesExemplo = [
+        // Endpoints e Constantes
+        const API_PAC_URL = '/api/pacotes'; // Novo endpoint simulado para buscar os pacotes
+        const WHATSAPP_NUMBER = '5561983163710';
+        const API_LEAD_URL = '/capturar_lead';
+        const TELEFONE_REGEX = /^\d{10,11}$/; 
+
+        // Função utilitária para obter a data mínima permitida (hoje + 4 dias)
+        const getMinDate = () => {
+            const date = new Date();
+            date.setDate(date.getDate() + 4); 
+            return date.toISOString().split('T')[0];
+        };
+
+        // Dados MOCK: O backend Python fornecerá isso no futuro, mas mantemos o mock para testes
+        const DADOS_MOCK = [
             { id: 1, nome: "Fortaleza com Praia da Lagoinha", saida: "Curitiba, Londrina e Cascavel" },
             { id: 2, nome: "Salvador com Morro de São Paulo", saida: "Variadas" },
-            { id: 3, nome: "Egito 2X1 | Pacote 08 dias e 07 noites", saida: "São Paulo, Rio de Janeiro (bloqueios)" },
+            { id: 3, nome: "Egito 2X1 | Pacote 08 dias e 07 noites", saida: "São Paulo, Rio de Janeiro (Bloqueios)" },
             { id: 4, nome: "Réveillon na Tailândia com Festival das Lanternas", saida: "Variadas" },
+            { id: 5, nome: "Lençóis Maranhenses - São Luís e Barreirinhas", saida: "Variadas" },
+            { id: 6, nome: "Porto de Galinhas e Maragogi", saida: "Londrina e Maringá" },
+            { id: 7, nome: "Réveillon 2026 - Costão do Santinho Resort", saida: "Florianópolis" },
+            { id: 8, nome: "Grand Turquia Extra 2026 Essencial", saida: "Variadas" },
+            { id: 9, nome: "Montevidéu Bloqueio Exclusivo", saida: "Variadas" },
         ];
-
-        const WHATSAPP_NUMBER = '5561983163710';
-        const API_URL = '/capturar_lead';
-        // Regex simples para validar telefone (10 ou 11 dígitos, apenas números)
-        const TELEFONE_REGEX = /^\d{10,11}$/; 
 
         const LandingPageFSR = () => { 
             const [nome, setNome] = React.useState('');
             const [telefone, setTelefone] = React.useState('');
             const [pacoteSelecionado, setPacoteSelecionado] = React.useState('');
             const [dataViagem, setDataViagem] = React.useState('');
-            const [passageiros, setPassageiros] = React.useState(1); // Mantemos 1 como valor inicial
+            const [passageiros, setPassageiros] = React.useState(1); 
             const [erro, setErro] = React.useState('');
-            const [loading, setLoading] = React.useState(false);
+            const [loadingLead, setLoadingLead] = React.useState(false); 
+            
+            // Novos estados para o carregamento dos pacotes
+            const [pacotes, setPacotes] = React.useState([]);
+            const [pacotesLoading, setPacotesLoading] = React.useState(true);
+            const [erroPacotes, setErroPacotes] = React.useState('');
 
-            // Simplificando o handle: apenas garante que seja um número (ou string vazia)
+            const minDate = React.useMemo(() => getMinDate(), []); 
+
+            // ----------------------------------------------------
+            // USE EFFECT: Busca de pacotes (Simulação da Varredura)
+            // ----------------------------------------------------
+            React.useEffect(() => {
+                const fetchPacotes = async () => {
+                    setPacotesLoading(true);
+                    setErroPacotes('');
+
+                    // Simulação da chamada (3 segundos de atraso)
+                    setTimeout(async () => {
+                        try {
+                            // Substitua a linha abaixo por um FETCH REAL quando o backend Python estiver pronto:
+                            // const response = await fetch(API_PAC_URL);
+                            // const data = await response.json();
+                            // setPacotes(data);
+                            
+                            // Por enquanto, usa o MOCK:
+                            setPacotes(DADOS_MOCK);
+                            
+                        } catch (error) {
+                            console.error("Erro ao carregar pacotes:", error);
+                            setErroPacotes('Não foi possível carregar os pacotes. Tente novamente mais tarde.');
+                        } finally {
+                            setPacotesLoading(false);
+                        }
+                    }, 3000); // 3 SEGUNDOS DE ATRASO SIMULADO
+                };
+
+                fetchPacotes();
+            }, []);
+            // ----------------------------------------------------
+
+
             const handlePassageirosChange = (e) => {
                 const value = e.target.value;
+                
                 if (value === '') {
                     setPassageiros(''); 
                     return;
                 }
 
                 let num = parseInt(value);
+                
                 if (!isNaN(num) && num >= 1) {
                     setPassageiros(num);
-                } else if (num < 1) {
-                    setPassageiros(1); 
+                } 
+                else if (num < 1) {
+                    setPassageiros(1);
                 }
+            };
+
+            const validateForm = (finalPassageiros) => {
+                if (!nome || !telefone || !pacoteSelecionado) {
+                    setErro('Por favor, preencha todos os campos obrigatórios (Nome, Telefone e Pacote).');
+                    return false;
+                }
+                
+                if (!TELEFONE_REGEX.test(telefone)) {
+                    setErro('Por favor, insira um Telefone/WhatsApp válido (10 ou 11 dígitos, apenas números e com DDD).');
+                    return false;
+                }
+
+                if (finalPassageiros < 1) {
+                    setErro('O número de passageiros deve ser no mínimo 1.');
+                    return false;
+                }
+
+                // VALIDAÇÃO DE DATA: Mínimo 4 dias de antecedência
+                if (dataViagem && dataViagem < minDate) {
+                    const minDateFormatted = new Date(minDate).toLocaleDateString('pt-BR');
+                    setErro(`A data de viagem deve ser no mínimo ${minDateFormatted} (4 dias de antecedência para processamento).`);
+                    return false;
+                }
+                
+                return true;
             };
 
             const handleWhatsAppRedirect = async (e) => {
                 e.preventDefault();
                 setErro('');
                 
-                // 1. Validação OBRIGATÓRIA dos campos
                 const finalPassageiros = parseInt(passageiros) || 1;
                 
-                if (!nome || !telefone || !pacoteSelecionado) {
-                    setErro('Por favor, preencha todos os campos obrigatórios (Nome, Telefone e Pacote).');
+                if (!validateForm(finalPassageiros)) {
                     return;
                 }
                 
-                // Validação Regex do Telefone
-                if (!TELEFONE_REGEX.test(telefone)) {
-                    setErro('Por favor, insira um Telefone/WhatsApp válido (10 ou 11 dígitos, apenas números e com DDD).');
-                    return;
-                }
-
-                if (finalPassageiros < 1) {
-                    setErro('O número de passageiros deve ser no mínimo 1.');
-                    return;
-                }
-                
-                setLoading(true);
+                setLoadingLead(true);
 
                 const formData = {
                     nome, telefone, pacoteSelecionado, dataViagem, passageiros: finalPassageiros
                 };
 
-                // 2. Tenta capturar o lead
+                // Enviando Lead para /capturar_lead
                 try {
-                    const response = await fetch(API_URL, {
+                    const response = await fetch(API_LEAD_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(formData)
@@ -96,51 +164,40 @@
 
                     if (!response.ok) {
                         const result = await response.json();
-                        console.error("Erro ao salvar o lead no servidor:", result.message);
-                        // Continua mesmo com erro no servidor para garantir a conversão no WhatsApp
+                        console.error("Erro ao salvar o lead no servidor (Python/Automação):", result.message);
                     }
                     
-                    // 3. Montagem da Mensagem e Redirecionamento para o WhatsApp
+                    // Montagem da Mensagem e Redirecionamento
                     let mensagem = `Olá, FSR Viagens & Turismo! Meu nome é ${nome}.`;
                     mensagem += `\n*Telefone:* ${telefone}`;
                     mensagem += `\n*Interesse no pacote:* ${pacoteSelecionado}`;
                     mensagem += `\n*Quantidade de passageiros:* ${finalPassageiros}`; 
                     
                     if (dataViagem) {
-                        // Formatação da data para o WhatsApp
-                        mensagem += `\n*Data pretendida:* ${new Date(dataViagem).toLocaleDateString('pt-BR', {timeZone: 'UTC'})}`;
+                        const dataFormatada = new Date(dataViagem).toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+                        mensagem += `\n*Data pretendida:* ${dataFormatada}`;
                     } else {
                         mensagem += `\n**IMPORTANTE:** Data ainda a definir, gostaria de ver as opções.`;
                     }
                     
-                    mensagem += `\n\n*Aguardando o retorno!*`;
+                    mensagem += `\n\n*Aguardando o retorno prioritário!*`;
 
                     const encodedMessage = encodeURIComponent(mensagem);
                     const whatsappURL = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodedMessage}`;
 
                     window.open(whatsappURL, '_blank');
                     
-                    // Limpar formulário após o redirecionamento
-                    setNome('');
-                    setTelefone('');
-                    setPacoteSelecionado('');
-                    setDataViagem('');
-                    setPassageiros(1);
-
                 } catch (error) {
                     setErro('Erro de comunicação. Por favor, verifique sua conexão ou tente novamente.');
                     console.error("Erro de rede:", error);
                 } finally {
-                    setLoading(false);
+                    setLoadingLead(false);
                 }
             };
 
             return (
                 <div className="container form-container">
                     <header className="header__content">
-                        {/* O caminho deve ser relativo ao seu servidor. 
-                            Se o arquivo estiver em /static/logo_fsr0.webp, o caminho abaixo está correto.
-                        */}
                         <img 
                             src="/static/logo_fsr0.webp" 
                             alt="FSR Viagens & Turismo Logo" 
@@ -158,93 +215,88 @@
 
                     <form onSubmit={handleWhatsAppRedirect} className="form">
                         
-                        <fieldset className="form__fieldset">
+                        <fieldset className="form__fieldset" disabled={pacotesLoading}> 
                             <legend className="form__legend">1. Selecione o Pacote *</legend>
                             <div className="form__group">
                                 <label htmlFor="pacote-select">Pacote de Interesse:</label>
-                                <select
-                                    id="pacote-select"
-                                    value={pacoteSelecionado}
-                                    onChange={(e) => setPacoteSelecionado(e.target.value)}
-                                    required
-                                >
-                                    <option value="">-- Escolha um destino --</option>
-                                    {pacotesExemplo.map((pacote) => (
-                                        <option key={pacote.id} value={pacote.nome}>
-                                            {pacote.nome} (Saída: {pacote.saida})
-                                        </option>
-                                    ))}
-                                </select>
+                                
+                                {/* ESTADO DE CARREGAMENTO DOS PACOTES */}
+                                {pacotesLoading && (
+                                    <p className="loading-message">
+                                        <i className="fas fa-spinner fa-spin"></i> Carregando opções de pacotes (simulando 3s)...
+                                    </p>
+                                )}
+
+                                {/* MENSAGEM DE ERRO DOS PACOTES */}
+                                {erroPacotes && (
+                                    <p className="error-message">{erroPacotes}</p>
+                                )}
+
+                                {/* SELETOR DE PACOTES CARREGADOS */}
+                                {!pacotesLoading && pacotes.length > 0 && (
+                                    <select
+                                        id="pacote-select"
+                                        value={pacoteSelecionado}
+                                        onChange={(e) => setPacoteSelecionado(e.target.value)}
+                                        required
+                                    >
+                                        <option value="">-- Escolha um destino --</option>
+                                        {pacotes.map((pacote) => (
+                                            <option key={pacote.id} value={pacote.nome}>
+                                                {pacote.nome} (Saída: {pacote.saida})
+                                            </option>
+                                        ))}
+                                    </select>
+                                )}
+                                
+                                {/* Caso o loading termine e não haja pacotes */}
+                                {!pacotesLoading && pacotes.length === 0 && !erroPacotes && (
+                                    <p className="error-message">Nenhum pacote disponível no momento. Tente novamente mais tarde.</p>
+                                )}
+
                             </div>
                         </fieldset>
                         
+                        {/* Campos de Dados Pessoais e Detalhes da Viagem */}
                         <fieldset className="form__fieldset">
                             <legend className="form__legend">2. Seus Dados *</legend>
-                            
                             <div className="form__group">
                                 <label htmlFor="nome-input">Nome Completo:</label>
-                                <input
-                                    id="nome-input"
-                                    type="text"
-                                    value={nome}
-                                    onChange={(e) => setNome(e.target.value)}
-                                    placeholder="Seu nome aqui"
-                                    required
-                                />
+                                <input id="nome-input" type="text" value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Seu nome aqui" required/>
                             </div>
-                            
                             <div className="form__group">
                                 <label htmlFor="telefone-input">WhatsApp (apenas números, com DDD):</label>
-                                <input
-                                    id="telefone-input"
-                                    type="tel"
-                                    value={telefone}
-                                    onChange={(e) => setTelefone(e.target.value.replace(/[^0-9]/g, ''))} 
-                                    placeholder="Ex: 61983163710"
-                                    minLength="10"
-                                    maxLength="11"
-                                    required
-                                />
-                                <small className="help-text">
-                                    *Apenas números, com DDD (Ex: 61983163710).
-                                </small>
+                                <input id="telefone-input" type="tel" value={telefone} onChange={(e) => setTelefone(e.target.value.replace(/[^0-9]/g, ''))} placeholder="Ex: 61983163710" minLength="10" maxLength="11" required/>
+                                <small className="help-text">*Apenas números, com DDD (Ex: 61983163710).</small>
                             </div>
                         </fieldset>
 
                         <fieldset className="form__fieldset">
                             <legend className="form__legend">3. Detalhes da Viagem</legend>
-                            
                             <div className="form__group">
                                 <label htmlFor="passageiros-input">Quantidade de Passageiros *:</label>
-                                <input
-                                    id="passageiros-input"
-                                    type="number"
-                                    min="1"
-                                    value={passageiros} 
-                                    onChange={handlePassageirosChange}
-                                    required
-                                />
+                                <input id="passageiros-input" type="number" min="1" value={passageiros} onChange={handlePassageirosChange} required/>
                             </div>
-
                             <div className="form__group">
                                 <label htmlFor="data-viagem-input">Data Preferencial:</label>
-                                <input
-                                    id="data-viagem-input"
+                                <input 
+                                    id="data-viagem-input" 
                                     type="date" 
-                                    value={dataViagem}
-                                    onChange={(e) => setDataViagem(e.target.value)}
+                                    value={dataViagem} 
+                                    onChange={(e) => setDataViagem(e.target.value)} 
+                                    min={minDate}
                                 />
-                                <small className="help-text">
-                                    Se não tiver certeza, deixe em branco. Encontraremos a melhor data para você!
-                                </small>
+                                <small className="help-text">*A data deve ter no mínimo 4 dias de antecedência para a organização da viagem.</small>
                             </div>
                         </fieldset>
 
                         {/* Acessibilidade para mensagens de erro */}
                         {erro && <p className="error-message" role="alert" aria-live="assertive" aria-atomic="true">{erro}</p>}
 
-                        <button type="submit" className="btn btn--cta" disabled={loading}>
-                            <i className="fab fa-whatsapp"></i> {loading ? 'Enviando e Conectando...' : 'Falar com Consultor (Atendimento Prioritário)'}
+                        <button type="submit" className="btn btn--cta" disabled={loadingLead || pacotesLoading}>
+                            <i className="fab fa-whatsapp"></i> 
+                            {pacotesLoading ? 'Aguarde o carregamento dos pacotes...' : 
+                            loadingLead ? 'Enviando e Conectando...' : 'Falar com Consultor (Atendimento Prioritário)'}
                         </button>
                     </form>
                     
