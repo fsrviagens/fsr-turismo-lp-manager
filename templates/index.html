@@ -35,12 +35,12 @@
             const [telefone, setTelefone] = React.useState('');
             const [pacoteSelecionado, setPacoteSelecionado] = React.useState('');
             const [dataViagem, setDataViagem] = React.useState('');
-            // CORREÇÃO 3 (Parte 1): O estado pode começar como 1 ou ser string vazia para melhor UX
+            // O estado pode começar como 1 ou ser string vazia para melhor UX
             const [passageiros, setPassageiros] = React.useState(1); 
             const [erro, setErro] = React.useState('');
             const [loading, setLoading] = React.useState(false);
 
-            // CORREÇÃO 3 (Parte 2): Lógica para permitir apagar o campo e corrigir o 'NaN'
+            // CORREÇÃO 3: Lógica para permitir apagar o campo e corrigir o 'NaN'
             const handlePassageirosChange = (e) => {
                 const value = e.target.value;
                 
