@@ -3,27 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FSR Viagens | Escolha seu Pacote e Fale Conosco</title>
+    <title>FSR Viagens | Consultoria Especializada e Pacotes Exclusivos (5% OFF)</title>
     
     <link rel="stylesheet" href="/static/style.css"> 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <meta name="description" content="Consultoria de viagens especializada desde 2004. Escolha seu pacote FSR e garanta 5% de comissão no fechamento imediato.">
+
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-</head>
+    
+    </head>
 <body>
     <div id="root">
-        </div>
+    </div>
 
     <script type="text/babel">
         // Endpoints e Constantes
-        const API_PAC_URL = '/api/pacotes'; // Novo endpoint simulado para buscar os pacotes
+        const API_PAC_URL = '/api/pacotes'; 
         const WHATSAPP_NUMBER = '5561983163710';
         const API_LEAD_URL = '/capturar_lead';
         const TELEFONE_REGEX = /^\d{10,11}$/; 
+        
+        // Gatilho de Compra / Comissão
+        const PROSPECT_COMMISSION = '5%';
+        const BASE_COMMISSION = '10%'; 
+        
+        // Mapeamento de Descritivos (Para enriquecer a mensagem do WhatsApp)
+        const DESCRITIVOS_ROTEIROS = {
+            "Fortaleza com Praia da Lagoinha": "☀️ Fortaleza: Roteiro perfeito para quem ama sol, mar e aventura. Inclui a beleza rústica da Praia da Lagoinha e o agito da capital cearense.",
+            "Salvador com Morro de São Paulo": "🏝️ Salvador e Morro: Uma combinação imbatível de cidade histórica e ilha sem carros. Descanse e explore as famosas praias de Morro de São Paulo.",
+            "Egito 2X1 | Pacote 08 dias e 07 noites": "🐪 Egito: Viaje com quem entende! Pacote 2X1, uma jornada pela história milenar, pirâmides e cruzeiro pelo Nilo. Oportunidade única!",
+            "Réveillon na Tailândia com Festival das Lanternas": "🎇 Tailândia: Celebre o Réveillon com o mágico Festival das Lanternas (Yi Peng). Praias paradisíacas e templos milenares esperam por você. Exclusivo!",
+            "Lençóis Maranhenses - São Luís e Barreirinhas": "💧 Lençóis Maranhenses: Descubra a beleza surreal das lagoas entre dunas. Um ecoturismo inesquecível combinando São Luís e Barreirinhas.",
+            "Porto de Galinhas e Maragogi": "🐠 Porto de Galinhas e Maragogi: O melhor do Nordeste! Mergulhe nas piscinas naturais e desfrute do famoso 'Caribe Brasileiro'.",
+            "Réveillon 2026 - Costão do Santinho Resort": "🎉 Costão do Santinho: Réveillon All Inclusive em um dos resorts mais desejados do Brasil. Garanta sua vaga com as melhores condições.",
+            "Grand Turquia Extra 2026 Essencial": "🇹🇷 Turquia: Pacote Essencial pela Turquia, visitando Istambul, Capadócia e Pamukkale. Cultura, história e paisagens inesquecíveis.",
+            "Montevidéu Bloqueio Exclusivo": "🍷 Montevidéu: Bloqueio exclusivo para a capital uruguaia. História, gastronomia e vinhos em uma viagem charmosa e acessível.",
+            // **IMPORTANTE: ADICIONE MAIS CHAVES:VALORES AQUI** para o restante dos pacotes varridos.
+        };
 
         // Função utilitária para obter a data mínima permitida (hoje + 4 dias)
         const getMinDate = () => {
@@ -31,19 +51,16 @@
             date.setDate(date.getDate() + 4); 
             return date.toISOString().split('T')[0];
         };
-
-        // Dados MOCK: O backend Python fornecerá isso no futuro, mas mantemos o mock para testes
-        const DADOS_MOCK = [
-            { id: 1, nome: "Fortaleza com Praia da Lagoinha", saida: "Curitiba, Londrina e Cascavel" },
-            { id: 2, nome: "Salvador com Morro de São Paulo", saida: "Variadas" },
-            { id: 3, nome: "Egito 2X1 | Pacote 08 dias e 07 noites", saida: "São Paulo, Rio de Janeiro (Bloqueios)" },
-            { id: 4, nome: "Réveillon na Tailândia com Festival das Lanternas", saida: "Variadas" },
-            { id: 5, nome: "Lençóis Maranhenses - São Luís e Barreirinhas", saida: "Variadas" },
-            { id: 6, nome: "Porto de Galinhas e Maragogi", saida: "Londrina e Maringá" },
-            { id: 7, nome: "Réveillon 2026 - Costão do Santinho Resort", saida: "Florianópolis" },
-            { id: 8, nome: "Grand Turquia Extra 2026 Essencial", saida: "Variadas" },
-            { id: 9, nome: "Montevidéu Bloqueio Exclusivo", saida: "Variadas" },
-        ];
+        
+        // Função para obter o descritivo a partir do nome do pacote
+        const obterDescritivoRoteiro = (pacoteNomeCompleto) => {
+            // Tenta encontrar a chave no mapeamento, ignorando a Saída
+            // Ex: Transforma "Egito 2X1 | Pacote..." em "Egito 2X1 | Pacote 08 dias e 07 noites"
+            const nomeBase = pacoteNomeCompleto.split('|')[0].trim(); 
+            
+            // Retorna a descrição mapeada ou um fallback de consultoria
+            return DESCRITIVOS_ROTEIROS[nomeBase] || "✈️ Consultoria Exclusiva: Conte-nos seus sonhos para criarmos uma experiência Incomum, com 5% de comissão extra no fechamento imediato!";
+        };
 
         const LandingPageFSR = () => { 
             const [nome, setNome] = React.useState('');
@@ -62,31 +79,33 @@
             const minDate = React.useMemo(() => getMinDate(), []); 
 
             // ----------------------------------------------------
-            // USE EFFECT: Busca de pacotes (Simulação da Varredura)
+            // USE EFFECT: Busca de pacotes (Chamada Real do Backend)
             // ----------------------------------------------------
             React.useEffect(() => {
                 const fetchPacotes = async () => {
                     setPacotesLoading(true);
                     setErroPacotes('');
 
-                    // Simulação da chamada (3 segundos de atraso)
-                    setTimeout(async () => {
-                        try {
-                            // Substitua a linha abaixo por um FETCH REAL quando o backend Python estiver pronto:
-                            // const response = await fetch(API_PAC_URL);
-                            // const data = await response.json();
-                            // setPacotes(data);
-                            
-                            // Por enquanto, usa o MOCK:
-                            setPacotes(DADOS_MOCK);
-                            
-                        } catch (error) {
-                            console.error("Erro ao carregar pacotes:", error);
-                            setErroPacotes('Não foi possível carregar os pacotes. Tente novamente mais tarde.');
-                        } finally {
-                            setPacotesLoading(false);
+                    try {
+                        // CHAMA O ENDPOINT REAL (Gunicorn e Scraping)
+                        const response = await fetch(API_PAC_URL); 
+                        const data = await response.json();
+                        
+                        if (response.ok) {
+                            setPacotes(data);
+                        } else {
+                            // Erro retornado pelo backend
+                            setErroPacotes(data.message || 'Erro ao carregar os pacotes do servidor.');
+                            setPacotes([]); // Garante que a lista esteja vazia em caso de erro.
                         }
-                    }, 3000); // 3 SEGUNDOS DE ATRASO SIMULADO
+                        
+                    } catch (error) {
+                        console.error("Erro de rede ao carregar pacotes:", error);
+                        setErroPacotes('Falha de conexão. Por favor, tente recarregar a página.');
+                        setPacotes([]);
+                    } finally {
+                        setPacotesLoading(false);
+                    }
                 };
 
                 fetchPacotes();
@@ -114,24 +133,24 @@
 
             const validateForm = (finalPassageiros) => {
                 if (!nome || !telefone || !pacoteSelecionado) {
-                    setErro('Por favor, preencha todos os campos obrigatórios (Nome, Telefone e Pacote).');
+                    setErro('❌ Falta pouco! Por favor, preencha o Nome, Telefone e Pacote antes de prosseguir.');
                     return false;
                 }
                 
                 if (!TELEFONE_REGEX.test(telefone)) {
-                    setErro('Por favor, insira um Telefone/WhatsApp válido (10 ou 11 dígitos, apenas números e com DDD).');
+                    setErro('❌ Telefone inválido. Insira apenas os 10 ou 11 dígitos, incluindo o DDD (Ex: 61983163710).');
                     return false;
                 }
 
                 if (finalPassageiros < 1) {
-                    setErro('O número de passageiros deve ser no mínimo 1.');
+                    setErro('❌ O número de passageiros deve ser no mínimo 1.');
                     return false;
                 }
 
                 // VALIDAÇÃO DE DATA: Mínimo 4 dias de antecedência
                 if (dataViagem && dataViagem < minDate) {
                     const minDateFormatted = new Date(minDate).toLocaleDateString('pt-BR');
-                    setErro(`A data de viagem deve ser no mínimo ${minDateFormatted} (4 dias de antecedência para processamento).`);
+                    setErro(`❌ A data de viagem deve ser no mínimo ${minDateFormatted} (4 dias de antecedência para processamento).`);
                     return false;
                 }
                 
@@ -154,7 +173,33 @@
                     nome, telefone, pacoteSelecionado, dataViagem, passageiros: finalPassageiros
                 };
 
-                // Enviando Lead para /capturar_lead
+                // --- Geração do Descritivo e Mensagem para o WhatsApp ---
+                const descritivoRoteiro = obterDescritivoRoteiro(pacoteSelecionado);
+
+                let mensagem = `*PRIORIDADE - NOVO LEAD (SITE)*
+Olá, FSR Viagens & Turismo! Meu nome é ${nome}.
+Estou entrando em contato para garantir a comissão especial de ${PROSPECT_COMMISSION}%.
+
+*1. Pacote de Interesse:*
+✈️ *${pacoteSelecionado}*
+${descritivoRoteiro}
+
+*2. Detalhes da Solicitação:*
+- Passageiros: ${finalPassageiros}
+- Data Pretendida: ${dataViagem ? new Date(dataViagem).toLocaleDateString('pt-BR', {timeZone: 'UTC'}) : 'Ainda a definir (Gostaria de opções)'}
+
+*3. Dados do Lead (Para Funil Power BI):*
+- Nome: ${nome}
+- Telefone: ${telefone}
+- Ação: Fechamento Imediato (${PROSPECT_COMMISSION} OFF)
+`;
+
+                const encodedMessage = encodeURIComponent(mensagem);
+                const whatsappURL = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodedMessage}`;
+                // --- Fim da Mensagem ---
+
+
+                // Enviando Lead para /capturar_lead (Funil Power BI)
                 try {
                     const response = await fetch(API_LEAD_URL, {
                         method: 'POST',
@@ -164,31 +209,14 @@
 
                     if (!response.ok) {
                         const result = await response.json();
-                        console.error("Erro ao salvar o lead no servidor (Python/Automação):", result.message);
+                        console.error("Erro ao salvar o lead no servidor (Automação):", result.message);
                     }
                     
-                    // Montagem da Mensagem e Redirecionamento
-                    let mensagem = `Olá, FSR Viagens & Turismo! Meu nome é ${nome}.`;
-                    mensagem += `\n*Telefone:* ${telefone}`;
-                    mensagem += `\n*Interesse no pacote:* ${pacoteSelecionado}`;
-                    mensagem += `\n*Quantidade de passageiros:* ${finalPassageiros}`; 
-                    
-                    if (dataViagem) {
-                        const dataFormatada = new Date(dataViagem).toLocaleDateString('pt-BR', {timeZone: 'UTC'});
-                        mensagem += `\n*Data pretendida:* ${dataFormatada}`;
-                    } else {
-                        mensagem += `\n**IMPORTANTE:** Data ainda a definir, gostaria de ver as opções.`;
-                    }
-                    
-                    mensagem += `\n\n*Aguardando o retorno prioritário!*`;
-
-                    const encodedMessage = encodeURIComponent(mensagem);
-                    const whatsappURL = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodedMessage}`;
-
+                    // Sucesso: Abre o WhatsApp
                     window.open(whatsappURL, '_blank');
                     
                 } catch (error) {
-                    setErro('Erro de comunicação. Por favor, verifique sua conexão ou tente novamente.');
+                    setErro('❌ Erro de comunicação de rede. Por favor, verifique sua conexão ou tente novamente.');
                     console.error("Erro de rede:", error);
                 } finally {
                     setLoadingLead(false);
@@ -206,30 +234,36 @@
                             height="100" 
                         />
                         <h1 className="hero__headline">
-                            Escolha seu Pacote FSR e Fale Conosco!
+                            Pacotes Exclusivos com Consultoria Técnica Especializada
                         </h1>
                         <p className="hero__slogan">
-                            Preencha os dados abaixo para receber um atendimento **personalizado e prioritário** via WhatsApp.
+                            Sua viagem Incomum começa aqui! Selecione o roteiro e garanta um atendimento **prioritário** e a sua **Comissão Exclusiva**.
                         </p>
+                        
+                        {/* GATILHO DE ESCASSEZ E URGÊNCIA */}
+                        <div className="offer-banner">
+                            ✨ OFERTA RELÂMPAGO: Fechamento Imediato garante **${PROSPECT_COMMISSION}** de Comissão! (Comissão base: ${BASE_COMMISSION})
+                        </div>
                     </header>
 
                     <form onSubmit={handleWhatsAppRedirect} className="form">
                         
+                        {/* 1. Seleção do Pacote */}
                         <fieldset className="form__fieldset" disabled={pacotesLoading}> 
-                            <legend className="form__legend">1. Selecione o Pacote *</legend>
+                            <legend className="form__legend">1. Selecione a Viagem dos Seus Sonhos *</legend>
                             <div className="form__group">
                                 <label htmlFor="pacote-select">Pacote de Interesse:</label>
                                 
-                                {/* ESTADO DE CARREGAMENTO DOS PACOTES */}
+                                {/* ESTADO DE CARREGAMENTO REALISTA (UX OTIMIZADA) */}
                                 {pacotesLoading && (
                                     <p className="loading-message">
-                                        <i className="fas fa-spinner fa-spin"></i> Carregando opções de pacotes (simulando 3s)...
+                                        <i className="fas fa-plane fa-spin"></i> Varrendo as opções da Vitrine em tempo real...
                                     </p>
                                 )}
 
                                 {/* MENSAGEM DE ERRO DOS PACOTES */}
                                 {erroPacotes && (
-                                    <p className="error-message">{erroPacotes}</p>
+                                    <p className="error-message">{erroPacotes}. Tente recarregar ou consulte por WhatsApp.</p>
                                 )}
 
                                 {/* SELETOR DE PACOTES CARREGADOS */}
@@ -239,68 +273,77 @@
                                         value={pacoteSelecionado}
                                         onChange={(e) => setPacoteSelecionado(e.target.value)}
                                         required
+                                        title="Escolha um dos pacotes varridos diretamente da vitrine FSR."
                                     >
-                                        <option value="">-- Escolha um destino --</option>
+                                        <option value="">-- Escolha um Destino Irresistível --</option>
                                         {pacotes.map((pacote) => (
-                                            <option key={pacote.id} value={pacote.nome}>
+                                            <option key={pacote.id} value={`${pacote.nome} | Saída: ${pacote.saida}`}>
                                                 {pacote.nome} (Saída: {pacote.saida})
                                             </option>
                                         ))}
                                     </select>
                                 )}
                                 
-                                {/* Caso o loading termine e não haja pacotes */}
+                                {/* Fallback se não houver pacotes */}
                                 {!pacotesLoading && pacotes.length === 0 && !erroPacotes && (
-                                    <p className="error-message">Nenhum pacote disponível no momento. Tente novamente mais tarde.</p>
+                                    <p className="error-message">Nenhum pacote disponível. Por favor, entre em contato para **Consultoria Personalizada**.</p>
                                 )}
-
                             </div>
                         </fieldset>
                         
-                        {/* Campos de Dados Pessoais e Detalhes da Viagem */}
+                        {/* 2. Dados Pessoais */}
                         <fieldset className="form__fieldset">
-                            <legend className="form__legend">2. Seus Dados *</legend>
+                            <legend className="form__legend">2. Seus Dados * (Atendimento Prioritário)</legend>
                             <div className="form__group">
                                 <label htmlFor="nome-input">Nome Completo:</label>
-                                <input id="nome-input" type="text" value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Seu nome aqui" required/>
+                                <input id="nome-input" type="text" value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Seu nome (Obrigatório)" required/>
                             </div>
                             <div className="form__group">
                                 <label htmlFor="telefone-input">WhatsApp (apenas números, com DDD):</label>
-                                <input id="telefone-input" type="tel" value={telefone} onChange={(e) => setTelefone(e.target.value.replace(/[^0-9]/g, ''))} placeholder="Ex: 61983163710" minLength="10" maxLength="11" required/>
-                                <small className="help-text">*Apenas números, com DDD (Ex: 61983163710).</small>
+                                <input id="telefone-input" type="tel" value={telefone} onChange={(e) => setTelefone(e.target.value.replace(/[^0-9]/g, ''))} placeholder="Ex: 61983163710 (Obrigatório)" minLength="10" maxLength="11" required/>
+                                <small className="help-text">Prioridade no contato se for número de WhatsApp válido.</small>
                             </div>
                         </fieldset>
 
+                        {/* 3. Detalhes da Viagem */}
                         <fieldset className="form__fieldset">
-                            <legend className="form__legend">3. Detalhes da Viagem</legend>
+                            <legend className="form__legend">3. Detalhes da Viagem (Consultoria Especializada)</legend>
                             <div className="form__group">
                                 <label htmlFor="passageiros-input">Quantidade de Passageiros *:</label>
                                 <input id="passageiros-input" type="number" min="1" value={passageiros} onChange={handlePassageirosChange} required/>
                             </div>
                             <div className="form__group">
-                                <label htmlFor="data-viagem-input">Data Preferencial:</label>
+                                <label htmlFor="data-viagem-input">Data Preferencial (Mínimo 4 dias):</label>
                                 <input 
                                     id="data-viagem-input" 
                                     type="date" 
                                     value={dataViagem} 
                                     onChange={(e) => setDataViagem(e.target.value)} 
                                     min={minDate}
+                                    title="A data deve ter no mínimo 4 dias de antecedência."
                                 />
-                                <small className="help-text">*A data deve ter no mínimo 4 dias de antecedência para a organização da viagem.</small>
+                                <small className="help-text">Quanto mais detalhado, mais rápida a consultoria.</small>
                             </div>
                         </fieldset>
 
                         {/* Acessibilidade para mensagens de erro */}
-                        {erro && <p className="error-message" role="alert" aria-live="assertive" aria-atomic="true">{erro}</p>}
+                        {erro && <p className="error-message form__alert" role="alert" aria-live="assertive" aria-atomic="true">{erro}</p>}
 
                         <button type="submit" className="btn btn--cta" disabled={loadingLead || pacotesLoading}>
                             <i className="fab fa-whatsapp"></i> 
-                            {pacotesLoading ? 'Aguarde o carregamento dos pacotes...' : 
-                            loadingLead ? 'Enviando e Conectando...' : 'Falar com Consultor (Atendimento Prioritário)'}
+                            {loadingLead ? 'Processando dados e Conectando...' : 
+                            `Quero ${PROSPECT_COMMISSION} OFF! Falar com o Consultor Especialista`}
                         </button>
+                        
+                        <p className="final-call-to-action">
+                            <i className="fas fa-tag"></i> *Oferta por tempo limitado. O valor da comissão será aplicado no fechamento final do pacote.
+                        </p>
                     </form>
                     
                     <footer className="footer">
+                        <p className="expert-seal">
+                            Consultoria Técnica Especializada desde <i className="fas fa-user-tie"></i> **2004** | Seu desenvolvedor e vendedor com bagagem de mercado.
+                        </p>
                         <p>Atendimento Rápido e Personalizado | <span className="whatsapp-link">WhatsApp: {WHATSAPP_NUMBER}</span></p>
                         <p>&copy; 2023 FSR Viagens & Turismo. Todos os direitos reservados.</p>
                     </footer>
