@@ -39,18 +39,21 @@
         const PROSPECT_DISCOUNT = '5%';
 
         // --- DADOS PARA OS CARDS E FALLBACK ---
-        // Rotas de Imagens (URLs de Unsplash para demonstração)
+        // Rotas de Imagens de uso livre (Placeholder - Use imagens do seu servidor)
         const getImageUrl = (key) => {
             const IMAGENS = {
+                // IMAGENS ATUALIZADAS PELO CLIENTE (Root do repositório)
+                'Lençóis Maranhenses': 'Duna-e-agua-dos-lencois-Maranhenses.jpg', 
+                'Tailândia': 'Festival_Lanternas_Chiang_Mai_Tailandia_Fogos.jpg', 
+                'Gramado': 'GramadoSuaViagem-GrandeDesfileDeNatal2.webp', 
+                'Porto de Galinhas': 'dicas-de-porto-de-galinhas.jpg', 
+                'Salvador': 'tucamorais3.jpg', 
+                
+                // Imagens que mantêm os links de placeholder
                 'Fortaleza': 'https://images.unsplash.com/photo-1549419163-912a52af5f5d?w=400&h=200&fit=crop', 
-                'Salvador': 'https://images.unsplash.com/photo-1590494801198-fa3274291e2b?w=400&h=200&fit=crop', 
                 'Egito': 'https://images.unsplash.com/photo-1523451551525-2c8c5026c483?w=400&h=200&fit=crop', 
-                'Tailândia': 'https://images.unsplash.com/photo-1541888946950-891005b6370f?w=400&h=200&fit=crop', 
-                'Porto de Galinhas': 'https://images.unsplash.com/photo-1628178877526-9f7a77d7008d?w=400&h=200&fit=crop', 
                 'Turquia': 'https://images.unsplash.com/photo-1582035900554-75af47f2010c?w=400&h=200&fit=crop', 
-                'Customizado': 'https://images.unsplash.com/photo-1454486518536-54a86b3a0e63?w=400&h=200&fit=crop', 
-                'Lençóis Maranhenses': 'https://images.unsplash.com/photo-1616880004500-2d8329606822?w=400&h=200&fit=crop', 
-                'Gramado': 'https://images.unsplash.com/photo-1628373199839-a79669528d26?w=400&h=200&fit=crop', 
+                'Customizado': 'https://images.unsplash.com/photo-1454486518536-54a86b3a0e63?w=400&h=200&fit=crop', // Mapa/Globo
             };
             return IMAGENS[key] || IMAGENS['Customizado']; 
         };
@@ -119,7 +122,6 @@
             if (pacote.tipo === 'CONSULTORIA') {
                 return (
                     <div className="pacote-card card-consultoria">
-                        {/* A sintaxe 'className' está correta para JSX */}
                         <i className="fas fa-magic" style={{ fontSize: '40px', marginBottom: '15px' }}></i>
                         <h3>{pacote.nome}</h3>
                         <p>{pacote.desc}</p>
@@ -160,7 +162,6 @@
             return (
                 <div className="vitrine-pacotes">
                     <h2>Roteiros Sugeridos e Pacotes de Destaque <i className="fas fa-star"></i></h2>
-                    {/* A sintaxe 'style={{...}}' está correta para JSX */}
                     <p style={{textAlign: 'center', marginBottom: '25px', color: '#555'}}>Selecione abaixo o pacote que mais te agrada ou crie um sob medida com nossa consultoria.</p>
                     <div className="pacotes-grid">
                         {pacotesVisiveis.slice(0, 5).map(pacote => (
@@ -182,7 +183,7 @@
             const [erro, setErro] = React.useState('');
             const [loadingLead, setLoadingLead] = React.useState(false); 
             
-            const [pacotes, setPacotes] = React.useState(DADOS_FALLBACK); 
+            const [pacotes, setPacotes] = React.useState(DADOS_FALLBACK); // Usa o FALLBACK como inicial
             const [pacotesLoading, setPacotesLoading] = React.useState(true);
             const [destinoLivre, setDestinoLivre] = React.useState(''); 
 
@@ -205,7 +206,6 @@
                         const consultoriaOption = DADOS_FALLBACK.find(p => p.tipo === 'CONSULTORIA');
 
                         if (response.ok && Array.isArray(data) && data.length > 0) {
-                            // Adiciona a opção de consultoria aos pacotes da API
                             fetchedPacotes = [...data, consultoriaOption];
                         } else {
                             fetchedPacotes = DADOS_FALLBACK;
@@ -224,7 +224,6 @@
                         setPacotesLoading(false);
                     };
 
-                    // Garante que o estado de loading apareça por pelo menos 2.5s para uma melhor UX
                     if (elapsed < requiredDelay) {
                         setTimeout(finalAction, requiredDelay - elapsed);
                     } else {
@@ -332,7 +331,6 @@ ${descritivoRoteiro}
                 const whatsappURL = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodedMessage}`;
 
                 try {
-                    // Tenta enviar o Lead para a sua API (backend)
                     const response = await fetch(API_LEAD_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -341,17 +339,14 @@ ${descritivoRoteiro}
 
                     if (!response.ok) {
                         const result = await response.json();
-                        // Se falhar, apenas loga e segue o fluxo
                         console.error("Erro ao salvar o lead no servidor (Automação):", result.message);
                     }
                     
-                    // Redireciona para o WhatsApp, independentemente do sucesso do lead na API
                     window.open(whatsappURL, '_blank');
                     
                 } catch (error) {
-                    // Erro de rede na chamada da API de lead. O fluxo do WhatsApp ainda deve ocorrer.
                     console.error("Erro de rede no envio do lead:", error);
-                    window.open(whatsappURL, '_blank');
+                    window.open(whatsappURL, '_blank'); // Redireciona mesmo se a API de lead falhar
                 } finally {
                     setLoadingLead(false);
                 }
@@ -505,8 +500,6 @@ ${descritivoRoteiro}
         
         // Renderiza o componente React
         const container = document.getElementById('root');
-        // A sintaxe correta para o React 18 é ReactDOM.createRoot(container).render(<Componente />)
-        // Certifique-se de que a tag <div id="root"> está na sua página.
         if (container) {
             const root = ReactDOM.createRoot(container);
             root.render(<LandingPageFSR />);
