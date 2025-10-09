@@ -280,8 +280,8 @@ ${descritivoRoteiro}
                         
                         {/* GATILHO DE VENDA: DESCONTO VIP */}
                         <div className="offer-banner">
-                            ✨ OFERTA EXCLUSIVA: Sua primeira compra garante um **Desconto VIP de ${PROSPECT_DISCOUNT} OFF**!
-                        </div>
+                            ✨ OFERTA EXCLUSIVA: Sua primeira compra garante um **Desconto VIP de {PROSPECT_DISCOUNT} OFF**!
+                        </div> {/* CORRIGIDO: Removido o símbolo '$' da frente de ${PROSPECT_DISCOUNT} */}
                     </header>
 
                     <form onSubmit={handleWhatsAppRedirect} className="form">
@@ -386,8 +386,8 @@ ${descritivoRoteiro}
 {% endraw %}
                         
                         <p className="final-call-to-action">
-                            <i className="fas fa-tag"></i> *O **Desconto VIP** de ${PROSPECT_DISCOUNT} será aplicado no fechamento final do seu pacote exclusivo.
-                        </p>
+                            <i className="fas fa-tag"></i> *O **Desconto VIP** de {PROSPECT_DISCOUNT} será aplicado no fechamento final do seu pacote exclusivo.
+                        </p> {/* CORRIGIDO: Removido o símbolo '$' da frente de ${PROSPECT_DISCOUNT} */}
                     </form>
                     
                     <footer className="footer">
