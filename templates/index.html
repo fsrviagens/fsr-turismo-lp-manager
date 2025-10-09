@@ -16,104 +16,11 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
     <style>
-        /* CSS BÁSICO PARA OS NOVOS COMPONENTES (Ajuste isso no seu style.css) */
-        .vitrine-pacotes {
-            margin-top: 25px;
-            padding: 20px;
-            background: #f8f8f8;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .vitrine-pacotes h2 {
-            text-align: center;
-            color: #007bff; /* Azul primário */
-            margin-bottom: 20px;
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 10px;
-        }
-        .pacotes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        .pacote-card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-        .pacote-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-        .pacote-card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-        .pacote-content {
-            padding: 15px;
-            flex-grow: 1;
-        }
-        .pacote-content h3 {
-            color: #343a40;
-            margin-top: 0;
-            font-size: 1.2em;
-        }
-        .pacote-content p {
-            font-size: 0.9em;
-            color: #6c757d;
-            margin-bottom: 10px;
-            min-height: 40px; 
-        }
-        .pacote-content .saida {
-            font-weight: bold;
-            color: #28a745; 
-            display: block;
-            margin-bottom: 10px;
-        }
-        .pacote-card .btn-selecionar {
-            background-color: #ffc107; 
-            color: #212529;
-            border: none;
-            padding: 10px 15px;
-            width: 100%;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.2s;
-            margin-top: auto; 
-            border-radius: 0 0 8px 8px;
-        }
-        .pacote-card .btn-selecionar:hover {
-            background-color: #e0a800;
-        }
-        /* Estilo para a opção de Consultoria no card */
-        .card-consultoria {
-            background: #007bff;
-            color: white;
-            border: 2px dashed #ffc107;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        .card-consultoria h3 {
-            color: white;
-            font-size: 1.4em;
-        }
-        .card-consultoria p {
-            color: #cce5ff;
-            font-size: 1em;
-            margin-bottom: 20px;
-        }
-        .card-consultoria .btn-selecionar {
-            background-color: #ffc107; 
-        }
+        /* Estes estilos estão redundantes no style.css, mas são mantidos aqui como fallback temporário */
+        .pacote-card, .card-consultoria { min-height: 430px; } 
+        .pacote-card img { height: 180px; object-fit: cover; }
+        .pacote-content h3 { min-height: 40px; }
+        .pacote-content p { min-height: 60px; } 
     </style>
 </head>
 <body>
@@ -121,6 +28,7 @@
     </div>
 
     <script type="text/babel">
+{% raw %}
         // Endpoints e Constantes
         const API_PAC_URL = '/api/pacotes'; 
         const WHATSAPP_NUMBER = '5561983163710';
@@ -130,7 +38,7 @@
         // Gatilho de Compra / Desconto VIP
         const PROSPECT_DISCOUNT = '5%';
 
-        // --- DADOS PARA OS CARDS E FALLBACK (Incluindo mais opções e Imagens) ---
+        // --- DADOS PARA OS CARDS E FALLBACK ---
         // Rotas de Imagens de uso livre (Placeholder - Use imagens do seu servidor)
         const getImageUrl = (key) => {
             const IMAGENS = {
@@ -164,7 +72,7 @@
         ];
         // -----------------------------------------------------
 
-        // Mapeamento de Descritivos (Para enriquecer a mensagem do WhatsApp) - Mantidos
+        // Mapeamento de Descritivos (Para enriquecer a mensagem do WhatsApp)
         const DESCRITIVOS_ROTEIROS = {
             "Fortaleza com Praia da Lagoinha": "☀️ Roteiro perfeito para quem ama sol, mar e aventura. Inclui a beleza rústica da Praia da Lagoinha e o agito da capital cearense.",
             "Salvador com Morro de São Paulo": "🏝️ Uma combinação imbatível de cidade histórica e ilha sem carros. Descanse e explore as famosas praias de Morro de São Paulo.",
@@ -200,3 +108,398 @@
             if (pacoteFallback && pacoteFallback.desc) {
                 return pacoteFallback.desc;
             }
+            
+            return `✈️ Consultoria Exclusiva: Conte-nos seus sonhos para criarmos uma experiência Incomum e aplicarmos seu ${PROSPECT_DISCOUNT} de Desconto VIP!`;
+        };
+        
+        // --- NOVO COMPONENTE: Card de Pacote Individual ---
+        const PacoteCard = ({ pacote, onSelect }) => {
+            const nomeCompleto = pacote.nome + (pacote.saida ? ` | Saída: ${pacote.saida}` : '');
+            
+            if (pacote.tipo === 'CONSULTORIA') {
+                return (
+                    <div className="pacote-card card-consultoria">
+                        <i className="fas fa-magic" style={{ fontSize: '40px', marginBottom: '15px' }}></i>
+                        <h3>{pacote.nome}</h3>
+                        <p>{pacote.desc}</p>
+                        <button 
+                            className="btn-selecionar" 
+                            onClick={() => onSelect(pacote.nome)}
+                        >
+                            <i className="fas fa-tools"></i> Planejar Meu Roteiro
+                        </button>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="pacote-card">
+                    <img src={getImageUrl(pacote.imgKey)} alt={`Imagem de ${pacote.nome}`} loading="lazy" />
+                    <div className="pacote-content">
+                        <h3><i className={`fas fa-${pacote.tipo === 'NACIONAL' ? 'plane-departure' : 'globe-americas'}`}></i> {pacote.nome}</h3>
+                        <p>{pacote.desc}</p>
+                        <span className="saida">Saída: {pacote.saida || 'Variável'}</span>
+                    </div>
+                    <button 
+                        className="btn-selecionar" 
+                        onClick={() => onSelect(nomeCompleto)}
+                    >
+                        Selecionar e Garantir Desconto VIP
+                    </button>
+                </div>
+            );
+        };
+        
+        // --- NOVO COMPONENTE: Vitrine (Container) ---
+        const VitrinePacotes = ({ pacotes, onSelect }) => {
+            // Separa os pacotes e a opção de consultoria
+            const consultoria = pacotes.find(p => p.tipo === 'CONSULTORIA');
+            const pacotesVisiveis = pacotes.filter(p => p.tipo !== 'CONSULTORIA');
+
+            return (
+                <div className="vitrine-pacotes">
+                    <h2>Roteiros Sugeridos e Pacotes de Destaque <i className="fas fa-star"></i></h2>
+                    <p style={{textAlign: 'center', marginBottom: '25px', color: '#555'}}>Selecione abaixo o pacote que mais te agrada ou crie um sob medida com nossa consultoria.</p>
+                    <div className="pacotes-grid">
+                        {pacotesVisiveis.slice(0, 5).map(pacote => (
+                            <PacoteCard key={pacote.id} pacote={pacote} onSelect={onSelect} />
+                        ))}
+                        {consultoria && <PacoteCard pacote={consultoria} onSelect={onSelect} />}
+                    </div>
+                </div>
+            );
+        };
+        
+        // --- COMPONENTE PRINCIPAL ---
+        const LandingPageFSR = () => { 
+            const [nome, setNome] = React.useState('');
+            const [telefone, setTelefone] = React.useState('');
+            const [pacoteSelecionado, setPacoteSelecionado] = React.useState('');
+            const [dataViagem, setDataViagem] = React.useState('');
+            const [passageiros, setPassageiros] = React.useState(1); 
+            const [erro, setErro] = React.useState('');
+            const [loadingLead, setLoadingLead] = React.useState(false); 
+            
+            const [pacotes, setPacotes] = React.useState(DADOS_FALLBACK); // Usa o FALLBACK como inicial
+            const [pacotesLoading, setPacotesLoading] = React.useState(true);
+            const [destinoLivre, setDestinoLivre] = React.useState(''); 
+
+            const minDate = React.useMemo(() => getMinDate(), []); 
+
+            // ----------------------------------------------------
+            // USE EFFECT: Busca de pacotes (Com Pausa Mínima Otimizada: 2.5s)
+            // ----------------------------------------------------
+            React.useEffect(() => {
+                const fetchPacotes = async () => {
+                    setPacotesLoading(true); 
+                    
+                    const startTime = Date.now(); 
+                    let fetchedPacotes = [];
+
+                    try {
+                        const response = await fetch(API_PAC_URL); 
+                        const data = await response.json();
+                        
+                        const consultoriaOption = DADOS_FALLBACK.find(p => p.tipo === 'CONSULTORIA');
+
+                        if (response.ok && Array.isArray(data) && data.length > 0) {
+                            fetchedPacotes = [...data, consultoriaOption];
+                        } else {
+                            fetchedPacotes = DADOS_FALLBACK;
+                        }
+                        
+                    } catch (error) {
+                        console.error("Erro de rede ao carregar pacotes. Usando Fallback.", error);
+                        fetchedPacotes = DADOS_FALLBACK;
+                    }
+                    
+                    const elapsed = Date.now() - startTime;
+                    const requiredDelay = 2500; 
+
+                    const finalAction = () => {
+                        setPacotes(fetchedPacotes);
+                        setPacotesLoading(false);
+                    };
+
+                    if (elapsed < requiredDelay) {
+                        setTimeout(finalAction, requiredDelay - elapsed);
+                    } else {
+                        finalAction();
+                    }
+                };
+
+                fetchPacotes();
+            }, []);
+            // ----------------------------------------------------
+            
+            const handlePacoteChange = (value) => {
+                setPacoteSelecionado(value);
+                if (value !== 'Consultoria Personalizada / Outro Destino') {
+                    setDestinoLivre('');
+                } else if (value.includes('Consultoria Personalizada / Outro Destino')) {
+                    setPacoteSelecionado('Consultoria Personalizada / Outro Destino');
+                }
+            };
+            
+            const handlePassageirosChange = (e) => {
+                const value = e.target.value;
+                if (value === '') { setPassageiros(''); return; }
+                let num = parseInt(value);
+                if (!isNaN(num) && num >= 1) { setPassageiros(num); } 
+                else if (num < 1) { setPassageiros(1); }
+            };
+
+            const validateForm = (finalPacote, finalPassageiros) => {
+                if (!nome || !telefone || !finalPacote) {
+                    setErro('❌ Informações Cruciais Faltando! Por favor, preencha o Nome, Telefone e Pacote/Destino antes de prosseguir.');
+                    return false;
+                }
+                
+                if (!TELEFONE_REGEX.test(telefone)) {
+                    setErro('❌ Telefone inválido. Insira apenas os 10 ou 11 dígitos, incluindo o DDD (Ex: 61983163710).');
+                    return false;
+                }
+
+                if (finalPassageiros < 1) {
+                    setErro('❌ O número de passageiros deve ser no mínimo 1.');
+                    return false;
+                }
+
+                if (dataViagem && dataViagem < minDate) {
+                    const minDateFormatted = new Date(minDate).toLocaleDateString('pt-BR');
+                    setErro(`❌ A data de viagem deve ser no mínimo ${minDateFormatted} (4 dias de antecedência para processamento).`);
+                    return false;
+                }
+                
+                return true;
+            };
+
+            const handleWhatsAppRedirect = async (e) => {
+                e.preventDefault();
+                setErro('');
+                
+                const finalPassageiros = parseInt(passageiros) || 1;
+                
+                let finalPacote = pacoteSelecionado;
+                if (finalPacote === 'Consultoria Personalizada / Outro Destino' && destinoLivre.trim()) {
+                    finalPacote = `Consultoria Personalizada / Outro Destino: ${destinoLivre.trim()}`;
+                } else if (finalPacote === 'Consultoria Personalizada / Outro Destino' && !destinoLivre.trim()) {
+                    setErro('❌ Por favor, digite o destino desejado ou escolha um da lista.');
+                    return;
+                }
+                
+                if (!validateForm(finalPacote, finalPassageiros)) {
+                    return;
+                }
+                
+                setLoadingLead(true);
+
+                const formData = {
+                    nome, telefone, pacoteSelecionado: finalPacote, dataViagem, passageiros: finalPassageiros,
+                    origem_lead: 'LandingPage_VIP',
+                    data_captura: new Date().toISOString()
+                };
+
+                const descritivoRoteiro = obterDescritivoRoteiro(finalPacote);
+                
+                const dataFormatada = dataViagem 
+                    ? new Date(dataViagem).toLocaleDateString('pt-BR', {timeZone: 'UTC'}) 
+                    : '🗓️ A DEFINIR (Gostaria de opções)';
+
+                let mensagem = `*ATENDIMENTO PRIORITÁRIO - VIAJANTE SITE*
+
+Olá, Consultor Especializado da FSR Viagens! Meu nome é *${nome}* e meu WhatsApp é *${telefone}*.
+Tenho interesse em garantir meu *Desconto VIP de ${PROSPECT_DISCOUNT} OFF* na minha primeira compra e prosseguir com a consultoria.
+
+*1. Pacote de Interesse (Foco da Consultoria):*
+✈️ *${finalPacote}*
+${descritivoRoteiro}
+
+*2. Detalhes da Viagem:*
+- Passageiros: ${finalPassageiros}
+- Data Pretendida: ${dataFormatada}
+
+*3. Próximos Passos (Para o Consultor):*
+- Cliente já ciente do Desconto VIP e buscando fechar a consultoria.
+- Solicite a melhor data/horário para iniciar o planejamento estratégico.
+`;
+
+                const encodedMessage = encodeURIComponent(mensagem);
+                const whatsappURL = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodedMessage}`;
+
+                try {
+                    const response = await fetch(API_LEAD_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData)
+                    });
+
+                    if (!response.ok) {
+                        const result = await response.json();
+                        console.error("Erro ao salvar o lead no servidor (Automação):", result.message);
+                    }
+                    
+                    window.open(whatsappURL, '_blank');
+                    
+                } catch (error) {
+                    setErro('❌ Erro de comunicação de rede. Por favor, verifique sua conexão ou tente novamente.');
+                    console.error("Erro de rede:", error);
+                } finally {
+                    setLoadingLead(false);
+                }
+            };
+
+            return (
+                <div className="container form-container">
+                    <header className="header__content">
+                        <img 
+                            src="/static/logo_fsr0.webp" 
+                            alt="FSR Viagens & Turismo Logo" 
+                            className="logo__image"
+                            width="200"
+                            height="100" 
+                        />
+                        <h1 className="hero__headline">
+                            Pacotes com Consultoria Técnica e **Benefício VIP**
+                        </h1>
+                        <p className="hero__slogan">
+                            Sua viagem Incomum começa aqui! Selecione seu roteiro e garanta um atendimento **prioritário** e seu **Desconto Exclusivo**.
+                        </p>
+                        
+                        {/* GATILHO DE VENDA: DESCONTO VIP */}
+                        <div className="offer-banner">
+                            ✨ OFERTA EXCLUSIVA: Sua primeira compra garante um **Desconto VIP de {PROSPECT_DISCOUNT} OFF**!
+                        </div>
+                    </header>
+                    
+                    {/* INCLUSÃO DA VITRINE DE PACOTES */}
+                    {!pacotesLoading && (
+                        <VitrinePacotes 
+                            pacotes={pacotes} 
+                            onSelect={handlePacoteChange} 
+                        />
+                    )}
+
+                    <form onSubmit={handleWhatsAppRedirect} className="form">
+                        
+                        {/* 1. Seleção do Pacote */}
+                        <fieldset className="form__fieldset"> 
+                            <legend className="form__legend">1. Confirmação do Roteiro (Selecionado acima ou no seletor) *</legend>
+                            <div className="form__group">
+                                <label htmlFor="pacote-select">Pacote de Interesse:</label>
+                                
+                                {/* MENSAGEM DE CARREGAMENTO (Aparece se a vitrine não carregou) */}
+                                {pacotesLoading && (
+                                    <p className="loading-message loading-animation">
+                                        <i className="fas fa-spinner fa-spin"></i> **Analisando milhares de ofertas exclusivas** para encontrar o seu pacote ideal... Otimizando seu tempo!
+                                    </p>
+                                )}
+                                
+                                {/* SELETOR DE PACOTES */}
+                                {!pacotesLoading && (
+                                    <>
+                                        <select
+                                            id="pacote-select"
+                                            value={pacoteSelecionado}
+                                            onChange={(e) => handlePacoteChange(e.target.value)}
+                                            required
+                                            title="Escolha um dos pacotes varridos ou a opção de consultoria personalizada."
+                                        >
+                                            <option value="">-- Escolha um Destino Irresistível (Selecione um Card ou utilize o Seletor) --</option>
+                                            {/* OPÇÃO DE OUTRO DESTINO SEMPRE DISPONÍVEL */}
+                                            <option value="Consultoria Personalizada / Outro Destino">✈️ OUTRO DESTINO (Consultoria Personalizada / Desconto VIP)</option>
+                                            
+                                            {pacotes
+                                                .filter(p => p.tipo !== 'CONSULTORIA') // Não duplica a opção
+                                                .map((pacote) => (
+                                                <option key={pacote.id} value={`${pacote.nome} | Saída: ${pacote.saida || 'Variável'}`}>
+                                                    {pacote.nome} (Saída: {pacote.saida || 'Variável'})
+                                                </option>
+                                            ))}
+                                        </select>
+                                        
+                                        {/* CAMPO DE TEXTO LIVRE CONDICIONAL */}
+                                        {pacoteSelecionado === 'Consultoria Personalizada / Outro Destino' && (
+                                            <div style={{ marginTop: '10px' }}>
+                                                <input 
+                                                    type="text" 
+                                                    value={destinoLivre} 
+                                                    onChange={(e) => setDestinoLivre(e.target.value)} 
+                                                    placeholder="Digite o destino ou roteiro desejado (Ex: Patagônia em Janeiro, 2026)"
+                                                    required
+                                                />
+                                            </div>
+                                        )}
+                                    </>
+                                )}
+                            </div>
+                        </fieldset>
+                        
+                        {/* 2. Dados Pessoais */}
+                        <fieldset className="form__fieldset">
+                            <legend className="form__legend">2. Seus Dados * (Para Atendimento Prioritário Imediato)</legend>
+                            <div className="form__group">
+                                <label htmlFor="nome-input">Nome Completo:</label>
+                                <input id="nome-input" type="text" value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Seu nome (Obrigatório)" required/>
+                            </div>
+                            <div className="form__group">
+                                <label htmlFor="telefone-input">WhatsApp (apenas números, com DDD):</label>
+                                <input id="telefone-input" type="tel" value={telefone} onChange={(e) => setTelefone(e.target.value.replace(/[^0-9]/g, ''))} placeholder="Ex: 61983163710 (Obrigatório)" minLength="10" maxLength="11" required/>
+                                <small className="help-text">Garantimos a **prioridade** no contato se for um número de WhatsApp válido.</small>
+                            </div>
+                        </fieldset>
+
+                        {/* 3. Detalhes da Viagem */}
+                        <fieldset className="form__fieldset">
+                            <legend className="form__legend">3. Detalhes (Para Agilizar a Consultoria)</legend>
+                            <div className="form__group">
+                                <label htmlFor="passageiros-input">Quantidade de Viajantes *:</label>
+                                <input id="passageiros-input" type="number" min="1" value={passageiros} onChange={handlePassageirosChange} required/>
+                            </div>
+                            <div className="form__group">
+                                <label htmlFor="data-viagem-input">Data Preferencial para Viagem (Mínimo 4 dias):</label>
+                                <input 
+                                    id="data-viagem-input" 
+                                    type="date" 
+                                    value={dataViagem} 
+                                    onChange={(e) => setDataViagem(e.target.value)} 
+                                    min={minDate}
+                                    title="A data deve ter no mínimo 4 dias de antecedência para planejamento."
+                                />
+                                <small className="help-text">Selecione uma data para um orçamento mais preciso.</small>
+                            </div>
+                        </fieldset>
+
+                        {/* Acessibilidade para mensagens de erro e Botão CTA */}
+                        {erro && <p className="error-message form__alert" role="alert" aria-live="assertive" aria-atomic="true">{erro}</p>}
+
+                        <button type="submit" className="btn btn--cta" disabled={loadingLead || pacotesLoading || !pacoteSelecionado}>
+                            <i className="fab fa-whatsapp"></i> 
+                            {loadingLead ? 'Processando dados e Encaminhando ao Consultor...' : 
+                            `Falar com Especialista e Aplicar Meu Desconto VIP`}
+                        </button>
+
+                        <p className="final-call-to-action">
+                            <i className="fas fa-tag"></i> *O **Desconto VIP** de {PROSPECT_DISCOUNT} será aplicado no fechamento final do seu pacote exclusivo.
+                        </p>
+                    </form>
+                    
+                    <footer className="footer">
+                        <p className="expert-seal">
+                            Consultoria Técnica Especializada desde <i className="fas fa-user-tie"></i> **2004** | Seu especialista com vasta experiência de mercado.
+                        </p>
+                        <p>Atendimento Rápido e Personalizado | <span className="whatsapp-link">WhatsApp: {WHATSAPP_NUMBER}</span></p>
+                        <p>&copy; {new Date().getFullYear()} FSR Viagens & Turismo. Todos os direitos reservados.</p>
+                    </footer>
+                </div>
+            );
+        };
+        
+        // Renderiza o componente React
+        const container = document.getElementById('root');
+        const root = ReactDOM.createRoot(container);
+        root.render(<LandingPageFSR />);
+{% endraw %}
+    </script>
+</body>
+</html>
