@@ -1,16 +1,16 @@
 import os
 import psycopg2
+import time # Necessário para o tempo de pausa mínimo
 from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_cors import CORS 
-# import time # REMOVIDO: O time.sleep(3) não é mais necessário, pois o scraping gera a latência.
-# from pacotes_data import MOCK_PACOTES # REMOVIDO: Agora importamos a função de scraping real.
-from pacotes_data import realizar_web_scraping_da_vitrine # NOVO: Importa a função de scraping real
+from pacotes_data import realizar_web_scraping_da_vitrine # Importando a função de scraping real
 
 # --- Funções Auxiliares ---
 
 def corrigir_url_db(url):
     """
     Corrige o esquema da URL do banco de dados para ser compatível com o psycopg2.
+    O Render usa 'postgresql://', mas o psycopg2 prefere 'postgres://'.
     """
     if url and url.startswith("postgresql://"):
         return url.replace("postgresql://", "postgres://", 1)
@@ -22,27 +22,40 @@ CORS(app)
 # --- Fim da Configuração do App ---
 
 
-# --- ROTAS DA LANDING PAGE (REACT FRONTEND) ---
+# --- ROTAS DA LANDING PAGE (FRONTEND) ---
 
 # Rota para servir a página principal (index.html)
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# ENDPOINT: Rota para buscar os Pacotes (Busca REAL através do Web Scraping)
+# ENDPOINT: Rota para buscar os Pacotes (Varredura Real com Tempo Mínimo)
 @app.route('/api/pacotes', methods=['GET'])
 def get_pacotes():
+    
+    start_time = time.time() # Marca o tempo de início da requisição
+
     try:
-        # Chama a função de Web Scraping real da vitrine
+        # 1. Executa o Web Scraping real
         pacotes_atuais = realizar_web_scraping_da_vitrine()
+
+        end_time = time.time() # Marca o tempo de fim da execução
+        elapsed_time = end_time - start_time
         
-        # Retorna a lista de pacotes (pode ser vazia em caso de falha de scraping)
+        # 2. Garante um atraso mínimo para que o usuário veja o loading (melhor UX)
+        MIN_DELAY = 2.0 # Mínimo de 2.0 segundos de espera total
+        
+        if elapsed_time < MIN_DELAY:
+            # Pausa apenas o tempo que falta para atingir o mínimo
+            time.sleep(MIN_DELAY - elapsed_time)
+            
+        # 3. Retorna a lista de pacotes (preenchida ou vazia)
         return jsonify(pacotes_atuais), 200
 
     except Exception as e:
         print(f"ERRO CRÍTICO no endpoint /api/pacotes: {e}")
-        # Retorna lista vazia em caso de falha grave, para não quebrar o frontend.
-        return jsonify([]), 500
+        # Retorna lista vazia e status 500 para notificar o problema, mas sem quebrar o frontend.
+        return jsonify({"message": "Falha na varredura. Retornando lista vazia."}), 500
 
 
 # Rota para capturar o Lead (Endpoint da Automação)
@@ -57,6 +70,7 @@ def capturar_lead():
         destino = data.get('pacoteSelecionado')
         pessoas = data.get('passageiros')
         
+        # Garante que string vazia ('') se torne None (NULL no BD)
         data_viagem_input = data.get('dataViagem')
         data_viagem = data_viagem_input if data_viagem_input else None 
         
@@ -69,8 +83,10 @@ def capturar_lead():
         db_url_corrigida = corrigir_url_db(os.environ.get('DATABASE_URL'))
         
         if not db_url_corrigida:
-            raise ValueError("DATABASE_URL não está configurada no ambiente.")
-
+            # Se não houver URL do BD, retorna sucesso para garantir o fluxo do WhatsApp
+            print("AVISO: DATABASE_URL não configurada. Lead NÃO SALVO no BD.")
+            return jsonify({'success': True, 'message': 'Lead capturado, mas BD indisponível.'}), 200
+            
         conn = psycopg2.connect(db_url_corrigida)
         cur = conn.cursor()
         
@@ -91,13 +107,14 @@ def capturar_lead():
         return jsonify({'success': True, 'message': 'Lead salvo com sucesso!'}), 200
 
     except Exception as e:
-        # Mantemos o retorno 200 para que o frontend SEMPRE abra o WhatsApp e não perca a conversão.
-        print(f"ERRO DE BANCO DE DADOS/SERVIDOR (Lead capturado via WhatsApp): {e}")
+        # Fluxo de Falha Elegante: Retorna 200 para que o frontend abra o WhatsApp
+        print(f"ERRO DE BANCO DE DADOS/SERVIDOR: {e}")
         return jsonify({'success': False, 'message': f'Erro no servidor ao salvar lead: {str(e)}'}), 200 
 
 
 # --- ROTAS DE GERENCIAMENTO ---
 
+# Rota para a página de leads (mantida)
 @app.route('/leads.html', methods=['GET'])
 def leads():
     try:
@@ -118,6 +135,7 @@ def leads():
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 500
 
+# Rota para configurar o banco de dados (Manutenção)
 @app.route('/setup')
 def setup_database():
     try:
@@ -144,4 +162,6 @@ def setup_database():
 # --- INICIALIZAÇÃO ---
 
 if __name__ == '__main__':
+    # Roda com o servidor de desenvolvimento do Flask.
+    # Em produção (Render/Docker), o Gunicorn assume o controle.
     app.run(host='0.0.0.0', port=os.environ.get('PORT', 5000), debug=True)
