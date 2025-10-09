@@ -5,8 +5,8 @@
 
 :root {
     /* Cores FSR (Baseado na logo) */
-    --fsr-blue: #023e8a; /* Azul escuro da FSR */
-    --fsr-red: #e74c3c; /* Vermelho do arco/destaque */
+    --fsr-blue: #023e8a; /* Azul escuro da FSR (Cor Primária) */
+    --fsr-red: #e74c3c; /* Vermelho do arco/destaque (Cor Secundária/Alerta) */
     --primary-color: var(--fsr-blue);
     --secondary-color: var(--fsr-red);
     
@@ -96,27 +96,43 @@ h2 {
 
 /* --- ESTILOS DO FORMULÁRIO --- */
 
-.form-section {
-    border-bottom: 1px solid #eee;
-    padding-bottom: var(--space-lg);
+/* CORREÇÃO UX: Estiliza o novo fieldset/legend para melhor agrupamento */
+.form__fieldset {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: var(--space-md) var(--space-lg) var(--space-sm) var(--space-lg);
     margin-bottom: var(--space-lg);
 }
 
-.form-section:last-of-type {
+.form__legend {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 0 var(--space-sm);
+}
+/* FIM CORREÇÃO UX */
+
+
+.form-section {
+    /* REMOVIDO: Fieldset substitui esta quebra visual */
     border-bottom: none;
     padding-bottom: 0;
     margin-bottom: 0;
 }
 
-.form-section h3 {
+/* REMOVIDO: H3 não é mais usado; legend substitui */
+/* .form-section h3 {
     color: var(--primary-color);
     font-size: 1.2rem;
     margin-bottom: var(--space-md);
     font-weight: 600;
-}
+} */
+
 
 .form__group {
     margin-bottom: var(--space-md);
+    /* Adiciona um pouco de padding interno quando está dentro do fieldset */
+    padding-top: var(--space-sm);
 }
 
 .form__group label {
@@ -136,9 +152,9 @@ h2 {
 }
 
 .form input:focus, .form select:focus {
-    border-color: var(--secondary-color);
+    border-color: var(--primary-color); /* Foco Azul FSR */
     outline: none;
-    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2); /* Sombra vermelha do FSR */
+    box-shadow: 0 0 0 3px rgba(2, 62, 138, 0.2); 
 }
 
 /* Botão de Envio (WhatsApp) */
@@ -155,32 +171,40 @@ h2 {
     gap: var(--space-sm);
 }
 
-.btn--form {
+/* CORREÇÃO CTA: Unificação para .btn--cta (melhor nome) */
+.btn--cta {
     width: 100%;
     background: #25d366; /* Cor oficial do WhatsApp */
     color: var(--white);
     border-radius: 50px;
     font-size: 1.15rem;
-    margin-top: var(--space-md);
+    margin-top: var(--space-lg); /* Aumenta o espaçamento superior para destacar */
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    /* Garante que o ícone do WhatsApp apareça grande */
+    font-size: 1.25rem; 
 }
 
-.btn--form:hover:not(:disabled) {
+.btn--cta:hover:not(:disabled) {
     background-color: #1da851;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
-.btn--form:disabled {
+.btn--cta:disabled {
     background-color: #90a4ae;
     cursor: not-allowed;
 }
+/* FIM CORREÇÃO CTA */
 
 .error-message {
     color: var(--secondary-color);
     font-weight: 600;
     text-align: center;
+    margin-top: var(--space-md);
     margin-bottom: var(--space-md);
+    padding: var(--space-sm);
+    border: 1px dashed var(--secondary-color);
+    border-radius: 4px;
 }
 
 .help-text {
@@ -201,7 +225,7 @@ h2 {
     .hero__headline {
         font-size: 1.8rem;
     }
-    .btn--form {
+    .btn--cta { /* Usando o novo nome da classe */
         font-size: 1.05rem;
     }
 }
