@@ -184,7 +184,9 @@ h1.hero__headline {
 }
 /* FIM DA ANIMAÇÃO */
 
-/* --- VITRINE DE PACOTES (PacoteCard e VitrinePacotes) --- */
+/* ====================
+   3. Vitrine de Pacotes (PacoteCard e VitrinePacotes)
+   ==================== */
 
 .vitrine-pacotes {
     margin-top: var(--space-lg);
@@ -240,6 +242,10 @@ h1.hero__headline {
 
 .pacote-content {
     padding: var(--space-md);
+    /* **AJUSTE CRUCIAL:** Permite flexibilidade para posicionar o preço e o botão */
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-between;
     flex-grow: 1;
 }
 
@@ -268,6 +274,63 @@ h1.hero__headline {
     display: block;
     margin-bottom: var(--space-md);
 }
+
+/* ====================
+   4. Estilos do Preço e Bloco de Oferta (NOVO)
+   ==================== */
+
+.pacote-price-box {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid var(--alert-yellow); 
+    border-radius: 5px;
+    background-color: #fff9e6; /* Fundo suave */
+    text-align: right;
+}
+
+.price-label {
+    display: block;
+    font-size: 0.85em;
+    color: #555;
+    margin-bottom: 3px;
+}
+
+.price-value {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    font-weight: bold;
+    color: var(--primary-color); 
+}
+
+.installments {
+    font-size: 0.9em;
+    margin-right: 2px;
+}
+
+.main-price {
+    font-size: 1.8em;
+    line-height: 1;
+    color: var(--secondary-color); /* Destaque em vermelho */
+}
+
+.taxes {
+    font-size: 0.7em;
+    font-weight: normal;
+    color: #777;
+    margin-left: 5px;
+    align-self: flex-end;
+}
+
+.pacote-price-box small {
+    display: block;
+    font-size: 0.7em;
+    color: #777;
+    margin-top: 5px;
+    text-align: right;
+}
+/* FIM ESTILOS DE PREÇO */
+
 
 /* Botão de seleção dentro do card */
 .pacote-card .btn-selecionar {
@@ -424,7 +487,7 @@ h1.hero__headline {
 }
 
 /* ====================
-   3. Responsividade
+   5. Responsividade
    ==================== */
 @media (max-width: 650px) {
     .container.form-container {
@@ -452,6 +515,4 @@ h1.hero__headline {
     .pacotes-grid {
         gap: var(--space-lg);
     }
-
-    /* Remove a altura mínima forçada em cards mobile se necessário, mas mantive a original (430px) para consistência */
 }
