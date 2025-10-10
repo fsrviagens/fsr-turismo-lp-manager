@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FSR Viagens | Desconto VIP na 1ª Viagem e Consultoria Especializada</title>
     
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EB762TMB8T"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EB762TMB8T'); 
+    </script>
     <link rel="stylesheet" href="/static/style.css"> 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -507,6 +514,15 @@ ${descritivoRoteiro}
                         console.error("Erro ao salvar o lead no servidor (Automação):", result.message);
                     }
                     
+                    // 2. AJUSTE: DISPARO DO EVENTO DE CONVERSÃO NO GA4
+                    if (window.gtag) {
+                        gtag('event', 'whatsapp_lead', {
+                            'event_category': 'conversion',
+                            'event_label': finalPacote
+                        });
+                    }
+                    // FIM DO AJUSTE DE RASTREAMENTO
+
                     window.open(whatsappURL, '_blank');
                     
                 } catch (error) {
