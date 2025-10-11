@@ -1,5 +1,5 @@
 /* =========================================================
-   STYLE.CSS - REVISÃO FINAL FOCADA EM UX, BRANDING E COERÊNCIA VISUAL
+   STYLE.CSS - RETIFICADO: UX, BRANDING E COERÊNCIA VISUAL (Designer Experiente)
    ========================================================= */
 
 /* ====================
@@ -27,8 +27,8 @@
 
     /* Fontes e Tamanhos */
     --font-primary: 'Poppins', sans-serif;
-    --heading-size-1: 2.2rem; /* Ajuste para mobile-first */
-    --heading-size-2: 1.6rem; /* Títulos de seção */
+    --heading-size-1: 2.2rem; 
+    --heading-size-2: 1.6rem; 
     --text-size: 1rem;
     
     /* Espaçamentos */
@@ -37,7 +37,7 @@
     --space-lg: 30px;
     --space-md: 20px;
     --space-sm: 10px;
-    --border-radius-base: 10px; /* Leve aumento para uma sensação mais moderna */
+    --border-radius-base: 10px; 
 }
 
 * {
@@ -68,17 +68,24 @@ body {
    ==================== */
 
 .header__content {
-    /* Ajuste para centralizar o contêiner da logo na landing page */
-    text-align: center;
+    /* Centraliza os elementos filhos em blocos (como o logo-container) */
+    text-align: center; 
     margin-bottom: var(--space-lg);
-    background: transparent; /* Garante que o fundo do contêiner da logo seja o mesmo da página */
+    background: transparent; 
 }
 
+/* Container da Logo na Landing Page */
 .logo-container {
-    display: flex;
-    align-items: center;
-    justify-content: center; /* CENTRALIZAÇÃO ADICIONADA: Garantir centralização na landing page */
-    width: 100%;
+    display: block; /* Garante que 'margin: auto' funcione na div */
+    width: fit-content; /* Ocupa apenas o espaço do conteúdo */
+    margin: 0 auto 20px auto; /* CENTRALIZAÇÃO FORÇADA e espaçamento inferior */
+}
+.logo-container .logo {
+    /* AJUSTE DE TAMANHO */
+    height: 40px; /* Tamanho da logo ajustado para maior visibilidade */
+    width: auto;
+    margin: 0; /* Remove a margem direita que atrapalhava a centralização */
+    display: block; /* Necessário para que o margin auto centralize a div pai */
 }
 
 h1.hero__headline {
@@ -594,13 +601,15 @@ header {
     align-items: center;
 }
 
-.logo-container {
+/* Logo no Header Comum */
+header .logo-container {
     display: flex;
     align-items: center;
-    background-color: transparent; /* GARANTE: Fundo transparente para a logo */
+    background-color: transparent; 
+    margin: 0; /* Limpa a margem da landing page */
 }
 
-.logo-container .logo {
+header .logo-container .logo {
     height: 30px; 
     width: auto;
     margin-right: 10px;
@@ -645,9 +654,9 @@ nav ul li a.active:hover {
     background-color: var(--fsr-blue);
 }
 
-/* -- Footer Comum (Corrigido para Branding FSR) -- */
+/* -- Footer Comum (Retificado para Branding FSR) -- */
 footer {
-    background-color: var(--fsr-blue); /* CORREÇÃO: Usando Azul da Marca FSR */
+    background-color: var(--fsr-blue); /* Fundo Azul FSR */
     color: var(--white);
     padding: var(--space-lg) var(--space-xl);
     margin-top: var(--space-xxl);
@@ -665,7 +674,7 @@ footer .social-media {
 }
 
 footer h4 {
-    color: var(--alert-yellow); /* Mantendo um destaque com o amarelo */
+    color: var(--white); /* CORREÇÃO: Títulos em branco para visual clean */
     margin-bottom: var(--space-sm);
     font-weight: 600;
     font-size: 1.1em;
@@ -673,23 +682,28 @@ footer h4 {
 
 footer p {
     margin-bottom: 5px;
-    color: #ccc; /* Texto mais suave para contraste no fundo escuro */
+    color: #ccc; 
 }
 
+/* CORREÇÃO: Ícones gerais em branco, exceto WhatsApp específico */
 footer i {
     margin-right: 8px;
-    color: var(--whatsapp-green); 
+    color: var(--white); 
+}
+/* Destaque verde apenas para o link de WhatsApp no footer */
+footer .whatsapp-link i {
+    color: var(--whatsapp-green);
 }
 
 .social-media a {
-    color: var(--white);
+    color: var(--white); /* Ícones sociais em branco */
     font-size: 1.5rem;
     margin-right: 15px;
     transition: color 0.3s;
 }
 
 .social-media a:hover {
-    color: var(--fsr-red); /* Destaque na cor secundária da FSR */
+    color: var(--fsr-red); 
 }
 
 /* ====================
@@ -705,51 +719,21 @@ footer i {
         box-shadow: none; 
     }
     
+    /* Centralização da Logo Landing Page */
+    .logo-container {
+        margin: 0 auto 15px auto; 
+    }
+    .logo-container .logo {
+        height: 35px; /* Ajuste responsivo */
+    }
+    
     h1.hero__headline {
         font-size: 1.5rem;
     }
 
-    .info-destaque {
-        font-size: 1rem;
-    }
+    /* ... Outros estilos de Landing Page ... */
     
-    .vitrine-pacotes {
-        padding: var(--space-sm);
-    }
-    
-    .pacotes-grid {
-        grid-template-columns: 1fr; 
-        gap: 20px;
-    }
-    
-    .pacote-card {
-        min-height: auto; 
-        padding-bottom: 80px; 
-    }
-
-    .pacote-content p {
-        min-height: auto; 
-    }
-    
-    .card-consultoria {
-        min-height: auto;
-    }
-
-    .btn--cta {
-        font-size: 1.1em;
-        padding: 14px 20px;
-    }
-    
-    .main-price {
-        font-size: 1.6em; 
-    }
-    
-    .pacote-card .btn-selecionar {
-        padding: 10px var(--space-md); 
-        font-size: 0.95rem;
-    }
-
-    /* Responsividade do Header/Footer (Otimizado) */
+    /* Responsividade do Header/Footer */
     header {
         flex-direction: column;
         padding: 10px var(--space-sm);
@@ -757,17 +741,12 @@ footer i {
         align-items: flex-start; 
     }
     
-    .logo-container {
+    header .logo-container {
         width: 100%;
         justify-content: center;
         margin-bottom: 10px;
     }
     
-    .logo-container .logo {
-        height: 28px; 
-        width: auto; 
-    }
-
     nav {
         width: 100%;
     }
@@ -778,15 +757,6 @@ footer i {
         border-top: 1px solid #eee;
     }
     
-    nav ul li {
-        margin: 0 5px;
-    }
-    
-    nav ul li a {
-        padding: 6px 8px;
-        font-size: 0.9em;
-    }
-
     footer {
         flex-direction: column;
         align-items: center;
