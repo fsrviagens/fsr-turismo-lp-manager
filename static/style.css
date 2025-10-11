@@ -8,7 +8,7 @@
     --fsr-blue: #023e8a; /* Azul escuro da FSR (Cor Primária) */
     --fsr-red: #e74c3c; /* Vermelho do arco/destaque (Cor Secundária/Alerta) */
     --primary-color: #0056b3; /* Azul primário para títulos e bordas */
-    --secondary-color: var(--fsr-red); /* Vermelho para destaque de preço */
+    --secondary-color: var(--fsr-red); /* Vermelho para destaque de preço/alerta */
     
     /* Cores de Fundo e Texto */
     --text-color: #333;
@@ -110,7 +110,7 @@ h1.hero__headline {
     font-weight: bold; 
     color: var(--primary-color); 
     padding: 0 var(--space-sm);
-    margin-left: -5px; /* Alinha a legenda */
+    margin-left: -5px; 
 }
 .form__group {
     margin-bottom: var(--space-md);
@@ -131,7 +131,7 @@ h1.hero__headline {
     font-size: var(--text-size);
 }
 
-/* **NOVO: Estilo do Campo de Leitura (Pacote Selecionado)** */
+/* Estilo do Campo de Leitura (Pacote Selecionado) */
 .selected-pacote-display {
     width: 100%;
     padding: 12px;
@@ -143,13 +143,13 @@ h1.hero__headline {
 }
 
 .selected-pacote-display.is-selected {
-    background-color: #e6f7ff; /* Fundo azul claro para sucesso */
+    background-color: #e6f7ff; 
     border: 2px solid var(--primary-color);
     color: var(--primary-color);
 }
 
 .selected-pacote-display.not-selected {
-    background-color: #ffe0e0; /* Fundo vermelho claro para alerta */
+    background-color: #ffe0e0; 
     border: 2px solid var(--secondary-color);
     color: var(--secondary-color);
 }
@@ -265,10 +265,10 @@ h1.hero__headline {
     
     background: var(--white);
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease; /* Transição para seleção */
+    transition: all 0.3s ease; 
 }
 
-/* **NOVO: ESTILO DO CARD SELECIONADO (Feedback UX)** */
+/* ESTILO DO CARD SELECIONADO (Feedback UX) */
 .pacote-card--selecionado {
     border: 3px solid var(--primary-color) !important; 
     box-shadow: 0 5px 15px rgba(0, 86, 179, 0.5); 
@@ -298,13 +298,28 @@ h1.hero__headline {
 .pacote-content h3 {
     color: var(--primary-color);
     font-size: 1.15em;
-    font-weight: 600;
+    font-weight: 700; /* Aumentado para 700 */
     min-height: 40px;
+    margin-bottom: 5px; /* Adicionado margem */
 }
 .pacote-content h3 i {
     margin-right: 5px;
     color: var(--alert-yellow);
 }
+
+/* NOVO: Estilo da Duração/Saída */
+.card-duracao {
+    font-size: 0.85em;
+    color: #777;
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+    padding-left: 5px;
+}
+.card-duracao i {
+    color: var(--primary-color);
+    margin-right: 5px;
+}
+
 
 .pacote-content p {
     font-size: 0.9em;
@@ -313,19 +328,20 @@ h1.hero__headline {
     min-height: 60px; 
 }
 
-.pacote-content .saida {
+/* Removido o estilo .saida, pois foi incorporado ao .card-duracao */
+/* .pacote-content .saida {
     font-weight: 700;
     color: #28a745; 
     display: block;
     margin-bottom: var(--space-md);
-}
+} */
 
 .pacote-card .btn-selecionar {
     /* Botão de seleção DENTRO do card (vermelho) */
     width: calc(100% - 30px); 
     position: absolute; 
     bottom: 15px;
-    left: 15px; /* Centraliza melhor */
+    left: 15px; 
     
     background-color: var(--secondary-color); 
     color: var(--white);
@@ -353,11 +369,29 @@ h1.hero__headline {
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
-/* **NOVO: DESTAQUE DO DESCONTO VIP** */
+/* NOVO: Estilo do Preço Total/À Vista (De: R$ X.XXX) */
+.price-total-cash {
+    font-size: 0.85em; /* Ligeiramente menor que a parcela */
+    color: #777;
+    text-decoration: line-through; 
+    margin-bottom: 5px;
+    display: block;
+    text-align: right;
+}
+
+.price-label {
+    display: block;
+    font-size: 0.8em; 
+    color: #555;
+    margin-bottom: 3px;
+    text-transform: uppercase; /* Foco na parcela */
+    font-weight: 600;
+}
+
 .price-vip-discount {
     margin-top: 8px;
     padding: 5px;
-    background-color: var(--secondary-color); /* Vermelho forte */
+    background-color: var(--secondary-color); 
     color: var(--white);
     font-weight: 700;
     border-radius: 4px;
@@ -381,7 +415,7 @@ h1.hero__headline {
 .main-price {
     font-size: 1.8em;
     line-height: 1;
-    color: var(--secondary-color); /* Usando a variável */
+    color: var(--secondary-color); 
 }
 
 
@@ -408,7 +442,7 @@ h1.hero__headline {
 }
 
 .card-consultoria.pacote-card--selecionado {
-    border: 3px dashed var(--primary-color) !important; /* Borda pontilhada para consultoria selecionada */
+    border: 3px dashed var(--primary-color) !important; 
     box-shadow: 0 5px 15px rgba(0, 86, 179, 0.5); 
     transform: scale(1.02);
 }
@@ -454,8 +488,8 @@ h1.hero__headline {
     .container.form-container {
         margin: var(--space-md) auto;
         padding: var(--space-md);
-        border-radius: 0; /* Remove bordas arredondadas em telas pequenas */
-        box-shadow: none; /* Remove sombra em telas pequenas */
+        border-radius: 0; 
+        box-shadow: none; 
     }
     
     h1.hero__headline {
@@ -467,15 +501,25 @@ h1.hero__headline {
     }
     
     .pacotes-grid {
-        grid-template-columns: 1fr; /* Coluna única em mobile */
+        grid-template-columns: 1fr; 
         gap: 20px;
     }
     
     .pacote-card {
         min-height: 450px;
+        padding-bottom: 60px; /* Reduzido para mobile */
+    }
+
+    .pacote-content p {
+        min-height: auto; /* Permite que o texto flua em mobile */
     }
     
     .card-consultoria {
         min-height: auto;
+    }
+
+    .btn--cta {
+        font-size: 1.1em;
+        padding: 12px 20px;
     }
 }
