@@ -3,32 +3,56 @@ import psycopg2
 import time
 import smtplib
 from email.mime.text import MIMEText
+# Adicionado wraps para o decorator de segurança
+from functools import wraps 
 from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_cors import CORS 
-from pacotes_data import realizar_web_scraping_da_vitrine # Importando a função de scraping real
+from pacotes_data import realizar_web_scraping_da_vitrine 
 
-# --- Funções Auxiliares ---
+# --- Funções Auxiliares de Segurança e DB ---
 
 def corrigir_url_db(url):
     """
     Corrige o esquema da URL do banco de dados para ser compatível com o psycopg2.
-    O Supabase/Railway usa 'postgresql://', mas o psycopg2 prefere 'postgres://'.
     """
     if url and url.startswith("postgresql://"):
         return url.replace("postgresql://", "postgres://", 1)
     return url
 
+def auth_required(f):
+    """
+    Decorador personalizado para exigir autenticação HTTP Basic.
+    As credenciais são definidas nas variáveis de ambiente ADMIN_USER e ADMIN_PASS.
+    """
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        # As credenciais devem ser definidas como variáveis de ambiente no Railway
+        AUTH_USER = os.environ.get('ADMIN_USER')
+        AUTH_PASS = os.environ.get('ADMIN_PASS')
+        
+        # Tenta obter as credenciais da requisição
+        auth = request.authorization
+        
+        # Verifica se as credenciais estão corretas
+        if not auth or auth.username != AUTH_USER or auth.password != AUTH_PASS:
+            # Retorna o código 401 e exige o login Basic Auth
+            return ('Não Autorizado. Acesso Restrito.', 401, {
+                'WWW-Authenticate': 'Basic realm="Login Requerido"'
+            })
+            
+        return f(*args, **kwargs)
+    return decorated
+
 def enviar_alerta_lead(nome, whatsapp, destino):
     """
     Função do Robô de Prospecção: Envia um e-mail de alerta sobre o novo lead.
-    Utiliza as 5 Variáveis de Ambiente SMTP configuradas no Railway.
     """
     # 1. Recupera as variáveis de ambiente
     SMTP_SERVER = os.environ.get('SMTP_SERVER')
     SMTP_PORT = os.environ.get('SMTP_PORT')
-    SMTP_SENDER_EMAIL = os.environ.get('SMTP_SENDER_EMAIL') # leads@fsr.tur.br
-    SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD')         # Senha de Aplicativo Zoho
-    RECEIVER_EMAIL = os.environ.get('RECEIVER_EMAIL')       # O e-mail que recebe o alerta
+    SMTP_SENDER_EMAIL = os.environ.get('SMTP_SENDER_EMAIL') 
+    SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD')         
+    RECEIVER_EMAIL = os.environ.get('RECEIVER_EMAIL')       
     
     if not all([SMTP_SERVER, SMTP_PORT, SMTP_SENDER_EMAIL, SMTP_PASSWORD, RECEIVER_EMAIL]):
         print("AVISO: Variáveis SMTP incompletas. Alerta de e-mail NÃO ENVIADO.")
@@ -52,17 +76,16 @@ def enviar_alerta_lead(nome, whatsapp, destino):
         msg['From'] = SMTP_SENDER_EMAIL
         msg['To'] = RECEIVER_EMAIL
 
-        # 3. Conecta e envia o e-mail via Zoho Mail (ou outro SMTP)
-        # O smtplib.SMTP_SSL é frequentemente mais seguro e direto para o porto 465, mas mantive o TLS (starttls) se for o padrão (porta 587)
+        # 3. Conecta e envia o e-mail via SMTP
         with smtplib.SMTP(SMTP_SERVER, int(SMTP_PORT)) as server:
-            server.starttls()  # Inicia TLS para segurança
+            server.starttls() 
             server.login(SMTP_SENDER_EMAIL, SMTP_PASSWORD)
             server.sendmail(SMTP_SENDER_EMAIL, RECEIVER_EMAIL, msg.as_string())
         
         print(f"SUCESSO: Alerta de lead enviado para {RECEIVER_EMAIL}")
 
     except Exception as e:
-        print(f"ERRO CRÍTICO ao enviar e-mail de alerta (SMTP/Zoho): {e}")
+        print(f"ERRO CRÍTICO ao enviar e-mail de alerta (SMTP): {e}")
 
 
 # --- Configuração do App ---
@@ -78,80 +101,71 @@ CORS(app)
 def index():
     return render_template('index.html')
 
-# Rota para a Política de Privacidade (CORREÇÃO APLICADA AQUI)
+# Rota para a Política de Privacidade
 @app.route('/politica-de-privacidade.html')
 def politica_de_privacidade():
     return render_template('politica-de-privacidade.html')
 
-# Rota para a página de Obrigado (Adicionado para garantir o acesso)
+# Rota para a página de Obrigado
 @app.route('/obrigado.html')
 def obrigado():
     return render_template('obrigado.html')
 
-# Rota para a página de Cadastro (Adicionado para garantir o acesso)
+# Rota para a página de Cadastro
 @app.route('/cadastro.html')
 def cadastro():
     return render_template('cadastro.html')
 
 
-# ENDPOINT: Rota para buscar os Pacotes (Varredura Real com Tempo Mínimo)
+# ENDPOINT: Rota para buscar os Pacotes
 @app.route('/api/pacotes', methods=['GET'])
 def get_pacotes():
     
-    start_time = time.time() # Marca o tempo de início da requisição
+    start_time = time.time() 
     
     try:
         # 1. Executa o Web Scraping real
         pacotes_atuais = realizar_web_scraping_da_vitrine()
 
-        end_time = time.time() # Marca o tempo de fim da execução
+        end_time = time.time() 
         elapsed_time = end_time - start_time
         
-        # 2. Garante um atraso mínimo para que o usuário veja o loading (melhor UX)
-        MIN_DELAY = 2.0 # Mínimo de 2.0 segundos de espera total
+        MIN_DELAY = 2.0 
         
         if elapsed_time < MIN_DELAY:
-            # Pausa apenas o tempo que falta para atingir o mínimo
             time.sleep(MIN_DELAY - elapsed_time)
             
-        # 3. Retorna a lista de pacotes (preenchida ou vazia)
         return jsonify(pacotes_atuais), 200
 
     except Exception as e:
         print(f"ERRO CRÍTICO no endpoint /api/pacotes: {e}")
-        # Retorna lista vazia e status 500 para notificar o problema, mas sem quebrar o frontend.
         return jsonify({"message": "Falha na varredura. Retornando lista vazia."}), 500
 
 
-# Rota para capturar o Lead (Endpoint da Automação)
+# Rota para capturar o Lead
 @app.route('/capturar_lead', methods=['POST'])
 def capturar_lead():
     data = request.json 
     
-    # Variáveis de e-mail para uso na função de alerta (mesmo que o BD falhe)
     nome = data.get('nome', 'N/A')
     whatsapp = data.get('telefone', 'N/A')
     destino = data.get('pacoteSelecionado', 'N/A')
 
     try:
-        # Mapeamento e Tratamento de Campos do Formulário
         pessoas = data.get('passageiros')
         data_viagem_input = data.get('dataViagem')
         data_viagem = data_viagem_input if data_viagem_input else None 
         
-        # Campos que o novo formulário NÃO coleta (inseridos como NULL)
         email = None
         tipo_viagem = None
         orcamento = None
         
-        # Conectar ao banco de dados
         db_url_corrigida = corrigir_url_db(os.environ.get('DATABASE_URL'))
         
         if db_url_corrigida:
             conn = psycopg2.connect(db_url_corrigida)
             cur = conn.cursor()
             
-            # Inserir os dados na tabela 'cadastro'
             cur.execute(
                 """
                 INSERT INTO cadastro (nome, email, whatsapp, tipo_viagem, destino, orcamento, pessoas, data_viagem) 
@@ -168,30 +182,28 @@ def capturar_lead():
             print("AVISO: DATABASE_URL não configurada. Lead NÃO SALVO no BD.")
 
         
-        # --- NOVO PASSO: Dispara o Robô de Prospecção (E-mail) ---
+        # Dispara o Robô de Prospecção (E-mail)
         enviar_alerta_lead(nome, whatsapp, destino)
         
-        # Retorna sucesso para o Frontend (que então abrirá o WhatsApp)
         return jsonify({'success': True, 'message': 'Lead salvo e alerta enviado!'}), 200
 
     except Exception as e:
-        # Fluxo de Falha: Tenta enviar o alerta mesmo se o BD falhar (o Robô é a prioridade)
         print(f"ERRO DE BANCO DE DADOS/SERVIDOR: {e}")
-        enviar_alerta_lead(nome, whatsapp, destino) # Tenta enviar o alerta mesmo na falha
+        # Tenta enviar o alerta mesmo se o BD falhar
+        enviar_alerta_lead(nome, whatsapp, destino) 
         
-        # Retorna 200 para que o frontend abra o WhatsApp e não quebre a UX
         return jsonify({'success': False, 'message': f'Erro no servidor: {str(e)}'}), 200 
 
 
 # --- ROTAS DE GERENCIAMENTO ---
 
-# Rota para a página de leads (mantida)
+# Rota para a página de leads (AGORA PROTEGIDA)
 @app.route('/leads.html', methods=['GET'])
+@auth_required # <--- Decorador de segurança aplicado aqui!
 def leads():
     try:
         db_url_corrigida = corrigir_url_db(os.environ.get('DATABASE_URL'))
         if not db_url_corrigida:
-            # Renderiza a página com uma mensagem de erro no lugar dos leads
             error_message = [("ERRO: DATABASE_URL não configurada.", "", "", "", "")]
             return render_template('leads.html', leads=error_message), 500
             
@@ -207,7 +219,6 @@ def leads():
         
     except Exception as e:
         print(f"Erro ao carregar leads: {e}")
-        # Retorna a página com o erro para visualização
         error_message = [(f"ERRO AO CONECTAR/CONSULTAR BD: {str(e)}", "", "", "", "")]
         return render_template('leads.html', leads=error_message), 500
 
@@ -238,6 +249,4 @@ def setup_database():
 # --- INICIALIZAÇÃO ---
 
 if __name__ == '__main__':
-    # Roda com o servidor de desenvolvimento do Flask.
-    # Em produção (Railway), o Gunicorn assume o controle.
     app.run(host='0.0.0.0', port=os.environ.get('PORT', 5000), debug=True)
