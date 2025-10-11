@@ -461,23 +461,29 @@ h1.hero__headline {
     margin-top: 40px; 
     font-size: 0.9em; 
     
-    /* CORREÇÃO CRÍTICA: Garante que o texto tenha contraste no footer local */
-    color: var(--text-color); /* Força a cor escura */
+    /* CORREÇÃO CRÍTICA: Se o bloco final (azul escuro) usa a classe .footer, forçamos o texto claro */
+    color: var(--white); /* Força a cor clara para o texto de copyright e contato */
+
+    /* Garante que o fundo seja o azul escuro da marca FSR */
+    background-color: var(--fsr-blue); 
+    padding: var(--space-md); /* Adiciona padding interno */
+    border-radius: var(--border-radius-base); /* Adiciona bordas arredondadas */
     
-    /* AJUSTE ESSENCIAL PARA VISUALIZAÇÃO CORRETA EM MOBILE */
+    /* AJUSTES DE MARGIN E PADDING PARA RESPONSIVIDADE TOTAL (HERDADOS) */
     padding-left: 0; 
     padding-right: 0;
     margin-left: 0;
     margin-right: 0;
 }
 .footer a {
-    /* CORREÇÃO CRÍTICA: Links com cor primária, garantindo contraste */
-    color: var(--primary-color); 
+    /* Links (como termos) sobre fundo azul escuro devem ser claros */
+    color: var(--alert-yellow); /* Cor de destaque/alerta para links */
     font-weight: 600;
 }
 .footer a.whatsapp-link {
-    /* Garante que o botão do WhatsApp dentro do footer local tenha cor de fundo */
-    display: inline-block;
+    /* O botão de WhatsApp dentro do bloco azul, precisa ser diferente */
+    display: inline-flex;
+    align-items: center;
     background-color: var(--whatsapp-green);
     color: var(--white);
     padding: 8px 15px;
@@ -490,8 +496,13 @@ h1.hero__headline {
 }
 .expert-seal { 
     font-weight: bold; 
-    color: var(--primary-color); 
+    color: var(--white); /* Cor de destaque para texto importante sobre fundo azul */
     margin-bottom: 10px; 
+}
+
+/* Correção para o texto ACIMA do bloco azul (Termos e Política) - Se for o caso */
+.container.form-container p:last-of-type {
+    color: var(--text-color); /* Garante que o texto de consentimento seja visível */
 }
 
 
