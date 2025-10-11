@@ -1,5 +1,5 @@
 /* =========================================================
-   STYLE.CSS - REVISÃO FOCADA EM UX E IDENTIDADE VISUAL FSR
+   STYLE.CSS - REVISÃO FINAL FOCADA EM UX, BRANDING E COERÊNCIA VISUAL
    ========================================================= */
 
 /* ====================
@@ -68,8 +68,17 @@ body {
    ==================== */
 
 .header__content {
+    /* Ajuste para centralizar o contêiner da logo na landing page */
     text-align: center;
     margin-bottom: var(--space-lg);
+    background: transparent; /* Garante que o fundo do contêiner da logo seja o mesmo da página */
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* CENTRALIZAÇÃO ADICIONADA: Garantir centralização na landing page */
+    width: 100%;
 }
 
 h1.hero__headline {
@@ -78,7 +87,7 @@ h1.hero__headline {
     font-weight: 800; 
     margin-bottom: var(--space-sm);
     line-height: 1.2;
-    text-transform: uppercase; /* Para forte impacto */
+    text-transform: uppercase; 
     padding: var(--space-md) 0;
 }
 .hero__slogan { 
@@ -99,23 +108,23 @@ h1.hero__headline {
 }
 .info-destaque strong {
     font-size: 1.2em;
-    color: var(--fsr-red); /* Vermelho para a porcentagem */
+    color: var(--fsr-red); 
     font-weight: 900;
 }
 .info-destaque em {
     font-style: normal;
     font-weight: 700;
-    color: var(--primary-color); /* Azul da marca para "Atendimento Prioritário" */
+    color: var(--primary-color); 
 }
 
 /* Banner de Oferta (Otimizado) */
 .offer-banner {
-    background-color: var(--alert-yellow); /* Novo amarelo mais vibrante */
+    background-color: var(--alert-yellow); 
     color: var(--text-color); 
-    padding: 16px; /* Aumentar o preenchimento */
+    padding: 16px; 
     text-align: center; 
-    font-weight: 800; /* Mais negrito para visibilidade */
-    font-size: 1.15em; /* Aumentar um pouco o texto */
+    font-weight: 800; 
+    font-size: 1.15em; 
     border-radius: var(--border-radius-base);
     margin-bottom: var(--space-xl);
     animation: pulse 1.5s infinite alternate;
@@ -131,7 +140,7 @@ h1.hero__headline {
     color: var(--primary-color);
     font-weight: 800;
     text-align: center;
-    margin: var(--space-xl) 0 var(--space-md) 0; /* Mais espaçamento superior */
+    margin: var(--space-xl) 0 var(--space-md) 0; 
     padding-bottom: 5px;
     border-bottom: 3px solid var(--loading-blue-light);
     line-height: 1.2;
@@ -144,7 +153,7 @@ h1.hero__headline {
     font-weight: 600;
 }
 .section-slogan strong {
-    color: var(--fsr-red); /* Destaque em vermelho para o CTA */
+    color: var(--fsr-red); 
     font-weight: 800;
 }
 
@@ -588,6 +597,7 @@ header {
 .logo-container {
     display: flex;
     align-items: center;
+    background-color: transparent; /* GARANTE: Fundo transparente para a logo */
 }
 
 .logo-container .logo {
@@ -635,9 +645,9 @@ nav ul li a.active:hover {
     background-color: var(--fsr-blue);
 }
 
-/* -- Footer Comum (Usado no leads.html) -- */
+/* -- Footer Comum (Corrigido para Branding FSR) -- */
 footer {
-    background-color: #343a40; /* Fundo escuro */
+    background-color: var(--fsr-blue); /* CORREÇÃO: Usando Azul da Marca FSR */
     color: var(--white);
     padding: var(--space-lg) var(--space-xl);
     margin-top: var(--space-xxl);
@@ -655,7 +665,7 @@ footer .social-media {
 }
 
 footer h4 {
-    color: var(--alert-yellow); 
+    color: var(--alert-yellow); /* Mantendo um destaque com o amarelo */
     margin-bottom: var(--space-sm);
     font-weight: 600;
     font-size: 1.1em;
@@ -663,6 +673,7 @@ footer h4 {
 
 footer p {
     margin-bottom: 5px;
+    color: #ccc; /* Texto mais suave para contraste no fundo escuro */
 }
 
 footer i {
@@ -678,7 +689,7 @@ footer i {
 }
 
 .social-media a:hover {
-    color: var(--primary-color);
+    color: var(--fsr-red); /* Destaque na cor secundária da FSR */
 }
 
 /* ====================
@@ -743,7 +754,7 @@ footer i {
         flex-direction: column;
         padding: 10px var(--space-sm);
         text-align: center;
-        align-items: flex-start; /* Alinhamento superior no mobile */
+        align-items: flex-start; 
     }
     
     .logo-container {
@@ -753,7 +764,7 @@ footer i {
     }
     
     .logo-container .logo {
-        height: 28px; /* Leve aumento para melhor visualização */
+        height: 28px; 
         width: auto; 
     }
 
@@ -761,7 +772,7 @@ footer i {
         width: 100%;
     }
     nav ul {
-        justify-content: space-around; /* Distribui os itens */
+        justify-content: space-around; 
         width: 100%;
         padding-top: 5px;
         border-top: 1px solid #eee;
