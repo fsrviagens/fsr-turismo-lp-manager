@@ -1,20 +1,24 @@
+/* =========================================================
+   STYLE.CSS - REVISÃO FOCADA EM UX E IDENTIDADE VISUAL FSR
+   ========================================================= */
+
 /* ====================
    1. Estilos Base e Variáveis
    ==================== */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap');
 
 :root {
     /* Cores FSR (Baseado na logo) */
     --fsr-blue: #023e8a; /* Azul escuro da FSR (Cor Primária da Marca) */
     --fsr-red: #e74c3c; /* Vermelho do arco/destaque (Cor Secundária/Alerta) */
-    --primary-color: #007bff; /* Azul moderno para títulos e bordas (Melhor contraste) */
+    --primary-color: #0056b3; /* Azul mais escuro, melhor contraste, mas na paleta FSR */
     --secondary-color: var(--fsr-red); /* Vermelho para destaque de preço/alerta */
     
     /* Cores de Fundo e Texto */
     --text-color: #333;
     --light-bg: #f8f9fa; /* Fundo mais suave para páginas não-landing */
     --white: #fff;
-    --alert-yellow: #FFC300; /* Cor para destaque/oferta */
+    --alert-yellow: #FFA500; /* Laranja-Amarelo forte para oferta (Melhor UX e contraste) */
     --loading-blue-light: #f0f7ff; 
     --soft-blue-consultoria: #f0f8ff; 
     --price-yellow-bg: #fff9e6; 
@@ -23,8 +27,8 @@
 
     /* Fontes e Tamanhos */
     --font-primary: 'Poppins', sans-serif;
-    --heading-size-1: 2.5rem; 
-    --heading-size-2: 1.8rem;
+    --heading-size-1: 2.2rem; /* Ajuste para mobile-first */
+    --heading-size-2: 1.6rem; /* Títulos de seção */
     --text-size: 1rem;
     
     /* Espaçamentos */
@@ -33,7 +37,7 @@
     --space-lg: 30px;
     --space-md: 20px;
     --space-sm: 10px;
-    --border-radius-base: 8px; 
+    --border-radius-base: 10px; /* Leve aumento para uma sensação mais moderna */
 }
 
 * {
@@ -45,12 +49,11 @@
 body {
     font-family: var(--font-primary);
     color: var(--text-color);
-    /* Usando var(--light-bg) que é mais suave que o #f5f5f5 original */
     background-color: var(--light-bg); 
     line-height: 1.6;
 }
 
-/* O container principal da Landing Page de formulário (Mantido para Index.html) */
+/* O container principal da Landing Page de formulário */
 .container.form-container {
     max-width: 650px; 
     margin: var(--space-xl) auto;
@@ -61,7 +64,7 @@ body {
 }
 
 /* ====================
-   2. Estilos de Header, Banner e Formulário Base (Mantido para Index.html)
+   2. Estilos de Header, Banner e Formulário Base (Otimizado)
    ==================== */
 
 .header__content {
@@ -75,6 +78,8 @@ h1.hero__headline {
     font-weight: 800; 
     margin-bottom: var(--space-sm);
     line-height: 1.2;
+    text-transform: uppercase; /* Para forte impacto */
+    padding: var(--space-md) 0;
 }
 .hero__slogan { 
     text-align: center; 
@@ -83,21 +88,66 @@ h1.hero__headline {
     font-size: 1.1em;
 }
 
-/* Banner de Oferta */
+/* NOVO ESTILO: Informação de Destaque antes/depois do banner de oferta (Simula o texto da imagem) */
+.info-destaque {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin: var(--space-md) 0;
+    line-height: 1.4;
+}
+.info-destaque strong {
+    font-size: 1.2em;
+    color: var(--fsr-red); /* Vermelho para a porcentagem */
+    font-weight: 900;
+}
+.info-destaque em {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--primary-color); /* Azul da marca para "Atendimento Prioritário" */
+}
+
+/* Banner de Oferta (Otimizado) */
 .offer-banner {
-    background-color: var(--alert-yellow); 
+    background-color: var(--alert-yellow); /* Novo amarelo mais vibrante */
     color: var(--text-color); 
-    padding: 12px; 
+    padding: 16px; /* Aumentar o preenchimento */
     text-align: center; 
-    font-weight: 700; 
+    font-weight: 800; /* Mais negrito para visibilidade */
+    font-size: 1.15em; /* Aumentar um pouco o texto */
     border-radius: var(--border-radius-base);
     margin-bottom: var(--space-xl);
     animation: pulse 1.5s infinite alternate;
 }
 @keyframes pulse {
     0% { transform: scale(1); box-shadow: 0 0 0 rgba(0,0,0,0.0); }
-    100% { transform: scale(1.01); box-shadow: 0 0 10px rgba(255,195,0,0.7); }
+    100% { transform: scale(1.005); box-shadow: 0 0 15px rgba(255,165,0,0.8); }
 }
+
+/* NOVO ESTILO: Títulos de Seção como "Sua Viagem Começa Aqui!" */
+.section-headline {
+    font-size: var(--heading-size-2);
+    color: var(--primary-color);
+    font-weight: 800;
+    text-align: center;
+    margin: var(--space-xl) 0 var(--space-md) 0; /* Mais espaçamento superior */
+    padding-bottom: 5px;
+    border-bottom: 3px solid var(--loading-blue-light);
+    line-height: 1.2;
+}
+.section-slogan {
+    text-align: center;
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: var(--space-lg);
+    font-weight: 600;
+}
+.section-slogan strong {
+    color: var(--fsr-red); /* Destaque em vermelho para o CTA */
+    font-weight: 800;
+}
+
 
 /* Estilos de Formulário */
 .form__fieldset {
@@ -209,7 +259,7 @@ h1.hero__headline {
 }
 
 /* ====================
-   3. Botão CTA (Foco na Conversão WhatsApp) (Mantido para Index.html)
+   3. Botão CTA (Foco na Conversão WhatsApp)
    ==================== */
 
 .btn--cta {
@@ -248,7 +298,7 @@ h1.hero__headline {
 
 
 /* ====================
-   4. Vitrine de Pacotes e Cards (Mantido para Index.html)
+   4. Vitrine de Pacotes e Cards
    ==================== */
 
 .vitrine-pacotes {
@@ -380,7 +430,7 @@ h1.hero__headline {
 
 
 /* ====================
-   5. Estilos de Preço e Desconto VIP (Otimizado) (Mantido para Index.html)
+   5. Estilos de Preço e Desconto VIP (Otimizado)
    ==================== */
 
 .pacote-price-box {
@@ -445,7 +495,7 @@ h1.hero__headline {
 
 
 /* ====================
-   6. Estilo Especial: Card de Consultoria (Mantido para Index.html)
+   6. Estilo Especial: Card de Consultoria
    ==================== */
 
 .card-consultoria {
@@ -496,7 +546,7 @@ h1.hero__headline {
 
 
 /* ====================
-   7. Footer e Responsividade da Landing Page (Estilos legados do Index.html)
+   7. Footer e Responsividade da Landing Page (Legados)
    ==================== */
 
 .footer { 
@@ -511,7 +561,7 @@ h1.hero__headline {
     color: #333; 
     margin-bottom: 10px; 
 }
-/* O estilo .whatsapp-link abaixo é para links de texto no index, o leads.html usa um estilo mais complexo */
+/* O estilo .whatsapp-link abaixo é para links de texto no index */
 .whatsapp-link {
     color: var(--whatsapp-green);
     text-decoration: none;
@@ -541,7 +591,6 @@ header {
 }
 
 .logo-container .logo {
-    /* CORREÇÃO: Define altura e largura automática para evitar que a logo fique esticada ou grande demais */
     height: 30px; 
     width: auto;
     margin-right: 10px;
@@ -633,11 +682,11 @@ footer i {
 }
 
 /* ====================
-   9. Ajustes de Responsividade
+   9. Ajustes de Responsividade (Otimizado)
    ==================== */
 
 @media (max-width: 768px) {
-    /* Responsividade da Landing Page (Mantido para Index.html) */
+    /* Responsividade da Landing Page */
     .container.form-container {
         margin: var(--space-md) auto;
         padding: var(--space-md);
@@ -647,6 +696,10 @@ footer i {
     
     h1.hero__headline {
         font-size: 1.5rem;
+    }
+
+    .info-destaque {
+        font-size: 1rem;
     }
     
     .vitrine-pacotes {
@@ -685,25 +738,30 @@ footer i {
         font-size: 0.95rem;
     }
 
-    /* Responsividade do Header/Footer (Novo) */
+    /* Responsividade do Header/Footer (Otimizado) */
     header {
         flex-direction: column;
         padding: 10px var(--space-sm);
         text-align: center;
+        align-items: flex-start; /* Alinhamento superior no mobile */
     }
     
     .logo-container {
+        width: 100%;
+        justify-content: center;
         margin-bottom: 10px;
     }
     
     .logo-container .logo {
-        /* CORREÇÃO RESPONSIVA: Altura reduzida para telas pequenas, mantendo o width: auto */
-        height: 25px; 
+        height: 28px; /* Leve aumento para melhor visualização */
         width: auto; 
     }
 
+    nav {
+        width: 100%;
+    }
     nav ul {
-        justify-content: center;
+        justify-content: space-around; /* Distribui os itens */
         width: 100%;
         padding-top: 5px;
         border-top: 1px solid #eee;
