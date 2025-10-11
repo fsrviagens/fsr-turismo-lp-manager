@@ -16,7 +16,7 @@
     
     /* Cores de Fundo e Texto */
     --text-color: #333;
-    /* AJUSTE FINAL AQUI: Cor EXATA para o fundo geral do site, IDÊNTICA à logo */
+    /* MANTENDO A COR EXATA DA LOGO: Esse tom bege claro #F4F2EE */
     --light-bg: #F4F2EE; 
     --white: #fff;
     --alert-yellow: #ffcc00; /* Laranja-Amarelo forte para oferta */
@@ -47,7 +47,7 @@
 body {
     font-family: var(--font-primary);
     color: var(--text-color);
-    /* Aplicando a nova cor de fundo */
+    /* Aplicando a cor exata da logo */
     background-color: var(--light-bg); 
     line-height: 1.6;
     min-width: 320px; 
@@ -69,11 +69,12 @@ a:hover {
 
 /* HEADER (Geral) - Aplicado em leads.html */
 header {
-    /* Fundo do header passa a ser o light-bg se o logo estiver nele */
+    /* Fundo do header IDÊNTICO ao site */
     background-color: var(--light-bg); 
     border-bottom: 2px solid var(--loading-blue-light); 
     padding: 15px var(--space-xl);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    /* Removendo sombra que pode criar bordas cinzas e afetar a percepção da cor */
+    box-shadow: none; 
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -176,10 +177,11 @@ footer .whatsapp-link i {
     max-width: 650px; 
     margin: var(--space-xl) auto;
     padding: var(--space-lg);
-    /* Fundo do container também passa a usar light-bg (o off-white) */
+    /* Fundo do container IDÊNTICO ao site e logo */
     background: var(--light-bg); 
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    /* Removendo sombra que pode criar bordas cinzas e afetar a percepção da cor */
+    box-shadow: none; 
 }
 
 /* Logo e Headline (Landing Page) */
@@ -251,9 +253,10 @@ h1.hero__headline {
 
 /* Card de Pacote */
 .pacote-card { 
-    /* Fundo do card também usa light-bg para não ter conflito de brancos */
+    /* Fundo do card IDÊNTICO ao site e logo */
     background: var(--light-bg);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    /* Removendo sombra do card para eliminar interferência visual */
+    box-shadow: none; 
     transition: all 0.3s ease; 
     cursor: pointer; 
     display: flex; 
@@ -288,4 +291,387 @@ h1.hero__headline {
     margin-bottom: 8px;
 }
 .pacote-card .btn-selecionar {
-    width: calc(
+    width: calc(100% - 30px); 
+    margin-left: 15px;
+    margin-right: 15px;
+    position: absolute; 
+    bottom: 15px;
+    padding: 10px 15px;
+    background-color: var(--whatsapp-green);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 1em;
+    transition: background-color 0.2s;
+}
+
+/* Card Consultoria */
+.card-consultoria {
+    background-color: var(--loading-blue-light); 
+    border: 2px dashed var(--primary-color);
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    min-height: 480px; 
+    padding-bottom: 30px; 
+}
+.card-consultoria .btn-selecionar {
+    position: static; 
+    margin: 20px auto 0; 
+    width: 100%;
+}
+
+/* Preços Aprimorados */
+.pacote-price-box {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid var(--alert-yellow); 
+    border-radius: 5px;
+    background-color: #fff9e6; 
+    text-align: right;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.price-total-cash {
+    font-size: 0.9em;
+    color: #777;
+    text-decoration: line-through; 
+    margin-bottom: 5px;
+    display: block;
+    text-align: right;
+}
+.price-value {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    font-weight: bold;
+    color: var(--primary-color); 
+}
+.main-price {
+    font-size: 1.8em;
+    line-height: 1;
+    color: var(--secondary-color); 
+}
+.price-vip-discount {
+    margin-top: 8px;
+    padding: 5px;
+    background-color: var(--secondary-color); 
+    color: var(--white);
+    font-weight: bold;
+    border-radius: 4px;
+    font-size: 0.9em;
+    text-align: center;
+}
+.taxes {
+    font-size: 0.7em;
+    font-weight: normal;
+    color: #777;
+    margin-left: 5px;
+    align-self: flex-end;
+}
+.final-call-to-action {
+    text-align: center;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-top: 15px;
+}
+
+/* ==================================
+   4. ESTILOS DE FORMULÁRIO GERAL (INDEX.HTML)
+   ================================== */
+.form__fieldset {
+    border: 1px solid #ddd;
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+    border-radius: var(--border-radius-base);
+}
+.form__legend { 
+    font-size: 1.2em; 
+    font-weight: bold; 
+    color: var(--primary-color); 
+    padding: 0 var(--space-sm);
+    margin-left: -5px; 
+}
+.form__group {
+    margin-bottom: var(--space-md);
+}
+.form__group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+.form__group input[type="text"],
+.form__group input[type="tel"],
+.form__group input[type="number"],
+.form__group input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: var(--text-size);
+}
+.selected-pacote-display {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: 700;
+    box-sizing: border-box; 
+    /* Ajustado para Fundo de Container/Body */
+    background-color: var(--light-bg); 
+    border: 1px solid #ccc;
+    color: var(--text-color);
+}
+.selected-pacote-display.is-selected {
+    background-color: #e6f7ff; 
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+}
+.error-message { 
+    color: var(--white); 
+    background-color: var(--secondary-color);
+    border: none;
+    padding: 12px; 
+    border-radius: 5px; 
+    margin-top: 15px; 
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(231, 76, 60, 0.4);
+}
+.btn--cta {
+    font-size: 1.3em; 
+    padding: 15px 25px; 
+    background-color: var(--whatsapp-green); 
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    width: 100%;
+    text-transform: uppercase;
+    font-weight: 800; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    margin-top: var(--space-md);
+    transition: background-color 0.2s, transform 0.2s;
+}
+.btn--cta:hover:not(:disabled) {
+    background-color: #1fad51; 
+    transform: translateY(-1px);
+}
+.btn--cta:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Footer da Landing Page (Menor, no Form Container) */
+.footer { 
+    text-align: center; 
+    padding-top: 20px; 
+    border-top: 1px solid #eee; 
+    margin-top: 40px; 
+    font-size: 0.9em; 
+    
+    /* CORREÇÃO PARA COERÊNCIA: Fundo Azul Escuro com TODO o texto Branco */
+    color: var(--white); /* Força a cor clara para todo o texto */
+    background-color: var(--fsr-blue); 
+    padding: var(--space-md); 
+    border-radius: var(--border-radius-base);
+    
+    /* AJUSTES DE MARGIN E PADDING PARA RESPONSIVIDADE TOTAL (HERDADOS) */
+    padding-left: 0; 
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+}
+/* Garante que links de texto dentro do bloco azul sejam brancos e sem sublinhado padrão */
+.footer a {
+    color: var(--white); 
+    text-decoration: none; /* Remove sublinhado padrão para limpeza visual */
+    font-weight: 600;
+}
+.footer a:hover {
+    color: var(--fsr-red); /* Destaque no hover */
+}
+.footer a.whatsapp-link {
+    /* O botão de WhatsApp verde mantém seu estilo único */
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--whatsapp-green);
+    color: var(--white);
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+.footer a.whatsapp-link i {
+    /* Ícone do WhatsApp fica branco no botão verde */
+    color: var(--white); 
+    margin-right: 5px;
+}
+.expert-seal { 
+    font-weight: bold; 
+    color: var(--white); 
+    margin-bottom: 10px; 
+}
+.footer i {
+    /* Garante que ícones (como o boneco) sejam brancos */
+    color: var(--white); 
+    margin-right: 8px;
+}
+
+/* Correção para o texto ACIMA do bloco azul (Termos e Política) */
+.container.form-container p:last-of-type {
+    color: var(--text-color); /* Garante que o texto de consentimento seja visível */
+}
+
+
+/* ==================================
+   5. ESTILOS DE LEADS.HTML (ADMIN)
+   ================================== */
+.leads-container {
+    width: 90%; 
+    max-width: 1000px; 
+    margin: 2rem auto;
+    /* Fundo do leads-container IDÊNTICO ao site e logo */
+    background-color: var(--light-bg);
+    padding: 30px; 
+    border-radius: 12px; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
+}
+
+.leads-container h2 {
+    color: var(--primary-color); 
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--loading-blue-light);
+    padding-bottom: 10px;
+    font-weight: 600;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate; 
+    border-spacing: 0;
+    margin-top: 1.5rem;
+    overflow: hidden; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border-radius: var(--border-radius-base);
+}
+
+thead tr {
+    background-color: var(--primary-color); 
+    color: white;
+}
+th, td {
+    padding: 15px; 
+    text-align: left;
+    border: none; 
+    border-bottom: 1px solid #e9ecef; 
+}
+tbody tr:nth-child(even) {
+    /* Manter um tom de fundo diferente no leads para melhor leitura */
+    background-color: #f8f9fa; 
+}
+tbody tr:hover {
+    background-color: var(--loading-blue-light); 
+}
+.whatsapp-link {
+    display: inline-flex; 
+    align-items: center;
+    background-color: var(--whatsapp-green);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px; 
+    box-shadow: 0 2px 5px rgba(37, 211, 102, 0.4);
+}
+
+
+/* ==================================
+   6. ESTILOS DE POLITICA-DE-PRIVACIDADE.HTML
+   ================================== */
+
+/* Remove estilos inline de política para usar apenas a classe */
+.container.politica-container {
+    max-width: 900px;
+    margin: 40px auto;
+    /* Fundo do container IDÊNTICO ao site e logo */
+    background: var(--light-bg);
+    padding: 30px;
+    border-radius: var(--border-radius-base);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+.container.politica-container h1 {
+    color: var(--primary-color); 
+    border-bottom: 3px solid var(--secondary-color); 
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 2.2em;
+}
+.container.politica-container h2 {
+    color: var(--primary-color);
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+.container.politica-container h3 {
+    color: var(--text-color);
+    margin-top: 20px;
+    font-size: 1.2em;
+}
+.container.politica-container strong {
+    color: var(--secondary-color); 
+}
+.highlight {
+    background-color: var(--loading-blue-light); 
+    padding: 15px;
+    border-left: 5px solid var(--primary-color);
+    margin-top: 20px;
+}
+.dpo-contact {
+    background-color: #e6f7ff;
+    border: 1px solid #b3d9ff;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+
+/* ==================================
+   7. AJUSTES DE RESPONSIVIDADE (MOBILE FIRST)
+   ================================== */
+
+@media (max-width: 768px) {
+    
+    /* Landing Page Mobile */
+    .container.form-container {
+        margin: var(--space-md) auto;
+        padding: var(--space-md) 15px; 
+        border-radius: 0; 
+        box-shadow: none; 
+    }
+    .header__content .logo__image {
+        max-width: 150px;
+    }
+    h1.hero__headline {
+        font-size: 1.5rem;
+    }
+    .pacotes-grid {
+        grid-template-columns: 1fr; 
+        gap: 20px;
+    }
+    
+    /* Garantir que o footer da Landing Page se ajuste perfeitamente */
+    .container.form-container .footer {
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: -15px; 
+        margin-right: -15px; 
+        width: calc(100% + 30px); 
+    }
+    
+    .pacote-card {
+        min-height: auto; 
+        padding-bottom: 15px; 
+    }
+    .pacote-card .btn-selecionar {
+        position: static;
+        width: calc(100% - 30px);
+        margin: 15px auto 0 auto;
+    }
