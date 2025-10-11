@@ -1,5 +1,5 @@
 /* =========================================================
-   STYLE.CSS - ARQUIVO MASTER UNIFICADO (INDEX.HTML E LEADS.HTML)
+   STYLE.CSS - ARQUIVO MASTER UNIFICADO (INDEX, LEADS E POLÍTICA)
    ========================================================= */
 
 /* ====================
@@ -8,22 +8,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap');
 
 :root {
-    /* Cores FSR (Baseado na logo) */
+    /* Cores FSR (Baseado na logo e identidade visual) */
     --fsr-blue: #023e8a; /* Azul escuro da FSR (Cor Primária da Marca) */
     --fsr-red: #e74c3c; /* Vermelho do arco/destaque (Cor Secundária/Alerta) */
-    --primary-color: #0056b3; /* Azul mais escuro, melhor contraste, mas na paleta FSR */
-    --secondary-color: var(--fsr-red); /* Vermelho para destaque de preço/alerta */
+    --primary-color: var(--fsr-blue); /* Usado para cabeçalhos e bordas importantes */
+    --secondary-color: var(--fsr-red); /* Usado para preços, alertas e destaques */
     
     /* Cores de Fundo e Texto */
     --text-color: #333;
-    --light-bg: #f8f9fa; /* Fundo mais suave para páginas não-landing */
+    --light-bg: #f8f9fa; /* Fundo geral suave */
     --white: #fff;
-    --alert-yellow: #FFA500; /* Laranja-Amarelo forte para oferta (Melhor UX e contraste) */
-    --loading-blue-light: #f0f7ff; 
-    --soft-blue-consultoria: #f0f8ff; 
-    --price-yellow-bg: #fff9e6; 
+    --alert-yellow: #ffcc00; /* Laranja-Amarelo forte para oferta */
+    --loading-blue-light: #f0f7ff; /* Azul clarinho para fundos de seção */
     --whatsapp-green: #25D366; /* Cor do botão CTA */
-
 
     /* Fontes e Tamanhos */
     --font-primary: 'Poppins', sans-serif;
@@ -31,13 +28,13 @@
     --heading-size-2: 1.6rem; 
     --text-size: 1rem;
     
-    /* Espaçamentos */
+    /* Espaçamentos e Geometria */
     --space-xxl: 80px;
     --space-xl: 40px;
     --space-lg: 30px;
     --space-md: 20px;
     --space-sm: 10px;
-    --border-radius-base: 10px; 
+    --border-radius-base: 8px; 
 }
 
 * {
@@ -53,12 +50,21 @@ body {
     line-height: 1.6;
 }
 
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--secondary-color);
+}
 
 /* ==================================
-   2. ESTILOS GERAIS DE LAYOUT (HEADER E FOOTER PARA LEADS.HTML)
+   2. LAYOUT GERAL (HEADER E FOOTER para LEADS e POLÍTICA)
    ================================== */
 
-/* HEADER GLOBAL (Usado em leads.html) */
+/* HEADER (Geral) - Aplicado em leads.html */
 header {
     background-color: var(--white); 
     border-bottom: 2px solid var(--loading-blue-light); 
@@ -68,24 +74,20 @@ header {
     justify-content: space-between;
     align-items: center;
 }
-
 /* Logo no Header Comum */
 header .logo-container {
     display: flex;
     align-items: center;
-    background-color: transparent; 
     margin: 0; 
 }
-
 header .logo-container .logo {
     height: 30px; 
     width: auto;
     margin-right: 10px;
 }
-
 .agencia-nome {
     font-size: 1.5rem;
-    color: var(--fsr-blue); 
+    color: var(--primary-color); 
     font-weight: 700;
 }
 
@@ -94,32 +96,25 @@ nav ul {
     list-style: none;
     display: flex;
 }
-
 nav ul li {
     margin-left: var(--space-md);
 }
-
 nav ul li a {
-    text-decoration: none;
     color: var(--text-color);
     font-weight: 600;
     padding: 8px 10px;
-    border-radius: var(--border-radius-base);
-    transition: all 0.3s ease;
 }
-
 nav ul li a:hover {
     color: var(--primary-color);
     background-color: var(--loading-blue-light);
 }
-
 nav ul li a.active {
     color: var(--white);
     background-color: var(--primary-color);
-    box-shadow: 0 2px 5px rgba(0, 86, 179, 0.3);
+    border-radius: var(--border-radius-base);
 }
 
-/* FOOTER GLOBAL (Usado em leads.html) - CORES FSR CORRIGIDAS */
+/* FOOTER GLOBAL - CORES FSR CORRIGIDAS */
 footer {
     background-color: var(--fsr-blue); 
     color: var(--white);
@@ -139,7 +134,7 @@ footer .social-media {
 }
 
 footer h4 {
-    color: var(--white); /* Títulos em branco para visual corporativo no fundo azul */
+    color: var(--white); 
     margin-bottom: var(--space-sm);
     font-weight: 600;
     font-size: 1.1em;
@@ -152,7 +147,7 @@ footer p {
 
 footer i {
     margin-right: 8px;
-    color: var(--white); /* Ícones gerais em branco */
+    color: var(--white); 
 }
 
 footer .whatsapp-link i {
@@ -163,16 +158,14 @@ footer .whatsapp-link i {
     color: var(--white); 
     font-size: 1.5rem;
     margin-right: 15px;
-    transition: color 0.3s;
 }
 
 .social-media a:hover {
     color: var(--fsr-red); 
 }
 
-
 /* ==================================
-   3. ESTILOS ESPECÍFICOS DE LANDING PAGE (INDEX.HTML)
+   3. ESTILOS DE LANDING PAGE (INDEX.HTML)
    ================================== */
 
 .container.form-container {
@@ -184,61 +177,31 @@ footer .whatsapp-link i {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* LOGO E HEADLINE (Landing Page) - CORRIGIDO E CENTRALIZADO */
+/* Logo e Headline (Landing Page) - CENTRALIZAÇÃO CORRIGIDA */
 .header__content {
     text-align: center; 
     margin-bottom: var(--space-lg);
-    background: transparent; 
 }
 
-.logo-container {
+.header__content .logo__image {
     display: block; 
-    width: fit-content; 
-    margin: 0 auto 20px auto; /* FORÇA CENTRALIZAÇÃO */
-}
-
-.logo-container .logo {
-    height: 35px; 
     width: auto;
-    margin: 0 auto; 
-    display: block; 
+    max-width: 200px; /* Mantém o tamanho base */
+    height: auto;
+    margin: 0 auto 15px auto; /* FORÇA CENTRALIZAÇÃO */
 }
 
 h1.hero__headline {
     font-size: var(--heading-size-2);
     color: var(--primary-color);
     font-weight: 800; 
-    margin-bottom: var(--space-sm);
-    line-height: 1.2;
-    text-transform: uppercase; 
-    padding: var(--space-md) 0;
     text-align: center;
 }
 .hero__slogan { 
     text-align: center; 
-    color: #333; 
+    color: var(--text-color); 
     margin-bottom: var(--space-md); 
     font-size: 1.1em;
-}
-
-/* OFERTA E DESTAQUES */
-.info-destaque {
-    text-align: center;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text-color);
-    margin: var(--space-md) 0;
-    line-height: 1.4;
-}
-.info-destaque strong {
-    font-size: 1.2em;
-    color: var(--fsr-red); 
-    font-weight: 900;
-}
-.info-destaque em {
-    font-style: normal;
-    font-weight: 700;
-    color: var(--primary-color); 
 }
 
 .offer-banner {
@@ -250,14 +213,15 @@ h1.hero__headline {
     font-size: 1.15em; 
     border-radius: var(--border-radius-base);
     margin-bottom: var(--space-xl);
+    /* Manter animação de pulsação para destaque */
     animation: pulse 1.5s infinite alternate;
 }
 @keyframes pulse {
     0% { transform: scale(1); box-shadow: 0 0 0 rgba(0,0,0,0.0); }
-    100% { transform: scale(1.005); box-shadow: 0 0 15px rgba(255,165,0,0.8); }
+    100% { transform: scale(1.005); box-shadow: 0 0 15px rgba(255, 204, 0, 0.5); }
 }
 
-/* SEÇÃO DE PACOTES */
+/* Seção de Pacotes */
 .vitrine-pacotes {
     margin-top: var(--space-lg);
     padding: var(--space-md);
@@ -267,24 +231,27 @@ h1.hero__headline {
     border: 1px solid #dcdcdc;
     margin-bottom: var(--space-xl);
 }
-.section-headline {
+.vitrine-pacotes h2 {
     font-size: var(--heading-size-2);
     color: var(--primary-color);
     font-weight: 800;
     text-align: center;
-    margin: var(--space-xl) 0 var(--space-md) 0; 
-    padding-bottom: 5px;
-    border-bottom: 3px solid var(--loading-blue-light);
-    line-height: 1.2;
+    margin: var(--space-md) 0 var(--space-sm) 0; 
 }
-
 .pacotes-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
     gap: 25px; 
     margin-top: 30px; 
 }
-.pacote-card {
+
+/* Card de Pacote */
+.pacote-card { 
+    background: var(--white);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease; 
+    cursor: pointer; 
+    /* Estilos de fallback movidos para o CSS principal */
     display: flex; 
     flex-direction: column;
     min-height: 480px; 
@@ -293,75 +260,134 @@ h1.hero__headline {
     border-radius: var(--border-radius-base);
     overflow: hidden; 
     position: relative; 
-    background: var(--white);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease; 
-    cursor: pointer; 
 }
 .pacote-card--selecionado {
     border: 4px solid var(--primary-color) !important; 
     box-shadow: 0 8px 20px rgba(0, 86, 179, 0.5); 
     transform: scale(1.02); 
 }
+.pacote-card img { 
+    height: 180px; 
+    object-fit: cover; 
+    width: 100%;
+}
+.pacote-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1; 
+    padding: 15px;
+}
+.pacote-card h3 {
+    color: var(--primary-color);
+    font-size: 1.15em;
+    margin-bottom: 8px;
+}
+.pacote-card .btn-selecionar {
+    /* Posicionamento absoluto corrigido */
+    width: calc(100% - 30px); 
+    margin-left: 15px;
+    margin-right: 15px;
+    position: absolute; 
+    bottom: 15px;
+    padding: 10px 15px;
+    background-color: var(--whatsapp-green);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 1em;
+}
+
+/* Card Consultoria */
+.card-consultoria {
+    background-color: var(--soft-blue-consultoria); 
+    border: 2px dashed var(--primary-color);
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    min-height: 300px; 
+    padding-bottom: 30px; 
+}
+.card-consultoria .btn-selecionar {
+    position: static; 
+    margin: 20px auto 0; 
+    width: 100%;
+}
+
+/* Preços Aprimorados */
 .pacote-price-box {
     margin-top: 15px;
     padding: 10px;
-    border: 2px solid var(--alert-yellow); 
+    border: 1px solid var(--alert-yellow); 
     border-radius: 5px;
-    background-color: var(--price-yellow-bg); 
+    background-color: #fff9e6; /* Fundo amarelo claro */
     text-align: right;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 .price-total-cash {
-    font-size: 0.9em; 
+    font-size: 0.9em;
     color: #777;
     text-decoration: line-through; 
     margin-bottom: 5px;
     display: block;
     text-align: right;
-    font-weight: 400; 
+}
+.price-value {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    font-weight: bold;
+    color: var(--primary-color); 
+}
+.main-price {
+    font-size: 1.8em;
+    line-height: 1;
+    color: var(--secondary-color); /* Destaque em vermelho FSR */
 }
 .price-vip-discount {
     margin-top: 8px;
-    padding: 6px; 
+    padding: 5px;
     background-color: var(--secondary-color); 
     color: var(--white);
-    font-weight: 800; 
+    font-weight: bold;
     border-radius: 4px;
-    font-size: 1em; 
+    font-size: 0.9em;
     text-align: center;
 }
-.main-price {
-    font-size: 2.0em; 
-    line-height: 1;
-    color: var(--secondary-color); 
+.taxes {
+    font-size: 0.7em;
+    font-weight: normal;
+    color: #777;
+    margin-left: 5px;
+    align-self: flex-end;
 }
-
-/* Botão CTA Principal */
-.btn--cta {
-    font-size: 1.3em; 
-    padding: 15px 25px; 
-    background-color: var(--whatsapp-green); 
-    color: var(--white);
-    border: none;
-    border-radius: 8px;
-    width: 100%;
-    text-transform: uppercase;
-    font-weight: 800; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    transition: background-color 0.3s, transform 0.1s;
-    margin-top: var(--space-md);
+.final-call-to-action {
+    text-align: center;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-top: 15px;
 }
-
 
 /* ==================================
-   4. ESTILOS DE FORMULÁRIO GERAL (Usado na Landing Page ou Leads.html)
+   4. ESTILOS DE FORMULÁRIO GERAL (INDEX.HTML)
    ================================== */
 .form__fieldset {
     border: 1px solid #ddd;
     padding: var(--space-md);
     margin-bottom: var(--space-md);
     border-radius: var(--border-radius-base);
+}
+.form__legend { 
+    font-size: 1.2em; 
+    font-weight: bold; 
+    color: var(--primary-color); 
+    padding: 0 var(--space-sm);
+    margin-left: -5px; 
+}
+.form__group {
+    margin-bottom: var(--space-md);
 }
 .form__group label {
     display: block;
@@ -378,6 +404,22 @@ h1.hero__headline {
     border-radius: 5px;
     font-size: var(--text-size);
 }
+.selected-pacote-display {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: 700;
+    box-sizing: border-box; 
+    background-color: #f9f9f9; 
+    border: 1px solid #ccc;
+    color: var(--text-color);
+}
+.selected-pacote-display.is-selected {
+    background-color: #e6f7ff; 
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+}
 .error-message { 
     color: var(--white); 
     background-color: var(--secondary-color);
@@ -389,10 +431,146 @@ h1.hero__headline {
     text-align: center;
     box-shadow: 0 2px 5px rgba(231, 76, 60, 0.4);
 }
+.btn--cta {
+    font-size: 1.3em; 
+    padding: 15px 25px; 
+    background-color: var(--whatsapp-green); 
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    width: 100%;
+    text-transform: uppercase;
+    font-weight: 800; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    margin-top: var(--space-md);
+}
+
+/* Footer da Landing Page (Menor, no Form Container) */
+.footer { 
+    text-align: center; 
+    padding-top: 20px; 
+    border-top: 1px solid #eee; 
+    margin-top: 40px; 
+    font-size: 0.9em; 
+    color: #777;
+}
+.expert-seal { 
+    font-weight: bold; 
+    color: var(--primary-color); 
+    margin-bottom: 10px; 
+}
 
 
 /* ==================================
-   5. AJUSTES DE RESPONSIVIDADE (Mobile First)
+   5. ESTILOS DE LEADS.HTML (ADMIN)
+   ================================== */
+.leads-container {
+    width: 90%; 
+    max-width: 1000px; 
+    margin: 2rem auto;
+    background-color: var(--white);
+    padding: 30px; 
+    border-radius: 12px; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
+}
+
+.leads-container h2 {
+    color: var(--primary-color); 
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--loading-blue-light);
+    padding-bottom: 10px;
+    font-weight: 600;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate; 
+    border-spacing: 0;
+    margin-top: 1.5rem;
+    overflow: hidden; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border-radius: var(--border-radius-base);
+}
+
+thead tr {
+    background-color: var(--primary-color); 
+    color: white;
+}
+th, td {
+    padding: 15px; 
+    text-align: left;
+    border: none; 
+    border-bottom: 1px solid #e9ecef; 
+}
+tbody tr:nth-child(even) {
+    background-color: #f8f9fa; 
+}
+tbody tr:hover {
+    background-color: var(--loading-blue-light); 
+}
+.whatsapp-link {
+    display: inline-flex; 
+    align-items: center;
+    background-color: var(--whatsapp-green);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px; 
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(37, 211, 102, 0.4);
+}
+
+
+/* ==================================
+   6. ESTILOS DE POLITICA-DE-PRIVACIDADE.HTML
+   ================================== */
+
+.container.politica-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: var(--white);
+    padding: 30px;
+    border-radius: var(--border-radius-base);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+.container.politica-container h1 {
+    color: var(--primary-color); 
+    border-bottom: 3px solid var(--secondary-color); 
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 2.2em;
+}
+.container.politica-container h2 {
+    color: var(--primary-color);
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+.container.politica-container h3 {
+    color: var(--text-color);
+    margin-top: 20px;
+    font-size: 1.2em;
+}
+.container.politica-container strong {
+    color: var(--secondary-color); 
+}
+.highlight {
+    background-color: var(--loading-blue-light); 
+    padding: 15px;
+    border-left: 5px solid var(--primary-color);
+    margin-top: 20px;
+}
+.dpo-contact {
+    background-color: #e6f7ff;
+    border: 1px solid #b3d9ff;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+
+/* ==================================
+   7. AJUSTES DE RESPONSIVIDADE (MOBILE FIRST)
    ================================== */
 
 @media (max-width: 768px) {
@@ -404,15 +582,9 @@ h1.hero__headline {
         border-radius: 0; 
         box-shadow: none; 
     }
-    
-    /* Logo Mobile */
-    .logo-container {
-        margin: 0 auto 15px auto; 
+    .header__content .logo__image {
+        max-width: 150px;
     }
-    .logo-container .logo {
-        height: 40px; 
-    }
-    
     h1.hero__headline {
         font-size: 1.5rem;
     }
@@ -421,30 +593,67 @@ h1.hero__headline {
         gap: 20px;
     }
     
-    /* Header/Footer Geral Mobile */
+    /* Header/Footer Geral Mobile (leads.html) */
     header {
         flex-direction: column;
         padding: 10px var(--space-sm);
         align-items: flex-start; 
     }
-    
     header .logo-container {
         width: 100%;
         justify-content: center;
         margin-bottom: 10px;
     }
+    nav ul {
+        width: 100%;
+        justify-content: space-around;
+    }
     
+    /* Footer Responsivo */
     footer {
         flex-direction: column;
         align-items: center;
         text-align: center;
         padding: var(--space-lg) var(--space-md);
     }
-    
     footer .contato,
     footer .social-media {
         min-width: auto;
         width: 100%;
-        margin-bottom: var(--space-md);
     }
+
+    /* Tabela Leads Responsiva */
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    tr {
+        margin: 0 0 1rem 0;
+        border: 1px solid #dee2e6;
+    }
+    td {
+        padding-left: 50%;
+        text-align: right;
+    }
+    td:before {
+        position: absolute;
+        top: 12px; 
+        left: 10px; 
+        width: 45%;
+        text-align: left;
+        font-weight: bold;
+        color: #495057; 
+    }
+    /* Rótulos responsivos (copiados do leads.html) */
+    td:nth-of-type(1):before { content: "Nome"; }
+    /* ATENÇÃO: Os rótulos 2 e 3 (E-mail e Senha) no HTML não são os mesmos do Flask.
+       Baseando no HTML do leads.html: [Nome, E-mail, Senha, Contato]
+       Os rótulos aqui devem ser consistentes com o seu HTML. */
+    td:nth-of-type(2):before { content: "E-mail"; }
+    td:nth-of-type(3):before { content: "Senha"; }
+    td:nth-of-type(4):before { content: "Contato"; }
 }
