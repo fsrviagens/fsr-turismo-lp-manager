@@ -24,14 +24,6 @@
     
 </head>
 <body>
-    
-    <nav class="main-nav">
-        <ul>
-            <li>
-                <a href="leads.html">Gerenciamento de Leads</a>
-            </li>
-        </ul>
-    </nav>
     <div id="root">
     </div>
 
@@ -619,7 +611,7 @@ ${descritivoRoteiro}
                                     title="A saída da viagem deve ter antecedência mínima de 4 dias para planejamento."
                                 />
                                 {/* CORREÇÃO CRÍTICA SOLICITADA: Clareza sobre antecedência de embarque */}
-                                <small className="help-text">Selecione uma data para orçamento preciso, ou deixe em branco para opções nos **próximos meses**. A **saída da viagem** deve ter **antecedência mínima de 4 dias**.</small>
+                                <small className="help-text">Selecione uma data para orçamento preciso, ou deixe em branco para opções nos **próximos meses**. A **saída da viagem** deve ter **antecedência mínima de 4 dias (96 horas)**.</small>
                             </div>
                         </fieldset>
 
@@ -650,6 +642,17 @@ ${descritivoRoteiro}
                             <i className="fab fa-whatsapp"></i> WhatsApp: (61) 98316-3710</a>
                         </p>
                         <p>&copy; {new Date().getFullYear()} FSR Viagens & Turismo. Todos os direitos reservados.</p>
+                        
+                        {/* NOVO: Menu Administrativo Discreto */}
+                        <nav class="admin-nav">
+                            <ul>
+                                <li>
+                                    <a href="leads.html">Gerenciamento de Leads</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        {/* FIM do NOVO Menu Administrativo */}
+
                     </footer>
                 </div>
             );
