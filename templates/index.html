@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FSR Viagens | Pacotes Exclusivos + Desconto VIP de 5% OFF (Atendimento Prioritário)</title>
     
-    <script async src="https://www.googletagmanager.com/gtag/js/id=G-EB762TMB8T"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EB762TMB8T"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -22,184 +22,7 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
-    <style>
-        /* Estilos de fallback e min-heights (MANTIDOS) */
-        .pacote-card { 
-            display: flex; 
-            flex-direction: column;
-            min-height: 480px; 
-            padding-bottom: 70px; 
-            border: 1px solid #ddd; 
-            border-radius: 8px;
-            overflow: hidden; 
-            position: relative; 
-            transition: all 0.3s ease; 
-        }
-        
-        .pacote-card img { 
-            height: 180px; 
-            object-fit: cover; 
-            width: 100%;
-        }
-        
-        .pacote-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            flex-grow: 1; 
-            padding: 15px;
-        }
-
-        .pacote-card .btn-selecionar {
-            width: calc(100% - 30px); 
-            margin-left: 15px;
-            margin-right: 15px;
-            position: absolute; 
-            bottom: 15px;
-        }
-        
-        .pacotes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .card-consultoria {
-            background-color: #f0f8ff; 
-            border: 2px dashed #0056b3;
-            text-align: center;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
-            min-height: 300px; 
-            padding-bottom: 30px; 
-        }
-        .card-consultoria .btn-selecionar {
-             position: static; 
-             margin: 20px auto 0; 
-             width: 100%;
-        }
-        .card-consultoria p {
-            flex-grow: 1;
-        }
-
-        /* ESTILOS DE PREÇO APRIMORADOS PARA UX E-COMMERCE */
-        .pacote-price-box {
-            margin-top: 15px;
-            padding: 10px;
-            border: 1px solid #ffcc00; 
-            border-radius: 5px;
-            background-color: #fff9e6; 
-            text-align: right;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        
-        .price-label {
-            display: block;
-            font-size: 0.8em; /* Fonte menor para "por pessoa" */
-            color: #555;
-            margin-bottom: 3px;
-        }
-        
-        /* NOVO BLOCO: Preço Final à Vista/Total */
-        .price-total-cash {
-            font-size: 0.9em;
-            color: #777;
-            text-decoration: line-through; /* Preço "De:" (Opcional) */
-            margin-bottom: 5px;
-            display: block;
-            text-align: right;
-        }
-        
-        .price-value {
-            display: flex;
-            align-items: flex-end;
-            justify-content: flex-end;
-            font-weight: bold;
-            color: #0056b3; 
-        }
-        
-        .installments {
-            font-size: 0.9em;
-            margin-right: 2px;
-        }
-        
-        .main-price {
-            font-size: 1.8em;
-            line-height: 1;
-            color: #d9534f; /* Cor de destaque (vermelho) */
-        }
-        
-        .taxes {
-            font-size: 0.7em;
-            font-weight: normal;
-            color: #777;
-            margin-left: 5px;
-            align-self: flex-end;
-        }
-        
-        .price-vip-discount {
-            margin-top: 8px;
-            padding: 5px;
-            background-color: #d9534f; 
-            color: white;
-            font-weight: bold;
-            border-radius: 4px;
-            font-size: 0.9em;
-            text-align: center;
-        }
-
-        /* Estilos para o Hero e Form */
-        .hero__headline { text-align: center; color: #0056b3; }
-        .hero__slogan { text-align: center; color: #333; margin-bottom: 20px; }
-        .offer-banner {
-            background-color: #ffcc00; 
-            color: #333; 
-            padding: 10px; 
-            text-align: center; 
-            font-weight: bold; 
-            border-radius: 5px;
-            margin-bottom: 30px;
-        }
-        .form__legend { font-size: 1.2em; font-weight: bold; color: #0056b3; }
-        .error-message { color: #d9534f; border: 1px solid #d9534f; padding: 10px; border-radius: 5px; margin-top: 15px; }
-        .footer { text-align: center; padding-top: 20px; border-top: 1px solid #eee; margin-top: 40px; font-size: 0.9em; }
-        .expert-seal { font-weight: bold; color: #333; margin-bottom: 10px; }
-
-        .selected-pacote-display {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 1em;
-            font-weight: bold;
-            background-color: #f9f9f9;
-            color: #333;
-            border: 1px solid #ccc;
-        }
-        .selected-pacote-display.is-selected {
-            border: 2px solid #0056b3;
-            background-color: #e6f7ff; 
-        }
-
-        .btn--cta {
-            font-size: 1.2em;
-            padding: 15px 25px;
-            background-color: #25D366; 
-            color: white;
-            border-radius: 8px;
-            width: 100%;
-        }
-
-        .vitrine-pacotes h2 {
-            background: none; 
-            border: none;
-            padding: 0;
-            margin-bottom: 5px;
-            text-align: center;
-        }
-    </style>
-</head>
+    </head>
 <body>
     <div id="root">
     </div>
@@ -412,9 +235,9 @@
                         {precoMaisBaixoParcela && precoTotal && ( // Verificação adicionada
                             <div className="pacote-price-box">
                                 
-                                {/* REVISÃO: Removido 'moedaSimbolo' para evitar repetição R$ R$ X.XXX, pois a formatação do preço final já o inclui. */}
+                                {/* Formatação de preço final à vista/total para R$ X.XXX */}
                                 <span className="price-total-cash">
-                                     {precoTotal.toLocaleString('pt-BR', { minimumFractionDigits: 0 })} à vista
+                                     {moedaSimbolo} {precoTotal.toLocaleString('pt-BR', { minimumFractionDigits: 0 })} à vista
                                 </span>
                                 
                                 <span className="price-label">Ou parcele em até 10x de:</span>
@@ -510,6 +333,8 @@
                         const data = await response.json();
                         
                         if (response.ok && Array.isArray(data) && data.length > 0) {
+                            // Se a API retornar dados válidos, você pode querer combiná-los ou usá-los no lugar do FALLBACK
+                            // Por simplicidade e robustez, mantive o FALLBACK como fonte principal (DADOS_FALLBACK)
                             fetchedPacotes = DADOS_FALLBACK;
                         } else {
                             fetchedPacotes = DADOS_FALLBACK;
@@ -716,6 +541,13 @@ ${descritivoRoteiro}
                             pacoteSelecionado={pacoteSelecionado}
                         />
                     )}
+                    
+                    {pacotesLoading && (
+                        <p className="loading-message loading-animation" style={{textAlign: 'center', margin: '40px 0'}}>
+                            <i className="fas fa-spinner fa-spin"></i> <strong>Carregando ofertas...</strong>
+                        </p>
+                    )}
+
 
                     <form onSubmit={handleWhatsAppRedirect} className="form">
                         
@@ -748,12 +580,6 @@ ${descritivoRoteiro}
                                     required
                                 />
 
-                                {pacotesLoading && (
-                                    <p className="loading-message loading-animation">
-                                        <i className="fas fa-spinner fa-spin"></i> <strong>Analisando milhares de ofertas exclusivas</strong> para encontrar o seu pacote ideal... Otimizando seu tempo!
-                                    </p>
-                                )}
-                                
                                 {pacoteSelecionado.includes('Consultoria Personalizada / Outro Destino') && (
                                     <div style={{ marginTop: '15px' }}>
                                         <label htmlFor="destino-livre-input">Qual o Destino/Roteiro que você gostaria?</label>
