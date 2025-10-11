@@ -253,7 +253,6 @@ h1.hero__headline {
     cursor: pointer; 
     display: flex; 
     flex-direction: column;
-    /* AJUSTE: Garantir espaço para o botão CTA fixo */
     min-height: 500px; 
     padding-bottom: 70px; 
     border: 1px solid #ddd; 
@@ -307,7 +306,6 @@ h1.hero__headline {
     justify-content: center;
     align-items: center;
     padding: 30px;
-    /* AJUSTE: Altura mínima para a Consultoria */
     min-height: 480px; 
     padding-bottom: 30px; 
 }
@@ -447,7 +445,7 @@ h1.hero__headline {
     transition: background-color 0.2s, transform 0.2s;
 }
 .btn--cta:hover:not(:disabled) {
-    background-color: #1fad51; /* Tom um pouco mais escuro ao passar o mouse */
+    background-color: #1fad51; 
     transform: translateY(-1px);
 }
 .btn--cta:disabled {
@@ -462,7 +460,10 @@ h1.hero__headline {
     border-top: 1px solid #eee; 
     margin-top: 40px; 
     font-size: 0.9em; 
-    color: #777;
+    
+    /* CORREÇÃO CRÍTICA: Garante que o texto tenha contraste no footer local */
+    color: var(--text-color); /* Força a cor escura */
+    
     /* AJUSTE ESSENCIAL PARA VISUALIZAÇÃO CORRETA EM MOBILE */
     padding-left: 0; 
     padding-right: 0;
@@ -470,8 +471,22 @@ h1.hero__headline {
     margin-right: 0;
 }
 .footer a {
-    color: var(--primary-color);
+    /* CORREÇÃO CRÍTICA: Links com cor primária, garantindo contraste */
+    color: var(--primary-color); 
     font-weight: 600;
+}
+.footer a.whatsapp-link {
+    /* Garante que o botão do WhatsApp dentro do footer local tenha cor de fundo */
+    display: inline-block;
+    background-color: var(--whatsapp-green);
+    color: var(--white);
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+.footer a.whatsapp-link i {
+    /* Ícone do WhatsApp fica branco no botão verde */
+    color: var(--white); 
+    margin-right: 5px;
 }
 .expert-seal { 
     font-weight: bold; 
@@ -598,7 +613,6 @@ tbody tr:hover {
     /* Landing Page Mobile */
     .container.form-container {
         margin: var(--space-md) auto;
-        /* AJUSTE: Garantir padding lateral mínimo (segurança) */
         padding: var(--space-md) 15px; 
         border-radius: 0; 
         box-shadow: none; 
@@ -618,13 +632,13 @@ tbody tr:hover {
     .container.form-container .footer {
         padding-left: 0;
         padding-right: 0;
-        margin-left: -15px; /* Compensa o padding do container */
-        margin-right: -15px; /* Compensa o padding do container */
-        width: calc(100% + 30px); /* Ocupa a largura total */
+        margin-left: -15px; 
+        margin-right: -15px; 
+        width: calc(100% + 30px); 
     }
     
     .pacote-card {
-        min-height: auto; /* Deixa o mobile mais flexível */
+        min-height: auto; 
         padding-bottom: 15px; 
     }
     .pacote-card .btn-selecionar {
@@ -689,9 +703,9 @@ tbody tr:hover {
         color: #495057; 
     }
     td:nth-of-type(1):before { content: "Nome"; }
-    td:nth-of-type(2):before { content: "Telefone"; } /* Correção do label */
-    td:nth-of-type(3):before { content: "Pacote"; }   /* Correção do label */
-    td:nth-of-type(4):before { content: "Data Cap."; } /* Correção do label */
+    td:nth-of-type(2):before { content: "Telefone"; } 
+    td:nth-of-type(3):before { content: "Pacote"; }   
+    td:nth-of-type(4):before { content: "Data Cap."; } 
     
     /* Política de Privacidade Mobile */
     .container.politica-container {
