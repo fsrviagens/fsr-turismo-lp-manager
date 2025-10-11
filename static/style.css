@@ -16,7 +16,8 @@
     
     /* Cores de Fundo e Texto */
     --text-color: #333;
-    --light-bg: #f8f9fa; /* Fundo geral suave */
+    /* AJUSTE AQUI: Cor para o fundo geral do site, harmonizando com a logo */
+    --light-bg: #F8F8F8; 
     --white: #fff;
     --alert-yellow: #ffcc00; /* Laranja-Amarelo forte para oferta */
     --loading-blue-light: #f0f7ff; /* Azul clarinho para fundos de seção */
@@ -46,6 +47,7 @@
 body {
     font-family: var(--font-primary);
     color: var(--text-color);
+    /* Aplicando a nova cor de fundo */
     background-color: var(--light-bg); 
     line-height: 1.6;
     min-width: 320px; 
@@ -67,7 +69,8 @@ a:hover {
 
 /* HEADER (Geral) - Aplicado em leads.html */
 header {
-    background-color: var(--white); 
+    /* CORREÇÃO AQUI: Fundo do header passa a ser o light-bg se o logo estiver nele */
+    background-color: var(--light-bg); 
     border-bottom: 2px solid var(--loading-blue-light); 
     padding: 15px var(--space-xl);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
@@ -173,7 +176,8 @@ footer .whatsapp-link i {
     max-width: 650px; 
     margin: var(--space-xl) auto;
     padding: var(--space-lg);
-    background: var(--white);
+    /* CORREÇÃO AQUI: Fundo do container também passa a usar light-bg (o off-white) */
+    background: var(--light-bg); 
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
@@ -247,7 +251,8 @@ h1.hero__headline {
 
 /* Card de Pacote */
 .pacote-card { 
-    background: var(--white);
+    /* CORREÇÃO AQUI: Fundo do card também usa light-bg para não ter conflito de brancos */
+    background: var(--light-bg);
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease; 
     cursor: pointer; 
@@ -410,7 +415,8 @@ h1.hero__headline {
     font-size: 1em;
     font-weight: 700;
     box-sizing: border-box; 
-    background-color: #f9f9f9; 
+    /* Ajustado para Fundo de Container/Body */
+    background-color: var(--light-bg); 
     border: 1px solid #ccc;
     color: var(--text-color);
 }
@@ -520,7 +526,8 @@ h1.hero__headline {
     width: 90%; 
     max-width: 1000px; 
     margin: 2rem auto;
-    background-color: var(--white);
+    /* CORREÇÃO AQUI: Fundo do leads-container */
+    background-color: var(--light-bg);
     padding: 30px; 
     border-radius: 12px; 
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
@@ -555,6 +562,7 @@ th, td {
     border-bottom: 1px solid #e9ecef; 
 }
 tbody tr:nth-child(even) {
+    /* Manter um tom de fundo diferente no leads para melhor leitura */
     background-color: #f8f9fa; 
 }
 tbody tr:hover {
@@ -580,7 +588,8 @@ tbody tr:hover {
 .container.politica-container {
     max-width: 900px;
     margin: 40px auto;
-    background: var(--white);
+    /* CORREÇÃO AQUI: Fundo do container também usa light-bg */
+    background: var(--light-bg);
     padding: 30px;
     border-radius: var(--border-radius-base);
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
