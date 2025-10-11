@@ -7,18 +7,18 @@
     /* Cores FSR (Baseado na logo) */
     --fsr-blue: #023e8a; /* Azul escuro da FSR (Cor Primária) */
     --fsr-red: #e74c3c; /* Vermelho do arco/destaque (Cor Secundária/Alerta) */
-    --primary-color: #0056b3; /* Usando o azul escuro padrão de muitos dos seus estilos in-line */
-    --secondary-color: var(--fsr-red);
+    --primary-color: #0056b3; /* Azul primário para títulos e bordas */
+    --secondary-color: var(--fsr-red); /* Vermelho para destaque de preço */
     
     /* Cores de Fundo e Texto */
     --text-color: #333;
     --light-bg: #f5f5f5;
     --white: #fff;
     --alert-yellow: #FFC300; /* Cor para destaque/oferta */
-    --warning-blue: #cce5ff; /* Cor para aviso suave (fallback) */
     --loading-blue-light: #f0f7ff; 
-    --soft-blue-consultoria: #f0f8ff; /* Novo: Fundo do card de consultoria */
-    --price-yellow-bg: #fff9e6; /* Novo: Fundo da caixa de preço */
+    --soft-blue-consultoria: #f0f8ff; /* Fundo do card de consultoria */
+    --price-yellow-bg: #fff9e6; /* Fundo da caixa de preço */
+    --whatsapp-green: #25D366; /* Cor do botão CTA */
 
 
     /* Fontes e Tamanhos */
@@ -59,74 +59,171 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
+/* ====================
+   2. Estilos de Header, Banner e Formulário Base
+   ==================== */
+
+.header__content {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+}
+
 h1.hero__headline {
     font-size: var(--heading-size-2);
     color: var(--primary-color);
     font-weight: 800; 
     margin-bottom: var(--space-sm);
-}
-
-/* Estilos para o Hero e Form (Migrados/Revisados) */
-.hero__headline { 
-    text-align: center; 
-    color: var(--primary-color); 
+    line-height: 1.2;
 }
 .hero__slogan { 
     text-align: center; 
     color: #333; 
     margin-bottom: var(--space-md); 
+    font-size: 1.1em;
 }
+
+/* Banner de Oferta */
 .offer-banner {
-    background-color: #ffcc00; /* Reaplicando cor exata do in-line para consistência */
-    color: #333; 
-    padding: 10px; 
+    background-color: var(--alert-yellow); 
+    color: var(--text-color); 
+    padding: 12px; 
     text-align: center; 
-    font-weight: bold; 
-    border-radius: 5px;
-    margin-bottom: 30px;
+    font-weight: 700; 
+    border-radius: var(--border-radius-base);
+    margin-bottom: var(--space-xl);
+    animation: pulse 1.5s infinite alternate;
+}
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 rgba(0,0,0,0.0); }
+    100% { transform: scale(1.01); box-shadow: 0 0 10px rgba(255,195,0,0.7); }
+}
+
+/* Estilos de Formulário */
+.form__fieldset {
+    border: 1px solid #ddd;
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+    border-radius: var(--border-radius-base);
 }
 .form__legend { 
     font-size: 1.2em; 
     font-weight: bold; 
     color: var(--primary-color); 
+    padding: 0 var(--space-sm);
+    margin-left: -5px; /* Alinha a legenda */
 }
+.form__group {
+    margin-bottom: var(--space-md);
+}
+.form__group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+.form__group input[type="text"],
+.form__group input[type="tel"],
+.form__group input[type="number"],
+.form__group input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: var(--text-size);
+}
+
+/* **NOVO: Estilo do Campo de Leitura (Pacote Selecionado)** */
+.selected-pacote-display {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: 700;
+    box-sizing: border-box; 
+    transition: all 0.3s ease;
+}
+
+.selected-pacote-display.is-selected {
+    background-color: #e6f7ff; /* Fundo azul claro para sucesso */
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.selected-pacote-display.not-selected {
+    background-color: #ffe0e0; /* Fundo vermelho claro para alerta */
+    border: 2px solid var(--secondary-color);
+    color: var(--secondary-color);
+}
+
+/* Mensagens de Alerta */
 .error-message { 
-    color: var(--secondary-color); 
-    border: 1px solid var(--secondary-color); 
-    padding: 10px; 
+    color: var(--white); 
+    background-color: var(--secondary-color);
+    border: none;
+    padding: 12px; 
     border-radius: 5px; 
     margin-top: 15px; 
+    font-weight: 600;
+    text-align: center;
 }
-.expert-seal { 
-    font-weight: bold; 
-    color: #333; 
-    margin-bottom: 10px; 
+.help-text {
+    display: block;
+    font-size: 0.8em;
+    color: #777;
+    margin-top: 5px;
 }
-
+.final-call-to-action {
+    text-align: center;
+    font-size: 0.9em;
+    font-weight: 600;
+    color: #555;
+    margin-top: var(--space-md);
+}
+.final-call-to-action i {
+    color: var(--secondary-color);
+    margin-right: 5px;
+}
 
 /* ====================
-   2. Componentes Adaptados e Novos (Foco na Venda e UX)
+   3. Botão CTA (Foco na Conversão WhatsApp)
    ==================== */
 
-/* Logo e Header da Landing Page */
-.header__content {
-    text-align: center;
-    margin-bottom: var(--space-lg);
+.btn--cta {
+    /* Cor e Estilo de Alto Impacto */
+    font-size: 1.3em; 
+    padding: 15px 25px; 
+    background-color: var(--whatsapp-green); 
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    width: 100%;
+    text-transform: uppercase;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, transform 0.1s;
+    margin-top: var(--space-md);
 }
-/* ... (outros estilos de header/logo) */
 
-/* --- GATILHO DE VENDA (OFERTA 5% OFF) --- */
-/* ... (estilos do offer-banner e animação) */
+.btn--cta:hover {
+    background-color: #1DA851;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+}
 
-/* --- ESTILOS DO FORMULÁRIO --- */
-/* ... (estilos de fieldset, legend, input, etc.) */
-
-/* --- MENSAGEM DE CARREGAMENTO (UX OTIMIZADA) --- */
-/* ... (estilos de loading-message e animação) */
+.btn--cta:disabled {
+    background-color: #ccc;
+    box-shadow: none;
+    transform: none;
+    cursor: not-allowed;
+}
+.btn--cta i {
+    margin-right: 8px;
+    font-size: 1.1em;
+}
 
 
 /* ====================
-   3. Vitrine de Pacotes (PacoteCard e VitrinePacotes)
+   4. Vitrine de Pacotes e Cards (Foco no Feedback Visual)
    ==================== */
 
 .vitrine-pacotes {
@@ -140,7 +237,6 @@ h1.hero__headline {
 }
 
 .vitrine-pacotes h2 {
-    /* NOVO ESTILO PARA CORRIGIR A BARRA AMARELA */
     background: none; 
     border: none;
     padding: 0;
@@ -150,29 +246,33 @@ h1.hero__headline {
     font-weight: 700;
 }
 
-/* NOVO: Ajustes da Grid */
 .pacotes-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Minmax ajustado para 300px */
-    gap: 25px; /* Gap ajustado */
-    margin-top: 30px; /* Margem ajustada */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 25px; 
+    margin-top: 30px; 
 }
 
-/* NOVO: Estilos do Pacote Card */
 .pacote-card {
-    /* Estilos de fallback e min-heights (Migrados/Ajustados) */
     display: flex; 
     flex-direction: column;
-    min-height: 480px; /* Min-height ajustado */
-    padding-bottom: 70px; /* Padding para o botão absoluto */
+    min-height: 480px; 
+    padding-bottom: 70px; 
     border: 1px solid #ddd; 
-    border-radius: 8px;
+    border-radius: var(--border-radius-base);
     overflow: hidden; 
     position: relative; 
     
     background: var(--white);
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease; /* Transição para seleção */
+}
+
+/* **NOVO: ESTILO DO CARD SELECIONADO (Feedback UX)** */
+.pacote-card--selecionado {
+    border: 3px solid var(--primary-color) !important; 
+    box-shadow: 0 5px 15px rgba(0, 86, 179, 0.5); 
+    transform: scale(1.02); 
 }
 
 .pacote-card:hover {
@@ -181,28 +281,22 @@ h1.hero__headline {
 }
 
 .pacote-card img { 
-    height: 180px; /* Altura ajustada */
+    height: 180px; 
     object-fit: cover; 
     width: 100%;
     transition: transform 0.5s ease;
 }
 
-.pacote-card:hover img {
-    transform: scale(1.05); 
-}
-
 .pacote-content {
-    /* Estilos migrados */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     flex-grow: 1; 
-    padding: 15px; /* Padding ajustado */
+    padding: 15px; 
 }
 
 .pacote-content h3 {
     color: var(--primary-color);
-    margin-top: 0;
     font-size: 1.15em;
     font-weight: 600;
     min-height: 40px;
@@ -218,6 +312,7 @@ h1.hero__headline {
     margin-bottom: var(--space-sm);
     min-height: 60px; 
 }
+
 .pacote-content .saida {
     font-weight: 700;
     color: #28a745; 
@@ -225,16 +320,13 @@ h1.hero__headline {
     margin-bottom: var(--space-md);
 }
 
-/* Botão de seleção dentro do card (Posicionamento Absoluto) */
 .pacote-card .btn-selecionar {
-    /* Posicionamento absoluto do in-line styles */
+    /* Botão de seleção DENTRO do card (vermelho) */
     width: calc(100% - 30px); 
-    margin-left: 15px;
-    margin-right: 15px;
     position: absolute; 
     bottom: 15px;
+    left: 15px; /* Centraliza melhor */
     
-    /* Estilos visuais */
     background-color: var(--secondary-color); 
     color: var(--white);
     border: none;
@@ -242,17 +334,13 @@ h1.hero__headline {
     cursor: pointer;
     font-weight: 600;
     transition: background-color 0.2s;
-    border-radius: var(--border-radius-base); /* Ajustado para 8px para o botão */
+    border-radius: var(--border-radius-base); 
     font-size: 0.95rem;
-}
-
-.pacote-card .btn-selecionar:hover {
-    background-color: #c0392b;
 }
 
 
 /* ====================
-   4. Estilos do Preço e Bloco de Oferta (MIGRADO)
+   5. Estilos de Preço e Desconto VIP (Otimizado)
    ==================== */
 
 .pacote-price-box {
@@ -260,16 +348,26 @@ h1.hero__headline {
     padding: 10px;
     border: 1px solid var(--alert-yellow); 
     border-radius: 5px;
-    background-color: var(--price-yellow-bg); /* Fundo suave */
+    background-color: var(--price-yellow-bg); 
     text-align: right;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
-.price-label {
-    display: block;
-    font-size: 0.85em;
-    color: #555;
-    margin-bottom: 3px;
+/* **NOVO: DESTAQUE DO DESCONTO VIP** */
+.price-vip-discount {
+    margin-top: 8px;
+    padding: 5px;
+    background-color: var(--secondary-color); /* Vermelho forte */
+    color: var(--white);
+    font-weight: 700;
+    border-radius: 4px;
+    font-size: 0.9em;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.price-vip-discount .fas {
+    margin-right: 5px;
 }
 
 .price-value {
@@ -280,89 +378,47 @@ h1.hero__headline {
     color: var(--primary-color); 
 }
 
-.installments {
-    font-size: 0.9em;
-    margin-right: 2px;
-}
-
 .main-price {
     font-size: 1.8em;
     line-height: 1;
-    color: #d9534f; /* Cor exata do in-line para consistência */
-}
-
-.taxes {
-    font-size: 0.7em;
-    font-weight: normal;
-    color: #777;
-    margin-left: 5px;
-    align-self: flex-end;
-}
-
-.pacote-price-box small {
-    display: block;
-    font-size: 0.7em;
-    color: #777;
-    margin-top: 5px;
-    text-align: right;
+    color: var(--secondary-color); /* Usando a variável */
 }
 
 
-/* --- ESTILO ESPECIAL: CARD DE CONSULTORIA (MIGRADO) --- */
+/* ====================
+   6. Estilo Especial: Card de Consultoria
+   ==================== */
 
 .card-consultoria {
     background-color: var(--soft-blue-consultoria); 
-    border: 2px dashed var(--primary-color); /* Usando primary-color */
+    border: 2px dashed var(--primary-color); 
     text-align: center;
     justify-content: center;
     align-items: center;
     padding: 30px;
-    min-height: 300px; /* Altura reduzida para se destacar como 'diferente' */
-    padding-bottom: 30px; /* Reduz o padding inferior, pois o botão não é absoluto */
+    min-height: 300px; 
+    padding-bottom: 30px; 
     
-    /* Resetando estilos de cor e fonte para este card */
     color: var(--text-color);
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     
-    /* Garantindo que seja flex column */
     display: flex;
     flex-direction: column;
 }
 
-.card-consultoria:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.card-consultoria i {
-    color: var(--primary-color);
-    margin-bottom: 15px;
-    font-size: 40px; 
-}
-
-.card-consultoria h3 {
-    color: var(--primary-color);
-    font-size: 1.4em;
-    font-weight: 800;
-    margin-bottom: var(--space-sm);
-}
-
-.card-consultoria p {
-    color: #555;
-    font-size: 1em;
-    margin-bottom: var(--space-lg);
-    min-height: auto; 
-    flex-grow: 1; /* Permite que o parágrafo ocupe o espaço */
+.card-consultoria.pacote-card--selecionado {
+    border: 3px dashed var(--primary-color) !important; /* Borda pontilhada para consultoria selecionada */
+    box-shadow: 0 5px 15px rgba(0, 86, 179, 0.5); 
+    transform: scale(1.02);
 }
 
 .card-consultoria .btn-selecionar {
-    /* Estilos de botão da consultoria (Posicionamento Estático/Fluxo Normal) */
+    /* Estilo do botão de consultoria (Azul) */
      position: static; 
      margin: 20px auto 0; 
      width: 100%;
      
-     /* Estilos de visual do botão */
     background-color: var(--primary-color); 
     color: var(--white);
     font-size: 1.0rem;
@@ -371,14 +427,55 @@ h1.hero__headline {
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
 }
 
-.card-consultoria .btn-selecionar:hover {
-    background-color: #004692; /* Um azul um pouco mais escuro */
-}
-
-/* Botão de Envio (WhatsApp) e demais estilos de form/footer */
-/* ... (MANTIDOS) */
 
 /* ====================
-   5. Responsividade
+   7. Footer e Responsividade
    ==================== */
-/* ... (MANTIDOS) */
+
+.footer { 
+    text-align: center; 
+    padding-top: var(--space-md); 
+    border-top: 1px solid #eee; 
+    margin-top: var(--space-xl); 
+    font-size: 0.9em; 
+}
+.expert-seal { 
+    font-weight: bold; 
+    color: #333; 
+    margin-bottom: 10px; 
+}
+.whatsapp-link {
+    color: var(--whatsapp-green);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .container.form-container {
+        margin: var(--space-md) auto;
+        padding: var(--space-md);
+        border-radius: 0; /* Remove bordas arredondadas em telas pequenas */
+        box-shadow: none; /* Remove sombra em telas pequenas */
+    }
+    
+    h1.hero__headline {
+        font-size: 1.5rem;
+    }
+    
+    .vitrine-pacotes {
+        padding: var(--space-sm);
+    }
+    
+    .pacotes-grid {
+        grid-template-columns: 1fr; /* Coluna única em mobile */
+        gap: 20px;
+    }
+    
+    .pacote-card {
+        min-height: 450px;
+    }
+    
+    .card-consultoria {
+        min-height: auto;
+    }
+}
