@@ -3,79 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leads</title>
+    <title>Leads - FSR Viagens</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <style>
-        .leads-container {
-            width: 80%;
-            margin: 2rem auto;
-            background-color: #fff;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        /* 1. Base e Tipografia */
+        body {
+            font-family: 'Arial', sans-serif; 
+            background-color: #f8f9fa; /* Fundo mais suave */
+            color: #333; 
         }
+
+        /* 2. Container Principal */
+        .leads-container {
+            width: 90%; 
+            max-width: 1000px; 
+            margin: 2rem auto;
+            background-color: #ffffff;
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra elegante */
+        }
+
+        .leads-container h2 {
+            color: #007bff; /* Cor primária */
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+            font-weight: 600;
+        }
+
+        /* 3. Estilo da Tabela */
         table {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
+            border-collapse: separate; 
+            border-spacing: 0;
+            margin-top: 1.5rem;
+            overflow: hidden; 
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
         }
+
         th, td {
-            padding: 12px;
-            border: 1px solid #ddd;
+            padding: 15px; 
             text-align: left;
+            border: none; 
+            border-bottom: 1px solid #e9ecef; 
         }
+
+        /* Cabeçalho da Tabela */
+        thead tr {
+            background-color: #007bff; /* Fundo com cor primária */
+            color: white;
+        }
+        
         th {
-            background-color: #f4f4f4;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
+
+        /* Linhas Alternadas */
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa; /* Linhas zebradas */
+        }
+        
+        tbody tr:hover {
+            background-color: #e9ecef; /* Efeito hover */
+            transition: background-color 0.3s ease;
+        }
+        
+        /* Remove a borda inferior da última linha */
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* 4. Link do WhatsApp */
         .whatsapp-link {
-            display: inline-block;
+            display: inline-flex; 
+            align-items: center;
             background-color: #25D366;
             color: white;
-            padding: 8px 12px;
-            border-radius: 5px;
+            padding: 8px 15px;
+            border-radius: 20px; /* Estilo pílula */
             text-decoration: none;
             font-size: 14px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 5px rgba(37, 211, 102, 0.4);
         }
+        
+        .whatsapp-link:hover {
+            background-color: #128C7E; 
+        }
+
         .whatsapp-link i {
-            margin-right: 5px;
+            margin-right: 8px;
+            font-size: 16px;
         }
+        
+        /* 5. Estilos de Responsividade para Tabela (Mobile First) */
         @media (max-width: 768px) {
             .leads-container {
                 width: 95%;
+                padding: 20px;
+                box-shadow: none; 
             }
+            
+            table {
+                border-radius: 0;
+                box-shadow: none;
+            }
+            
+            /* Transforma linhas em blocos */
             table, thead, tbody, th, td, tr {
                 display: block;
             }
+            
+            /* Oculta o cabeçalho original */
             thead tr {
                 position: absolute;
                 top: -9999px;
                 left: -9999px;
             }
+            
             tr {
                 margin: 0 0 1rem 0;
+                border: 1px solid #dee2e6;
+                border-radius: 8px;
+                overflow: hidden;
+                background-color: #fff;
             }
+            
             td {
                 border: none;
-                border-bottom: 1px solid #ddd;
+                border-bottom: 1px solid #eee;
                 position: relative;
                 padding-left: 50%;
                 text-align: right;
+                line-height: 1.5;
             }
+            
             td:before {
                 position: absolute;
-                top: 6px;
-                left: 6px;
+                top: 12px; 
+                left: 10px; 
                 width: 45%;
                 padding-right: 10px;
                 white-space: nowrap;
                 text-align: left;
                 font-weight: bold;
+                color: #495057; 
             }
+            
+            /* Rótulos responsivos */
             td:nth-of-type(1):before { content: "Nome"; }
             td:nth-of-type(2):before { content: "E-mail"; }
             td:nth-of-type(3):before { content: "Senha"; }
             td:nth-of-type(4):before { content: "Contato"; }
+            
+            td:last-child {
+                border-bottom: none;
+                text-align: center;
+            }
+            
+            .whatsapp-link {
+                justify-content: center; 
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -89,7 +185,7 @@
             <ul>
                 <li><a href="/">Início</a></li>
                 <li><a href="/cadastro.html">Cadastre-se</a></li>
-                <li><a href="/leads.html">Leads</a></li>
+                <li><a href="/leads.html" class="active">Leads</a></li>
             </ul>
         </nav>
     </header>
@@ -113,13 +209,13 @@
                         <td>{{ lead[1] }}</td>
                         <td>{{ lead[2] }}</td>
                         <td>
-                            <a href="https://wa.me/?text=Ol%C3%A1%20{{ lead[0] }}%2C%20vi%20seu%20cadastro%20na%20FSR%20Viagens.%20Podemos%20conversar%3F" class="whatsapp-link" target="_blank">
+                            <a href="https://wa.me/55NUMERO_DE_CONTATO?text=Ol%C3%A1%20{{ lead[0] }}%2C%20vi%20seu%20cadastro%20na%20FSR%20Viagens.%20Podemos%20conversar%3F" class="whatsapp-link" target="_blank">
                                 <i class="fab fa-whatsapp"></i> Contato
                             </a>
                         </td>
                     </tr>
                     {% endfor %}
-                </tbody>
+                    </tbody>
             </table>
         </div>
     </main>
@@ -132,9 +228,9 @@
         </div>
         <div class="social-media">
             <h4>Siga-nos</h4>
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
         </div>
     </footer>
 
