@@ -3,7 +3,7 @@ import psycopg2
 import time
 import smtplib
 from email.mime.text import MIMEText
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_cors import CORS 
 from pacotes_data import realizar_web_scraping_da_vitrine # Importando a função de scraping real
 
@@ -53,6 +53,7 @@ def enviar_alerta_lead(nome, whatsapp, destino):
         msg['To'] = RECEIVER_EMAIL
 
         # 3. Conecta e envia o e-mail via Zoho Mail (ou outro SMTP)
+        # O smtplib.SMTP_SSL é frequentemente mais seguro e direto para o porto 465, mas mantive o TLS (starttls) se for o padrão (porta 587)
         with smtplib.SMTP(SMTP_SERVER, int(SMTP_PORT)) as server:
             server.starttls()  # Inicia TLS para segurança
             server.login(SMTP_SENDER_EMAIL, SMTP_PASSWORD)
@@ -72,10 +73,26 @@ CORS(app)
 
 # --- ROTAS DA LANDING PAGE (FRONTEND) ---
 
-# Rota para servir a página principal (index.html)
+# Rota principal
 @app.route('/')
 def index():
     return render_template('index.html')
+
+# Rota para a Política de Privacidade (CORREÇÃO APLICADA AQUI)
+@app.route('/politica-de-privacidade.html')
+def politica_de_privacidade():
+    return render_template('politica-de-privacidade.html')
+
+# Rota para a página de Obrigado (Adicionado para garantir o acesso)
+@app.route('/obrigado.html')
+def obrigado():
+    return render_template('obrigado.html')
+
+# Rota para a página de Cadastro (Adicionado para garantir o acesso)
+@app.route('/cadastro.html')
+def cadastro():
+    return render_template('cadastro.html')
+
 
 # ENDPOINT: Rota para buscar os Pacotes (Varredura Real com Tempo Mínimo)
 @app.route('/api/pacotes', methods=['GET'])
@@ -83,8 +100,6 @@ def get_pacotes():
     
     start_time = time.time() # Marca o tempo de início da requisição
     
-    # ... (O código de scraping permanece o mesmo) ...
-
     try:
         # 1. Executa o Web Scraping real
         pacotes_atuais = realizar_web_scraping_da_vitrine()
@@ -173,11 +188,12 @@ def capturar_lead():
 # Rota para a página de leads (mantida)
 @app.route('/leads.html', methods=['GET'])
 def leads():
-    # ... (O código permanece o mesmo) ...
     try:
         db_url_corrigida = corrigir_url_db(os.environ.get('DATABASE_URL'))
         if not db_url_corrigida:
-            return render_template('leads.html', leads=[("ERRO: DATABASE_URL não configurada.", "", "", "", "")]), 500
+            # Renderiza a página com uma mensagem de erro no lugar dos leads
+            error_message = [("ERRO: DATABASE_URL não configurada.", "", "", "", "")]
+            return render_template('leads.html', leads=error_message), 500
             
         conn = psycopg2.connect(db_url_corrigida)
         cur = conn.cursor()
@@ -190,12 +206,14 @@ def leads():
         return render_template('leads.html', leads=leads_data)
         
     except Exception as e:
-        return jsonify({'success': False, 'message': str(e)}), 500
+        print(f"Erro ao carregar leads: {e}")
+        # Retorna a página com o erro para visualização
+        error_message = [(f"ERRO AO CONECTAR/CONSULTAR BD: {str(e)}", "", "", "", "")]
+        return render_template('leads.html', leads=error_message), 500
 
 # Rota para configurar o banco de dados (Manutenção)
 @app.route('/setup')
 def setup_database():
-    # ... (O código permanece o mesmo) ...
     try:
         db_url_corrigida = corrigir_url_db(os.environ.get('DATABASE_URL'))
         if not db_url_corrigida:
