@@ -316,17 +316,18 @@ h1.hero__headline {
     transition: transform 0.5s ease;
 }
 
+/* AJUSTE FLEXBOX: Garante que o conteúdo se estique e empurre o preço/botão para baixo */
 .pacote-content {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1; 
+    flex-direction: column; /* CRÍTICO: Layout vertical forçado */
+    justify-content: flex-start; /* CRÍTICO: Conteúdo começa do topo */
+    flex-grow: 1; /* CRÍTICO: Permite que o container preencha o espaço */
     padding: 15px; 
 }
 
 .pacote-content h3 {
     color: var(--primary-color);
-    font-size: 1.25em; /* Aumentado levemente */
+    font-size: 1.25em; 
     font-weight: 700; 
     min-height: 40px;
     margin-bottom: 5px; 
@@ -338,7 +339,7 @@ h1.hero__headline {
 
 /* NOVO: Estilo da Duração/Saída */
 .card-duracao {
-    font-size: 0.9em; /* Ligeiramente maior */
+    font-size: 0.9em; 
     color: #555;
     font-weight: 600;
     margin-bottom: var(--space-sm);
@@ -349,27 +350,28 @@ h1.hero__headline {
     margin-right: 5px;
 }
 
-
+/* AJUSTE FLEXBOX: Permite que a descrição preencha todo o espaço restante antes do bloco de preço */
 .pacote-content p {
     font-size: 0.9em;
     color: #555;
     margin-bottom: var(--space-sm);
-    min-height: 60px; 
+    /* REMOVIDO: min-height fixo */
+    flex-grow: 1; /* CRÍTICO: Preenche o espaço vertical e resolve o desalinhamento */
 }
 
 .pacote-card .btn-selecionar {
     /* Botão de seleção DENTRO do card (Vermelho, CTA Secundário) */
     width: calc(100% - 30px); 
     position: absolute; 
-    bottom: 15px;
+    bottom: 15px; /* Posição fixa */
     left: 15px; 
     
     background-color: var(--secondary-color); 
     color: var(--white);
     border: none;
-    padding: 12px var(--space-md); /* Aumentado o padding para melhor toque */
+    padding: 12px var(--space-md); 
     cursor: pointer;
-    font-weight: 700; /* Mais Destaque */
+    font-weight: 700; 
     transition: background-color 0.2s;
     border-radius: var(--border-radius-base); 
     font-size: 1rem;
@@ -408,7 +410,7 @@ h1.hero__headline {
 
 .price-label {
     display: block;
-    font-size: 0.85em; /* Ligeiramente maior */
+    font-size: 0.85em; 
     color: #555;
     margin-bottom: 3px;
     text-transform: uppercase; 
@@ -417,12 +419,12 @@ h1.hero__headline {
 
 .price-vip-discount {
     margin-top: 8px;
-    padding: 6px; /* Aumentado padding */
+    padding: 6px; 
     background-color: var(--secondary-color); 
     color: var(--white);
     font-weight: 800; /* MAIOR DESTAQUE */
     border-radius: 4px;
-    font-size: 1em; /* Ligeiramente maior */
+    font-size: 1em; 
     text-align: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     text-transform: uppercase;
@@ -492,8 +494,8 @@ h1.hero__headline {
      
     background-color: var(--primary-color); 
     color: var(--white);
-    font-size: 1.05rem; /* Ligeiramente maior */
-    padding: 14px var(--space-md); /* Mais padding */
+    font-size: 1.05rem; 
+    padding: 14px var(--space-md); 
     border-radius: var(--border-radius-base);
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
     font-weight: 700;
