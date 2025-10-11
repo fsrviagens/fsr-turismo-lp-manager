@@ -541,7 +541,8 @@ header {
 }
 
 .logo-container .logo {
-    height: 40px; 
+    /* AJUSTE AQUI: Reduzido de 40px para 30px */
+    height: 30px; 
     margin-right: 10px;
 }
 
@@ -692,6 +693,11 @@ footer i {
     
     .logo-container {
         margin-bottom: 10px;
+    }
+    
+    .logo-container .logo {
+        /* Ajuste responsivo para garantir que a logo não cresça em telas pequenas */
+        height: 25px; 
     }
 
     nav ul {
