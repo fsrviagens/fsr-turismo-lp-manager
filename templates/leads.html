@@ -11,7 +11,7 @@
         /* 1. Base e Tipografia */
         body {
             font-family: 'Arial', sans-serif; 
-            background-color: #f8f9fa; /* Fundo mais suave */
+            background-color: #f8f9fa; 
             color: #333; 
         }
 
@@ -23,7 +23,7 @@
             background-color: #ffffff;
             padding: 30px; 
             border-radius: 12px; 
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra elegante */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
         }
 
         .leads-container h2 {
@@ -54,7 +54,7 @@
 
         /* Cabeçalho da Tabela */
         thead tr {
-            background-color: #007bff; /* Fundo com cor primária */
+            background-color: #007bff; 
             color: white;
         }
         
@@ -66,11 +66,11 @@
 
         /* Linhas Alternadas */
         tbody tr:nth-child(even) {
-            background-color: #f8f9fa; /* Linhas zebradas */
+            background-color: #f8f9fa; 
         }
         
         tbody tr:hover {
-            background-color: #e9ecef; /* Efeito hover */
+            background-color: #e9ecef; 
             transition: background-color 0.3s ease;
         }
         
@@ -79,14 +79,14 @@
             border-bottom: none;
         }
 
-        /* 4. Link do WhatsApp */
+        /* 4. Link do WhatsApp (Estilo pílula) */
         .whatsapp-link {
             display: inline-flex; 
             align-items: center;
             background-color: #25D366;
             color: white;
             padding: 8px 15px;
-            border-radius: 20px; /* Estilo pílula */
+            border-radius: 20px; 
             text-decoration: none;
             font-size: 14px;
             font-weight: 600;
@@ -178,7 +178,7 @@
 <body>
     <header>
         <div class="logo-container">
-            <img src="logo.png" alt="FSR Viagens Logo" class="logo">
+            <img src="{{ url_for('static', filename='logo_fsr0.webp') }}" alt="FSR Viagens Logo" class="logo">
             <h1 class="agencia-nome">FSR Viagens</h1>
         </div>
         <nav>
@@ -209,13 +209,13 @@
                         <td>{{ lead[1] }}</td>
                         <td>{{ lead[2] }}</td>
                         <td>
-                            <a href="https://wa.me/55NUMERO_DE_CONTATO?text=Ol%C3%A1%20{{ lead[0] }}%2C%20vi%20seu%20cadastro%20na%20FSR%20Viagens.%20Podemos%20conversar%3F" class="whatsapp-link" target="_blank">
+                            <a href="https://wa.me/5561983163710?text=Ol%C3%A1%20{{ lead[0] }}%2C%20vi%20seu%20cadastro%20na%20FSR%20Viagens.%20Podemos%20conversar%3F" class="whatsapp-link" target="_blank">
                                 <i class="fab fa-whatsapp"></i> Contato
                             </a>
                         </td>
                     </tr>
                     {% endfor %}
-                    </tbody>
+                </tbody>
             </table>
         </div>
     </main>
@@ -223,7 +223,7 @@
     <footer>
         <div class="contato">
             <h4>Fale Conosco</h4>
-            <p><i class="fas fa-phone"></i> (11) 98765-4321</p>
+            <p><i class="fas fa-phone"></i> (61) 98316-3710</p>
             <p><i class="fas fa-envelope"></i> contato@fsrviagens.com.br</p>
         </div>
         <div class="social-media">
