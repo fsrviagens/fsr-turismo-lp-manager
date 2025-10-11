@@ -16,8 +16,8 @@
     
     /* Cores de Fundo e Texto */
     --text-color: #333;
-    /* COR EXATA DA LOGO: Tom bege claro para fundo */
-    --light-bg: #F4F2EE; 
+    /* AJUSTE FINAL DE COR: #F5F3F0 para garantir uniformidade com a logo */
+    --light-bg: #F5F3F0; 
     --white: #fff;
     --alert-yellow: #ffcc00; /* Laranja-Amarelo forte para oferta */
     --loading-blue-light: #f0f7ff; /* Azul clarinho para fundos de seção */
@@ -47,7 +47,7 @@
 body {
     font-family: var(--font-primary);
     color: var(--text-color);
-    /* Aplicando a cor exata da logo */
+    /* Aplicando o novo ajuste fino de cor */
     background-color: var(--light-bg); 
     line-height: 1.6;
     min-width: 320px; 
@@ -186,6 +186,9 @@ footer .whatsapp-link i {
 .header__content {
     text-align: center; 
     margin-bottom: var(--space-lg);
+    /* Removendo margem superior para que o logo fique totalmente no topo do container */
+    margin-top: 0; 
+    padding-top: 0;
 }
 
 .header__content .logo__image {
@@ -472,9 +475,6 @@ h1.hero__headline {
     background-color: var(--fsr-blue); 
     padding: var(--space-md); 
     border-radius: var(--border-radius-base);
-    
-    /* REMOVENDO OS AJUSTES QUE QUEBRARAM O LAYOUT NO DESKTOP */
-    /* Removido: padding-left: 0; padding-right: 0; margin-left: 0; margin-right: 0; */
 }
 /* Garante que links de texto dentro do bloco azul sejam brancos e sem sublinhado padrão */
 .footer a {
@@ -637,6 +637,11 @@ tbody tr:hover {
         padding: var(--space-md) 15px; 
         border-radius: 0; 
         box-shadow: none; 
+    }
+    .header__content {
+        margin-top: 0; 
+        padding-top: 0;
+        margin-bottom: var(--space-lg);
     }
     .header__content .logo__image {
         max-width: 150px;
