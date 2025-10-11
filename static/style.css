@@ -16,9 +16,10 @@
     
     /* Cores de Fundo e Texto */
     --text-color: #333;
-    /* AJUSTE FINAL DE COR: #F5F3F0 para garantir uniformidade com a logo */
-    --light-bg: #F5F3F0; 
+    /* COR AJUSTADA: #F4F2EE para máxima uniformidade com o fundo da logo */
+    --light-bg: #F4F2EE; 
     --white: #fff;
+    --light-text-soft: #E0EFFF; /* Branco suave para melhor leitura no azul escuro */
     --alert-yellow: #ffcc00; /* Laranja-Amarelo forte para oferta */
     --loading-blue-light: #f0f7ff; /* Azul clarinho para fundos de seção */
     --whatsapp-green: #25D366; /* Cor do botão CTA */
@@ -47,7 +48,7 @@
 body {
     font-family: var(--font-primary);
     color: var(--text-color);
-    /* Aplicando o novo ajuste fino de cor */
+    /* Aplicando a cor de fundo exata da logo */
     background-color: var(--light-bg); 
     line-height: 1.6;
     min-width: 320px; 
@@ -470,15 +471,15 @@ h1.hero__headline {
     margin-top: 40px; 
     font-size: 0.9em; 
     
-    /* CORREÇÃO PARA COERÊNCIA: Fundo Azul Escuro com TODO o texto Branco */
-    color: var(--white); 
+    /* CORREÇÃO DE CONTRASTE E FUNDO AZUL ESCURO */
+    color: var(--light-text-soft); /* Aplica o branco suave ao corpo do texto */
     background-color: var(--fsr-blue); 
     padding: var(--space-md); 
     border-radius: var(--border-radius-base);
 }
 /* Garante que links de texto dentro do bloco azul sejam brancos e sem sublinhado padrão */
 .footer a {
-    color: var(--white); 
+    color: var(--white); /* Links (como Termos) permanecem branco puro */
     text-decoration: none; 
     font-weight: 600;
 }
@@ -498,13 +499,23 @@ h1.hero__headline {
     margin-right: 5px;
 }
 .expert-seal { 
-    font-weight: bold; 
+    /* Destaque para o selo de experiência: Branco Puro e negrito */
+    font-weight: 800; 
     color: var(--white); 
     margin-bottom: 10px; 
 }
 .footer i {
-    color: var(--white); 
+    color: var(--light-text-soft); /* Ícones com cor suave */
     margin-right: 8px;
+}
+
+/* NOVO: Estilo para o texto de copyright (garante cor mais sólida e contraste) */
+.footer p:last-child {
+    color: var(--white); /* Aplica Branco Puro ao copyright */
+    font-weight: 500;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2); /* Linha divisória sutil */
 }
 
 /* Correção para o texto ACIMA do bloco azul (Termos e Política) */
