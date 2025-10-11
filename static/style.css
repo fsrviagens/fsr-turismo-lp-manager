@@ -541,8 +541,9 @@ header {
 }
 
 .logo-container .logo {
-    /* AJUSTE AQUI: Reduzido de 40px para 30px */
+    /* CORREÇÃO: Define altura e largura automática para evitar que a logo fique esticada ou grande demais */
     height: 30px; 
+    width: auto;
     margin-right: 10px;
 }
 
@@ -696,8 +697,9 @@ footer i {
     }
     
     .logo-container .logo {
-        /* Ajuste responsivo para garantir que a logo não cresça em telas pequenas */
+        /* CORREÇÃO RESPONSIVA: Altura reduzida para telas pequenas, mantendo o width: auto */
         height: 25px; 
+        width: auto; 
     }
 
     nav ul {
