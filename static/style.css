@@ -140,19 +140,44 @@ h1.hero__headline {
     font-weight: 700;
     box-sizing: border-box; 
     transition: all 0.3s ease;
+    /* Correção: Quando não selecionado, usar o estilo base */
+    background-color: var(--white); /* Default branco/levemente cinza */
+    border: 1px solid #ccc;
+    color: var(--text-color);
 }
 
+/* NOVO: Estilo para "Nenhum Pacote Selecionado" */
 .selected-pacote-display.is-selected {
-    background-color: #e6f7ff; 
+    background-color: var(--loading-blue-light); 
     border: 2px solid var(--primary-color);
     color: var(--primary-color);
+    /* Adicionando leve sombra de foco */
+    box-shadow: 0 0 5px rgba(0, 86, 179, 0.3);
 }
 
 .selected-pacote-display.not-selected {
-    background-color: #ffe0e0; 
+    background-color: #fff0f0; /* Fundo mais suave para erro/falta */
     border: 2px solid var(--secondary-color);
     color: var(--secondary-color);
 }
+
+/* Loading Message Style (NOVO) */
+.loading-message {
+    text-align: center;
+    padding: var(--space-md);
+    background-color: var(--loading-blue-light);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius-base);
+    margin-top: var(--space-sm);
+    font-weight: 400;
+    color: var(--primary-color);
+    font-size: 0.9em;
+}
+
+.loading-message strong {
+    font-weight: 600;
+}
+
 
 /* Mensagens de Alerta */
 .error-message { 
@@ -164,6 +189,8 @@ h1.hero__headline {
     margin-top: 15px; 
     font-weight: 600;
     text-align: center;
+    /* Aprimoramento visual */
+    box-shadow: 0 2px 5px rgba(231, 76, 60, 0.4);
 }
 .help-text {
     display: block;
@@ -197,7 +224,7 @@ h1.hero__headline {
     border-radius: 8px;
     width: 100%;
     text-transform: uppercase;
-    font-weight: 700;
+    font-weight: 800; /* Mais Destaque */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     transition: background-color 0.3s, transform 0.1s;
     margin-top: var(--space-md);
@@ -215,6 +242,7 @@ h1.hero__headline {
     box-shadow: none;
     transform: none;
     cursor: not-allowed;
+    font-weight: 700;
 }
 .btn--cta i {
     margin-right: 8px;
@@ -266,12 +294,13 @@ h1.hero__headline {
     background: var(--white);
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease; 
+    cursor: pointer; /* Adicionado cursor pointer para indicar clicabilidade */
 }
 
 /* ESTILO DO CARD SELECIONADO (Feedback UX) */
 .pacote-card--selecionado {
-    border: 3px solid var(--primary-color) !important; 
-    box-shadow: 0 5px 15px rgba(0, 86, 179, 0.5); 
+    border: 4px solid var(--primary-color) !important; /* Aumentado a borda para mais impacto */
+    box-shadow: 0 8px 20px rgba(0, 86, 179, 0.5); /* Sombra mais intensa */
     transform: scale(1.02); 
 }
 
@@ -297,10 +326,10 @@ h1.hero__headline {
 
 .pacote-content h3 {
     color: var(--primary-color);
-    font-size: 1.15em;
-    font-weight: 700; /* Aumentado para 700 */
+    font-size: 1.25em; /* Aumentado levemente */
+    font-weight: 700; 
     min-height: 40px;
-    margin-bottom: 5px; /* Adicionado margem */
+    margin-bottom: 5px; 
 }
 .pacote-content h3 i {
     margin-right: 5px;
@@ -309,8 +338,8 @@ h1.hero__headline {
 
 /* NOVO: Estilo da Duração/Saída */
 .card-duracao {
-    font-size: 0.85em;
-    color: #777;
+    font-size: 0.9em; /* Ligeiramente maior */
+    color: #555;
     font-weight: 600;
     margin-bottom: var(--space-sm);
     padding-left: 5px;
@@ -328,16 +357,8 @@ h1.hero__headline {
     min-height: 60px; 
 }
 
-/* Removido o estilo .saida, pois foi incorporado ao .card-duracao */
-/* .pacote-content .saida {
-    font-weight: 700;
-    color: #28a745; 
-    display: block;
-    margin-bottom: var(--space-md);
-} */
-
 .pacote-card .btn-selecionar {
-    /* Botão de seleção DENTRO do card (vermelho) */
+    /* Botão de seleção DENTRO do card (Vermelho, CTA Secundário) */
     width: calc(100% - 30px); 
     position: absolute; 
     bottom: 15px;
@@ -346,12 +367,17 @@ h1.hero__headline {
     background-color: var(--secondary-color); 
     color: var(--white);
     border: none;
-    padding: var(--space-sm) var(--space-md);
+    padding: 12px var(--space-md); /* Aumentado o padding para melhor toque */
     cursor: pointer;
-    font-weight: 600;
+    font-weight: 700; /* Mais Destaque */
     transition: background-color 0.2s;
     border-radius: var(--border-radius-base); 
-    font-size: 0.95rem;
+    font-size: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.pacote-card .btn-selecionar:hover {
+    background-color: #c0392b;
 }
 
 
@@ -362,42 +388,44 @@ h1.hero__headline {
 .pacote-price-box {
     margin-top: 15px;
     padding: 10px;
-    border: 1px solid var(--alert-yellow); 
+    border: 2px solid var(--alert-yellow); /* Borda mais grossa */
     border-radius: 5px;
     background-color: var(--price-yellow-bg); 
     text-align: right;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
 }
 
 /* NOVO: Estilo do Preço Total/À Vista (De: R$ X.XXX) */
 .price-total-cash {
-    font-size: 0.85em; /* Ligeiramente menor que a parcela */
+    font-size: 0.9em; 
     color: #777;
     text-decoration: line-through; 
     margin-bottom: 5px;
     display: block;
     text-align: right;
+    font-weight: 400; /* Menos destaque para o riscado */
 }
 
 .price-label {
     display: block;
-    font-size: 0.8em; 
+    font-size: 0.85em; /* Ligeiramente maior */
     color: #555;
     margin-bottom: 3px;
-    text-transform: uppercase; /* Foco na parcela */
+    text-transform: uppercase; 
     font-weight: 600;
 }
 
 .price-vip-discount {
     margin-top: 8px;
-    padding: 5px;
+    padding: 6px; /* Aumentado padding */
     background-color: var(--secondary-color); 
     color: var(--white);
-    font-weight: 700;
+    font-weight: 800; /* MAIOR DESTAQUE */
     border-radius: 4px;
-    font-size: 0.9em;
+    font-size: 1em; /* Ligeiramente maior */
     text-align: center;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    text-transform: uppercase;
 }
 
 .price-vip-discount .fas {
@@ -413,7 +441,7 @@ h1.hero__headline {
 }
 
 .main-price {
-    font-size: 1.8em;
+    font-size: 2.0em; /* MAIOR DESTAQUE */
     line-height: 1;
     color: var(--secondary-color); 
 }
@@ -441,9 +469,18 @@ h1.hero__headline {
     flex-direction: column;
 }
 
+/* NOVO: Estilo para o H3 do Card de Consultoria */
+.card-consultoria h3 {
+    margin-bottom: 10px;
+}
+.card-consultoria h3 span {
+    color: #555;
+    font-weight: 400;
+}
+
 .card-consultoria.pacote-card--selecionado {
-    border: 3px dashed var(--primary-color) !important; 
-    box-shadow: 0 5px 15px rgba(0, 86, 179, 0.5); 
+    border: 4px dashed var(--primary-color) !important; /* Aumentado a borda */
+    box-shadow: 0 8px 20px rgba(0, 86, 179, 0.5); 
     transform: scale(1.02);
 }
 
@@ -455,10 +492,11 @@ h1.hero__headline {
      
     background-color: var(--primary-color); 
     color: var(--white);
-    font-size: 1.0rem;
-    padding: 12px var(--space-md);
+    font-size: 1.05rem; /* Ligeiramente maior */
+    padding: 14px var(--space-md); /* Mais padding */
     border-radius: var(--border-radius-base);
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+    font-weight: 700;
 }
 
 
@@ -483,6 +521,9 @@ h1.hero__headline {
     text-decoration: none;
     font-weight: 600;
 }
+.whatsapp-link:hover {
+    text-decoration: underline;
+}
 
 @media (max-width: 768px) {
     .container.form-container {
@@ -506,12 +547,12 @@ h1.hero__headline {
     }
     
     .pacote-card {
-        min-height: 450px;
-        padding-bottom: 60px; /* Reduzido para mobile */
+        min-height: auto; /* Deixa flexível em mobile */
+        padding-bottom: 80px; /* Mantém espaço para o botão */
     }
 
     .pacote-content p {
-        min-height: auto; /* Permite que o texto flua em mobile */
+        min-height: auto; 
     }
     
     .card-consultoria {
@@ -520,6 +561,15 @@ h1.hero__headline {
 
     .btn--cta {
         font-size: 1.1em;
-        padding: 12px 20px;
+        padding: 14px 20px;
+    }
+    
+    .main-price {
+        font-size: 1.6em; /* Reduz ligeiramente para mobile */
+    }
+    
+    .pacote-card .btn-selecionar {
+        padding: 10px var(--space-md); 
+        font-size: 0.95rem;
     }
 }
