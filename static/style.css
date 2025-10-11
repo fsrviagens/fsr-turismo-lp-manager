@@ -48,7 +48,6 @@ body {
     color: var(--text-color);
     background-color: var(--light-bg); 
     line-height: 1.6;
-    /* AJUSTE CRUCIAL: Mínimo de largura para o modo desktop em celulares */
     min-width: 320px; 
 }
 
@@ -116,7 +115,7 @@ nav ul li a.active {
     border-radius: var(--border-radius-base);
 }
 
-/* FOOTER GLOBAL - CORES FSR CORRIGIDAS */
+/* FOOTER GLOBAL (Para leads.html e politica.html) - CORES FSR CORRIGIDAS */
 footer {
     background-color: var(--fsr-blue); 
     color: var(--white);
@@ -179,7 +178,7 @@ footer .whatsapp-link i {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* Logo e Headline (Landing Page) - CENTRALIZAÇÃO CORRIGIDA */
+/* Logo e Headline (Landing Page) */
 .header__content {
     text-align: center; 
     margin-bottom: var(--space-lg);
@@ -254,7 +253,8 @@ h1.hero__headline {
     cursor: pointer; 
     display: flex; 
     flex-direction: column;
-    min-height: 480px; 
+    /* AJUSTE: Garantir espaço para o botão CTA fixo */
+    min-height: 500px; 
     padding-bottom: 70px; 
     border: 1px solid #ddd; 
     border-radius: var(--border-radius-base);
@@ -296,6 +296,7 @@ h1.hero__headline {
     border-radius: 5px;
     font-weight: 700;
     font-size: 1em;
+    transition: background-color 0.2s;
 }
 
 /* Card Consultoria */
@@ -306,7 +307,8 @@ h1.hero__headline {
     justify-content: center;
     align-items: center;
     padding: 30px;
-    min-height: 300px; 
+    /* AJUSTE: Altura mínima para a Consultoria */
+    min-height: 480px; 
     padding-bottom: 30px; 
 }
 .card-consultoria .btn-selecionar {
@@ -442,6 +444,15 @@ h1.hero__headline {
     font-weight: 800; 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     margin-top: var(--space-md);
+    transition: background-color 0.2s, transform 0.2s;
+}
+.btn--cta:hover:not(:disabled) {
+    background-color: #1fad51; /* Tom um pouco mais escuro ao passar o mouse */
+    transform: translateY(-1px);
+}
+.btn--cta:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /* Footer da Landing Page (Menor, no Form Container) */
@@ -452,6 +463,15 @@ h1.hero__headline {
     margin-top: 40px; 
     font-size: 0.9em; 
     color: #777;
+    /* AJUSTE ESSENCIAL PARA VISUALIZAÇÃO CORRETA EM MOBILE */
+    padding-left: 0; 
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+}
+.footer a {
+    color: var(--primary-color);
+    font-weight: 600;
 }
 .expert-seal { 
     font-weight: bold; 
@@ -578,7 +598,8 @@ tbody tr:hover {
     /* Landing Page Mobile */
     .container.form-container {
         margin: var(--space-md) auto;
-        padding: var(--space-md);
+        /* AJUSTE: Garantir padding lateral mínimo (segurança) */
+        padding: var(--space-md) 15px; 
         border-radius: 0; 
         box-shadow: none; 
     }
@@ -591,6 +612,25 @@ tbody tr:hover {
     .pacotes-grid {
         grid-template-columns: 1fr; 
         gap: 20px;
+    }
+    
+    /* Garantir que o footer da Landing Page se ajuste perfeitamente */
+    .container.form-container .footer {
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: -15px; /* Compensa o padding do container */
+        margin-right: -15px; /* Compensa o padding do container */
+        width: calc(100% + 30px); /* Ocupa a largura total */
+    }
+    
+    .pacote-card {
+        min-height: auto; /* Deixa o mobile mais flexível */
+        padding-bottom: 15px; 
+    }
+    .pacote-card .btn-selecionar {
+        position: static;
+        width: calc(100% - 30px);
+        margin: 15px auto 0 auto;
     }
     
     /* Header/Footer Geral Mobile (leads.html) */
@@ -609,7 +649,7 @@ tbody tr:hover {
         justify-content: space-around;
     }
     
-    /* Footer Responsivo */
+    /* Footer Global Responsivo */
     footer {
         flex-direction: column;
         align-items: center;
@@ -649,9 +689,9 @@ tbody tr:hover {
         color: #495057; 
     }
     td:nth-of-type(1):before { content: "Nome"; }
-    td:nth-of-type(2):before { content: "E-mail"; }
-    td:nth-of-type(3):before { content: "Senha"; }
-    td:nth-of-type(4):before { content: "Contato"; }
+    td:nth-of-type(2):before { content: "Telefone"; } /* Correção do label */
+    td:nth-of-type(3):before { content: "Pacote"; }   /* Correção do label */
+    td:nth-of-type(4):before { content: "Data Cap."; } /* Correção do label */
     
     /* Política de Privacidade Mobile */
     .container.politica-container {
