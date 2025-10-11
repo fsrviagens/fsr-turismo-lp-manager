@@ -523,6 +523,37 @@ h1.hero__headline {
     color: var(--text-color); 
 }
 
+/* --- Menu Administrativo Discreto (Dentro do Footer Azul) --- */
+.admin-nav {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.3); /* Borda branca suave no footer azul */
+    text-align: center;
+}
+
+.admin-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.admin-nav li {
+    display: inline; /* Garante que não quebre a linha se houver mais links */
+}
+
+.admin-nav a {
+    color: #999; /* Cor cinza, muito discreta sobre o azul */
+    text-decoration: none;
+    font-size: 0.8em; /* Fonte pequena */
+    transition: color 0.2s;
+    font-weight: 400; /* Mais leve para ser discreto */
+}
+
+.admin-nav a:hover {
+    color: #ccc; /* Fica um pouco mais claro no hover para ser visível */
+    text-decoration: underline;
+}
+
 
 /* ==================================
    5. ESTILOS DE LEADS.HTML (ADMIN)
@@ -567,7 +598,7 @@ th, td {
     border-bottom: 1px solid #e9ecef; 
 }
 tbody tr:nth-child(even) {
-    /* Manter um tom de fundo diferente no leads para melhor leitura */
+    /* Manter um ton de fundo diferente no leads para melhor leitura */
     background-color: #f8f9fa; 
 }
 tbody tr:hover {
