@@ -1,7 +1,9 @@
 import os
 import psycopg2
-import time # Necessário para o tempo de pausa mínimo
-from flask import Flask, request, jsonify, render_template, redirect, url_for
+import time
+import smtplib
+from email.mime.text import MIMEText
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS 
 from pacotes_data import realizar_web_scraping_da_vitrine # Importando a função de scraping real
 
@@ -10,11 +12,57 @@ from pacotes_data import realizar_web_scraping_da_vitrine # Importando a funçã
 def corrigir_url_db(url):
     """
     Corrige o esquema da URL do banco de dados para ser compatível com o psycopg2.
-    O Render usa 'postgresql://', mas o psycopg2 prefere 'postgres://'.
+    O Supabase/Railway usa 'postgresql://', mas o psycopg2 prefere 'postgres://'.
     """
     if url and url.startswith("postgresql://"):
         return url.replace("postgresql://", "postgres://", 1)
     return url
+
+def enviar_alerta_lead(nome, whatsapp, destino):
+    """
+    Função do Robô de Prospecção: Envia um e-mail de alerta sobre o novo lead.
+    Utiliza as 5 Variáveis de Ambiente SMTP configuradas no Railway.
+    """
+    # 1. Recupera as variáveis de ambiente
+    SMTP_SERVER = os.environ.get('SMTP_SERVER')
+    SMTP_PORT = os.environ.get('SMTP_PORT')
+    SMTP_SENDER_EMAIL = os.environ.get('SMTP_SENDER_EMAIL') # leads@fsr.tur.br
+    SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD')         # Senha de Aplicativo Zoho
+    RECEIVER_EMAIL = os.environ.get('RECEIVER_EMAIL')       # O e-mail que recebe o alerta
+    
+    if not all([SMTP_SERVER, SMTP_PORT, SMTP_SENDER_EMAIL, SMTP_PASSWORD, RECEIVER_EMAIL]):
+        print("AVISO: Variáveis SMTP incompletas. Alerta de e-mail NÃO ENVIADO.")
+        return
+
+    try:
+        # 2. Monta o corpo do e-mail
+        subject = f"🔔 NOVO LEAD FSR - {nome} ({destino})"
+        body = f"""
+        Olá, você recebeu um novo Lead da FSR Viagens:
+
+        - Nome: {nome}
+        - WhatsApp: {whatsapp}
+        - Destino Selecionado: {destino}
+        
+        Acesse o painel de leads para mais detalhes.
+        """
+        
+        msg = MIMEText(body)
+        msg['Subject'] = subject
+        msg['From'] = SMTP_SENDER_EMAIL
+        msg['To'] = RECEIVER_EMAIL
+
+        # 3. Conecta e envia o e-mail via Zoho Mail (ou outro SMTP)
+        with smtplib.SMTP(SMTP_SERVER, int(SMTP_PORT)) as server:
+            server.starttls()  # Inicia TLS para segurança
+            server.login(SMTP_SENDER_EMAIL, SMTP_PASSWORD)
+            server.sendmail(SMTP_SENDER_EMAIL, RECEIVER_EMAIL, msg.as_string())
+        
+        print(f"SUCESSO: Alerta de lead enviado para {RECEIVER_EMAIL}")
+
+    except Exception as e:
+        print(f"ERRO CRÍTICO ao enviar e-mail de alerta (SMTP/Zoho): {e}")
+
 
 # --- Configuração do App ---
 app = Flask(__name__)
@@ -34,6 +82,8 @@ def index():
 def get_pacotes():
     
     start_time = time.time() # Marca o tempo de início da requisição
+    
+    # ... (O código de scraping permanece o mesmo) ...
 
     try:
         # 1. Executa o Web Scraping real
@@ -62,15 +112,15 @@ def get_pacotes():
 @app.route('/capturar_lead', methods=['POST'])
 def capturar_lead():
     data = request.json 
+    
+    # Variáveis de e-mail para uso na função de alerta (mesmo que o BD falhe)
+    nome = data.get('nome', 'N/A')
+    whatsapp = data.get('telefone', 'N/A')
+    destino = data.get('pacoteSelecionado', 'N/A')
 
     try:
         # Mapeamento e Tratamento de Campos do Formulário
-        nome = data.get('nome')
-        whatsapp = data.get('telefone')
-        destino = data.get('pacoteSelecionado')
         pessoas = data.get('passageiros')
-        
-        # Garante que string vazia ('') se torne None (NULL no BD)
         data_viagem_input = data.get('dataViagem')
         data_viagem = data_viagem_input if data_viagem_input else None 
         
@@ -79,37 +129,43 @@ def capturar_lead():
         tipo_viagem = None
         orcamento = None
         
-        # Conectar ao banco de dados com a correção da URL
+        # Conectar ao banco de dados
         db_url_corrigida = corrigir_url_db(os.environ.get('DATABASE_URL'))
         
-        if not db_url_corrigida:
-            # Se não houver URL do BD, retorna sucesso para garantir o fluxo do WhatsApp
-            print("AVISO: DATABASE_URL não configurada. Lead NÃO SALVO no BD.")
-            return jsonify({'success': True, 'message': 'Lead capturado, mas BD indisponível.'}), 200
+        if db_url_corrigida:
+            conn = psycopg2.connect(db_url_corrigida)
+            cur = conn.cursor()
             
-        conn = psycopg2.connect(db_url_corrigida)
-        cur = conn.cursor()
+            # Inserir os dados na tabela 'cadastro'
+            cur.execute(
+                """
+                INSERT INTO cadastro (nome, email, whatsapp, tipo_viagem, destino, orcamento, pessoas, data_viagem) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                """,
+                (nome, email, whatsapp, tipo_viagem, destino, orcamento, pessoas, data_viagem)
+            )
+            
+            conn.commit()
+            cur.close()
+            conn.close()
+            print("SUCESSO: Lead salvo no BD.")
+        else:
+            print("AVISO: DATABASE_URL não configurada. Lead NÃO SALVO no BD.")
+
         
-        # Inserir os dados na tabela 'cadastro'
-        cur.execute(
-            """
-            INSERT INTO cadastro (nome, email, whatsapp, tipo_viagem, destino, orcamento, pessoas, data_viagem) 
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-            """,
-            (nome, email, whatsapp, tipo_viagem, destino, orcamento, pessoas, data_viagem)
-        )
-        
-        conn.commit()
-        cur.close()
-        conn.close()
+        # --- NOVO PASSO: Dispara o Robô de Prospecção (E-mail) ---
+        enviar_alerta_lead(nome, whatsapp, destino)
         
         # Retorna sucesso para o Frontend (que então abrirá o WhatsApp)
-        return jsonify({'success': True, 'message': 'Lead salvo com sucesso!'}), 200
+        return jsonify({'success': True, 'message': 'Lead salvo e alerta enviado!'}), 200
 
     except Exception as e:
-        # Fluxo de Falha Elegante: Retorna 200 para que o frontend abra o WhatsApp
+        # Fluxo de Falha: Tenta enviar o alerta mesmo se o BD falhar (o Robô é a prioridade)
         print(f"ERRO DE BANCO DE DADOS/SERVIDOR: {e}")
-        return jsonify({'success': False, 'message': f'Erro no servidor ao salvar lead: {str(e)}'}), 200 
+        enviar_alerta_lead(nome, whatsapp, destino) # Tenta enviar o alerta mesmo na falha
+        
+        # Retorna 200 para que o frontend abra o WhatsApp e não quebre a UX
+        return jsonify({'success': False, 'message': f'Erro no servidor: {str(e)}'}), 200 
 
 
 # --- ROTAS DE GERENCIAMENTO ---
@@ -117,10 +173,11 @@ def capturar_lead():
 # Rota para a página de leads (mantida)
 @app.route('/leads.html', methods=['GET'])
 def leads():
+    # ... (O código permanece o mesmo) ...
     try:
         db_url_corrigida = corrigir_url_db(os.environ.get('DATABASE_URL'))
         if not db_url_corrigida:
-            raise ValueError("DATABASE_URL não está configurada.")
+            return render_template('leads.html', leads=[("ERRO: DATABASE_URL não configurada.", "", "", "", "")]), 500
             
         conn = psycopg2.connect(db_url_corrigida)
         cur = conn.cursor()
@@ -138,6 +195,7 @@ def leads():
 # Rota para configurar o banco de dados (Manutenção)
 @app.route('/setup')
 def setup_database():
+    # ... (O código permanece o mesmo) ...
     try:
         db_url_corrigida = corrigir_url_db(os.environ.get('DATABASE_URL'))
         if not db_url_corrigida:
@@ -163,5 +221,5 @@ def setup_database():
 
 if __name__ == '__main__':
     # Roda com o servidor de desenvolvimento do Flask.
-    # Em produção (Render/Docker), o Gunicorn assume o controle.
+    # Em produção (Railway), o Gunicorn assume o controle.
     app.run(host='0.0.0.0', port=os.environ.get('PORT', 5000), debug=True)
