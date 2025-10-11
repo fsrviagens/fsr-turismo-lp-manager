@@ -461,13 +461,11 @@ h1.hero__headline {
     margin-top: 40px; 
     font-size: 0.9em; 
     
-    /* CORREÇÃO CRÍTICA: Se o bloco final (azul escuro) usa a classe .footer, forçamos o texto claro */
-    color: var(--white); /* Força a cor clara para o texto de copyright e contato */
-
-    /* Garante que o fundo seja o azul escuro da marca FSR */
+    /* CORREÇÃO PARA COERÊNCIA: Fundo Azul Escuro com TODO o texto Branco */
+    color: var(--white); /* Força a cor clara para todo o texto */
     background-color: var(--fsr-blue); 
-    padding: var(--space-md); /* Adiciona padding interno */
-    border-radius: var(--border-radius-base); /* Adiciona bordas arredondadas */
+    padding: var(--space-md); 
+    border-radius: var(--border-radius-base);
     
     /* AJUSTES DE MARGIN E PADDING PARA RESPONSIVIDADE TOTAL (HERDADOS) */
     padding-left: 0; 
@@ -475,13 +473,17 @@ h1.hero__headline {
     margin-left: 0;
     margin-right: 0;
 }
+/* Garante que links de texto dentro do bloco azul sejam brancos e sem sublinhado padrão */
 .footer a {
-    /* Links (como termos) sobre fundo azul escuro devem ser claros */
-    color: var(--alert-yellow); /* Cor de destaque/alerta para links */
+    color: var(--white); 
+    text-decoration: none; /* Remove sublinhado padrão para limpeza visual */
     font-weight: 600;
 }
+.footer a:hover {
+    color: var(--fsr-red); /* Destaque no hover */
+}
 .footer a.whatsapp-link {
-    /* O botão de WhatsApp dentro do bloco azul, precisa ser diferente */
+    /* O botão de WhatsApp verde mantém seu estilo único */
     display: inline-flex;
     align-items: center;
     background-color: var(--whatsapp-green);
@@ -496,11 +498,16 @@ h1.hero__headline {
 }
 .expert-seal { 
     font-weight: bold; 
-    color: var(--white); /* Cor de destaque para texto importante sobre fundo azul */
+    color: var(--white); 
     margin-bottom: 10px; 
 }
+.footer i {
+    /* Garante que ícones (como o boneco) sejam brancos */
+    color: var(--white); 
+    margin-right: 8px;
+}
 
-/* Correção para o texto ACIMA do bloco azul (Termos e Política) - Se for o caso */
+/* Correção para o texto ACIMA do bloco azul (Termos e Política) */
 .container.form-container p:last-of-type {
     color: var(--text-color); /* Garante que o texto de consentimento seja visível */
 }
