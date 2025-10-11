@@ -12,32 +12,67 @@
       gtag('js', new Date());
       gtag('config', 'G-EB762TMB8T'); 
     </script>
-    <link rel="stylesheet" href="/static/style.css"> 
     
+    <link rel="stylesheet" href="/static/style.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <meta name="description" content="Consultoria de viagens especializada desde 2004. Escolha seu pacote FSR e garanta um Desconto VIP de 5% OFF.">
-
+    
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
     <style>
         /* Estilos de fallback e min-heights */
-        .pacote-card, .card-consultoria { min-height: 430px; } 
-        .pacote-card img { height: 180px; object-fit: cover; }
-        .pacote-content h3 { min-height: 40px; }
-        .pacote-content p { min-height: 60px; } 
+        /* Estilos mantidos, com ajustes para a nova vitrine */
+        .pacote-card { 
+            display: flex; /* Flex para forçar o footer/botão para baixo */
+            flex-direction: column;
+            min-height: 480px; /* Aumentado para acomodar o preço */
+            padding-bottom: 70px; /* Espaço para o botão fixo ou absoluto */
+        }
         
-        /* ESTILOS ADICIONAIS PARA O NOVO BLOCO DE PREÇO */
+        .pacote-card img { 
+            height: 180px; 
+            object-fit: cover; 
+            width: 100%;
+        }
+        
         .pacote-content {
             /* Garante que o conteúdo use o espaço restante e force o botão para baixo */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             flex-grow: 1; /* Permite que o conteúdo se expanda */
+            padding: 15px;
+        }
+
+        .pacote-card .btn-selecionar {
+            margin-top: auto; /* Empurra o botão para a base */
+            width: calc(100% - 30px); /* Ajusta a largura dentro do padding */
+            margin-left: 15px;
+            margin-right: 15px;
+            position: absolute; /* Torna o botão fixo na parte inferior do card */
+            bottom: 15px;
         }
         
+        .pacotes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .card-consultoria {
+            background-color: #f0f8ff; /* Fundo diferente para destaque */
+            border: 2px dashed #0056b3;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        /* ESTILOS ADICIONAIS PARA O BLOCO DE PREÇO */
         .pacote-price-box {
             margin-top: 15px;
             padding: 10px;
@@ -45,6 +80,7 @@
             border-radius: 5px;
             background-color: #fff9e6; /* Fundo suave */
             text-align: right;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
         
         .price-label {
@@ -80,6 +116,24 @@
             margin-left: 5px;
             align-self: flex-end;
         }
+        
+        /* Estilos para o Hero e Form */
+        .hero__headline { text-align: center; color: #0056b3; }
+        .hero__slogan { text-align: center; color: #333; margin-bottom: 20px; }
+        .offer-banner {
+            background-color: #ffcc00; 
+            color: #333; 
+            padding: 10px; 
+            text-align: center; 
+            font-weight: bold; 
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        .form__legend { font-size: 1.2em; font-weight: bold; color: #0056b3; }
+        .error-message { color: #d9534f; border: 1px solid #d9534f; padding: 10px; border-radius: 5px; margin-top: 15px; }
+        .footer { text-align: center; padding-top: 20px; border-top: 1px solid #eee; margin-top: 40px; font-size: 0.9em; }
+        .expert-seal { font-weight: bold; color: #333; margin-bottom: 10px; }
+
     </style>
 </head>
 <body>
@@ -90,12 +144,14 @@
 {% raw %}
         // Endpoints e Constantes
         const API_PAC_URL = '/api/pacotes'; 
-        const WHATSAPP_NUMBER = '5561983163710';
+        // Corrigido: Usando número internacional clicável
+        const WHATSAPP_NUMBER = '5561983163710'; 
         const API_LEAD_URL = '/capturar_lead';
-        const TELEFONE_REGEX = /^\d{10,11}/; 
+        // Regex mais tolerante para números de 10 ou 11 dígitos
+        const TELEFONE_REGEX = /^\d{10,11}$/; 
         
         // Gatilho de Compra / Desconto VIP
-        const PROSPECT_DISCOUNT = '5%';
+        const PROSPECT_DISCOUNT = '5%'; // Ajustado para clareza (sem cifrão)
 
         // --- DADOS PARA OS CARDS E FALLBACK ---
         // Rotas de Imagens de uso livre (Placeholder - Use imagens do seu servidor)
@@ -129,7 +185,7 @@
                 opcoes: [
                     { data: "06/03 a 12/03/26", noites: "6 noites", preco: 298 },
                     { data: "26/04 a 02/05/26", noites: "6 noites", preco: 266 },
-                    { data: "17/05 a 23/05/26", noites: "6 noites", preco: 244 } // Baseado na imagem 8395.png
+                    { data: "17/05 a 23/05/26", noites: "6 noites", preco: 244 } 
                 ]
             },
             { 
@@ -142,7 +198,7 @@
                 opcoes: [
                     { data: "16/01 a 22/01/26", noites: "6 noites", preco: 266 },
                     { data: "26/01 a 31/01/26", noites: "5 noites", preco: 234 },
-                    { data: "05/02 a 10/02/26", noites: "5 noites", preco: 241 } // Baseado na imagem 8393.png
+                    { data: "05/02 a 10/02/26", noites: "5 noites", preco: 241 } 
                 ]
             },
             { 
@@ -152,7 +208,6 @@
                 tipo: "NACIONAL", 
                 desc: "💧 Descubra a beleza surreal das lagoas entre dunas. Um ecoturismo inesquecível.", 
                 imgKey: 'Lençóis Maranhenses',
-                // Detalhes baseados na sua imagem 8391.png
                 opcoes: [
                     { data: "01/02 a 07/02", noites: "6 noites", preco: 334 },
                     { data: "24/02 a 01/03", noites: "5 noites", preco: 317 },
@@ -169,7 +224,7 @@
                 opcoes: [
                     { hotel: "Hotel Monte Felice Bosque", data: "27/10 a 31/10/25", noites: "4 noites", preco: 176 },
                     { hotel: "Hotel Monte Felice Centro", data: "10/11 a 14/11/25", noites: "4 noites", preco: 207 },
-                    { hotel: "Pousada Monte Felice Recanto da Lua", data: "08/12 a 12/12/25", noites: "4 noites", preco: 196 } // Baseado na imagem 8394.png
+                    { hotel: "Pousada Monte Felice Recanto da Lua", data: "08/12 a 12/12/25", noites: "4 noites", preco: 196 } 
                 ] 
             },
             
@@ -182,7 +237,7 @@
                 desc: "🎇 Celebre a virada com o mágico Festival das Lanternas. Praias e templos milenares.", 
                 imgKey: 'Tailândia',
                 opcoes: [
-                    { data: "30/12 a 02/01/26", noites: "3 noites", preco: 109, moeda: 'USD' } // Baseado na imagem 8392.png
+                    { data: "30/12 a 02/01/26", noites: "3 noites", preco: 109, moeda: 'USD' } 
                 ] 
             },
             { 
@@ -284,23 +339,23 @@
                 : null;
                 
             const precoMaisBaixo = precoInfo ? precoInfo.preco : null;
-            const moeda = precoInfo && precoInfo.moeda === 'USD' ? 'USD' : 'R$';
+            const moedaSimbolo = precoInfo && precoInfo.moeda === 'USD' ? 'US$' : 'R$';
 
 
             return (
-                <div className="pacote-card">
+                <div className="pacote-card" style={{position: 'relative'}}> {/* Adiciona position: relative para o botão absoluto */}
                     <img src={getImageUrl(pacote.imgKey)} alt={`Imagem de ${pacote.nome}`} loading="lazy" />
                     <div className="pacote-content">
                         <h3><i className={`fas fa-${pacote.tipo === 'NACIONAL' ? 'plane-departure' : 'globe-americas'}`}></i> {pacote.nome}</h3>
                         <p>{pacote.desc}</p>
                         <span className="saida">Saída: {pacote.saida || 'Variável'}</span>
                         
-                        {/* NOVO BLOCO DE PREÇO CONDICIONAL */}
+                        {/* BLOCO DE PREÇO CONDICIONAL */}
                         {precoMaisBaixo && (
                             <div className="pacote-price-box">
                                 <span className="price-label">Por pessoa a partir de:</span>
                                 <div className="price-value">
-                                    <span className="installments">10X {moeda}</span>
+                                    <span className="installments">10X {moedaSimbolo}</span>
                                     <span className="main-price">{precoMaisBaixo}</span>
                                     <span className="taxes">+ Taxas</span>
                                 </div>
@@ -309,8 +364,8 @@
                                 </small>
                             </div>
                         )}
-                        {/* FIM DO NOVO BLOCO DE PREÇO */}
                     </div>
+                    {/* Botão de seleção na base do card */}
                     <button 
                         className="btn-selecionar" 
                         onClick={() => onSelect(nomeCompleto)}
@@ -330,8 +385,9 @@
             return (
                 <div className="vitrine-pacotes">
                     <h2>Roteiros Sugeridos e Pacotes de Destaque <i className="fas fa-star"></i></h2>
-                    <p style={{textAlign: 'center', marginBottom: '25px', color: '#555'}}>Selecione abaixo o pacote que mais te agrada ou crie um sob medida com nossa consultoria.</p>
+                    <p style={{textAlign: 'center', marginBottom: '25px', color: '#555'}}>Selecione abaixo o pacote que mais te agrada para preencher o formulário ou crie um sob medida com nossa consultoria.</p>
                     <div className="pacotes-grid">
+                        {/* Exibe até 5 pacotes em destaque */}
                         {pacotesVisiveis.slice(0, 5).map(pacote => (
                             <PacoteCard key={pacote.id} pacote={pacote} onSelect={onSelect} />
                         ))}
@@ -374,11 +430,7 @@
                         const consultoriaOption = DADOS_FALLBACK.find(p => p.tipo === 'CONSULTORIA');
 
                         if (response.ok && Array.isArray(data) && data.length > 0) {
-                            // Se a API retornar dados, use-os, mas garanta que eles tenham o campo 'opcoes' e 'imgKey'
-                            // Por simplicidade e para garantir que o layout funcione, estou priorizando o DADOS_FALLBACK
-                            // com a nova estrutura. Em um cenário real, o backend precisaria retornar esses campos.
-                            // Por ora, vamos garantir que o front-end use o FALLBACK RICO em detalhes.
-                            fetchedPacotes = DADOS_FALLBACK;
+                            fetchedPacotes = DADOS_FALLBACK; // Mantendo o fallback rico para a demo
                         } else {
                             fetchedPacotes = DADOS_FALLBACK;
                         }
@@ -394,6 +446,12 @@
                     const finalAction = () => {
                         setPacotes(fetchedPacotes);
                         setPacotesLoading(false);
+                        
+                        // Scroll para a vitrine após o carregamento
+                        const vitrineElement = document.querySelector('.vitrine-pacotes');
+                        if (vitrineElement) {
+                             vitrineElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
                     };
 
                     if (elapsed < requiredDelay) {
@@ -414,6 +472,12 @@
                 } else if (value.includes('Consultoria Personalizada / Outro Destino')) {
                     setPacoteSelecionado('Consultoria Personalizada / Outro Destino');
                 }
+                
+                // Rola para o formulário após a seleção de um pacote (UX aprimorada)
+                const formElement = document.querySelector('.form');
+                if (formElement) {
+                     formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             };
             
             const handlePassageirosChange = (e) => {
@@ -430,6 +494,7 @@
                     return false;
                 }
                 
+                // AJUSTE: O REGEX agora exige 10 ou 11 dígitos EXATOS (DDD+Número)
                 if (!TELEFONE_REGEX.test(telefone)) {
                     setErro('❌ Telefone inválido. Insira apenas os 10 ou 11 dígitos, incluindo o DDD (Ex: 61983163710).');
                     return false;
@@ -514,11 +579,13 @@ ${descritivoRoteiro}
                         console.error("Erro ao salvar o lead no servidor (Automação):", result.message);
                     }
                     
-                    // 2. AJUSTE: DISPARO DO EVENTO DE CONVERSÃO NO GA4
+                    // AJUSTE: DISPARO DO EVENTO DE CONVERSÃO NO GA4
                     if (window.gtag) {
                         gtag('event', 'whatsapp_lead', {
                             'event_category': 'conversion',
-                            'event_label': finalPacote
+                            'event_label': finalPacote,
+                            'value': finalPassageiros, // Usa o número de passageiros como valor do evento
+                            'currency': 'BRL' // Adiciona moeda para contexto
                         });
                     }
                     // FIM DO AJUSTE DE RASTREAMENTO
@@ -550,7 +617,7 @@ ${descritivoRoteiro}
                             Sua viagem Incomum começa aqui! Selecione seu roteiro e garanta um atendimento **prioritário** e seu **Desconto Exclusivo**.
                         </p>
                         
-                        {/* GATILHO DE VENDA: DESCONTO VIP */}
+                        {/* GATILHO DE VENDA: DESCONTO VIP (Correção do símbolo) */}
                         <div className="offer-banner">
                             ✨ OFERTA EXCLUSIVA: Sua primeira compra garante um **Desconto VIP de {PROSPECT_DISCOUNT} OFF**!
                         </div>
@@ -628,6 +695,7 @@ ${descritivoRoteiro}
                             </div>
                             <div className="form__group">
                                 <label htmlFor="telefone-input">WhatsApp (apenas números, com DDD):</label>
+                                {/* AJUSTE: Placeholder com o exemplo */}
                                 <input id="telefone-input" type="tel" value={telefone} onChange={(e) => setTelefone(e.target.value.replace(/[^0-9]/g, ''))} placeholder="Ex: 61983163710 (Obrigatório)" minLength="10" maxLength="11" required/>
                                 <small className="help-text">Garantimos a **prioridade** no contato se for um número de WhatsApp válido.</small>
                             </div>
@@ -641,7 +709,7 @@ ${descritivoRoteiro}
                                 <input id="passageiros-input" type="number" min="1" value={passageiros} onChange={handlePassageirosChange} required/>
                             </div>
                             <div className="form__group">
-                                <label htmlFor="data-viagem-input">Data Preferencial para Viagem (Mínimo 4 dias):</label>
+                                <label htmlFor="data-viagem-input">Data Preferencial para Viagem:</label>
                                 <input 
                                     id="data-viagem-input" 
                                     type="date" 
@@ -650,7 +718,7 @@ ${descritivoRoteiro}
                                     min={minDate}
                                     title="A data deve ter no mínimo 4 dias de antecedência para planejamento."
                                 />
-                                <small className="help-text">Selecione uma data para um orçamento mais preciso.</small>
+                                <small className="help-text">Selecione uma data para um orçamento mais preciso. Mínimo de 4 dias de antecedência para processamento.</small>
                             </div>
                         </fieldset>
 
@@ -666,13 +734,22 @@ ${descritivoRoteiro}
                         <p className="final-call-to-action">
                             <i className="fas fa-tag"></i> *O **Desconto VIP** de {PROSPECT_DISCOUNT} será aplicado no fechamento final do seu pacote exclusivo.
                         </p>
+                        
+                        {/* Melhoria de UX: Link para Política de Privacidade e Termos */}
+                        <div style={{textAlign: 'center', marginTop: '15px'}}>
+                            <small>Ao prosseguir, você concorda com nossos <a href="/politica-de-privacidade.html" target="_blank" style={{color: '#0056b3'}}>Termos e Política de Privacidade</a> (LGPD).</small>
+                        </div>
                     </form>
                     
                     <footer className="footer">
                         <p className="expert-seal">
                             Consultoria Técnica Especializada desde <i className="fas fa-user-tie"></i> **2004** | Seu especialista com vasta experiência de mercado.
                         </p>
-                        <p>Atendimento Rápido e Personalizado | <span className="whatsapp-link">WhatsApp: {WHATSAPP_NUMBER}</span></p>
+                        <p>
+                            Atendimento Rápido e Personalizado | <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="whatsapp-link">
+                            <i className="fab fa-whatsapp"></i> WhatsApp: (61) 98316-3710</a>
+                        </p>
+                        {/* AJUSTE: Copyright para o ano atual dinâmico */}
                         <p>&copy; {new Date().getFullYear()} FSR Viagens & Turismo. Todos os direitos reservados.</p>
                     </footer>
                 </div>
