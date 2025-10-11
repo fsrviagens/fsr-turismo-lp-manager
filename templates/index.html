@@ -24,12 +24,15 @@
     
     <style>
         /* Estilos de fallback e min-heights */
-        /* Estilos mantidos, com ajustes para a nova vitrine */
         .pacote-card { 
-            display: flex; /* Flex para forçar o footer/botão para baixo */
+            display: flex; 
             flex-direction: column;
-            min-height: 480px; /* Aumentado para acomodar o preço */
-            padding-bottom: 70px; /* Espaço para o botão fixo ou absoluto */
+            min-height: 480px; 
+            padding-bottom: 70px; 
+            border: 1px solid #ddd; /* Adiciona borda para melhor separação visual */
+            border-radius: 8px;
+            overflow: hidden; /* Garante que a imagem respeite as bordas */
+            position: relative; /* Essencial para o botão absoluto */
         }
         
         .pacote-card img { 
@@ -39,20 +42,18 @@
         }
         
         .pacote-content {
-            /* Garante que o conteúdo use o espaço restante e force o botão para baixo */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            flex-grow: 1; /* Permite que o conteúdo se expanda */
+            flex-grow: 1; 
             padding: 15px;
         }
 
         .pacote-card .btn-selecionar {
-            margin-top: auto; /* Empurra o botão para a base */
-            width: calc(100% - 30px); /* Ajusta a largura dentro do padding */
+            width: calc(100% - 30px); 
             margin-left: 15px;
             margin-right: 15px;
-            position: absolute; /* Torna o botão fixo na parte inferior do card */
+            position: absolute; 
             bottom: 15px;
         }
         
@@ -63,22 +64,33 @@
             margin-top: 30px;
         }
 
+        /* AJUSTE ESSENCIAL para a consultoria card: remove o padding-bottom e ajusta o min-height */
         .card-consultoria {
-            background-color: #f0f8ff; /* Fundo diferente para destaque */
+            background-color: #f0f8ff; 
             border: 2px dashed #0056b3;
             text-align: center;
             justify-content: center;
             align-items: center;
             padding: 30px;
+            min-height: 300px; /* Altura reduzida para se destacar como 'diferente' */
+            padding-bottom: 30px; /* Reduz o padding inferior, pois o botão não é absoluto */
+        }
+        .card-consultoria .btn-selecionar {
+             position: static; /* Volta o botão para o fluxo normal */
+             margin: 20px auto 0; /* Centraliza e adiciona margem superior */
+             width: 100%;
+        }
+        .card-consultoria p {
+            flex-grow: 1;
         }
 
-        /* ESTILOS ADICIONAIS PARA O BLOCO DE PREÇO */
+        /* ESTILOS ADICIONAIS PARA O BLOCO DE PREÇO - (Mantidos) */
         .pacote-price-box {
             margin-top: 15px;
             padding: 10px;
-            border: 1px solid #ffcc00; /* Cor da oferta */
+            border: 1px solid #ffcc00; 
             border-radius: 5px;
-            background-color: #fff9e6; /* Fundo suave */
+            background-color: #fff9e6; 
             text-align: right;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
@@ -95,7 +107,7 @@
             align-items: flex-end;
             justify-content: flex-end;
             font-weight: bold;
-            color: #0056b3; /* Cor primária */
+            color: #0056b3; 
         }
         
         .installments {
@@ -106,7 +118,7 @@
         .main-price {
             font-size: 1.8em;
             line-height: 1;
-            color: #d9534f; /* Cor de destaque (vermelho/laranja) */
+            color: #d9534f; 
         }
         
         .taxes {
@@ -134,6 +146,15 @@
         .footer { text-align: center; padding-top: 20px; border-top: 1px solid #eee; margin-top: 40px; font-size: 0.9em; }
         .expert-seal { font-weight: bold; color: #333; margin-bottom: 10px; }
 
+        /* NOVO ESTILO PARA CORRIGIR A BARRA AMARELA */
+        .vitrine-pacotes h2 {
+            /* Remove qualquer background/borda indesejada */
+            background: none; 
+            border: none;
+            padding: 0;
+            margin-bottom: 5px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -144,37 +165,31 @@
 {% raw %}
         // Endpoints e Constantes
         const API_PAC_URL = '/api/pacotes'; 
-        // Corrigido: Usando número internacional clicável
         const WHATSAPP_NUMBER = '5561983163710'; 
         const API_LEAD_URL = '/capturar_lead';
-        // Regex mais tolerante para números de 10 ou 11 dígitos
         const TELEFONE_REGEX = /^\d{10,11}$/; 
         
         // Gatilho de Compra / Desconto VIP
-        const PROSPECT_DISCOUNT = '5%'; // Ajustado para clareza (sem cifrão)
+        const PROSPECT_DISCOUNT = '5%'; 
 
         // --- DADOS PARA OS CARDS E FALLBACK ---
-        // Rotas de Imagens de uso livre (Placeholder - Use imagens do seu servidor)
         const getImageUrl = (key) => {
             const IMAGENS = {
-                // IMAGENS ATUALIZADAS COM O CAMINHO CORRETO /static/
                 'Lençóis Maranhenses': '/static/Duna-e-agua-dos-lencois-Maranhenses.jpg', 
                 'Tailândia': '/static/Festival_Lanternas_Chiang_Mai_Tailandia_Fogos.jpg', 
                 'Gramado': '/static/GramadoSuaViagem-GrandeDesfileDeNatal2.webp', 
                 'Porto de Galinhas': '/static/dicas-de-porto-de-galinhas.jpg', 
                 'Salvador': '/static/tucamorais3.jpg', 
-                
-                // Imagens que mantêm os links de placeholder
                 'Fortaleza': 'https://images.unsplash.com/photo-1549419163-912a52af5f5d?w=400&h=200&fit=crop', 
                 'Egito': 'https://images.unsplash.com/photo-1523451551525-2c8c5026c483?w=400&h=200&fit=crop', 
                 'Turquia': 'https://images.unsplash.com/photo-1582035900554-75af47f2010c?w=400&h=200&fit=crop', 
-                'Customizado': 'https://images.unsplash.com/photo-1454486518536-54a86b3a0e63?w=400&h=200&fit=crop', // Mapa/Globo
+                'Customizado': 'https://images.unsplash.com/photo-1454486518536-54a86b3a0e63?w=400&h=200&fit=crop',
             };
             return IMAGENS[key] || IMAGENS['Customizado']; 
         };
 
         const DADOS_FALLBACK = [
-            // Pacotes Nacionais
+            // Pacotes Nacionais (Dados mantidos por não serem o foco da correção)
             { 
                 id: 101, 
                 nome: "Porto de Galinhas e Maragogi", 
@@ -248,7 +263,7 @@
                 desc: "🐪 Pacote 2X1, jornada pela história milenar, pirâmides e cruzeiro pelo Nilo. Único!", 
                 imgKey: 'Egito',
                 opcoes: [
-                    { data: "Saídas a partir de Março/2026", noites: "7 noites", preco: 550 } // Placeholder
+                    { data: "Saídas a partir de Março/2026", noites: "7 noites", preco: 550 } 
                 ] 
             },
             { 
@@ -259,7 +274,7 @@
                 desc: "🇹🇷 Pacote pela Turquia, visitando Istambul, Capadócia e Pamukkale. Cultura e paisagens.", 
                 imgKey: 'Turquia',
                 opcoes: [
-                    { data: "Saídas anuais", noites: "9 noites", preco: 720 } // Placeholder
+                    { data: "Saídas anuais", noites: "9 noites", preco: 720 } 
                 ] 
             },
             
@@ -268,7 +283,6 @@
         ];
         // -----------------------------------------------------
 
-        // Mapeamento de Descritivos (Para enriquecer a mensagem do WhatsApp)
         const DESCRITIVOS_ROTEIROS = {
             "Fortaleza com Praia da Lagoinha": "☀️ Roteiro perfeito para quem ama sol, mar e aventura. Inclui a beleza rústica da Praia da Lagoinha e o agito da capital cearense.",
             "Salvador com Morro de São Paulo": "🏝️ Uma combinação imbatível de cidade histórica e ilha sem carros. Descanse e explore as famosas praias de Morro de São Paulo.",
@@ -281,39 +295,34 @@
             "Consultoria Personalizada / Outro Destino": "✨ Destino Sob Medida: Você tem em mente um roteiro que não encontrou na lista? Nossa consultoria criará o pacote perfeito para você!",
         };
 
-        // Função utilitária para obter a data mínima permitida (hoje + 4 dias)
         const getMinDate = () => {
             const date = new Date();
             date.setDate(date.getDate() + 4); 
             return date.toISOString().split('T')[0];
         };
         
-        // Função para obter o descritivo a partir do nome do pacote
         const obterDescritivoRoteiro = (pacoteNomeCompleto) => {
             if (pacoteNomeCompleto.includes("Consultoria Personalizada")) {
                 return DESCRITIVOS_ROTEIROS["Consultoria Personalizada / Outro Destino"];
             }
-            
             const nomeBase = pacoteNomeCompleto.split('|')[0].trim(); 
-            
             if (DESCRITIVOS_ROTEIROS[nomeBase]) {
                 return DESCRITIVOS_ROTEIROS[nomeBase];
             }
-            
             const pacoteFallback = DADOS_FALLBACK.find(p => p.nome.includes(nomeBase));
             if (pacoteFallback && pacoteFallback.desc) {
                 return pacoteFallback.desc;
             }
-            
             return `✈️ Consultoria Exclusiva: Conte-nos seus sonhos para criarmos uma experiência Incomum e aplicarmos seu ${PROSPECT_DISCOUNT} de Desconto VIP!`;
         };
         
-        // --- NOVO COMPONENTE: Card de Pacote Individual ---
+        // --- COMPONENTE: Card de Pacote Individual ---
         const PacoteCard = ({ pacote, onSelect }) => {
             const nomeCompleto = pacote.nome + (pacote.saida ? ` | Saída: ${pacote.saida}` : '');
             
             if (pacote.tipo === 'CONSULTORIA') {
                 return (
+                    // CARD DA CONSULTORIA (Min-height ajustado no CSS)
                     <div className="pacote-card card-consultoria">
                         <i className="fas fa-magic" style={{ fontSize: '40px', marginBottom: '15px' }}></i>
                         <h3>{pacote.nome}</h3>
@@ -328,7 +337,6 @@
                 );
             }
 
-            // Calcula o preço mais baixo e a moeda (Real ou Dólar)
             const precoInfo = pacote.opcoes && pacote.opcoes.length > 0
                 ? pacote.opcoes.reduce((min, current) => {
                     if (!min || current.preco < min.preco) {
@@ -343,14 +351,13 @@
 
 
             return (
-                <div className="pacote-card" style={{position: 'relative'}}> {/* Adiciona position: relative para o botão absoluto */}
+                <div className="pacote-card" style={{position: 'relative'}}>
                     <img src={getImageUrl(pacote.imgKey)} alt={`Imagem de ${pacote.nome}`} loading="lazy" />
                     <div className="pacote-content">
                         <h3><i className={`fas fa-${pacote.tipo === 'NACIONAL' ? 'plane-departure' : 'globe-americas'}`}></i> {pacote.nome}</h3>
                         <p>{pacote.desc}</p>
                         <span className="saida">Saída: {pacote.saida || 'Variável'}</span>
                         
-                        {/* BLOCO DE PREÇO CONDICIONAL */}
                         {precoMaisBaixo && (
                             <div className="pacote-price-box">
                                 <span className="price-label">Por pessoa a partir de:</span>
@@ -365,7 +372,6 @@
                             </div>
                         )}
                     </div>
-                    {/* Botão de seleção na base do card */}
                     <button 
                         className="btn-selecionar" 
                         onClick={() => onSelect(nomeCompleto)}
@@ -376,18 +382,17 @@
             );
         };
         
-        // --- NOVO COMPONENTE: Vitrine (Container) ---
+        // --- COMPONENTE: Vitrine (Container) ---
         const VitrinePacotes = ({ pacotes, onSelect }) => {
-            // Separa os pacotes e a opção de consultoria
             const consultoria = pacotes.find(p => p.tipo === 'CONSULTORIA');
             const pacotesVisiveis = pacotes.filter(p => p.tipo !== 'CONSULTORIA');
 
             return (
                 <div className="vitrine-pacotes">
+                    {/* AJUSTE: Título da vitrine simplificado e limpo */}
                     <h2>Roteiros Sugeridos e Pacotes de Destaque <i className="fas fa-star"></i></h2>
                     <p style={{textAlign: 'center', marginBottom: '25px', color: '#555'}}>Selecione abaixo o pacote que mais te agrada para preencher o formulário ou crie um sob medida com nossa consultoria.</p>
                     <div className="pacotes-grid">
-                        {/* Exibe até 5 pacotes em destaque */}
                         {pacotesVisiveis.slice(0, 5).map(pacote => (
                             <PacoteCard key={pacote.id} pacote={pacote} onSelect={onSelect} />
                         ))}
@@ -407,19 +412,15 @@
             const [erro, setErro] = React.useState('');
             const [loadingLead, setLoadingLead] = React.useState(false); 
             
-            const [pacotes, setPacotes] = React.useState(DADOS_FALLBACK); // Usa o FALLBACK como inicial
+            const [pacotes, setPacotes] = React.useState(DADOS_FALLBACK); 
             const [pacotesLoading, setPacotesLoading] = React.useState(true);
             const [destinoLivre, setDestinoLivre] = React.useState(''); 
 
             const minDate = React.useMemo(() => getMinDate(), []); 
 
-            // ----------------------------------------------------
-            // USE EFFECT: Busca de pacotes (Com Pausa Mínima Otimizada: 2.5s)
-            // ----------------------------------------------------
             React.useEffect(() => {
                 const fetchPacotes = async () => {
                     setPacotesLoading(true); 
-                    
                     const startTime = Date.now(); 
                     let fetchedPacotes = [];
 
@@ -427,10 +428,8 @@
                         const response = await fetch(API_PAC_URL); 
                         const data = await response.json();
                         
-                        const consultoriaOption = DADOS_FALLBACK.find(p => p.tipo === 'CONSULTORIA');
-
                         if (response.ok && Array.isArray(data) && data.length > 0) {
-                            fetchedPacotes = DADOS_FALLBACK; // Mantendo o fallback rico para a demo
+                            fetchedPacotes = DADOS_FALLBACK;
                         } else {
                             fetchedPacotes = DADOS_FALLBACK;
                         }
@@ -447,7 +446,6 @@
                         setPacotes(fetchedPacotes);
                         setPacotesLoading(false);
                         
-                        // Scroll para a vitrine após o carregamento
                         const vitrineElement = document.querySelector('.vitrine-pacotes');
                         if (vitrineElement) {
                              vitrineElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -463,7 +461,6 @@
 
                 fetchPacotes();
             }, []);
-            // ----------------------------------------------------
             
             const handlePacoteChange = (value) => {
                 setPacoteSelecionado(value);
@@ -473,7 +470,6 @@
                     setPacoteSelecionado('Consultoria Personalizada / Outro Destino');
                 }
                 
-                // Rola para o formulário após a seleção de um pacote (UX aprimorada)
                 const formElement = document.querySelector('.form');
                 if (formElement) {
                      formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -494,7 +490,6 @@
                     return false;
                 }
                 
-                // AJUSTE: O REGEX agora exige 10 ou 11 dígitos EXATOS (DDD+Número)
                 if (!TELEFONE_REGEX.test(telefone)) {
                     setErro('❌ Telefone inválido. Insira apenas os 10 ou 11 dígitos, incluindo o DDD (Ex: 61983163710).');
                     return false;
@@ -579,22 +574,20 @@ ${descritivoRoteiro}
                         console.error("Erro ao salvar o lead no servidor (Automação):", result.message);
                     }
                     
-                    // AJUSTE: DISPARO DO EVENTO DE CONVERSÃO NO GA4
                     if (window.gtag) {
                         gtag('event', 'whatsapp_lead', {
                             'event_category': 'conversion',
                             'event_label': finalPacote,
-                            'value': finalPassageiros, // Usa o número de passageiros como valor do evento
-                            'currency': 'BRL' // Adiciona moeda para contexto
+                            'value': finalPassageiros,
+                            'currency': 'BRL'
                         });
                     }
-                    // FIM DO AJUSTE DE RASTREAMENTO
 
                     window.open(whatsappURL, '_blank');
                     
                 } catch (error) {
                     console.error("Erro de rede no envio do lead:", error);
-                    window.open(whatsappURL, '_blank'); // Redireciona mesmo se a API de lead falhar
+                    window.open(whatsappURL, '_blank'); 
                 } finally {
                     setLoadingLead(false);
                 }
@@ -617,13 +610,11 @@ ${descritivoRoteiro}
                             Sua viagem Incomum começa aqui! Selecione seu roteiro e garanta um atendimento **prioritário** e seu **Desconto Exclusivo**.
                         </p>
                         
-                        {/* GATILHO DE VENDA: DESCONTO VIP (Correção do símbolo) */}
                         <div className="offer-banner">
                             ✨ OFERTA EXCLUSIVA: Sua primeira compra garante um **Desconto VIP de {PROSPECT_DISCOUNT} OFF**!
                         </div>
                     </header>
                     
-                    {/* INCLUSÃO DA VITRINE DE PACOTES */}
                     {!pacotesLoading && (
                         <VitrinePacotes 
                             pacotes={pacotes} 
@@ -633,20 +624,17 @@ ${descritivoRoteiro}
 
                     <form onSubmit={handleWhatsAppRedirect} className="form">
                         
-                        {/* 1. Seleção do Pacote */}
                         <fieldset className="form__fieldset"> 
                             <legend className="form__legend">1. Confirmação do Roteiro (Selecionado acima ou no seletor) *</legend>
                             <div className="form__group">
                                 <label htmlFor="pacote-select">Pacote de Interesse:</label>
                                 
-                                {/* MENSAGEM DE CARREGAMENTO (Aparece se a vitrine não carregou) */}
                                 {pacotesLoading && (
                                     <p className="loading-message loading-animation">
                                         <i className="fas fa-spinner fa-spin"></i> **Analisando milhares de ofertas exclusivas** para encontrar o seu pacote ideal... Otimizando seu tempo!
                                     </p>
                                 )}
                                 
-                                {/* SELETOR DE PACOTES */}
                                 {!pacotesLoading && (
                                     <>
                                         <select
@@ -657,11 +645,10 @@ ${descritivoRoteiro}
                                             title="Escolha um dos pacotes varridos ou a opção de consultoria personalizada."
                                         >
                                             <option value="">-- Escolha um Destino Irresistível (Selecione um Card ou utilize o Seletor) --</option>
-                                            {/* OPÇÃO DE OUTRO DESTINO SEMPRE DISPONÍVEL */}
                                             <option value="Consultoria Personalizada / Outro Destino">✈️ OUTRO DESTINO (Consultoria Personalizada / Desconto VIP)</option>
                                             
                                             {pacotes
-                                                .filter(p => p.tipo !== 'CONSULTORIA') // Não duplica a opção
+                                                .filter(p => p.tipo !== 'CONSULTORIA')
                                                 .map((pacote) => (
                                                 <option key={pacote.id} value={`${pacote.nome} | Saída: ${pacote.saida || 'Variável'}`}>
                                                     {pacote.nome} (Saída: {pacote.saida || 'Variável'})
@@ -669,7 +656,6 @@ ${descritivoRoteiro}
                                             ))}
                                         </select>
                                         
-                                        {/* CAMPO DE TEXTO LIVRE CONDICIONAL */}
                                         {pacoteSelecionado === 'Consultoria Personalizada / Outro Destino' && (
                                             <div style={{ marginTop: '10px' }}>
                                                 <input 
@@ -686,7 +672,6 @@ ${descritivoRoteiro}
                             </div>
                         </fieldset>
                         
-                        {/* 2. Dados Pessoais */}
                         <fieldset className="form__fieldset">
                             <legend className="form__legend">2. Seus Dados * (Para Atendimento Prioritário Imediato)</legend>
                             <div className="form__group">
@@ -695,13 +680,11 @@ ${descritivoRoteiro}
                             </div>
                             <div className="form__group">
                                 <label htmlFor="telefone-input">WhatsApp (apenas números, com DDD):</label>
-                                {/* AJUSTE: Placeholder com o exemplo */}
                                 <input id="telefone-input" type="tel" value={telefone} onChange={(e) => setTelefone(e.target.value.replace(/[^0-9]/g, ''))} placeholder="Ex: 61983163710 (Obrigatório)" minLength="10" maxLength="11" required/>
                                 <small className="help-text">Garantimos a **prioridade** no contato se for um número de WhatsApp válido.</small>
                             </div>
                         </fieldset>
 
-                        {/* 3. Detalhes da Viagem */}
                         <fieldset className="form__fieldset">
                             <legend className="form__legend">3. Detalhes (Para Agilizar a Consultoria)</legend>
                             <div className="form__group">
@@ -722,7 +705,6 @@ ${descritivoRoteiro}
                             </div>
                         </fieldset>
 
-                        {/* Acessibilidade para mensagens de erro e Botão CTA */}
                         {erro && <p className="error-message form__alert" role="alert" aria-live="assertive" aria-atomic="true">{erro}</p>}
 
                         <button type="submit" className="btn btn--cta" disabled={loadingLead || pacotesLoading || !pacoteSelecionado}>
@@ -735,7 +717,6 @@ ${descritivoRoteiro}
                             <i className="fas fa-tag"></i> *O **Desconto VIP** de {PROSPECT_DISCOUNT} será aplicado no fechamento final do seu pacote exclusivo.
                         </p>
                         
-                        {/* Melhoria de UX: Link para Política de Privacidade e Termos */}
                         <div style={{textAlign: 'center', marginTop: '15px'}}>
                             <small>Ao prosseguir, você concorda com nossos <a href="/politica-de-privacidade.html" target="_blank" style={{color: '#0056b3'}}>Termos e Política de Privacidade</a> (LGPD).</small>
                         </div>
@@ -749,14 +730,12 @@ ${descritivoRoteiro}
                             Atendimento Rápido e Personalizado | <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="whatsapp-link">
                             <i className="fab fa-whatsapp"></i> WhatsApp: (61) 98316-3710</a>
                         </p>
-                        {/* AJUSTE: Copyright para o ano atual dinâmico */}
                         <p>&copy; {new Date().getFullYear()} FSR Viagens & Turismo. Todos os direitos reservados.</p>
                     </footer>
                 </div>
             );
         };
         
-        // Renderiza o componente React
         const container = document.getElementById('root');
         if (container) {
             const root = ReactDOM.createRoot(container);
