@@ -16,7 +16,7 @@
     
     /* Cores de Fundo e Texto */
     --text-color: #333;
-    /* MANTENDO A COR EXATA DA LOGO: Esse tom bege claro #F4F2EE */
+    /* COR EXATA DA LOGO: Tom bege claro para fundo */
     --light-bg: #F4F2EE; 
     --white: #fff;
     --alert-yellow: #ffcc00; /* Laranja-Amarelo forte para oferta */
@@ -73,7 +73,6 @@ header {
     background-color: var(--light-bg); 
     border-bottom: 2px solid var(--loading-blue-light); 
     padding: 15px var(--space-xl);
-    /* Removendo sombra que pode criar bordas cinzas e afetar a percepção da cor */
     box-shadow: none; 
     display: flex;
     justify-content: space-between;
@@ -180,7 +179,6 @@ footer .whatsapp-link i {
     /* Fundo do container IDÊNTICO ao site e logo */
     background: var(--light-bg); 
     border-radius: 12px;
-    /* Removendo sombra que pode criar bordas cinzas e afetar a percepção da cor */
     box-shadow: none; 
 }
 
@@ -255,7 +253,6 @@ h1.hero__headline {
 .pacote-card { 
     /* Fundo do card IDÊNTICO ao site e logo */
     background: var(--light-bg);
-    /* Removendo sombra do card para eliminar interferência visual */
     box-shadow: none; 
     transition: all 0.3s ease; 
     cursor: pointer; 
@@ -418,7 +415,7 @@ h1.hero__headline {
     font-size: 1em;
     font-weight: 700;
     box-sizing: border-box; 
-    /* Ajustado para Fundo de Container/Body */
+    /* Fundo de Container/Body */
     background-color: var(--light-bg); 
     border: 1px solid #ccc;
     color: var(--text-color);
@@ -471,28 +468,24 @@ h1.hero__headline {
     font-size: 0.9em; 
     
     /* CORREÇÃO PARA COERÊNCIA: Fundo Azul Escuro com TODO o texto Branco */
-    color: var(--white); /* Força a cor clara para todo o texto */
+    color: var(--white); 
     background-color: var(--fsr-blue); 
     padding: var(--space-md); 
     border-radius: var(--border-radius-base);
     
-    /* AJUSTES DE MARGIN E PADDING PARA RESPONSIVIDADE TOTAL (HERDADOS) */
-    padding-left: 0; 
-    padding-right: 0;
-    margin-left: 0;
-    margin-right: 0;
+    /* REMOVENDO OS AJUSTES QUE QUEBRARAM O LAYOUT NO DESKTOP */
+    /* Removido: padding-left: 0; padding-right: 0; margin-left: 0; margin-right: 0; */
 }
 /* Garante que links de texto dentro do bloco azul sejam brancos e sem sublinhado padrão */
 .footer a {
     color: var(--white); 
-    text-decoration: none; /* Remove sublinhado padrão para limpeza visual */
+    text-decoration: none; 
     font-weight: 600;
 }
 .footer a:hover {
-    color: var(--fsr-red); /* Destaque no hover */
+    color: var(--fsr-red); 
 }
 .footer a.whatsapp-link {
-    /* O botão de WhatsApp verde mantém seu estilo único */
     display: inline-flex;
     align-items: center;
     background-color: var(--whatsapp-green);
@@ -501,7 +494,6 @@ h1.hero__headline {
     border-radius: 5px;
 }
 .footer a.whatsapp-link i {
-    /* Ícone do WhatsApp fica branco no botão verde */
     color: var(--white); 
     margin-right: 5px;
 }
@@ -511,14 +503,13 @@ h1.hero__headline {
     margin-bottom: 10px; 
 }
 .footer i {
-    /* Garante que ícones (como o boneco) sejam brancos */
     color: var(--white); 
     margin-right: 8px;
 }
 
 /* Correção para o texto ACIMA do bloco azul (Termos e Política) */
 .container.form-container p:last-of-type {
-    color: var(--text-color); /* Garante que o texto de consentimento seja visível */
+    color: var(--text-color); 
 }
 
 
@@ -578,6 +569,7 @@ tbody tr:hover {
     color: white;
     padding: 8px 15px;
     border-radius: 20px; 
+    font-weight: 600;
     box-shadow: 0 2px 5px rgba(37, 211, 102, 0.4);
 }
 
@@ -657,13 +649,14 @@ tbody tr:hover {
         gap: 20px;
     }
     
-    /* Garantir que o footer da Landing Page se ajuste perfeitamente */
+    /* AJUSTE CORRETO para o footer da Landing Page em Mobile */
     .container.form-container .footer {
-        padding-left: 0;
-        padding-right: 0;
+        /* Garante que o fundo azul cubra as bordas do container em mobile */
         margin-left: -15px; 
         margin-right: -15px; 
         width: calc(100% + 30px); 
+        padding-left: 15px; /* Restaura o padding interno */
+        padding-right: 15px; /* Restaura o padding interno */
     }
     
     .pacote-card {
@@ -675,3 +668,70 @@ tbody tr:hover {
         width: calc(100% - 30px);
         margin: 15px auto 0 auto;
     }
+    
+    /* Header/Footer Geral Mobile (leads.html) */
+    header {
+        flex-direction: column;
+        padding: 10px var(--space-sm);
+        align-items: flex-start; 
+    }
+    header .logo-container {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+    nav ul {
+        width: 100%;
+        justify-content: space-around;
+    }
+    
+    /* Footer Global Responsivo */
+    footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: var(--space-lg) var(--space-md);
+    }
+    footer .contato,
+    footer .social-media {
+        min-width: auto;
+        width: 100%;
+    }
+
+    /* Tabela Leads Responsiva */
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    tr {
+        margin: 0 0 1rem 0;
+        border: 1px solid #dee2e6;
+    }
+    td {
+        padding-left: 50%;
+        text-align: right;
+    }
+    td:before {
+        position: absolute;
+        top: 12px; 
+        left: 10px; 
+        width: 45%;
+        text-align: left;
+        font-weight: bold;
+        color: #495057; 
+    }
+    td:nth-of-type(1):before { content: "Nome"; }
+    td:nth-of-type(2):before { content: "Telefone"; } 
+    td:nth-of-type(3):before { content: "Pacote"; }   
+    td:nth-of-type(4):before { content: "Data Cap."; } 
+    
+    /* Política de Privacidade Mobile */
+    .container.politica-container {
+        padding: 15px;
+        margin: 20px auto;
+    }
+}
