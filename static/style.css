@@ -5,19 +5,19 @@
 
 :root {
     /* Cores FSR (Baseado na logo) */
-    --fsr-blue: #023e8a; /* Azul escuro da FSR (Cor Primária) */
+    --fsr-blue: #023e8a; /* Azul escuro da FSR (Cor Primária da Marca) */
     --fsr-red: #e74c3c; /* Vermelho do arco/destaque (Cor Secundária/Alerta) */
-    --primary-color: #0056b3; /* Azul primário para títulos e bordas */
+    --primary-color: #007bff; /* Azul moderno para títulos e bordas (Melhor contraste) */
     --secondary-color: var(--fsr-red); /* Vermelho para destaque de preço/alerta */
     
     /* Cores de Fundo e Texto */
     --text-color: #333;
-    --light-bg: #f5f5f5;
+    --light-bg: #f8f9fa; /* Fundo mais suave para páginas não-landing */
     --white: #fff;
     --alert-yellow: #FFC300; /* Cor para destaque/oferta */
     --loading-blue-light: #f0f7ff; 
-    --soft-blue-consultoria: #f0f8ff; /* Fundo do card de consultoria */
-    --price-yellow-bg: #fff9e6; /* Fundo da caixa de preço */
+    --soft-blue-consultoria: #f0f8ff; 
+    --price-yellow-bg: #fff9e6; 
     --whatsapp-green: #25D366; /* Cor do botão CTA */
 
 
@@ -45,11 +45,12 @@
 body {
     font-family: var(--font-primary);
     color: var(--text-color);
-    background-color: var(--light-bg);
+    /* Usando var(--light-bg) que é mais suave que o #f5f5f5 original */
+    background-color: var(--light-bg); 
     line-height: 1.6;
 }
 
-/* O container principal da Landing Page de formulário */
+/* O container principal da Landing Page de formulário (Mantido para Index.html) */
 .container.form-container {
     max-width: 650px; 
     margin: var(--space-xl) auto;
@@ -60,7 +61,7 @@ body {
 }
 
 /* ====================
-   2. Estilos de Header, Banner e Formulário Base
+   2. Estilos de Header, Banner e Formulário Base (Mantido para Index.html)
    ==================== */
 
 .header__content {
@@ -140,28 +141,26 @@ h1.hero__headline {
     font-weight: 700;
     box-sizing: border-box; 
     transition: all 0.3s ease;
-    /* Correção: Quando não selecionado, usar o estilo base */
-    background-color: var(--white); /* Default branco/levemente cinza */
+    background-color: var(--white); 
     border: 1px solid #ccc;
     color: var(--text-color);
 }
 
-/* NOVO: Estilo para "Nenhum Pacote Selecionado" */
+/* Estilo de Feedback de Seleção */
 .selected-pacote-display.is-selected {
     background-color: var(--loading-blue-light); 
     border: 2px solid var(--primary-color);
     color: var(--primary-color);
-    /* Adicionando leve sombra de foco */
     box-shadow: 0 0 5px rgba(0, 86, 179, 0.3);
 }
 
 .selected-pacote-display.not-selected {
-    background-color: #fff0f0; /* Fundo mais suave para erro/falta */
+    background-color: #fff0f0; 
     border: 2px solid var(--secondary-color);
     color: var(--secondary-color);
 }
 
-/* Loading Message Style (NOVO) */
+/* Loading Message Style */
 .loading-message {
     text-align: center;
     padding: var(--space-md);
@@ -189,7 +188,6 @@ h1.hero__headline {
     margin-top: 15px; 
     font-weight: 600;
     text-align: center;
-    /* Aprimoramento visual */
     box-shadow: 0 2px 5px rgba(231, 76, 60, 0.4);
 }
 .help-text {
@@ -211,11 +209,10 @@ h1.hero__headline {
 }
 
 /* ====================
-   3. Botão CTA (Foco na Conversão WhatsApp)
+   3. Botão CTA (Foco na Conversão WhatsApp) (Mantido para Index.html)
    ==================== */
 
 .btn--cta {
-    /* Cor e Estilo de Alto Impacto */
     font-size: 1.3em; 
     padding: 15px 25px; 
     background-color: var(--whatsapp-green); 
@@ -224,7 +221,7 @@ h1.hero__headline {
     border-radius: 8px;
     width: 100%;
     text-transform: uppercase;
-    font-weight: 800; /* Mais Destaque */
+    font-weight: 800; 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     transition: background-color 0.3s, transform 0.1s;
     margin-top: var(--space-md);
@@ -251,7 +248,7 @@ h1.hero__headline {
 
 
 /* ====================
-   4. Vitrine de Pacotes e Cards (Foco no Feedback Visual)
+   4. Vitrine de Pacotes e Cards (Mantido para Index.html)
    ==================== */
 
 .vitrine-pacotes {
@@ -294,13 +291,13 @@ h1.hero__headline {
     background: var(--white);
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease; 
-    cursor: pointer; /* Adicionado cursor pointer para indicar clicabilidade */
+    cursor: pointer; 
 }
 
 /* ESTILO DO CARD SELECIONADO (Feedback UX) */
 .pacote-card--selecionado {
-    border: 4px solid var(--primary-color) !important; /* Aumentado a borda para mais impacto */
-    box-shadow: 0 8px 20px rgba(0, 86, 179, 0.5); /* Sombra mais intensa */
+    border: 4px solid var(--primary-color) !important; 
+    box-shadow: 0 8px 20px rgba(0, 86, 179, 0.5); 
     transform: scale(1.02); 
 }
 
@@ -316,12 +313,12 @@ h1.hero__headline {
     transition: transform 0.5s ease;
 }
 
-/* AJUSTE FLEXBOX: Garante que o conteúdo se estique e empurre o preço/botão para baixo */
+/* AJUSTE FLEXBOX para o conteúdo */
 .pacote-content {
     display: flex;
-    flex-direction: column; /* CRÍTICO: Layout vertical forçado */
-    justify-content: flex-start; /* CRÍTICO: Conteúdo começa do topo */
-    flex-grow: 1; /* CRÍTICO: Permite que o container preencha o espaço */
+    flex-direction: column; 
+    justify-content: flex-start; 
+    flex-grow: 1; 
     padding: 15px; 
 }
 
@@ -337,7 +334,7 @@ h1.hero__headline {
     color: var(--alert-yellow);
 }
 
-/* NOVO: Estilo da Duração/Saída */
+/* Estilo da Duração/Saída */
 .card-duracao {
     font-size: 0.9em; 
     color: #555;
@@ -350,20 +347,19 @@ h1.hero__headline {
     margin-right: 5px;
 }
 
-/* AJUSTE FLEXBOX: Permite que a descrição preencha todo o espaço restante antes do bloco de preço */
+/* AJUSTE FLEXBOX: Permite que a descrição preencha todo o espaço restante */
 .pacote-content p {
     font-size: 0.9em;
     color: #555;
     margin-bottom: var(--space-sm);
-    /* REMOVIDO: min-height fixo */
-    flex-grow: 1; /* CRÍTICO: Preenche o espaço vertical e resolve o desalinhamento */
+    flex-grow: 1; 
 }
 
 .pacote-card .btn-selecionar {
-    /* Botão de seleção DENTRO do card (Vermelho, CTA Secundário) */
+    /* Botão de seleção DENTRO do card */
     width: calc(100% - 30px); 
     position: absolute; 
-    bottom: 15px; /* Posição fixa */
+    bottom: 15px; 
     left: 15px; 
     
     background-color: var(--secondary-color); 
@@ -384,20 +380,19 @@ h1.hero__headline {
 
 
 /* ====================
-   5. Estilos de Preço e Desconto VIP (Otimizado)
+   5. Estilos de Preço e Desconto VIP (Otimizado) (Mantido para Index.html)
    ==================== */
 
 .pacote-price-box {
     margin-top: 15px;
     padding: 10px;
-    border: 2px solid var(--alert-yellow); /* Borda mais grossa */
+    border: 2px solid var(--alert-yellow); 
     border-radius: 5px;
     background-color: var(--price-yellow-bg); 
     text-align: right;
     box-shadow: 0 1px 5px rgba(0,0,0,0.1);
 }
 
-/* NOVO: Estilo do Preço Total/À Vista (De: R$ X.XXX) */
 .price-total-cash {
     font-size: 0.9em; 
     color: #777;
@@ -405,7 +400,7 @@ h1.hero__headline {
     margin-bottom: 5px;
     display: block;
     text-align: right;
-    font-weight: 400; /* Menos destaque para o riscado */
+    font-weight: 400; 
 }
 
 .price-label {
@@ -422,7 +417,7 @@ h1.hero__headline {
     padding: 6px; 
     background-color: var(--secondary-color); 
     color: var(--white);
-    font-weight: 800; /* MAIOR DESTAQUE */
+    font-weight: 800; 
     border-radius: 4px;
     font-size: 1em; 
     text-align: center;
@@ -443,14 +438,14 @@ h1.hero__headline {
 }
 
 .main-price {
-    font-size: 2.0em; /* MAIOR DESTAQUE */
+    font-size: 2.0em; 
     line-height: 1;
     color: var(--secondary-color); 
 }
 
 
 /* ====================
-   6. Estilo Especial: Card de Consultoria
+   6. Estilo Especial: Card de Consultoria (Mantido para Index.html)
    ==================== */
 
 .card-consultoria {
@@ -471,7 +466,6 @@ h1.hero__headline {
     flex-direction: column;
 }
 
-/* NOVO: Estilo para o H3 do Card de Consultoria */
 .card-consultoria h3 {
     margin-bottom: 10px;
 }
@@ -481,13 +475,12 @@ h1.hero__headline {
 }
 
 .card-consultoria.pacote-card--selecionado {
-    border: 4px dashed var(--primary-color) !important; /* Aumentado a borda */
+    border: 4px dashed var(--primary-color) !important; 
     box-shadow: 0 8px 20px rgba(0, 86, 179, 0.5); 
     transform: scale(1.02);
 }
 
 .card-consultoria .btn-selecionar {
-    /* Estilo do botão de consultoria (Azul) */
      position: static; 
      margin: 20px auto 0; 
      width: 100%;
@@ -503,7 +496,7 @@ h1.hero__headline {
 
 
 /* ====================
-   7. Footer e Responsividade
+   7. Footer e Responsividade da Landing Page (Estilos legados do Index.html)
    ==================== */
 
 .footer { 
@@ -518,6 +511,7 @@ h1.hero__headline {
     color: #333; 
     margin-bottom: 10px; 
 }
+/* O estilo .whatsapp-link abaixo é para links de texto no index, o leads.html usa um estilo mais complexo */
 .whatsapp-link {
     color: var(--whatsapp-green);
     text-decoration: none;
@@ -527,7 +521,121 @@ h1.hero__headline {
     text-decoration: underline;
 }
 
+/* ====================
+   8. Estilos de Layout Comum (Header e Footer para Leads/Páginas de Serviço)
+   ==================== */
+
+header {
+    background-color: var(--white); 
+    border-bottom: 2px solid var(--loading-blue-light); 
+    padding: 15px var(--space-xl);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo-container .logo {
+    height: 40px; 
+    margin-right: 10px;
+}
+
+.agencia-nome {
+    font-size: 1.5rem;
+    color: var(--fsr-blue); 
+    font-weight: 700;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: var(--space-md);
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 600;
+    padding: 8px 10px;
+    border-radius: var(--border-radius-base);
+    transition: all 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: var(--primary-color);
+    background-color: var(--loading-blue-light);
+}
+
+/* Destaque para página ativa */
+nav ul li a.active {
+    color: var(--white);
+    background-color: var(--primary-color);
+    box-shadow: 0 2px 5px rgba(0, 86, 179, 0.3);
+}
+nav ul li a.active:hover {
+    background-color: var(--fsr-blue);
+}
+
+/* -- Footer Comum (Usado no leads.html) -- */
+footer {
+    background-color: #343a40; /* Fundo escuro */
+    color: var(--white);
+    padding: var(--space-lg) var(--space-xl);
+    margin-top: var(--space-xxl);
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    font-size: 0.9em;
+}
+
+footer .contato,
+footer .social-media {
+    margin-bottom: var(--space-md);
+    min-width: 250px;
+}
+
+footer h4 {
+    color: var(--alert-yellow); 
+    margin-bottom: var(--space-sm);
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+footer p {
+    margin-bottom: 5px;
+}
+
+footer i {
+    margin-right: 8px;
+    color: var(--whatsapp-green); 
+}
+
+.social-media a {
+    color: var(--white);
+    font-size: 1.5rem;
+    margin-right: 15px;
+    transition: color 0.3s;
+}
+
+.social-media a:hover {
+    color: var(--primary-color);
+}
+
+/* ====================
+   9. Ajustes de Responsividade
+   ==================== */
+
 @media (max-width: 768px) {
+    /* Responsividade da Landing Page (Mantido para Index.html) */
     .container.form-container {
         margin: var(--space-md) auto;
         padding: var(--space-md);
@@ -549,8 +657,8 @@ h1.hero__headline {
     }
     
     .pacote-card {
-        min-height: auto; /* Deixa flexível em mobile */
-        padding-bottom: 80px; /* Mantém espaço para o botão */
+        min-height: auto; 
+        padding-bottom: 80px; 
     }
 
     .pacote-content p {
@@ -567,11 +675,52 @@ h1.hero__headline {
     }
     
     .main-price {
-        font-size: 1.6em; /* Reduz ligeiramente para mobile */
+        font-size: 1.6em; 
     }
     
     .pacote-card .btn-selecionar {
         padding: 10px var(--space-md); 
         font-size: 0.95rem;
+    }
+
+    /* Responsividade do Header/Footer (Novo) */
+    header {
+        flex-direction: column;
+        padding: 10px var(--space-sm);
+        text-align: center;
+    }
+    
+    .logo-container {
+        margin-bottom: 10px;
+    }
+
+    nav ul {
+        justify-content: center;
+        width: 100%;
+        padding-top: 5px;
+        border-top: 1px solid #eee;
+    }
+    
+    nav ul li {
+        margin: 0 5px;
+    }
+    
+    nav ul li a {
+        padding: 6px 8px;
+        font-size: 0.9em;
+    }
+
+    footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: var(--space-lg) var(--space-md);
+    }
+    
+    footer .contato,
+    footer .social-media {
+        min-width: auto;
+        width: 100%;
+        margin-bottom: var(--space-md);
     }
 }
