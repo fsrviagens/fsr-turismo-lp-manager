@@ -1,11 +1,7 @@
 import os
 import psycopg2
 import time
-import smtplib
-# Importa a classe específica para conexões SSL/porta 465
-from smtplib import SMTP_SSL 
-from email.mime.text import MIMEText
-# Adicionado wraps para o decorator de segurança
+# smtplib e outras bibliotecas de e-mail removidas
 from functools import wraps 
 from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_cors import CORS 
@@ -45,58 +41,7 @@ def auth_required(f):
         return f(*args, **kwargs)
     return decorated
 
-def enviar_alerta_lead(nome, whatsapp, destino):
-    """
-    Função do Robô de Prospecção: Envia um e-mail de alerta sobre o novo lead.
-    """
-    # 1. Recupera as variáveis de ambiente
-    SMTP_SERVER = os.environ.get('SMTP_SERVER')
-    SMTP_PORT = os.environ.get('SMTP_PORT')
-    SMTP_SENDER_EMAIL = os.environ.get('SMTP_SENDER_EMAIL') 
-    SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD')         
-    RECEIVER_EMAIL = os.environ.get('RECEIVER_EMAIL')       
-    
-    if not all([SMTP_SERVER, SMTP_PORT, SMTP_SENDER_EMAIL, SMTP_PASSWORD, RECEIVER_EMAIL]):
-        print("AVISO: Variáveis SMTP incompletas. Alerta de e-mail NÃO ENVIADO.")
-        return
-
-    try:
-        # 2. Monta o corpo do e-mail
-        subject = f"🔔 NOVO LEAD FSR - {nome} ({destino})"
-        body = f"""
-        Olá, você recebeu um novo Lead da FSR Viagens:
-
-        - Nome: {nome}
-        - WhatsApp: {whatsapp}
-        - Destino Selecionado: {destino}
-        
-        Acesse o painel de leads para mais detalhes.
-        """
-        
-        msg = MIMEText(body)
-        msg['Subject'] = subject
-        msg['From'] = SMTP_SENDER_EMAIL
-        msg['To'] = RECEIVER_EMAIL
-
-        # 3. Conecta e envia o e-mail via SMTP_SSL (porta 465) ou SMTP + TLS (porta 587)
-        port = int(SMTP_PORT)
-        
-        if port == 465:
-            # Usa SMTP_SSL para a porta 465
-            server = SMTP_SSL(SMTP_SERVER, port)
-        else: 
-            # Mantém SMTP + starttls para a porta 587 (ou qualquer outra porta que não seja 465)
-            server = smtplib.SMTP(SMTP_SERVER, port)
-            server.starttls()
-            
-        with server:
-            server.login(SMTP_SENDER_EMAIL, SMTP_PASSWORD)
-            server.sendmail(SMTP_SENDER_EMAIL, RECEIVER_EMAIL, msg.as_string())
-        
-        print(f"SUCESSO: Alerta de lead enviado para {RECEIVER_EMAIL}")
-
-    except Exception as e:
-        print(f"ERRO CRÍTICO ao enviar e-mail de alerta (SMTP): {e}")
+# Função enviar_alerta_lead removida
 
 
 # --- Configuração do App ---
@@ -191,19 +136,16 @@ def capturar_lead():
             print("SUCESSO: Lead salvo no BD.")
         else:
             print("AVISO: DATABASE_URL não configurada. Lead NÃO SALVO no BD.")
-
         
-        # Dispara o Robô de Prospecção (E-mail)
-        enviar_alerta_lead(nome, whatsapp, destino)
+        # O alerta de e-mail foi removido.
         
-        return jsonify({'success': True, 'message': 'Lead salvo e alerta enviado!'}), 200
+        return jsonify({'success': True, 'message': 'Lead salvo com sucesso!'}), 200
 
     except Exception as e:
         print(f"ERRO DE BANCO DE DADOS/SERVIDOR: {e}")
-        # Tenta enviar o alerta mesmo se o BD falhar
-        enviar_alerta_lead(nome, whatsapp, destino) 
         
-        return jsonify({'success': False, 'message': f'Erro no servidor: {str(e)}'}), 200 
+        # O código de tentativa de envio de alerta em caso de falha de BD foi removido.
+        return jsonify({'success': False, 'message': f'Erro no servidor ao salvar lead: {str(e)}'}), 500 # Retorna 500 para erro de servidor.
 
 
 # --- ROTAS DE GERENCIAMENTO ---
