@@ -2,6 +2,8 @@ import os
 import psycopg2
 import time
 import smtplib
+# Importa a classe específica para conexões SSL/porta 465
+from smtplib import SMTP_SSL 
 from email.mime.text import MIMEText
 # Adicionado wraps para o decorator de segurança
 from functools import wraps 
@@ -76,9 +78,18 @@ def enviar_alerta_lead(nome, whatsapp, destino):
         msg['From'] = SMTP_SENDER_EMAIL
         msg['To'] = RECEIVER_EMAIL
 
-        # 3. Conecta e envia o e-mail via SMTP
-        with smtplib.SMTP(SMTP_SERVER, int(SMTP_PORT)) as server:
-            server.starttls() 
+        # 3. Conecta e envia o e-mail via SMTP_SSL (porta 465) ou SMTP + TLS (porta 587)
+        port = int(SMTP_PORT)
+        
+        if port == 465:
+            # Usa SMTP_SSL para a porta 465
+            server = SMTP_SSL(SMTP_SERVER, port)
+        else: 
+            # Mantém SMTP + starttls para a porta 587 (ou qualquer outra porta que não seja 465)
+            server = smtplib.SMTP(SMTP_SERVER, port)
+            server.starttls()
+            
+        with server:
             server.login(SMTP_SENDER_EMAIL, SMTP_PASSWORD)
             server.sendmail(SMTP_SENDER_EMAIL, RECEIVER_EMAIL, msg.as_string())
         
