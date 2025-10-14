@@ -1,7 +1,7 @@
-# requirements.txt
 Flask
 flask-cors
 psycopg2-binary
 requests
 beautifulsoup4
 gunicorn
+Flask-APScheduler
