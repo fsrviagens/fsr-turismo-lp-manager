@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FSR Viagens | Pacotes Exclusivos + Desconto VIP de 5% OFF (Atendimento Prioritário)</title>
+    <title>Pacotes de Viagem 2026: Gramado, Porto de Galinhas e Destinos Exclusivos | FSR Viagens | 5% OFF VIP</title>
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EB762TMB8T"></script>
     <script>
@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="/static/style.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <meta name="description" content="Consultoria de viagens especializada desde 2004. Escolha seu pacote FSR, veja as opções de preço e garanta um Desconto VIP de 5% OFF na sua primeira reserva.">
+    <meta name="description" content="Sua consultoria de viagens especializada. Encontre pacotes exclusivos para Gramado, Nordeste (Porto de Galinhas/Maragogi) e Roteiros Internacionais. Ative seu Desconto VIP de 5% OFF.">
     
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
@@ -221,7 +221,13 @@
 
             return (
                 <div className={`pacote-card ${isSelected ? 'pacote-card--selecionado' : ''}`} style={{position: 'relative'}}>
-                    <img src={getImageUrl(pacote.imgKey)} alt={`Imagem de ${pacote.nome}`} loading="lazy" />
+                    <img 
+                        src={getImageUrl(pacote.imgKey)} 
+                        alt={`Imagem de ${pacote.nome}`} 
+                        loading="lazy"
+                        width="400" 
+                        height="200"
+                    />
                     <div className="pacote-content">
                         <h3><i className={`fas fa-${pacote.tipo === 'NACIONAL' ? 'plane-departure' : 'globe-americas'}`}></i> {pacote.nome}</h3>
                         <p className="card-duracao"><i className="far fa-calendar-alt"></i> {precoInfo ? precoInfo.noites : 'Consulte'} | Saídas: {pacote.saida || 'Variável'}</p>
@@ -276,7 +282,7 @@
 
             return (
                 <div className="vitrine-pacotes">
-                    <h2>Pacotes Exclusivos FSR | Sua Viagem Começa Aqui <i className="fas fa-hand-point-down"></i></h2>
+                    <h2>Top 7 Pacotes de Viagem Mais Buscados no Brasil (Gramado, Porto de Galinhas, Lençóis) | FSR Viagens</h2>
                     {/* REDUÇÃO DE ASTERISCOS: Usando tag <strong> para negrito no corpo do texto */}
                     <p style={{textAlign: 'center', marginBottom: '25px', color: '#555'}}>Clique no seu destino preferido para <strong>ativar seu Desconto VIP</strong> e ser atendido com <strong>prioridade</strong> por um especialista.</p>
                     <div className="pacotes-grid">
@@ -513,7 +519,7 @@ ${descritivoRoteiro}
                             height="100" 
                             loading="lazy" />
                         <h1 className="hero__headline">
-                            Pacotes Exclusivos FSR | Consultoria Especializada desde <strong>2004</strong>
+                            Pacotes de Viagem Exclusivos 2026: Roteiros Nacionais e Internacionais com Consultoria FSR
                         </h1>
                         <p className="hero__slogan">
                             {/* REDUÇÃO DE ASTERISCOS: Usando tag <strong> */}
