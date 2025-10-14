@@ -22,6 +22,26 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
+    <style>
+        @keyframes highlight {
+            0% { box-shadow: 0 0 10px rgba(0, 123, 255, 0.4); }
+            50% { box-shadow: 0 0 20px rgba(0, 123, 255, 0.8); }
+            100% { box-shadow: 0 0 10px rgba(0, 123, 255, 0.4); }
+        }
+        .form.highlighted {
+            animation: highlight 2s ease-in-out 1;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            padding: 15px; /* Ajuste o padding se necessário */
+            margin-top: 20px; /* Adicionado para não cortar o box-shadow */
+            margin-bottom: 20px;
+        }
+        /* Garantir que o form original não tenha borda */
+        .form {
+            transition: all 0.5s;
+        }
+    </style>
+
 </head>
 <body>
     <div id="root">
@@ -286,6 +306,7 @@
             const [pacoteSelecionado, setPacoteSelecionado] = React.useState('');
             const [dataViagem, setDataViagem] = React.useState('');
             const [passageiros, setPassageiros] = React.useState(1); 
+            const [destinoLivre, setDestinoLivre] = React.useState(''); // Novo estado adicionado
             const [erro, setErro] = React.useState('');
             const [loadingLead, setLoadingLead] = React.useState(false); 
             
@@ -297,6 +318,7 @@
 
             // REMOVIDO: O useEffect com o fetch da API, pois a fonte de verdade agora é DADOS_ESTATICOS_ATUALIZAVEIS
 
+            // === FUNÇÃO AJUSTADA PARA FOCAR NO PRIMEIRO CAMPO ===
             const handlePacoteChange = (value) => {
                 setPacoteSelecionado(value);
                 if (value !== 'Consultoria Personalizada / Outro Destino') {
@@ -305,9 +327,23 @@
                     setPacoteSelecionado('Consultoria Personalizada / Outro Destino');
                 }
                 
+                const nomeInput = document.querySelector('#nome-input');
                 const formElement = document.querySelector('.form');
-                if (formElement) {
-                     formElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                if (nomeInput && formElement) {
+                     // 1. Rola para o formulário (melhor usando 'start' para o topo)
+                     formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                     
+                     // 2. Adiciona o highlight e remove após 2 segundos
+                     formElement.classList.add('highlighted');
+                     setTimeout(() => {
+                         formElement.classList.remove('highlighted');
+                     }, 2000); 
+
+                     // 3. Define o foco no primeiro campo (nome)
+                     setTimeout(() => {
+                         nomeInput.focus();
+                     }, 700); // Adiciona um pequeno delay para garantir que o scroll termine antes de focar
                 }
             };
             
