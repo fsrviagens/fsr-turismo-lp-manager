@@ -2,19 +2,29 @@ import requests
 from bs4 import BeautifulSoup
 import re
 from datetime import datetime
-import time # Importação não usada, pode ser removida se não for utilizada
 
 # URL do site da vitrine que será varrido
 VITRINE_URL = 'https://materiais.incomumviagens.com.br/vitrine'
 
-# Remover time, pois não está sendo usado
-# from datetime import datetime 
+# Remoção da importação 'time' não utilizada.
+
+def _clean_number(text):
+    """Limpa a string removendo caracteres não numéricos (exceto .) e converte para inteiro."""
+    if not text:
+        return None
+        
+    # Remove R$, US$, pontos (milhares) e vírgulas (decimais) para manter apenas dígitos.
+    # Assumindo que o formato é R$ 1.000 (milhar com ponto, sem decimais).
+    clean_str = re.sub(r'[^\d]', '', text)
+    
+    # Se a string estiver vazia após a limpeza, retorna None
+    return int(clean_str) if clean_str else None
 
 def _limpar_nome_pacote(nome):
     """Limpa o nome do pacote, removendo datas, durações e separadores."""
     # 1. Remove tudo após um pipe (|) ou uma data (DD/MM/AAAA)
     nome_limpo = re.sub(r'\|.*|\d{2}/\d{2}/\d{4}.*', '', nome)
-    # 2. Remove padrões como ' - X dias', ' - promoção' etc. (opcional)
+    # 2. Remove padrões como ' - X dias', ' - promoção' etc.
     nome_limpo = re.sub(r'\s+-\s*.*', '', nome_limpo).strip()
     return nome_limpo
 
@@ -34,12 +44,13 @@ def _extrair_saida(desc_tag):
         # Se o valor for vazio após limpeza, retorna o texto completo (fallback)
         return saida if saida else texto_desc
     else:
-        # Se não encontrar o padrão, retorna o texto completo da descrição como fallback
-        return texto_desc
+        # Se não encontrar o padrão, retorna "Variável" ou a descrição completa
+        return "Variável"
 
 def realizar_web_scraping_da_vitrine():
     """
-    Realiza o web scraping na URL da vitrine, extraindo o nome e a saída dos pacotes.
+    Realiza o web scraping na URL da vitrine, extraindo nome, saída, preço parcelado
+    e preço total.
     Retorna uma lista de dicionários de pacotes.
     """
     pacotes = []
@@ -70,15 +81,57 @@ def realizar_web_scraping_da_vitrine():
                 desc_tag = card.find('p', class_='card-text')
                 saida = _extrair_saida(desc_tag)
                 
+                # --- NOVO BLOCO DE EXTRAÇÃO DE PREÇO E DETALHES ---
+                opcoes = []
+                
+                # Tenta encontrar o bloco de preços assumindo a estrutura do front-end
+                price_container = card.find('div', class_='pacote-price-box') 
+
+                if price_container:
+                    # 1. Extrair Preço Parcelado (valor principal)
+                    parcela_tag = price_container.find('span', class_='main-price')
+                    preco_parcela = _clean_number(parcela_tag.text if parcela_tag else None)
+
+                    # 2. Extrair Preço Total (à vista)
+                    total_tag = price_container.find('span', class_='price-total-cash')
+                    preco_total = _clean_number(total_tag.text if total_tag else None)
+
+                    # 3. Extrair Duração (Noites)
+                    noites = "Consulte"
+                    # Busca a tag de duração para extrair a informação (assumindo a classe do front-end)
+                    duracao_tag = card.find('p', class_='card-duracao')
+
+                    if duracao_tag:
+                        # Regex para encontrar padrões como "7 Dias" ou "10 Noites"
+                        duracao_match = re.search(r'(\d+)\s*(noites|dias)', duracao_tag.text, re.IGNORECASE)
+                        if duracao_match:
+                            noites = duracao_match.group(0) # Ex: "7 Dias"
+                    
+                    # 4. Formatar para o array 'opcoes'
+                    if preco_parcela and preco_total:
+                        # Assumimos 'R$' se não houver indicador de moeda mais claro
+                        moeda = 'R$' 
+                        if total_tag and 'US$' in total_tag.text:
+                            moeda = 'USD'
+                            
+                        opcoes.append({
+                            "preco": preco_parcela,
+                            "preco_total": preco_total,
+                            "noites": noites,
+                            "moeda": moeda
+                        })
+                
+                # --- FIM DA EXTRAÇÃO DE PREÇO ---
+
                 pacotes.append({
                     "id": id_counter,
                     "nome": nome_limpo,
-                    "saida": saida
+                    "saida": saida,
+                    "opcoes": opcoes # <--- Agora contém os valores reais (se encontrados)
                 })
                 
     except requests.exceptions.RequestException as e:
         print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ERRO ao acessar a vitrine: {e}")
-        # Em caso de falha na varredura, retorna um fallback vazio (o React trata isso)
         return [] 
         
     return pacotes
