@@ -1,4 +1,4 @@
-# app.py (Versão Otimizada e Refatorada - CORREÇÃO FINAL)
+# app.py (Versão Final e Estável)
 
 import os
 import psycopg2
@@ -22,9 +22,9 @@ class Config:
             'id': 'Job_Atualizacao_Vitrine',
             'func': 'app:atualizar_vitrine_estatica', 
             'trigger': 'interval',
-            'hours': 72, # <--- A CADA 3 DIAS
+            'hours': 72, 
             'start_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 
-            'misfire_grace_time': 300 # Permite 5 minutos para rodar se falhar
+            'misfire_grace_time': 300 
         }
     ]
 
@@ -36,24 +36,24 @@ CORS(app)
 INDEX_FILE_PATH = os.path.join(app.root_path, 'templates', 'index.html')
 
 
-# --- NOVO: FUNÇÃO DE AUTOMAÇÃO DE ATUALIZAÇÃO ESTATICA (LIMPEZA FINAL) ---
+# --- NOVO: FUNÇÃO DE AUTOMAÇÃO DE ATUALIZAÇÃO ESTATICA (FILTRO REMOVIDO) ---
 def atualizar_vitrine_estatica():
     """
-    Executa o web scraping, filtra o TOP 5, e sobrescreve o bloco de dados estáticos
-    dentro do index.html com os valores reais obtidos.
+    Executa o web scraping, processa todos os pacotes encontrados e sobrescreve o bloco
+    de dados estáticos dentro do index.html.
     """
     print(f"--- [{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] JOB AGENDADO: Iniciando atualização estática... ---")
     start_time = time.time()
     
     try:
-        # 1. Executa o Web Scraping (agora retorna 'opcoes' com os valores reais)
+        # 1. Executa o Web Scraping 
         pacotes_completos = realizar_web_scraping_da_vitrine()
         
-        # Lógica de Filtragem: Top 5
-        top_5_pacotes = pacotes_completos[:5] 
+        # CORREÇÃO: Remove a limitação de [:5] para processar todos os pacotes encontrados.
+        pacotes_a_serem_processados = pacotes_completos 
         
-        # 2. CONFIGURAÇÃO DE CHAVES PARA O FRONT-END (Removemos a injeção estática de preços)
-        for pacote in top_5_pacotes:
+        # 2. CONFIGURAÇÃO DE CHAVES PARA O FRONT-END
+        for pacote in pacotes_a_serem_processados:
             # Adiciona 'tipo' e 'imgKey' (Chaves necessárias para o React)
             pacote['tipo'] = 'NACIONAL'
             pacote['imgKey'] = pacote['nome'] 
@@ -70,7 +70,7 @@ def atualizar_vitrine_estatica():
             "desc": "✨ Destino Sob Medida: Crie seu roteiro do zero e garanta seu Desconto VIP na primeira compra com nossa consultoria especializada.", 
             "imgKey": 'Customizado'
         }
-        pacotes_para_html = top_5_pacotes + [consultoria_card]
+        pacotes_para_html = pacotes_a_serem_processados + [consultoria_card]
 
         # 4. Geração da nova string JavaScript formatada
         pacotes_js_array = json.dumps(pacotes_para_html, indent=8)
