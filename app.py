@@ -1,4 +1,4 @@
-# app.py (Versão Otimizada e Refatorada)
+# app.py (Versão Otimizada e Refatorada - CORRIGIDA)
 
 import os
 import psycopg2
@@ -20,10 +20,11 @@ class Config:
     JOBS = [
         {
             'id': 'Job_Atualizacao_Vitrine',
-            'func': '__main__:atualizar_vitrine_estatica', # Usa o nome do módulo principal
+            # CORREÇÃO APLICADA AQUI: Mudança de '__main__' para 'app'
+            'func': 'app:atualizar_vitrine_estatica', 
             'trigger': 'interval',
             'hours': 72, # <--- A CADA 3 DIAS
-            'start_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'), # Começa imediatamente (ou use o 'time.gmtime' se preferir delay)
+            'start_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 
             'misfire_grace_time': 300 # Permite 5 minutos para rodar se falhar
         }
     ]
@@ -143,8 +144,6 @@ def get_pacotes():
 
 if __name__ == '__main__':
     # Inicializa o agendador APENAS no processo principal, após carregar as configurações.
-    # O check 'SCHEDULER_RUNNING' não é estritamente necessário se você usar gunicorn/waitress
-    # ou se o ambiente garantir que o __main__ é chamado apenas uma vez.
     if os.environ.get('SCHEDULER_RUNNING') != 'true':
         scheduler.start()
         os.environ['SCHEDULER_RUNNING'] = 'true'
@@ -152,4 +151,4 @@ if __name__ == '__main__':
         
     # use_reloader=False é mantido para evitar duplicação do job em ambientes DEV.
     # Debug=False é recomendado para produção.
-    app.run(host='0.0.0.0', port=os.environ.get('PORT', 5000), debug=False, use_reloader=False) 
+    app.run(host='0.0.0.0', port=os.environ.get('PORT', 5000), debug=False, use_reloader=False)
