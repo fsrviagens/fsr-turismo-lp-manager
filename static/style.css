@@ -16,10 +16,8 @@
     
     /* Cores de Fundo e Texto */
     --text-color: #333;
-    /* COR AJUSTADA: #F4F2EE para máxima uniformidade com o fundo da logo */
-    --light-bg: #F4F2EE; 
+    --light-bg: #F4F2EE; /* Cor de fundo exata da logo */
     --white: #fff;
-    --light-text-soft: #E0EFFF; /* Branco suave para melhor leitura no azul escuro (AGORA MENOS USADO) */
     --alert-yellow: #ffcc00; /* Laranja-Amarelo forte para oferta */
     --loading-blue-light: #f0f7ff; /* Azul clarinho para fundos de seção */
     --whatsapp-green: #25D366; /* Cor do botão CTA */
@@ -48,7 +46,6 @@
 body {
     font-family: var(--font-primary);
     color: var(--text-color);
-    /* Aplicando a cor de fundo exata da logo */
     background-color: var(--light-bg); 
     line-height: 1.6;
     min-width: 320px; 
@@ -70,7 +67,6 @@ a:hover {
 
 /* HEADER (Geral) - Aplicado em leads.html */
 header {
-    /* Fundo do header IDÊNTICO ao site */
     background-color: var(--light-bg); 
     border-bottom: 2px solid var(--loading-blue-light); 
     padding: 15px var(--space-xl);
@@ -122,7 +118,7 @@ nav ul li a.active {
 /* FOOTER GLOBAL (Para leads.html e politica.html) - CORES FSR CORRIGIDAS */
 footer {
     background-color: var(--fsr-blue); 
-    color: var(--white);
+    color: var(--white); /* Cor primária do texto no rodapé */
     padding: var(--space-lg) var(--space-xl);
     margin-top: var(--space-xxl);
     display: flex;
@@ -147,7 +143,7 @@ footer h4 {
 
 footer p {
     margin-bottom: 5px;
-    color: #ccc; 
+    color: #ccc; /* Cor suave para parágrafos */
 }
 
 footer i {
@@ -177,7 +173,6 @@ footer .whatsapp-link i {
     max-width: 650px; 
     margin: var(--space-xl) auto;
     padding: var(--space-lg);
-    /* Fundo do container IDÊNTICO ao site e logo */
     background: var(--light-bg); 
     border-radius: 12px;
     box-shadow: none; 
@@ -187,7 +182,6 @@ footer .whatsapp-link i {
 .header__content {
     text-align: center; 
     margin-bottom: var(--space-lg);
-    /* Removendo margem superior para que o logo fique totalmente no topo do container */
     margin-top: 0; 
     padding-top: 0;
 }
@@ -255,15 +249,14 @@ h1.hero__headline {
 
 /* Card de Pacote */
 .pacote-card { 
-    /* Fundo do card IDÊNTICO ao site e logo */
     background: var(--light-bg);
     box-shadow: none; 
     transition: all 0.3s ease; 
     cursor: pointer; 
     display: flex; 
     flex-direction: column;
-    min-height: 500px; 
-    padding-bottom: 70px; 
+    /* REMOVIDO: min-height: 500px; - Deixando o conteúdo determinar a altura */
+    padding-bottom: 70px; /* Espaço para o botão CTA absoluto */
     border: 1px solid #ddd; 
     border-radius: var(--border-radius-base);
     overflow: hidden; 
@@ -315,6 +308,7 @@ h1.hero__headline {
     justify-content: center;
     align-items: center;
     padding: 30px;
+    /* Ajuste para altura mais flexível, mantendo o botão CTA estático */
     min-height: 480px; 
     padding-bottom: 30px; 
 }
@@ -419,7 +413,6 @@ h1.hero__headline {
     font-size: 1em;
     font-weight: 700;
     box-sizing: border-box; 
-    /* Fundo de Container/Body */
     background-color: var(--light-bg); 
     border: 1px solid #ccc;
     color: var(--text-color);
@@ -508,7 +501,7 @@ h1.hero__headline {
     margin-right: 8px;
 }
 
-/* Estilo para o texto de copyright (não precisa mais da cor, pois está no .footer) */
+/* Estilo para o texto de copyright */
 .footer p:last-child {
     font-weight: 500;
     margin-top: 10px;
@@ -536,11 +529,11 @@ h1.hero__headline {
 }
 
 .admin-nav li {
-    display: inline; /* Garante que não quebre a linha se houver mais links */
+    display: inline; 
 }
 
 .admin-nav a {
-    color: #ccc; /* Cor cinza, um pouco mais discreta, mas legível */
+    color: #ccc; 
     text-decoration: none;
     font-size: 0.8em; 
     transition: color 0.2s;
@@ -560,7 +553,6 @@ h1.hero__headline {
     width: 90%; 
     max-width: 1000px; 
     margin: 2rem auto;
-    /* Fundo do leads-container IDÊNTICO ao site e logo */
     background-color: var(--light-bg);
     padding: 30px; 
     border-radius: 12px; 
@@ -596,7 +588,6 @@ th, td {
     border-bottom: 1px solid #e9ecef; 
 }
 tbody tr:nth-child(even) {
-    /* Manter um ton de fundo diferente no leads para melhor leitura */
     background-color: #f8f9fa; 
 }
 tbody tr:hover {
@@ -607,9 +598,10 @@ tbody tr:hover {
     align-items: center;
     background-color: var(--whatsapp-green);
     color: white;
-    padding: 8px 15px;
+    padding: 5px 10px; /* Reduzido o padding para não inflar a célula da tabela */
     border-radius: 20px; 
     font-weight: 600;
+    font-size: 0.9em;
     box-shadow: 0 2px 5px rgba(37, 211, 102, 0.4);
 }
 
@@ -622,7 +614,6 @@ tbody tr:hover {
 .container.politica-container {
     max-width: 900px;
     margin: 40px auto;
-    /* Fundo do container IDÊNTICO ao site e logo */
     background: var(--light-bg);
     padding: 30px;
     border-radius: var(--border-radius-base);
@@ -696,12 +687,11 @@ tbody tr:hover {
     
     /* AJUSTE CORRETO para o footer da Landing Page em Mobile */
     .container.form-container .footer {
-        /* Garante que o fundo azul cubra as bordas do container em mobile */
         margin-left: -15px; 
         margin-right: -15px; 
         width: calc(100% + 30px); 
-        padding-left: 15px; /* Restaura o padding interno */
-        padding-right: 15px; /* Restaura o padding interno */
+        padding-left: 15px; 
+        padding-right: 15px; 
     }
     
     .pacote-card {
