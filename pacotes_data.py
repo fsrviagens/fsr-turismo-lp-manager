@@ -1,11 +1,41 @@
 import requests
 from bs4 import BeautifulSoup
 import re
-import time
 from datetime import datetime
+import time # Importação não usada, pode ser removida se não for utilizada
 
 # URL do site da vitrine que será varrido
 VITRINE_URL = 'https://materiais.incomumviagens.com.br/vitrine'
+
+# Remover time, pois não está sendo usado
+# from datetime import datetime 
+
+def _limpar_nome_pacote(nome):
+    """Limpa o nome do pacote, removendo datas, durações e separadores."""
+    # 1. Remove tudo após um pipe (|) ou uma data (DD/MM/AAAA)
+    nome_limpo = re.sub(r'\|.*|\d{2}/\d{2}/\d{4}.*', '', nome)
+    # 2. Remove padrões como ' - X dias', ' - promoção' etc. (opcional)
+    nome_limpo = re.sub(r'\s+-\s*.*', '', nome_limpo).strip()
+    return nome_limpo
+
+def _extrair_saida(desc_tag):
+    """Tenta extrair a saída (origem) da tag de descrição."""
+    if not desc_tag:
+        return "Consulte"
+        
+    texto_desc = desc_tag.text.strip().replace('\n', ' ')
+
+    # Padrão: 'Saída de:', 'Saída:', 'Bloqueio:' (com 0 ou mais espaços após os dois pontos)
+    saida_match = re.search(r'(Saída de|Saída|Bloqueio):\s*(.*)', texto_desc, re.IGNORECASE)
+    
+    if saida_match:
+        # Pega o segundo grupo (o valor após os dois pontos)
+        saida = saida_match.group(2).strip().replace('.', '')
+        # Se o valor for vazio após limpeza, retorna o texto completo (fallback)
+        return saida if saida else texto_desc
+    else:
+        # Se não encontrar o padrão, retorna o texto completo da descrição como fallback
+        return texto_desc
 
 def realizar_web_scraping_da_vitrine():
     """
@@ -24,43 +54,27 @@ def realizar_web_scraping_da_vitrine():
         response = requests.get(VITRINE_URL, headers=headers, timeout=15)
         response.raise_for_status() # Lança exceção para erros HTTP (4xx ou 5xx)
         
-        # O tempo de espera que estava no app.py foi removido e a varredura real 
-        # (que leva alguns segundos) assume a função de latência.
-
         soup = BeautifulSoup(response.content, 'html.parser')
         
         # Seletor: Busca por DIVs que contêm o corpo do cartão (onde estão as informações)
-        # Atenção: Se a estrutura HTML da vitrine mudar, este seletor precisa ser ajustado.
         pacote_cards = soup.select('div.card-body') 
         
-        id_counter = 1
-        
-        for card in pacote_cards:
+        # Uso de enumerate para gerar o ID de forma mais pythonic, começando em 1
+        for id_counter, card in enumerate(pacote_cards, 1):
             nome_tag = card.find('h4', class_='card-title')
-            nome = nome_tag.text.strip() if nome_tag else None
+            nome_bruto = nome_tag.text.strip() if nome_tag else None
             
-            saida = None
-            desc_tag = card.find('p', class_='card-text')
-            
-            if desc_tag:
-                # Tenta encontrar padrões comuns como "Saída de:", ou usa o texto completo da descrição
-                saida_match = re.search(r'(Saída de|Saída|Bloqueio): (.*)', desc_tag.text, re.IGNORECASE)
+            if nome_bruto:
+                nome_limpo = _limpar_nome_pacote(nome_bruto)
                 
-                if saida_match:
-                    saida = saida_match.group(2).strip().replace('.', '')
-                else:
-                    saida = desc_tag.text.strip()
-            
-            if nome:
-                # Limpeza: remove informações de datas e duração do título
-                nome_limpo = re.sub(r'\|.*|\d{2}/\d{2}/\d{4}.*', '', nome).strip() 
+                desc_tag = card.find('p', class_='card-text')
+                saida = _extrair_saida(desc_tag)
                 
                 pacotes.append({
                     "id": id_counter,
                     "nome": nome_limpo,
-                    "saida": saida if saida else "Consulte"
+                    "saida": saida
                 })
-                id_counter += 1
                 
     except requests.exceptions.RequestException as e:
         print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ERRO ao acessar a vitrine: {e}")
