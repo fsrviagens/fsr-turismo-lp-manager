@@ -58,7 +58,6 @@
         const PROSPECT_DISCOUNT = '5%'; 
 
         // --- DADOS ESTATICOS: ESTE BLOCO DEVE SER ATUALIZADO A CADA 3 DIAS PELO SEU SCRIPT DE BACKEND ---
-        // (Apenas os Top 5 de Vendas + Consultoria. Os pacotes 106 e 107 foram removidos para manter o Top 5)
         
         const getImageUrl = (key) => {
             const IMAGENS = {
@@ -76,73 +75,14 @@
         };
 
         // VARIÁVEL QUE DEVE SER SOBRESCRITA A CADA 3 DIAS PELO SEU CRON JOB
+        // NOTA: O script de backend injetará aqui 5 pacotes (nome, saida, etc.) + o card de Consultoria
         const DADOS_ESTATICOS_ATUALIZAVEIS = [
-            // TOP 5 (EXEMPLO)
-            { 
-                id: 101, 
-                nome: "Porto de Galinhas e Maragogi", 
-                saida: "Londrina e Maringá", 
-                tipo: "NACIONAL", 
-                desc: "🐠 O melhor do Nordeste! Mergulhe nas piscinas naturais e desfrute do famoso 'Caribe Brasileiro'.", 
-                imgKey: 'Porto de Galinhas',
-                opcoes: [
-                    { data: "06/03 a 12/03/26", noites: "6 noites", preco: 298, preco_total: 2980 },
-                    { data: "26/04 a 02/05/26", noites: "6 noites", preco: 266, preco_total: 2660 }, 
-                    { data: "17/05 a 23/05/26", noites: "6 noites", preco: 244, preco_total: 2440 } 
-                ]
-            },
-            { 
-                id: 102, 
-                nome: "Salvador com Morro de São Paulo", 
-                saida: "Variadas (Bloqueios Nacionais)", 
-                tipo: "NACIONAL", 
-                desc: "🏝️ Combinação imbatível de cidade histórica e ilha sem carros. Descanse e explore Morro de São Paulo.", 
-                imgKey: 'Salvador',
-                opcoes: [
-                    { data: "16/01 a 22/01/26", noites: "6 noites", preco: 266, preco_total: 2660 },
-                    { data: "26/01 a 31/01/26", noites: "5 noites", preco: 234, preco_total: 2340 },
-                    { data: "05/02 a 10/02/26", noites: "5 noites", preco: 241, preco_total: 2410 } 
-                ]
-            },
-            { 
-                id: 103, 
-                nome: "Lençóis Maranhenses | São Luís e Barreirinhas", 
-                saida: "Brasília (Bloqueios)", 
-                tipo: "NACIONAL", 
-                desc: "💧 Descubra a beleza surreal das lagoas entre dunas. Um ecoturismo inesquecível.", 
-                imgKey: 'Lençóis Maranhenses',
-                opcoes: [
-                    { data: "01/02 a 07/02", noites: "6 noites", preco: 334, preco_total: 3340 },
-                    { data: "24/02 a 01/03", noites: "5 noites", preco: 317, preco_total: 3170 },
-                    { data: "01/03 a 06/03", noites: "5 noites", preco: 306, preco_total: 3060 }
-                ] 
-            },
-            { 
-                id: 104, 
-                nome: "Gramado | Natal Luz e Roteiro de Vinhos", 
-                saida: "São Paulo, Porto Alegre e Curitiba", 
-                tipo: "NACIONAL", 
-                desc: "🍷 Experiência completa com o Natal Luz e tours pelas vinícolas da Serra Gaúcha.", 
-                imgKey: 'Gramado',
-                opcoes: [
-                    { hotel: "Hotel Monte Felice Bosque", data: "27/10 a 31/10/25", noites: "4 noites", preco: 176, preco_total: 1760 },
-                    { hotel: "Hotel Monte Felice Centro", data: "10/11 a 14/11/25", noites: "4 noites", preco: 207, preco_total: 2070 },
-                    { hotel: "Pousada Monte Felice Recanto da Lua", data: "08/12 a 12/12/25", noites: "4 noites", preco: 196, preco_total: 1960 } 
-                ] 
-            },
-            { 
-                id: 105, 
-                nome: "Réveillon na Tailândia com Festival das Lanternas", 
-                saida: "Variadas (Bloqueios Internacionais)", 
-                tipo: "INTERNACIONAL", 
-                desc: "🎇 Celebre a virada com o mágico Festival das Lanternas (Yi Peng). Praias e templos milenares.", 
-                imgKey: 'Tailândia',
-                opcoes: [
-                    { data: "30/12 a 02/01/26", noites: "3 noites", preco: 109, preco_total: 1090, moeda: 'USD' }
-                ] 
-            },
-            
-            // Opção de Personalização (Sempre no fim)
+            // ESTE BLOCO SERÁ TOTALMENTE SUBSTITUÍDO PELO CRON JOB
+            { id: 101, nome: "Porto de Galinhas e Maragogi", saida: "Londrina e Maringá", tipo: "NACIONAL", desc: "🐠 O melhor do Nordeste! Mergulhe nas piscinas naturais e desfrute do famoso 'Caribe Brasileiro'.", imgKey: 'Porto de Galinhas', opcoes: [] },
+            { id: 102, nome: "Salvador com Morro de São Paulo", saida: "Variadas (Bloqueios Nacionais)", tipo: "NACIONAL", desc: "🏝️ Combinação imbatível de cidade histórica e ilha sem carros. Descanse e explore Morro de São Paulo.", imgKey: 'Salvador', opcoes: [] },
+            { id: 103, nome: "Lençóis Maranhenses | São Luís e Barreirinhas", saida: "Brasília (Bloqueios)", tipo: "NACIONAL", desc: "💧 Descubra a beleza surreal das lagoas entre dunas. Um ecoturismo inesquecível.", imgKey: 'Lençóis Maranhenses', opcoes: [] },
+            { id: 104, nome: "Gramado | Natal Luz e Roteiro de Vinhos", saida: "São Paulo, Porto Alegre e Curitiba", tipo: "NACIONAL", desc: "🍷 Experiência completa com o Natal Luz e tours pelas vinícolas da Serra Gaúcha.", imgKey: 'Gramado', opcoes: [] },
+            { id: 105, nome: "Réveillon na Tailândia com Festival das Lanternas", saida: "Variadas (Bloqueios Internacionais)", tipo: "INTERNACIONAL", desc: "🎇 Celebre a virada com o mágico Festival das Lanternas (Yi Peng). Praias e templos milenares.", imgKey: 'Tailândia', opcoes: [] },
             { id: 999, nome: "Consultoria Personalizada / Outro Destino", saida: "Seu aeroporto de preferência", tipo: "CONSULTORIA", desc: "✨ Destino Sob Medida: Crie seu roteiro do zero e garanta seu Desconto VIP na primeira compra com nossa consultoria especializada.", imgKey: 'Customizado' }
         ];
         // -----------------------------------------------------
@@ -179,6 +119,10 @@
         
         // --- COMPONENTE: Card de Pacote Individual (MANTIDO) ---
         const PacoteCard = ({ pacote, onSelect, isSelected }) => {
+            // NOTA: Os dados de preço (preco, preco_total, opcoes) NÃO vêm do scraping, 
+            // mas são esperados para o card ser renderizado corretamente com preço.
+            // O pacote_data.py só está retornando nome e saída.
+
             const nomeCompleto = pacote.nome + (pacote.saida ? ` | Saída: ${pacote.saida}` : '');
             
             if (pacote.tipo === 'CONSULTORIA') {
@@ -200,6 +144,9 @@
                 );
             }
 
+            // Simulação de dados de preço para que o card renderize (já que o scraping não os fornece)
+            // Se o JSON injetado do cron job não tiver 'opcoes', esta lógica pode falhar.
+            // É fundamental que o JSON injetado inclua `opcoes` e `imgKey`.
             const precoInfo = pacote.opcoes && pacote.opcoes.length > 0
                 ? pacote.opcoes.reduce((min, current) => {
                     if (!min || current.preco < min.preco) {
@@ -225,10 +172,11 @@
                     />
                     <div className="pacote-content">
                         <h3><i className={`fas fa-${pacote.tipo === 'NACIONAL' ? 'plane-departure' : 'globe-americas'}`}></i> {pacote.nome}</h3>
+                        {/* Se o pacote não tiver 'opcoes', ele mostrará 'Consulte' e Saída */}
                         <p className="card-duracao"><i className="far fa-calendar-alt"></i> {precoInfo ? precoInfo.noites : 'Consulte'} | Saídas: {pacote.saida || 'Variável'}</p>
                         <p>{pacote.desc}</p>
                         
-                        {precoMaisBaixoParcela && precoTotal && (
+                        {precoMaisBaixoParcela && precoTotal ? (
                             <div className="pacote-price-box">
                                 
                                 <span className="price-total-cash">
@@ -250,9 +198,8 @@
                                     *Preço "a partir de" por pessoa em apartamento duplo. Válido para a primeira viagem. Consulte o especialista para opções de datas e voos.
                                 </small>
                             </div>
-                        )}
-                        
-                        {!precoMaisBaixoParcela && (
+                        ) : (
+                            // Bloco de fallback se o scraping não puder fornecer preço
                             <div style={{textAlign: 'center', marginTop: '15px'}}>
                                 <span style={{fontWeight: 'bold', color: '#0056b3'}}>Consulte Disponibilidade e Orçamento VIP</span>
                             </div>
@@ -306,17 +253,15 @@
             const [pacoteSelecionado, setPacoteSelecionado] = React.useState('');
             const [dataViagem, setDataViagem] = React.useState('');
             const [passageiros, setPassageiros] = React.useState(1); 
-            const [destinoLivre, setDestinoLivre] = React.useState(''); // Novo estado adicionado
+            const [destinoLivre, setDestinoLivre] = React.useState(''); 
             const [erro, setErro] = React.useState('');
             const [loadingLead, setLoadingLead] = React.useState(false); 
             
             // AGORA SEMPRE USA A VARIÁVEL QUE SERÁ ATUALIZADA NO BACKEND/CRON JOB
             const [pacotes, setPacotes] = React.useState(DADOS_ESTATICOS_ATUALIZAVEIS); 
-            const [pacotesLoading, setPacotesLoading] = React.useState(false); // Definido como false para não ter delay de load
+            const [pacotesLoading, setPacotesLoading] = React.useState(false); 
 
             const minDate = React.useMemo(() => getMinDate(), []); 
-
-            // REMOVIDO: O useEffect com o fetch da API, pois a fonte de verdade agora é DADOS_ESTATICOS_ATUALIZAVEIS
 
             // === FUNÇÃO AJUSTADA PARA FOCAR NO PRIMEIRO CAMPO ===
             const handlePacoteChange = (value) => {
@@ -331,7 +276,7 @@
                 const formElement = document.querySelector('.form');
 
                 if (nomeInput && formElement) {
-                     // 1. Rola para o formulário (melhor usando 'start' para o topo)
+                     // 1. Rola para o formulário
                      formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
                      
                      // 2. Adiciona o highlight e remove após 2 segundos
@@ -343,7 +288,7 @@
                      // 3. Define o foco no primeiro campo (nome)
                      setTimeout(() => {
                          nomeInput.focus();
-                     }, 700); // Adiciona um pequeno delay para garantir que o scroll termine antes de focar
+                     }, 700); 
                 }
             };
             
