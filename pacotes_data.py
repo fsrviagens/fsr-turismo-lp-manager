@@ -185,3 +185,4 @@ def realizar_web_scraping_da_vitrine():
         
     print(f"Web Scraping + OCR finalizado. Pacotes com valores extraídos: {sum(1 for p in pacotes if p['opcoes'])}")
     return pacotes
+#
