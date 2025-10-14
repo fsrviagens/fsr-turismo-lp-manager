@@ -1,4 +1,4 @@
-# app.py (Versão Otimizada com Agendamento)
+# app.py (Versão Otimizada e Refatorada)
 
 import os
 import psycopg2
@@ -6,12 +6,27 @@ import time
 from functools import wraps
 from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_cors import CORS
-from flask_apscheduler import APScheduler # <-- NOVO: Para agendamento
-import json # <-- NOVO: Para formatar o JSON em JS
-import re # <-- NOVO: Para buscar e substituir no HTML
+from flask_apscheduler import APScheduler
+import json 
+import re 
+from datetime import datetime # Importar datetime para logs mais limpos
 
-# Importa a função de web scraping (assume-se que ela retorna a lista completa e formatada)
+# Importa a função de web scraping 
 from pacotes_data import realizar_web_scraping_da_vitrine
+
+# --- Configuração do APScheduler ---
+class Config:
+    SCHEDULER_API_ENABLED = False # Desativa API REST para segurança
+    JOBS = [
+        {
+            'id': 'Job_Atualizacao_Vitrine',
+            'func': '__main__:atualizar_vitrine_estatica', # Usa o nome do módulo principal
+            'trigger': 'interval',
+            'hours': 72, # <--- A CADA 3 DIAS
+            'start_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'), # Começa imediatamente (ou use o 'time.gmtime' se preferir delay)
+            'misfire_grace_time': 300 # Permite 5 minutos para rodar se falhar
+        }
+    ]
 
 # --- Funções Auxiliares de Segurança e DB (MANTIDAS) ---
 
@@ -38,10 +53,12 @@ def auth_required(f):
 # --- CONFIGURAÇÃO DO APP E AGENDADOR ---
 app = Flask(__name__)
 CORS(app)
-scheduler = APScheduler() # Inicializa o agendador
+app.config.from_object(Config()) # Carrega a configuração do agendador
+
+scheduler = APScheduler() 
+scheduler.init_app(app)
 
 # Define o caminho para o template HTML
-# IMPORTANTE: O Flask procura por templates na pasta 'templates'
 INDEX_FILE_PATH = os.path.join(app.root_path, 'templates', 'index.html')
 
 # --- NOVO: FUNÇÃO DE AUTOMAÇÃO DE ATUALIZAÇÃO ESTATICA ---
@@ -51,24 +68,20 @@ def atualizar_vitrine_estatica():
     Executa o web scraping, filtra o TOP 5 e sobrescreve o bloco de dados estáticos
     dentro do index.html.
     """
-    print(f"--- [JOB AGENDADO] Iniciando atualização estática da vitrine... ---")
+    print(f"--- [{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] JOB AGENDADO: Iniciando atualização estática... ---")
     start_time = time.time()
     
     try:
-        # 1. Executa o Web Scraping (retorna a lista de pacotes)
+        # 1. Executa o Web Scraping 
         pacotes_completos = realizar_web_scraping_da_vitrine()
         
-        # Lógica de Filtragem: Ordenar e pegar o Top 5
-        # NOTA: O 'pacotes_completos' deve ter um campo para ordenação (ex: 'prioridade' ou 'vendas')
-        
-        # --- Simulação da Lógica de Top 5 (Assuma que o primeiro item é o mais vendido) ---
-        # Se você não tem um campo de prioridade, apenas pegue os 5 primeiros
+        # Lógica de Filtragem: Top 5
         top_5_pacotes = pacotes_completos[:5] 
-        # --- Fim Simulação ---
         
-        # 2. Adiciona o card de Consultoria (ID 999 no código JS)
+        # 2. Adiciona o card de Consultoria
         consultoria_card = {
-            "id": 999, "nome": "Consultoria Personalizada / Outro Destino", 
+            # Use um ID bem distinto para evitar conflitos, como -1
+            "id": -1, "nome": "Consultoria Personalizada / Outro Destino", 
             "saida": "Seu aeroporto de preferência", "tipo": "CONSULTORIA", 
             "desc": "✨ Destino Sob Medida: Crie seu roteiro do zero e garanta seu Desconto VIP na primeira compra com nossa consultoria especializada.", 
             "imgKey": 'Customizado'
@@ -76,20 +89,20 @@ def atualizar_vitrine_estatica():
         pacotes_para_html = top_5_pacotes + [consultoria_card]
 
         # 3. Geração da nova string JavaScript formatada
-        # O 'indent=8' ajuda a manter a legibilidade no HTML
         pacotes_js_array = json.dumps(pacotes_para_html, indent=8)
-        
-        # Cria a string de substituição (nome da variável deve ser a mesma do HTML)
         new_js_content = f"const DADOS_ESTATICOS_ATUALIZAVEIS = {pacotes_js_array};"
 
         # 4. Leitura e substituição no arquivo (index.html)
         with open(INDEX_FILE_PATH, 'r') as f:
             html_content = f.read()
 
-        # Regex para encontrar e substituir o bloco estático no index.html
-        # IMPORTANTE: O REGEX deve ser robusto para encontrar APENAS a variável
-        # Ele busca: 'const DADOS_ESTATICOS_ATUALIZAVEIS = [...];'
-        pattern = re.compile(r"const DADOS_ESTATICOS_ATUALIZAVEIS = \[\s*\{.*?\}\s*\];", re.DOTALL)
+        # Regex AJUSTADO: 
+        # Busca a variável e assume que o valor é um array (pode ser vazio, [ ] ou preenchido [...])
+        # O re.DOTALL é crucial para ler o JSON multilinha.
+        pattern = re.compile(
+            r"const DADOS_ESTATICOS_ATUALIZAVEIS\s*=\s*\[.*?\]\s*;", 
+            re.DOTALL
+        )
         
         # Substitui o bloco
         new_html_content = pattern.sub(new_js_content, html_content)
@@ -102,27 +115,10 @@ def atualizar_vitrine_estatica():
         print(f"--- SUCESSO! Vitrine estática atualizada em {end_time - start_time:.2f}s. Total: {len(pacotes_para_html)} cards. ---")
 
     except Exception as e:
-        print(f"--- ERRO CRÍTICO no JOB AGENDADO: Falha ao atualizar a vitrine estática. Erro: {e} ---")
+        print(f"--- [{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ERRO CRÍTICO no JOB AGENDADO: {e} ---")
         
-    return # Não retorna nada, apenas executa
+    return 
 
-# --- CONFIGURAÇÃO DO AGENDAMENTO ---
-def init_scheduler():
-    if os.environ.get('SCHEDULER_RUNNING') != 'true':
-        # Adiciona o job. Usa 'interval' de 72 horas.
-        # Caso o servidor reinicie, o APScheduler garante que ele tente rodar o job
-        # se o tempo de intervalo tiver passado.
-        scheduler.add_job(
-            id='Job_Atualizacao_Vitrine', 
-            func=atualizar_vitrine_estatica, 
-            trigger='interval', 
-            hours=72, # <--- A CADA 3 DIAS
-            start_date=time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(time.time() + 60)) # Começa em 1 minuto
-        )
-        scheduler.start()
-        os.environ['SCHEDULER_RUNNING'] = 'true'
-        print("--- Agendador APScheduler iniciado com sucesso. Atualização a cada 72h. ---")
-        
 # --- ROTAS DA LANDING PAGE (MANTIDAS) ---
 
 @app.route('/')
@@ -132,23 +128,28 @@ def index():
 # ... (outras rotas do frontend: politica_de_privacidade, obrigado, cadastro) ...
 
 # ----------------------------------------------------------------------
-# ENDPOINT /api/pacotes (REMOVIDO OU SIMPLIFICADO)
-# Já que o frontend agora usa DADOS_ESTATICOS_ATUALIZAVEIS, este endpoint
-# que faz o scraping em tempo real se torna redundante e desnecessário.
-# MANTENHA-O APENAS SE HOUVER OUTROS SISTEMAS QUE O CONSUMAM.
+# ENDPOINT /api/pacotes 
 # ----------------------------------------------------------------------
 @app.route('/api/pacotes', methods=['GET'])
 def get_pacotes():
-    # Retorna um 404/410 para desincentivar o uso, já que a fonte é estática
-    return jsonify({"message": "Este endpoint foi desativado. Use a fonte estática."}), 410
+    # Retorna um 410 (Gone) para indicar que a funcionalidade foi removida/movida
+    return jsonify({"message": "Este endpoint foi desativado. A vitrine agora é carregada via dados estáticos no HTML."}), 410
 
 # ... (outras rotas de caputura de lead e gerenciamento: capturar_lead, leads, setup_database) ...
 
 # --- INICIALIZAÇÃO ---
 
+# O init_scheduler() foi substituído pela inicialização com app.config
+
 if __name__ == '__main__':
-    # Inicializa o agendador ANTES de rodar o app
-    init_scheduler() 
-    app.run(host='0.0.0.0', port=os.environ.get('PORT', 5000), debug=True, use_reloader=False) 
-    # use_reloader=False é importante para que o agendador não duplique o job.
-#
+    # Inicializa o agendador APENAS no processo principal, após carregar as configurações.
+    # O check 'SCHEDULER_RUNNING' não é estritamente necessário se você usar gunicorn/waitress
+    # ou se o ambiente garantir que o __main__ é chamado apenas uma vez.
+    if os.environ.get('SCHEDULER_RUNNING') != 'true':
+        scheduler.start()
+        os.environ['SCHEDULER_RUNNING'] = 'true'
+        print("--- Agendador APScheduler iniciado com sucesso. ---")
+        
+    # use_reloader=False é mantido para evitar duplicação do job em ambientes DEV.
+    # Debug=False é recomendado para produção.
+    app.run(host='0.0.0.0', port=os.environ.get('PORT', 5000), debug=False, use_reloader=False) 
