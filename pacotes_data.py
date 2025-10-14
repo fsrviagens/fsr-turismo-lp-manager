@@ -2,115 +2,186 @@ import requests
 from bs4 import BeautifulSoup
 import re
 from datetime import datetime
+from requests.compat import urljoin 
+from PIL import Image # Necessário para processar a imagem
+import io # Para manipular a imagem em memória
+
+# IMPORTANTE: Estas linhas só funcionarão se 'pytesseract' e o motor Tesseract OCR
+# estiverem instalados no ambiente de execução.
+try:
+    import pytesseract 
+except ImportError:
+    pytesseract = None
+    print("Aviso: pytesseract não está instalado. A extração de preços via OCR falhará.")
+
 
 # URL do site da vitrine que será varrido
 VITRINE_URL = 'https://materiais.incomumviagens.com.br/vitrine'
+URL_BASE = 'https://materiais.incomumviagens.com.br' # Adicionado para construir URLs absolutas
 
-# ... (Funções _clean_number, _limpar_nome_pacote, _extrair_saida mantidas) ...
+# --------------------------------------------------------------------------------
+# FUNÇÕES OCR E LIMPEZA
+# --------------------------------------------------------------------------------
+
+def _clean_number_from_text(text):
+    """Limpa o texto e tenta encontrar um número inteiro (valor do preço)."""
+    if not text:
+        return None
+    
+    # Remove milhar (ponto) e foca na parte inteira (antes da vírgula)
+    text = text.replace('\n', ' ').strip()
+    match = re.search(r'[\d\.,]+', text)
+    if match:
+        clean_str = match.group(0)
+        clean_str = re.sub(r'\.', '', clean_str) # Remove separador de milhar
+        clean_str = clean_str.split(',')[0] # Pega apenas a parte inteira (remove centavos)
+        
+        return int(clean_str) if clean_str.isdigit() else None
+    return None
+
+def _ocr_image_for_prices(image_url):
+    """Baixa a imagem da lâmina e usa OCR para tentar extrair os preços."""
+    prices = {"preco_parcela": None, "preco_total": None, "moeda": "R$"}
+    
+    if not pytesseract:
+        return prices
+
+    try:
+        # 1. Baixar a imagem
+        response = requests.get(image_url, timeout=15)
+        response.raise_for_status()
+        
+        # 2. Abrir a imagem na memória com PIL
+        image = Image.open(io.BytesIO(response.content))
+        
+        # 3. Executar o OCR (Configurado para alta precisão em texto e números)
+        full_text = pytesseract.image_to_string(
+            image, 
+            lang='por', 
+            config='--psm 6 -c tessedit_char_whitelist=R$0123456789.,'
+        )
+        # Diagnóstico para monitorar a precisão do OCR no log
+        print(f"OCR Texto Bruto: {full_text.strip()[:150]}...")
+        
+        # 4. Tentar parsear o texto
+        
+        # T1: Preço Total (à vista) - Busca por "à vista" seguido de valor
+        total_match = re.search(r'à vista.*?(R\$|US\$)\s*([\d\.,]+)', full_text, re.IGNORECASE | re.DOTALL)
+        if total_match:
+             prices["preco_total"] = _clean_number_from_text(total_match.group(2))
+             
+        # T2: Preço Parcelado - Busca por (X) seguido de valor
+        parcela_match = re.search(r'(\d+)\s*(x|X).*?(R\$|US\$)\s*([\d\.,]+)', full_text, re.IGNORECASE | re.DOTALL)
+        if parcela_match:
+             prices["preco_parcela"] = _clean_number_from_text(parcela_match.group(4))
+        
+        # Fallback (se não achou por regex): pega o primeiro e segundo número grande
+        if prices["preco_parcela"] is None and prices["preco_total"] is None:
+             all_numbers = re.findall(r'[\d\.,]+', full_text)
+             if len(all_numbers) >= 2:
+                 prices["preco_parcela"] = _clean_number_from_text(all_numbers[0])
+                 prices["preco_total"] = _clean_number_from_text(all_numbers[1])
+
+
+        # Determinar Moeda
+        if 'US$' in full_text or 'DÓLAR' in full_text.upper():
+            prices['moeda'] = 'USD'
+        else:
+            prices['moeda'] = 'R$'
+        
+    except Exception as e:
+        print(f"ERRO CRÍTICO no OCR na URL {image_url}: {e}")
+
+    return prices
+
+# --------------------------------------------------------------------------------
+# FUNÇÕES PADRÕES DE LIMPEZA
+# --------------------------------------------------------------------------------
+
+def _limpar_nome_pacote(nome):
+    """Limpa o nome do pacote."""
+    nome_limpo = re.sub(r'\|.*|\d{2}/\d{2}/\d{4}.*', '', nome)
+    nome_limpo = re.sub(r'\s+-\s*.*', '', nome_limpo).strip()
+    return nome_limpo
+
+def _extrair_saida(desc_tag):
+    """Tenta extrair a saída (origem) da tag de descrição."""
+    if not desc_tag: return "Consulte"
+    texto_desc = desc_tag.text.strip().replace('\n', ' ')
+    saida_match = re.search(r'(Saída de|Saída|Bloqueio):\s*(.*)', texto_desc, re.IGNORECASE)
+    if saida_match:
+        saida = saida_match.group(2).strip().replace('.', '')
+        return saida if saida else "Variável"
+    else:
+        return "Variável"
+
+# --------------------------------------------------------------------------------
+# FUNÇÃO PRINCIPAL
+# --------------------------------------------------------------------------------
 
 def realizar_web_scraping_da_vitrine():
-    """
-    Realiza o web scraping em duas etapas: coleta os links na vitrine e 
-    acessa cada link para extrair os detalhes e preços.
-    """
     pacotes = []
-    
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-    }
+    headers = {'User-Agent': 'Mozilla/5.0'}
     
     try:
-        # ETAPA 1: REQUISIÇÃO DA PÁGINA PRINCIPAL (VITRINE)
+        # ETAPA 1: COLETA DOS LINKS DA VITRINE
         response = requests.get(VITRINE_URL, headers=headers, timeout=15)
         response.raise_for_status() 
         soup = BeautifulSoup(response.content, 'html.parser')
-        
-        # Encontra o contêiner de cada pacote (assumindo que o link está logo abaixo)
         pacote_elements = soup.select('div.card') 
+        
+        print(f"Total de cards encontrados na vitrine: {len(pacote_elements)}")
         
         for id_counter, element in enumerate(pacote_elements, 1):
             
-            # 1. Encontrar o link da 'Lâmina de Divulgação'
-            # Assumindo que a lâmina é um link (<a>) com uma classe específica ou dentro do 'card-body'
-            link_tag = element.find('a', href=True) 
+            # 1. Encontrar o link da Lâmina (Corrigido para usar o texto do link)
+            lamina_url = None
+            link_tag = element.find('a', string=re.compile(r'LÂMINA DIVULGAÇÃO', re.IGNORECASE), href=True)
             
-            # Tentar ser mais específico, se houver um seletor melhor.
-            # Se o botão for: <a href="URL_DO_PACOTE" class="btn-lamina">
-            # link_tag = element.find('a', class_='btn-lamina') 
+            if link_tag and link_tag.get('href'):
+                lamina_url = urljoin(URL_BASE, link_tag['href'])
             
-            lamina_url = link_tag['href'] if link_tag else None
-            
-            if not lamina_url or lamina_url.startswith('#'):
-                 continue # Pula este pacote se não encontrar uma URL válida
+            # Valida se o link existe e se é uma imagem (png, jpg)
+            if not lamina_url or not lamina_url.lower().endswith(('.png', '.jpg', '.jpeg')):
+                 continue
                  
-            # ETAPA 2: REQUISIÇÃO DA PÁGINA INDIVIDUAL DO PACOTE (LÂMINA)
-            try:
-                lamina_response = requests.get(lamina_url, headers=headers, timeout=10)
-                lamina_response.raise_for_status()
-                lamina_soup = BeautifulSoup(lamina_response.content, 'html.parser')
-            except requests.exceptions.RequestException as e:
-                print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ERRO ao acessar lâmina {lamina_url}: {e}")
-                continue # Pula para o próximo pacote em caso de falha
-            
-            # 2. Extração dos Dados do PACOTE (Agora da lamina_soup)
-            
-            # --- TÍTULO e SAÍDA ---
-            nome_tag = lamina_soup.find('h4', class_='card-title')
+            # 2. COLETA DADOS BÁSICOS (Da página da vitrine)
+            nome_tag = element.find('h4', class_='card-title')
             nome_bruto = nome_tag.text.strip() if nome_tag else None
             
             if not nome_bruto: continue
 
             nome_limpo = _limpar_nome_pacote(nome_bruto)
-            desc_tag = lamina_soup.find('p', class_='card-text')
+            desc_tag = element.find('p', class_='card-text')
             saida = _extrair_saida(desc_tag)
             
-            # --- EXTRAÇÃO DE PREÇO E DETALHES (USANDO A LÂMINA) ---
+            # --- 3. EXECUTA O OCR PARA EXTRAIR OS PREÇOS DA IMAGEM ---
+            prices = _ocr_image_for_prices(lamina_url)
+            
             opcoes = []
+            if prices["preco_parcela"] is not None and prices["preco_total"] is not None:
+                opcoes.append({
+                    "preco": prices["preco_parcela"],
+                    "preco_total": prices["preco_total"],
+                    "noites": "Consulte", 
+                    "moeda": prices.get('moeda', 'R$')
+                })
             
-            # Você deve validar estes seletores com o HTML real da página da lâmina
-            price_container = lamina_soup.find('div', class_='pacote-price-box') 
+            if not opcoes:
+                 print(f"Card {id_counter} ('{nome_limpo}'): Falha ao extrair valores com OCR.")
 
-            if price_container:
-                # 1. Extrair Preço Parcelado
-                parcela_tag = price_container.find('span', class_='main-price')
-                preco_parcela = _clean_number(parcela_tag.text if parcela_tag else None)
-
-                # 2. Extrair Preço Total
-                total_tag = price_container.find('span', class_='price-total-cash')
-                preco_total = _clean_number(total_tag.text if total_tag else None)
-
-                # 3. Extrair Duração
-                noites = "Consulte"
-                duracao_tag = lamina_soup.find('p', class_='card-duracao')
-
-                if duracao_tag:
-                    duracao_match = re.search(r'(\d+)\s*(noites|dias)', duracao_tag.text, re.IGNORECASE)
-                    if duracao_match:
-                        noites = duracao_match.group(0)
-                
-                # 4. Formatar para o array 'opcoes'
-                if preco_parcela is not None and preco_total is not None:
-                    moeda = 'R$' 
-                    if total_tag and 'US$' in total_tag.text:
-                        moeda = 'USD'
-                        
-                    opcoes.append({
-                        "preco": preco_parcela,
-                        "preco_total": preco_total,
-                        "noites": noites,
-                        "moeda": moeda
-                    })
-            
-            # 3. Adicionar o pacote
+            # 4. Adicionar o pacote
             pacotes.append({
                 "id": id_counter,
                 "nome": nome_limpo,
                 "saida": saida,
-                "opcoes": opcoes
+                "opcoes": opcoes, 
+                "lamina_url": lamina_url # Mantém a URL da imagem (pode ser útil no front-end)
             })
                 
     except requests.exceptions.RequestException as e:
-        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ERRO geral ao acessar a vitrine: {e}")
+        print(f"ERRO geral ao acessar a vitrine: {e}")
         return [] 
         
+    print(f"Web Scraping + OCR finalizado. Pacotes com valores extraídos: {sum(1 for p in pacotes if p['opcoes'])}")
     return pacotes
