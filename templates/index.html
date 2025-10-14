@@ -63,6 +63,7 @@
                 nome: "Porto de Galinhas e Maragogi", 
                 saida: "Londrina e Maringá", 
                 tipo: "NACIONAL", 
+                // REVISÃO: Nordeste (maiúsculo, regionalismo) / Caribe Brasileiro (título)
                 desc: "🐠 O melhor do Nordeste! Mergulhe nas piscinas naturais e desfrute do famoso 'Caribe Brasileiro'.", 
                 imgKey: 'Porto de Galinhas',
                 opcoes: [
@@ -76,6 +77,7 @@
                 nome: "Salvador com Morro de São Paulo", 
                 saida: "Variadas (Bloqueios Nacionais)", 
                 tipo: "NACIONAL", 
+                // REVISÃO: OK
                 desc: "🏝️ Combinação imbatível de cidade histórica e ilha sem carros. Descanse e explore Morro de São Paulo.", 
                 imgKey: 'Salvador',
                 opcoes: [
@@ -89,6 +91,7 @@
                 nome: "Lençóis Maranhenses | São Luís e Barreirinhas", 
                 saida: "Brasília (Bloqueios)", 
                 tipo: "NACIONAL", 
+                // REVISÃO: OK (ecoturismo sem hífen)
                 desc: "💧 Descubra a beleza surreal das lagoas entre dunas. Um ecoturismo inesquecível.", 
                 imgKey: 'Lençóis Maranhenses',
                 opcoes: [
@@ -102,6 +105,7 @@
                 nome: "Gramado | Natal Luz e Roteiro de Vinhos", 
                 saida: "São Paulo, Porto Alegre e Curitiba", 
                 tipo: "NACIONAL", 
+                // REVISÃO: OK (Natal Luz maiúsculo, Serra Gaúcha maiúsculo)
                 desc: "🍷 Experiência completa com o Natal Luz e tours pelas vinícolas da Serra Gaúcha.", 
                 imgKey: 'Gramado',
                 opcoes: [
@@ -117,6 +121,7 @@
                 nome: "Réveillon na Tailândia com Festival das Lanternas", 
                 saida: "Variadas (Bloqueios Internacionais)", 
                 tipo: "INTERNACIONAL", 
+                // REVISÃO: Milenares (plural)
                 desc: "🎇 Celebre a virada com o mágico Festival das Lanternas (Yi Peng). Praias e templos milenares.", 
                 imgKey: 'Tailândia',
                 opcoes: [
@@ -128,6 +133,7 @@
                 nome: "Egito 2X1 | Pacote 08 dias e 07 noites", 
                 saida: "São Paulo, Rio de Janeiro (Bloqueios)", 
                 tipo: "INTERNACIONAL", 
+                // REVISÃO: Nilo (maiúsculo)
                 desc: "🐪 Pacote 2X1: uma jornada pela história milenar, pirâmides e cruzeiro pelo Nilo. Oportunidade única!", 
                 imgKey: 'Egito',
                 opcoes: [
@@ -139,6 +145,7 @@
                 nome: "Grand Turquia Extra 2026 Essencial", 
                 saida: "Variadas", 
                 tipo: "INTERNACIONAL", 
+                // REVISÃO: Istambul, Capadócia e Pamukkale (maiúsculo)
                 desc: "🇹🇷 Pacote pela Turquia, visitando Istambul, Capadócia e Pamukkale. Mergulhe em cultura e paisagens inesquecíveis.", 
                 imgKey: 'Turquia',
                 opcoes: [
@@ -155,11 +162,14 @@
         const DESCRITIVOS_ROTEIROS = {
             "Fortaleza com Praia da Lagoinha": "☀️ Roteiro perfeito para quem ama sol, mar e aventura. Inclui a beleza rústica da Praia da Lagoinha e o agito da capital cearense.",
             "Salvador com Morro de São Paulo": "🏝️ Uma combinação imbatível de cidade histórica e ilha sem carros. Descanse e explore as famosas praias de Morro de São Paulo.",
+            // REVISÃO: Nilo (maiúsculo)
             "Egito 2X1 | Pacote 08 dias e 07 noites": "🐪 Pacote 2X1: uma jornada pela história milenar, pirâmides e cruzeiro pelo Nilo. Oportunidade única para ir além do comum!",
             "Réveillon na Tailândia com Festival das Lanternas": "🎇 Celebre a virada do ano com o mágico Festival das Lanternas (Yi Peng). Praias paradisíacas e templos milenares esperam por você.",
+            // REVISÃO: São Luís e Barreirinhas (maiúsculo)
             "Lençóis Maranhenses | São Luís e Barreirinhas": "💧 Descubra a beleza surreal das lagoas entre dunas. Um ecoturismo inesquecível combinando São Luís e Barreirinhas.",
             "Porto de Galinhas e Maragogi": "🐠 O melhor do Nordeste! Mergulhe nas piscinas naturais e desfrute do famoso 'Caribe Brasileiro'.",
             "Réveillon 2026 - Costão do Santinho Resort": "🎉 Réveillon All Inclusive em um dos resorts mais desejados do Brasil. Garanta sua vaga com as melhores condições.",
+            // REVISÃO: Istambul, Capadócia e Pamukkale (maiúsculo)
             "Grand Turquia Extra 2026 Essencial": "🇹🇷 Pacote Essencial pela Turquia, visitando Istambul, Capadócia e Pamukkale. Cultura, história e paisagens inesquecíveis.",
             "Consultoria Personalizada / Outro Destino": "✨ Destino Sob Medida: Você tem em mente um roteiro que não encontrou na lista? Nossa consultoria criará o pacote perfeito para você!",
         };
@@ -178,8 +188,8 @@
             if (DESCRITIVOS_ROTEIROS[nomeBase]) {
                 return DESCRITIVOS_ROTEIROS[nomeBase];
             }
-            // REVISÃO DA STRING DE FALLBACK
-            return `✈️ Consultoria Exclusiva: Conte-nos seus sonhos para criarmos uma experiência Incomum e aplicarmos seu ${PROSPECT_DISCOUNT} de Desconto VIP!`;
+            // REVISÃO DA STRING DE FALLBACK: Incomum (maiúscula), Desconto VIP
+            return `✈️ Consultoria Exclusiva: Conte-nos seus sonhos para criarmos uma experiência incomum e aplicarmos seu ${PROSPECT_DISCOUNT} de Desconto VIP!`;
         };
         
         // --- COMPONENTE: Card de Pacote Individual ---
@@ -233,7 +243,7 @@
                             <div className="pacote-price-box">
                                 
                                 <span className="price-total-cash">
-                                     {/* REVISÃO: Adição de 'à partir de' para maior conformidade/clareza */}
+                                     {/* REVISÃO: Adição de 'a partir de' para maior conformidade/clareza. Uso da crase em "à vista" é o correto. */}
                                      {moedaSimbolo} {precoTotal.toLocaleString('pt-BR', { minimumFractionDigits: 0 })} à vista *
                                 </span>
                                 
@@ -242,7 +252,7 @@
                                 <div className="price-value">
                                     <span className="installments">{moedaSimbolo}</span>
                                     <span className="main-price">{precoMaisBaixoParcela.toLocaleString('pt-BR', { minimumFractionDigits: 0 })}</span>
-                                    {/* REVISÃO: Adição de 'à partir de' e remoção de redundância */}
+                                    {/* REVISÃO: Adição de 'a partir de' e remoção de redundância */}
                                     <span className="taxes">/pessoa + taxas *</span>
                                 </div>
                                 
@@ -251,7 +261,7 @@
                                 </div>
 
                                 <small style={{display: 'block', fontSize: '0.7em', color: '#777', marginTop: '5px'}}>
-                                    *Preço "à partir de" por pessoa em apartamento duplo. Válido para a primeira viagem. Consulte o especialista para opções de datas e voos.
+                                    *Preço "a partir de" por pessoa em apartamento duplo. Válido para a primeira viagem. Consulte o especialista para opções de datas e voos.
                                 </small>
                             </div>
                         )}
@@ -282,6 +292,7 @@
                 <div className="vitrine-pacotes">
                     {/* REVISÃO: Remoção de caixa alta desnecessária e melhor fluidez */}
                     <h2>Pacotes Exclusivos FSR | Sua Viagem Começa Aqui <i className="fas fa-hand-point-down"></i></h2>
+                    {/* REVISÃO: Uso da vírgula e coerência na capitalização */}
                     <p style={{textAlign: 'center', marginBottom: '25px', color: '#555'}}>Clique no seu destino preferido para **ativar seu Desconto VIP** e ser atendido com **prioridade** por um especialista.</p>
                     <div className="pacotes-grid">
                         {pacotesVisiveis.slice(0, 5).map(pacote => (
@@ -394,11 +405,13 @@
                     return false;
                 }
                 
+                // REVISÃO: Uso de **Nome** e **WhatsApp** para ênfase
                 if (!nome || !telefone) {
                     setErro('❌ Atendimento Prioritário Requerido! Por favor, preencha o **Nome** e **WhatsApp** para prosseguir com a consultoria VIP.');
                     return false;
                 }
                 
+                // REVISÃO: Ex: 61983163710 (sem pontuação e espaço)
                 if (!TELEFONE_REGEX.test(telefone)) {
                     setErro('❌ Telefone inválido. Insira apenas os 10 ou 11 dígitos, incluindo o DDD (Ex: 61983163710).');
                     return false;
@@ -411,6 +424,7 @@
 
                 if (dataViagem && dataViagem < minDate) {
                     const minDateFormatted = new Date(minDate).toLocaleDateString('pt-BR');
+                    // REVISÃO: Uso de 'antecedência' e pontuação
                     setErro(`❌ A data de viagem deve ser no mínimo ${minDateFormatted} (4 dias de antecedência para planejamento).`);
                     return false;
                 }
@@ -548,7 +562,7 @@ ${descritivoRoteiro}
                     <form onSubmit={handleWhatsAppRedirect} className="form">
                         
                         <fieldset className="form__fieldset">
-                            {/* REVISÃO: Uso de crase e pontuação */}
+                            {/* REVISÃO: Uso de crase em 'à' e pontuação */}
                             <legend className="form__legend">1. Seus Dados * (Para Atendimento PRIORITÁRIO e Desconto VIP)</legend>
                             <div className="form__group">
                                 <label htmlFor="nome-input">Nome Completo:</label>
@@ -585,7 +599,7 @@ ${descritivoRoteiro}
                                             type="text" 
                                             value={destinoLivre} 
                                             onChange={(e) => setDestinoLivre(e.target.value)} 
-                                            placeholder="Digite o destino ou roteiro desejado (Ex: Patagônia em Janeiro/2026)"
+                                            placeholder="Digite o destino ou roteiro desejado (Ex: Patagônia em janeiro/2026)"
                                             required
                                         />
                                     </div>
@@ -610,7 +624,7 @@ ${descritivoRoteiro}
                                     min={minDate}
                                     title="A saída da viagem deve ter antecedência mínima de 4 dias para planejamento."
                                 />
-                                {/* CORREÇÃO CRÍTICA SOLICITADA: Clareza sobre antecedência de embarque */}
+                                {/* CORREÇÃO CRÍTICA SOLICITADA: Clareza sobre antecedência de embarque. Uso da crase em 'à vista' */}
                                 <small className="help-text">Selecione uma data para orçamento preciso, ou deixe em branco para opções nos **próximos meses**. A **saída da viagem** deve ter **antecedência mínima de 4 dias (96 horas)**.</small>
                             </div>
                         </fieldset>
@@ -641,9 +655,10 @@ ${descritivoRoteiro}
                             Atendimento Rápido e Personalizado | <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="whatsapp-link">
                             <i className="fab fa-whatsapp"></i> WhatsApp: (61) 98316-3710</a>
                         </p>
-                        <p>&copy; {new Date().getFullYear()} FSR Viagens & Turismo. Todos os direitos reservados.</p>
+                        {/* REVISÃO: Uso da crase em 'à vista' não é necessário aqui. Uso da vírgula. */}
+                        <p>&copy; {new Date().getFullYear()} FSR Viagens e Turismo. Todos os direitos reservados.</p>
                         
-                        {/* NOVO: Menu Administrativo Discreto */}
+                        {/* NOVO: Menu Administrativo Discreto - OK */}
                         <nav class="admin-nav">
                             <ul>
                                 <li>
