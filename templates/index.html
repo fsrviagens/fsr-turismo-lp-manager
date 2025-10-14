@@ -63,7 +63,6 @@
                 nome: "Porto de Galinhas e Maragogi", 
                 saida: "Londrina e Maringá", 
                 tipo: "NACIONAL", 
-                // REVISÃO: Nordeste (maiúsculo, regionalismo) / Caribe Brasileiro (título)
                 desc: "🐠 O melhor do Nordeste! Mergulhe nas piscinas naturais e desfrute do famoso 'Caribe Brasileiro'.", 
                 imgKey: 'Porto de Galinhas',
                 opcoes: [
@@ -77,7 +76,6 @@
                 nome: "Salvador com Morro de São Paulo", 
                 saida: "Variadas (Bloqueios Nacionais)", 
                 tipo: "NACIONAL", 
-                // REVISÃO: OK
                 desc: "🏝️ Combinação imbatível de cidade histórica e ilha sem carros. Descanse e explore Morro de São Paulo.", 
                 imgKey: 'Salvador',
                 opcoes: [
@@ -91,7 +89,6 @@
                 nome: "Lençóis Maranhenses | São Luís e Barreirinhas", 
                 saida: "Brasília (Bloqueios)", 
                 tipo: "NACIONAL", 
-                // REVISÃO: OK (ecoturismo sem hífen)
                 desc: "💧 Descubra a beleza surreal das lagoas entre dunas. Um ecoturismo inesquecível.", 
                 imgKey: 'Lençóis Maranhenses',
                 opcoes: [
@@ -105,7 +102,6 @@
                 nome: "Gramado | Natal Luz e Roteiro de Vinhos", 
                 saida: "São Paulo, Porto Alegre e Curitiba", 
                 tipo: "NACIONAL", 
-                // REVISÃO: OK (Natal Luz maiúsculo, Serra Gaúcha maiúsculo)
                 desc: "🍷 Experiência completa com o Natal Luz e tours pelas vinícolas da Serra Gaúcha.", 
                 imgKey: 'Gramado',
                 opcoes: [
@@ -121,7 +117,6 @@
                 nome: "Réveillon na Tailândia com Festival das Lanternas", 
                 saida: "Variadas (Bloqueios Internacionais)", 
                 tipo: "INTERNACIONAL", 
-                // REVISÃO: Milenares (plural)
                 desc: "🎇 Celebre a virada com o mágico Festival das Lanternas (Yi Peng). Praias e templos milenares.", 
                 imgKey: 'Tailândia',
                 opcoes: [
@@ -133,7 +128,6 @@
                 nome: "Egito 2X1 | Pacote 08 dias e 07 noites", 
                 saida: "São Paulo, Rio de Janeiro (Bloqueios)", 
                 tipo: "INTERNACIONAL", 
-                // REVISÃO: Nilo (maiúsculo)
                 desc: "🐪 Pacote 2X1: uma jornada pela história milenar, pirâmides e cruzeiro pelo Nilo. Oportunidade única!", 
                 imgKey: 'Egito',
                 opcoes: [
@@ -145,7 +139,6 @@
                 nome: "Grand Turquia Extra 2026 Essencial", 
                 saida: "Variadas", 
                 tipo: "INTERNACIONAL", 
-                // REVISÃO: Istambul, Capadócia e Pamukkale (maiúsculo)
                 desc: "🇹🇷 Pacote pela Turquia, visitando Istambul, Capadócia e Pamukkale. Mergulhe em cultura e paisagens inesquecíveis.", 
                 imgKey: 'Turquia',
                 opcoes: [
@@ -162,14 +155,11 @@
         const DESCRITIVOS_ROTEIROS = {
             "Fortaleza com Praia da Lagoinha": "☀️ Roteiro perfeito para quem ama sol, mar e aventura. Inclui a beleza rústica da Praia da Lagoinha e o agito da capital cearense.",
             "Salvador com Morro de São Paulo": "🏝️ Uma combinação imbatível de cidade histórica e ilha sem carros. Descanse e explore as famosas praias de Morro de São Paulo.",
-            // REVISÃO: Nilo (maiúsculo)
             "Egito 2X1 | Pacote 08 dias e 07 noites": "🐪 Pacote 2X1: uma jornada pela história milenar, pirâmides e cruzeiro pelo Nilo. Oportunidade única para ir além do comum!",
             "Réveillon na Tailândia com Festival das Lanternas": "🎇 Celebre a virada do ano com o mágico Festival das Lanternas (Yi Peng). Praias paradisíacas e templos milenares esperam por você.",
-            // REVISÃO: São Luís e Barreirinhas (maiúsculo)
             "Lençóis Maranhenses | São Luís e Barreirinhas": "💧 Descubra a beleza surreal das lagoas entre dunas. Um ecoturismo inesquecível combinando São Luís e Barreirinhas.",
             "Porto de Galinhas e Maragogi": "🐠 O melhor do Nordeste! Mergulhe nas piscinas naturais e desfrute do famoso 'Caribe Brasileiro'.",
             "Réveillon 2026 - Costão do Santinho Resort": "🎉 Réveillon All Inclusive em um dos resorts mais desejados do Brasil. Garanta sua vaga com as melhores condições.",
-            // REVISÃO: Istambul, Capadócia e Pamukkale (maiúsculo)
             "Grand Turquia Extra 2026 Essencial": "🇹🇷 Pacote Essencial pela Turquia, visitando Istambul, Capadócia e Pamukkale. Cultura, história e paisagens inesquecíveis.",
             "Consultoria Personalizada / Outro Destino": "✨ Destino Sob Medida: Você tem em mente um roteiro que não encontrou na lista? Nossa consultoria criará o pacote perfeito para você!",
         };
@@ -188,7 +178,7 @@
             if (DESCRITIVOS_ROTEIROS[nomeBase]) {
                 return DESCRITIVOS_ROTEIROS[nomeBase];
             }
-            // REVISÃO DA STRING DE FALLBACK: Incomum (maiúscula), Desconto VIP
+            // MANTIDO o negrito/emphasis na string de fallback (onde é crucial para o Desconto VIP)
             return `✈️ Consultoria Exclusiva: Conte-nos seus sonhos para criarmos uma experiência incomum e aplicarmos seu ${PROSPECT_DISCOUNT} de Desconto VIP!`;
         };
         
@@ -202,7 +192,6 @@
                         <i className="fas fa-magic" style={{ fontSize: '40px', marginBottom: '15px' }}></i>
                         <h3>
                             {pacote.nome} 
-                            {/* REVISÃO: Maior clareza na descrição do tipo de roteiro */}
                             <span style={{display: 'block', fontSize: '0.6em', fontWeight: 'normal', marginTop: '5px'}}>(Seu Roteiro Único com Assessoria Exclusiva)</span>
                         </h3>
                         <p>{pacote.desc}</p>
@@ -234,7 +223,6 @@
                 <div className={`pacote-card ${isSelected ? 'pacote-card--selecionado' : ''}`} style={{position: 'relative'}}>
                     <img src={getImageUrl(pacote.imgKey)} alt={`Imagem de ${pacote.nome}`} loading="lazy" />
                     <div className="pacote-content">
-                        {/* REVISÃO: Uso de espaço e ícone */}
                         <h3><i className={`fas fa-${pacote.tipo === 'NACIONAL' ? 'plane-departure' : 'globe-americas'}`}></i> {pacote.nome}</h3>
                         <p className="card-duracao"><i className="far fa-calendar-alt"></i> {precoInfo ? precoInfo.noites : 'Consulte'} | Saídas: {pacote.saida || 'Variável'}</p>
                         <p>{pacote.desc}</p>
@@ -243,20 +231,18 @@
                             <div className="pacote-price-box">
                                 
                                 <span className="price-total-cash">
-                                     {/* REVISÃO: Adição de 'a partir de' para maior conformidade/clareza. Uso da crase em "à vista" é o correto. */}
                                      {moedaSimbolo} {precoTotal.toLocaleString('pt-BR', { minimumFractionDigits: 0 })} à vista *
                                 </span>
                                 
-                                {/* REVISÃO: 'Parcele em' é mais gramaticalmente correto que 'Ou parcele em' */}
                                 <span className="price-label">Parcele em até 10x de:</span>
                                 <div className="price-value">
                                     <span className="installments">{moedaSimbolo}</span>
                                     <span className="main-price">{precoMaisBaixoParcela.toLocaleString('pt-BR', { minimumFractionDigits: 0 })}</span>
-                                    {/* REVISÃO: Adição de 'a partir de' e remoção de redundância */}
                                     <span className="taxes">/pessoa + taxas *</span>
                                 </div>
                                 
                                 <div className="price-vip-discount">
+                                    {/* MANTIDO o negrito para o Desconto VIP */}
                                     <i className="fas fa-certificate"></i> **GANHE {PROSPECT_DISCOUNT} EXTRA (Desconto VIP)**
                                 </div>
 
@@ -290,10 +276,9 @@
 
             return (
                 <div className="vitrine-pacotes">
-                    {/* REVISÃO: Remoção de caixa alta desnecessária e melhor fluidez */}
                     <h2>Pacotes Exclusivos FSR | Sua Viagem Começa Aqui <i className="fas fa-hand-point-down"></i></h2>
-                    {/* REVISÃO: Uso da vírgula e coerência na capitalização */}
-                    <p style={{textAlign: 'center', marginBottom: '25px', color: '#555'}}>Clique no seu destino preferido para **ativar seu Desconto VIP** e ser atendido com **prioridade** por um especialista.</p>
+                    {/* REDUÇÃO DE ASTERISCOS: Usando tag <strong> para negrito no corpo do texto */}
+                    <p style={{textAlign: 'center', marginBottom: '25px', color: '#555'}}>Clique no seu destino preferido para <strong>ativar seu Desconto VIP</strong> e ser atendido com <strong>prioridade</strong> por um especialista.</p>
                     <div className="pacotes-grid">
                         {pacotesVisiveis.slice(0, 5).map(pacote => (
                             <PacoteCard 
@@ -399,19 +384,17 @@
             };
 
             const validateForm = (finalPacote, finalPassageiros) => {
-                // REVISÃO DE CLAREZA E CORREÇÃO GRAMATICAL nos alertas de erro
+                // MANTIDO o negrito (asteriscos) nos alerts de erro, onde é crucial o destaque
                 if (!finalPacote || finalPacote.trim() === '' || finalPacote.includes('Nenhum pacote selecionado')) {
                     setErro('❌ Seleção obrigatória! Por favor, **clique em um dos cards de pacotes acima** ou escolha a Consultoria Personalizada.');
                     return false;
                 }
                 
-                // REVISÃO: Uso de **Nome** e **WhatsApp** para ênfase
                 if (!nome || !telefone) {
                     setErro('❌ Atendimento Prioritário Requerido! Por favor, preencha o **Nome** e **WhatsApp** para prosseguir com a consultoria VIP.');
                     return false;
                 }
                 
-                // REVISÃO: Ex: 61983163710 (sem pontuação e espaço)
                 if (!TELEFONE_REGEX.test(telefone)) {
                     setErro('❌ Telefone inválido. Insira apenas os 10 ou 11 dígitos, incluindo o DDD (Ex: 61983163710).');
                     return false;
@@ -424,7 +407,6 @@
 
                 if (dataViagem && dataViagem < minDate) {
                     const minDateFormatted = new Date(minDate).toLocaleDateString('pt-BR');
-                    // REVISÃO: Uso de 'antecedência' e pontuação
                     setErro(`❌ A data de viagem deve ser no mínimo ${minDateFormatted} (4 dias de antecedência para planejamento).`);
                     return false;
                 }
@@ -444,7 +426,6 @@
                     if (destinoLivre.trim()) {
                         finalPacote = `Consultoria Personalizada / Outro Destino: ${destinoLivre.trim()}`;
                     } else {
-                        // REVISÃO DE CLAREZA
                         setErro('❌ Por favor, digite o destino desejado no campo "Qual o Destino/Roteiro que você gostaria?".');
                         return;
                     }
@@ -468,7 +449,7 @@
                     ? new Date(dataViagem).toLocaleDateString('pt-BR', {timeZone: 'UTC'}) 
                     : '🗓️ A DEFINIR (Gostaria de opções)';
 
-                // REVISÃO DA MENSAGEM DO WHATSAPP PARA PROFISSIONALISMO
+                // MANTIDO o negrito (asteriscos) AQUI, pois é para a formatação do WhatsApp
                 let mensagem = `*ATENDIMENTO PRIORITÁRIO - VIAJANTE SITE*
 
 Olá, Consultor(a) Especializado(a) da FSR Viagens! Meu nome é *${nome}* e meu WhatsApp é *${telefone}*.
@@ -532,15 +513,16 @@ ${descritivoRoteiro}
                             height="100" 
                             loading="lazy" />
                         <h1 className="hero__headline">
-                            Pacotes Exclusivos FSR | Consultoria Especializada desde **2004**
+                            Pacotes Exclusivos FSR | Consultoria Especializada desde <strong>2004</strong>
                         </h1>
                         <p className="hero__slogan">
-                            Garanta **{PROSPECT_DISCOUNT} OFF (Desconto VIP)** na sua 1ª viagem com a segurança do **Atendimento Prioritário** de nossos especialistas.
+                            {/* REDUÇÃO DE ASTERISCOS: Usando tag <strong> */}
+                            Garanta <strong>{PROSPECT_DISCOUNT} OFF (Desconto VIP)</strong> na sua 1ª viagem com a segurança do <strong>Atendimento Prioritário</strong> de nossos especialistas.
                         </p>
                         
-                        {/* REVISÃO: Maior impacto visual e uso de caixa baixa correta */}
                         <div className="offer-banner">
-                            ✨ Oferta Exclusiva: Sua primeira compra garante um **Desconto VIP de {PROSPECT_DISCOUNT} OFF**!
+                            {/* REDUÇÃO DE ASTERISCOS: Usando tag <strong> */}
+                            ✨ Oferta Exclusiva: Sua primeira compra garante um <strong>Desconto VIP de {PROSPECT_DISCOUNT} OFF</strong>!
                         </div>
                     </header>
                     
@@ -562,7 +544,6 @@ ${descritivoRoteiro}
                     <form onSubmit={handleWhatsAppRedirect} className="form">
                         
                         <fieldset className="form__fieldset">
-                            {/* REVISÃO: Uso de crase em 'à' e pontuação */}
                             <legend className="form__legend">1. Seus Dados * (Para Atendimento PRIORITÁRIO e Desconto VIP)</legend>
                             <div className="form__group">
                                 <label htmlFor="nome-input">Nome Completo:</label>
@@ -570,8 +551,8 @@ ${descritivoRoteiro}
                             </div>
                             <div className="form__group">
                                 <label htmlFor="telefone-input">WhatsApp (apenas números, com DDD):</label>
-                                {/* REVISÃO: Correção na digitação do placeholder (preencha) */}
                                 <input id="telefone-input" type="tel" value={telefone} onChange={(e) => setTelefone(e.target.value.replace(/[^0-9]/g, ''))} placeholder="Ex: 61983163710 (Obrigatório)" minLength="10" maxLength="11" required/>
+                                {/* MANTIDO o negrito (asteriscos) para o destaque imediato */}
                                 <small className="help-text"><i className="fab fa-whatsapp"></i> Seu atendimento será iniciado **imediatamente** após o envio.</small>
                             </div>
                         </fieldset>
@@ -581,7 +562,6 @@ ${descritivoRoteiro}
                             <div className="form__group">
                                 
                                 <label htmlFor="pacote-selecionado-display">Pacote Escolhido:</label>
-                                {/* REVISÃO: Maior clareza no texto de placeholder do campo de display */}
                                 <input
                                     id="pacote-selecionado-display"
                                     type="text"
@@ -610,7 +590,6 @@ ${descritivoRoteiro}
                         <fieldset className="form__fieldset">
                             <legend className="form__legend">3. Detalhes (Para Agilizar a Consultoria)</legend>
                             <div className="form__group">
-                                {/* REVISÃO: Uso de espaço e pontuação */}
                                 <label htmlFor="passageiros-input">Quantidade de Viajantes *:</label>
                                 <input id="passageiros-input" type="number" min="1" value={passageiros} onChange={handlePassageirosChange} required/>
                             </div>
@@ -624,7 +603,7 @@ ${descritivoRoteiro}
                                     min={minDate}
                                     title="A saída da viagem deve ter antecedência mínima de 4 dias para planejamento."
                                 />
-                                {/* CORREÇÃO CRÍTICA SOLICITADA: Clareza sobre antecedência de embarque. Uso da crase em 'à vista' */}
+                                {/* MANTIDO o negrito (asteriscos) para ênfase na informação CRÍTICA (antecedência) */}
                                 <small className="help-text">Selecione uma data para orçamento preciso, ou deixe em branco para opções nos **próximos meses**. A **saída da viagem** deve ter **antecedência mínima de 4 dias (96 horas)**.</small>
                             </div>
                         </fieldset>
@@ -638,27 +617,26 @@ ${descritivoRoteiro}
                         </button>
 
                         <p className="final-call-to-action">
-                            <i className="fas fa-tag"></i> *Seu **Desconto VIP** de {PROSPECT_DISCOUNT} está reservado. Válido para o 1º pacote fechado.
+                            {/* REDUÇÃO DE ASTERISCOS: Usando tag <strong> */}
+                            <i className="fas fa-tag"></i> *Seu <strong>Desconto VIP</strong> de {PROSPECT_DISCOUNT} está reservado. Válido para o 1º pacote fechado.
                         </p>
                         
                         <div style={{textAlign: 'center', marginTop: '15px'}}>
-                            {/* REVISÃO: Uso da vírgula e coerência na cor do link */}
                             <small>Ao prosseguir, você concorda com nossos <a href="/politica-de-privacidade.html" target="_blank">Termos e Política de Privacidade</a> (LGPD).</small>
                         </div>
                     </form>
                     
                     <footer className="footer">
                         <p className="expert-seal">
-                            **Segurança e Experiência**: A FSR Viagens é especializada desde <i className="fas fa-user-tie"></i> **2004**.
+                            {/* REDUÇÃO DE ASTERISCOS: Usando tag <strong> */}
+                            <strong>Segurança e Experiência</strong>: A FSR Viagens é especializada desde <i className="fas fa-user-tie"></i> <strong>2004</strong>.
                         </p>
                         <p>
                             Atendimento Rápido e Personalizado | <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="whatsapp-link">
                             <i className="fab fa-whatsapp"></i> WhatsApp: (61) 98316-3710</a>
                         </p>
-                        {/* REVISÃO: Uso da crase em 'à vista' não é necessário aqui. Uso da vírgula. */}
                         <p>&copy; {new Date().getFullYear()} FSR Viagens e Turismo. Todos os direitos reservados.</p>
                         
-                        {/* NOVO: Menu Administrativo Discreto - OK */}
                         <nav class="admin-nav">
                             <ul>
                                 <li>
@@ -666,8 +644,6 @@ ${descritivoRoteiro}
                                 </li>
                             </ul>
                         </nav>
-                        {/* FIM do NOVO Menu Administrativo */}
-
                     </footer>
                 </div>
             );
