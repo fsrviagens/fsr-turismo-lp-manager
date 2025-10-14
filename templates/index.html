@@ -30,7 +30,6 @@
     <script type="text/babel">
 {% raw %}
         // Endpoints e Constantes
-        const API_PAC_URL = '/api/pacotes'; 
         const WHATSAPP_NUMBER = '5561983163710'; 
         const API_LEAD_URL = '/capturar_lead';
         const TELEFONE_REGEX = /^\d{10,11}$/; 
@@ -38,7 +37,9 @@
         // Gatilho de Compra / Desconto VIP
         const PROSPECT_DISCOUNT = '5%'; 
 
-        // --- DADOS PARA OS CARDS E FALLBACK ---
+        // --- DADOS ESTATICOS: ESTE BLOCO DEVE SER ATUALIZADO A CADA 3 DIAS PELO SEU SCRIPT DE BACKEND ---
+        // (Apenas os Top 5 de Vendas + Consultoria. Os pacotes 106 e 107 foram removidos para manter o Top 5)
+        
         const getImageUrl = (key) => {
             const IMAGENS = {
                 // ... (IMAGENS MANTIDAS)
@@ -47,7 +48,6 @@
                 'Gramado': '/static/GramadoSuaViagem-GrandeDesfileDeNatal2.webp', 
                 'Porto de Galinhas': '/static/dicas-de-porto-de-galinhas.jpg', 
                 'Salvador': '/static/tucamorais3.jpg', 
-                'Fortaleza': 'https://images.unsplash.com/photo-1549419163-912a52af5f5d?w=400&h=200&fit=crop', 
                 'Egito': 'https://images.unsplash.com/photo-1523451551525-2c8c5026c483?w=400&h=200&fit=crop', 
                 'Turquia': 'https://images.unsplash.com/photo-1582035900554-75af47f2010c?w=400&h=200&fit=crop', 
                 'Customizado': 'https://images.unsplash.com/photo-1454486518536-54a86b3a0e63?w=400&h=200&fit=crop',
@@ -55,9 +55,9 @@
             return IMAGENS[key] || IMAGENS['Customizado']; 
         };
 
-        // REVISÃO DE TEXTOS DENTRO DO FALLBACK PARA MAIOR CLAREZA E IMPACTO
-        const DADOS_FALLBACK = [
-            // Pacotes Nacionais 
+        // VARIÁVEL QUE DEVE SER SOBRESCRITA A CADA 3 DIAS PELO SEU CRON JOB
+        const DADOS_ESTATICOS_ATUALIZAVEIS = [
+            // TOP 5 (EXEMPLO)
             { 
                 id: 101, 
                 nome: "Porto de Galinhas e Maragogi", 
@@ -110,8 +110,6 @@
                     { hotel: "Pousada Monte Felice Recanto da Lua", data: "08/12 a 12/12/25", noites: "4 noites", preco: 196, preco_total: 1960 } 
                 ] 
             },
-            
-            // Pacotes Internacionais
             { 
                 id: 105, 
                 nome: "Réveillon na Tailândia com Festival das Lanternas", 
@@ -123,35 +121,13 @@
                     { data: "30/12 a 02/01/26", noites: "3 noites", preco: 109, preco_total: 1090, moeda: 'USD' }
                 ] 
             },
-            { 
-                id: 106, 
-                nome: "Egito 2X1 | Pacote 08 dias e 07 noites", 
-                saida: "São Paulo, Rio de Janeiro (Bloqueios)", 
-                tipo: "INTERNACIONAL", 
-                desc: "🐪 Pacote 2X1: uma jornada pela história milenar, pirâmides e cruzeiro pelo Nilo. Oportunidade única!", 
-                imgKey: 'Egito',
-                opcoes: [
-                    { data: "Saídas a partir de Março/2026", noites: "7 noites", preco: 550, preco_total: 5500 } 
-                ] 
-            },
-            { 
-                id: 107, 
-                nome: "Grand Turquia Extra Essencial", 
-                saida: "Variadas", 
-                tipo: "INTERNACIONAL", 
-                desc: "🇹🇷 Pacote pela Turquia, visitando Istambul, Capadócia e Pamukkale. Mergulhe em cultura e paisagens inesquecíveis.", 
-                imgKey: 'Turquia',
-                opcoes: [
-                    { data: "Saídas anuais", noites: "9 noites", preco: 720, preco_total: 7200 } 
-                ] 
-            },
             
             // Opção de Personalização (Sempre no fim)
             { id: 999, nome: "Consultoria Personalizada / Outro Destino", saida: "Seu aeroporto de preferência", tipo: "CONSULTORIA", desc: "✨ Destino Sob Medida: Crie seu roteiro do zero e garanta seu Desconto VIP na primeira compra com nossa consultoria especializada.", imgKey: 'Customizado' }
         ];
         // -----------------------------------------------------
 
-        // REVISÃO DE TEXTOS PARA COERÊNCIA
+        // REVISÃO DE TEXTOS PARA COERÊNCIA (MANTIDO)
         const DESCRITIVOS_ROTEIROS = {
             "Fortaleza com Praia da Lagoinha": "☀️ Roteiro perfeito para quem ama sol, mar e aventura. Inclui a beleza rústica da Praia da Lagoinha e o agito da capital cearense.",
             "Salvador com Morro de São Paulo": "🏝️ Uma combinação imbatível de cidade histórica e ilha sem carros. Descanse e explore as famosas praias de Morro de São Paulo.",
@@ -178,11 +154,10 @@
             if (DESCRITIVOS_ROTEIROS[nomeBase]) {
                 return DESCRITIVOS_ROTEIROS[nomeBase];
             }
-            // MANTIDO o negrito/emphasis na string de fallback (onde é crucial para o Desconto VIP)
             return `✈️ Consultoria Exclusiva: Conte-nos seus sonhos para criarmos uma experiência incomum e aplicarmos seu ${PROSPECT_DISCOUNT} de Desconto VIP!`;
         };
         
-        // --- COMPONENTE: Card de Pacote Individual ---
+        // --- COMPONENTE: Card de Pacote Individual (MANTIDO) ---
         const PacoteCard = ({ pacote, onSelect, isSelected }) => {
             const nomeCompleto = pacote.nome + (pacote.saida ? ` | Saída: ${pacote.saida}` : '');
             
@@ -248,7 +223,6 @@
                                 </div>
                                 
                                 <div className="price-vip-discount">
-                                    {/* MANTIDO o negrito para o Desconto VIP */}
                                     <i className="fas fa-certificate"></i> **GANHE {PROSPECT_DISCOUNT} EXTRA (Desconto VIP)**
                                 </div>
 
@@ -278,16 +252,14 @@
         // --- COMPONENTE: Vitrine (Container) ---
         const VitrinePacotes = ({ pacotes, onSelect, pacoteSelecionado }) => {
             const consultoria = pacotes.find(p => p.tipo === 'CONSULTORIA');
-            // A vitrine exibe 5 pacotes + 1 consultoria
-            const pacotesVisiveis = pacotes.filter(p => p.tipo !== 'CONSULTORIA');
+            const pacotesVisiveis = pacotes.filter(p => p.tipo !== 'CONSULTORIA').slice(0, 5); // Garante APENAS 5 pacotes
 
             return (
                 <div className="vitrine-pacotes">
                     <h2>Melhores Ofertas de Pacotes de Viagem: 5 Destinos Imperdíveis + Consultoria VIP</h2>
-                    {/* REDUÇÃO DE ASTERISCOS: Usando tag <strong> para negrito no corpo do texto */}
                     <p style={{textAlign: 'center', marginBottom: '25px', color: '#555'}}>Clique no seu destino preferido para <strong>ativar seu Desconto VIP</strong> e ser atendido com <strong>prioridade</strong> por um especialista.</p>
                     <div className="pacotes-grid">
-                        {pacotesVisiveis.slice(0, 5).map(pacote => (
+                        {pacotesVisiveis.map(pacote => (
                             <PacoteCard 
                                 key={pacote.id} 
                                 pacote={pacote} 
@@ -307,7 +279,7 @@
             );
         };
         
-        // --- COMPONENTE PRINCIPAL ---
+        // --- COMPONENTE PRINCIPAL (ATUALIZADO) ---
         const LandingPageFSR = () => { 
             const [nome, setNome] = React.useState('');
             const [telefone, setTelefone] = React.useState('');
@@ -317,57 +289,14 @@
             const [erro, setErro] = React.useState('');
             const [loadingLead, setLoadingLead] = React.useState(false); 
             
-            const [pacotes, setPacotes] = React.useState(DADOS_FALLBACK); 
-            const [pacotesLoading, setPacotesLoading] = React.useState(true);
-            const [destinoLivre, setDestinoLivre] = React.useState(''); 
+            // AGORA SEMPRE USA A VARIÁVEL QUE SERÁ ATUALIZADA NO BACKEND/CRON JOB
+            const [pacotes, setPacotes] = React.useState(DADOS_ESTATICOS_ATUALIZAVEIS); 
+            const [pacotesLoading, setPacotesLoading] = React.useState(false); // Definido como false para não ter delay de load
 
             const minDate = React.useMemo(() => getMinDate(), []); 
 
-            React.useEffect(() => {
-                const fetchPacotes = async () => {
-                    setPacotesLoading(true); 
-                    const startTime = Date.now(); 
-                    let fetchedPacotes = [];
+            // REMOVIDO: O useEffect com o fetch da API, pois a fonte de verdade agora é DADOS_ESTATICOS_ATUALIZAVEIS
 
-                    try {
-                        const response = await fetch(API_PAC_URL); 
-                        const data = await response.json();
-                        
-                        // LÓGICA MANTIDA (Apenas ajuste de comentário)
-                        if (response.ok && Array.isArray(data) && data.length > 0) {
-                            fetchedPacotes = DADOS_FALLBACK;
-                        } else {
-                            fetchedPacotes = DADOS_FALLBACK;
-                        }
-                        
-                    } catch (error) {
-                        console.error("Erro de rede ao carregar pacotes. Usando Fallback Detalhado.", error);
-                        fetchedPacotes = DADOS_FALLBACK;
-                    }
-                    
-                    const elapsed = Date.now() - startTime;
-                    const requiredDelay = 2500; 
-
-                    const finalAction = () => {
-                        setPacotes(fetchedPacotes);
-                        setPacotesLoading(false);
-                        
-                        const vitrineElement = document.querySelector('.vitrine-pacotes');
-                        if (vitrineElement) {
-                             vitrineElement.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
-                        }
-                    };
-
-                    if (elapsed < requiredDelay) {
-                        setTimeout(finalAction, requiredDelay - elapsed);
-                    } else {
-                        finalAction();
-                    }
-                };
-
-                fetchPacotes();
-            }, []);
-            
             const handlePacoteChange = (value) => {
                 setPacoteSelecionado(value);
                 if (value !== 'Consultoria Personalizada / Outro Destino') {
@@ -391,7 +320,6 @@
             };
 
             const validateForm = (finalPacote, finalPassageiros) => {
-                // MANTIDO o negrito (asteriscos) nos alerts de erro, onde é crucial o destaque
                 if (!finalPacote || finalPacote.trim() === '' || finalPacote.includes('Nenhum pacote selecionado')) {
                     setErro('❌ Seleção obrigatória! Por favor, **clique em um dos cards de pacotes acima** ou escolha a Consultoria Personalizada.');
                     return false;
@@ -456,7 +384,6 @@
                     ? new Date(dataViagem).toLocaleDateString('pt-BR', {timeZone: 'UTC'}) 
                     : '🗓️ A DEFINIR (Gostaria de opções)';
 
-                // MANTIDO o negrito (asteriscos) AQUI, pois é para a formatação do WhatsApp
                 let mensagem = `*ATENDIMENTO PRIORITÁRIO - VIAJANTE SITE*
 
 Olá, Consultor(a) Especializado(a) da FSR Viagens! Meu nome é *${nome}* e meu WhatsApp é *${telefone}*.
@@ -523,12 +450,10 @@ ${descritivoRoteiro}
                             Pacotes Exclusivos FSR: Roteiros Nacionais e Internacionais com Consultoria Especializada
                         </h1>
                         <p className="hero__slogan">
-                            {/* REDUÇÃO DE ASTERISCOS: Usando tag <strong> */}
                             Garanta <strong>{PROSPECT_DISCOUNT} OFF (Desconto VIP)</strong> na sua 1ª viagem com a segurança do <strong>Atendimento Prioritário</strong> de nossos especialistas.
                         </p>
                         
                         <div className="offer-banner">
-                            {/* REDUÇÃO DE ASTERISCOS: Usando tag <strong> */}
                             ✨ Oferta Exclusiva: Sua primeira compra garante um <strong>Desconto VIP de {PROSPECT_DISCOUNT} OFF</strong>!
                         </div>
                     </header>
@@ -559,7 +484,6 @@ ${descritivoRoteiro}
                             <div className="form__group">
                                 <label htmlFor="telefone-input">WhatsApp (apenas números, com DDD):</label>
                                 <input id="telefone-input" type="tel" value={telefone} onChange={(e) => setTelefone(e.target.value.replace(/[^0-9]/g, ''))} placeholder="Ex: 61983163710 (Obrigatório)" minLength="10" maxLength="11" required/>
-                                {/* MANTIDO o negrito (asteriscos) para o destaque imediato */}
                                 <small className="help-text"><i className="fab fa-whatsapp"></i> Seu atendimento será iniciado **imediatamente** após o envio.</small>
                             </div>
                         </fieldset>
@@ -610,7 +534,6 @@ ${descritivoRoteiro}
                                     min={minDate}
                                     title="A saída da viagem deve ter antecedência mínima de 4 dias para planejamento."
                                 />
-                                {/* MANTIDO o negrito (asteriscos) para ênfase na informação CRÍTICA (antecedência) */}
                                 <small className="help-text">Selecione uma data para orçamento preciso, ou deixe em branco para opções nos **próximos meses**. A **saída da viagem** deve ter **antecedência mínima de 4 dias (96 horas)**.</small>
                             </div>
                         </fieldset>
@@ -624,7 +547,6 @@ ${descritivoRoteiro}
                         </button>
 
                         <p className="final-call-to-action">
-                            {/* REDUÇÃO DE ASTERISCOS: Usando tag <strong> */}
                             <i className="fas fa-tag"></i> *Seu <strong>Desconto VIP</strong> de {PROSPECT_DISCOUNT} está reservado. Válido para o 1º pacote fechado.
                         </p>
                         
@@ -635,7 +557,6 @@ ${descritivoRoteiro}
                     
                     <footer className="footer">
                         <p className="expert-seal">
-                            {/* REDUÇÃO DE ASTERISCOS: Usando tag <strong> */}
                             <strong>Segurança e Experiência</strong>: A FSR Viagens é especializada desde <i className="fas fa-user-tie"></i> <strong>2004</strong>.
                         </p>
                         <p>
