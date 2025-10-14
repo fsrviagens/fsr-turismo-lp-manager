@@ -19,7 +19,7 @@
     /* COR AJUSTADA: #F4F2EE para máxima uniformidade com o fundo da logo */
     --light-bg: #F4F2EE; 
     --white: #fff;
-    --light-text-soft: #E0EFFF; /* Branco suave para melhor leitura no azul escuro */
+    --light-text-soft: #E0EFFF; /* Branco suave para melhor leitura no azul escuro (AGORA MENOS USADO) */
     --alert-yellow: #ffcc00; /* Laranja-Amarelo forte para oferta */
     --loading-blue-light: #f0f7ff; /* Azul clarinho para fundos de seção */
     --whatsapp-green: #25D366; /* Cor do botão CTA */
@@ -471,8 +471,8 @@ h1.hero__headline {
     margin-top: 40px; 
     font-size: 0.9em; 
     
-    /* CORREÇÃO DE CONTRASTE E FUNDO AZUL ESCURO */
-    color: var(--light-text-soft); /* Aplica o branco suave ao corpo do texto */
+    /* CORREÇÃO DE CONTRASTE: Aplica Branco PURO para todo o texto do rodapé */
+    color: var(--white); 
     background-color: var(--fsr-blue); 
     padding: var(--space-md); 
     border-radius: var(--border-radius-base);
@@ -499,19 +499,17 @@ h1.hero__headline {
     margin-right: 5px;
 }
 .expert-seal { 
-    /* Destaque para o selo de experiência: Branco Puro e negrito */
     font-weight: 800; 
     color: var(--white); 
     margin-bottom: 10px; 
 }
 .footer i {
-    color: var(--light-text-soft); /* Ícones com cor suave */
+    color: var(--white); /* Ícones com cor branca para melhor contraste */
     margin-right: 8px;
 }
 
-/* NOVO: Estilo para o texto de copyright (garante cor mais sólida e contraste) */
+/* Estilo para o texto de copyright (não precisa mais da cor, pois está no .footer) */
 .footer p:last-child {
-    color: var(--white); /* Aplica Branco Puro ao copyright */
     font-weight: 500;
     margin-top: 10px;
     padding-top: 10px;
@@ -542,15 +540,15 @@ h1.hero__headline {
 }
 
 .admin-nav a {
-    color: #999; /* Cor cinza, muito discreta sobre o azul */
+    color: #ccc; /* Cor cinza, um pouco mais discreta, mas legível */
     text-decoration: none;
-    font-size: 0.8em; /* Fonte pequena */
+    font-size: 0.8em; 
     transition: color 0.2s;
-    font-weight: 400; /* Mais leve para ser discreto */
+    font-weight: 400; 
 }
 
 .admin-nav a:hover {
-    color: #ccc; /* Fica um pouco mais claro no hover para ser visível */
+    color: var(--white); 
     text-decoration: underline;
 }
 
