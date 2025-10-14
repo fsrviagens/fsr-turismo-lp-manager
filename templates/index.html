@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pacotes de Viagem 2026: Gramado, Porto de Galinhas e Destinos Exclusivos | FSR Viagens | 5% OFF VIP</title>
+    <title>Pacotes de Viagem com Desconto: Melhores Ofertas Nacionais e Internacionais | FSR Viagens | 5% OFF VIP</title>
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EB762TMB8T"></script>
     <script>
@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="/static/style.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <meta name="description" content="Sua consultoria de viagens especializada. Encontre pacotes exclusivos para Gramado, Nordeste (Porto de Galinhas/Maragogi) e Roteiros Internacionais. Ative seu Desconto VIP de 5% OFF.">
+    <meta name="description" content="Sua consultoria de viagens especializada. Encontre pacotes exclusivos para Gramado, Nordeste (Porto de Galinhas/Maragogi) e Roteiros Internacionais. Ative seu Desconto VIP de 5% OFF e compre agora.">
     
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
@@ -136,7 +136,7 @@
             },
             { 
                 id: 107, 
-                nome: "Grand Turquia Extra 2026 Essencial", 
+                nome: "Grand Turquia Extra Essencial", 
                 saida: "Variadas", 
                 tipo: "INTERNACIONAL", 
                 desc: "🇹🇷 Pacote pela Turquia, visitando Istambul, Capadócia e Pamukkale. Mergulhe em cultura e paisagens inesquecíveis.", 
@@ -160,7 +160,7 @@
             "Lençóis Maranhenses | São Luís e Barreirinhas": "💧 Descubra a beleza surreal das lagoas entre dunas. Um ecoturismo inesquecível combinando São Luís e Barreirinhas.",
             "Porto de Galinhas e Maragogi": "🐠 O melhor do Nordeste! Mergulhe nas piscinas naturais e desfrute do famoso 'Caribe Brasileiro'.",
             "Réveillon 2026 - Costão do Santinho Resort": "🎉 Réveillon All Inclusive em um dos resorts mais desejados do Brasil. Garanta sua vaga com as melhores condições.",
-            "Grand Turquia Extra 2026 Essencial": "🇹🇷 Pacote Essencial pela Turquia, visitando Istambul, Capadócia e Pamukkale. Cultura, história e paisagens inesquecíveis.",
+            "Grand Turquia Extra Essencial": "🇹🇷 Pacote Essencial pela Turquia, visitando Istambul, Capadócia e Pamukkale. Cultura, história e paisagens inesquecíveis.",
             "Consultoria Personalizada / Outro Destino": "✨ Destino Sob Medida: Você tem em mente um roteiro que não encontrou na lista? Nossa consultoria criará o pacote perfeito para você!",
         };
 
@@ -278,11 +278,12 @@
         // --- COMPONENTE: Vitrine (Container) ---
         const VitrinePacotes = ({ pacotes, onSelect, pacoteSelecionado }) => {
             const consultoria = pacotes.find(p => p.tipo === 'CONSULTORIA');
+            // A vitrine exibe 5 pacotes + 1 consultoria
             const pacotesVisiveis = pacotes.filter(p => p.tipo !== 'CONSULTORIA');
 
             return (
                 <div className="vitrine-pacotes">
-                    <h2>Top 7 Pacotes de Viagem Mais Buscados no Brasil (Gramado, Porto de Galinhas, Lençóis) | FSR Viagens</h2>
+                    <h2>Melhores Ofertas de Pacotes de Viagem: 5 Destinos Imperdíveis + Consultoria VIP</h2>
                     {/* REDUÇÃO DE ASTERISCOS: Usando tag <strong> para negrito no corpo do texto */}
                     <p style={{textAlign: 'center', marginBottom: '25px', color: '#555'}}>Clique no seu destino preferido para <strong>ativar seu Desconto VIP</strong> e ser atendido com <strong>prioridade</strong> por um especialista.</p>
                     <div className="pacotes-grid">
@@ -519,7 +520,7 @@ ${descritivoRoteiro}
                             height="100" 
                             loading="lazy" />
                         <h1 className="hero__headline">
-                            Pacotes de Viagem Exclusivos 2026: Roteiros Nacionais e Internacionais com Consultoria FSR
+                            Pacotes Exclusivos FSR: Roteiros Nacionais e Internacionais com Consultoria Especializada
                         </h1>
                         <p className="hero__slogan">
                             {/* REDUÇÃO DE ASTERISCOS: Usando tag <strong> */}
@@ -585,7 +586,7 @@ ${descritivoRoteiro}
                                             type="text" 
                                             value={destinoLivre} 
                                             onChange={(e) => setDestinoLivre(e.target.value)} 
-                                            placeholder="Digite o destino ou roteiro desejado (Ex: Patagônia em janeiro/2026)"
+                                            placeholder="Digite o destino ou roteiro desejado (Ex: Patagônia em janeiro)"
                                             required
                                         />
                                     </div>
