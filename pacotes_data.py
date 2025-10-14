@@ -123,6 +123,19 @@ def _extrair_saida(desc_tag):
         return saida if saida else "Variável"
     else:
         return "Variável"
+        
+def _gerar_desc_curta(descricao_completa):
+    """Gera uma descrição curta a partir da descrição completa, focando na primeira frase."""
+    if not descricao_completa:
+        return "Viagem em destaque. Consulte detalhes."
+    
+    # Tenta pegar até o primeiro ponto final, limitando o tamanho
+    primeira_frase = descricao_completa.split('.')[0]
+    # Se a frase é muito longa, ou não tem ponto, limita o tamanho
+    if len(primeira_frase) > 150:
+         return primeira_frase[:150] + "..."
+         
+    return primeira_frase.strip()
 
 # --------------------------------------------------------------------------------
 # FUNÇÃO PRINCIPAL
@@ -206,6 +219,8 @@ def realizar_web_scraping_da_vitrine():
             pacotes.append({
                 "id": id_counter,
                 "nome": nome_limpo,
+                # Adiciona 'desc' (descrição curta) para ser usada no frontend/card de vitrine
+                "desc": _gerar_desc_curta(descricao_completa), 
                 "descricao_completa": descricao_completa, 
                 "saida": saida,
                 "opcoes": opcoes, 
