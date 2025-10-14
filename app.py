@@ -1,4 +1,4 @@
-# app.py (Versão Otimizada e Refatorada - CORRIGIDA)
+# app.py (Versão Otimizada e Refatorada - CORREÇÃO FINAL)
 
 import os
 import psycopg2
@@ -36,36 +36,31 @@ CORS(app)
 INDEX_FILE_PATH = os.path.join(app.root_path, 'templates', 'index.html')
 
 
-# --- NOVO: FUNÇÃO DE AUTOMAÇÃO DE ATUALIZAÇÃO ESTATICA (CORRIGIDA) ---
+# --- NOVO: FUNÇÃO DE AUTOMAÇÃO DE ATUALIZAÇÃO ESTATICA (LIMPEZA FINAL) ---
 def atualizar_vitrine_estatica():
     """
-    Executa o web scraping, filtra o TOP 5, adiciona dados de preço de EXEMPLO
-    e sobrescreve o bloco de dados estáticos dentro do index.html.
+    Executa o web scraping, filtra o TOP 5, e sobrescreve o bloco de dados estáticos
+    dentro do index.html com os valores reais obtidos.
     """
     print(f"--- [{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] JOB AGENDADO: Iniciando atualização estática... ---")
     start_time = time.time()
     
     try:
-        # 1. Executa o Web Scraping (retorna apenas nome e saída)
+        # 1. Executa o Web Scraping (agora retorna 'opcoes' com os valores reais)
         pacotes_completos = realizar_web_scraping_da_vitrine()
         
         # Lógica de Filtragem: Top 5
         top_5_pacotes = pacotes_completos[:5] 
         
-        # 2. INJEÇÃO DE DADOS CRUCIAIS PARA O FRONT-END (CORREÇÃO DOS VALORES)
+        # 2. CONFIGURAÇÃO DE CHAVES PARA O FRONT-END (Removemos a injeção estática de preços)
         for pacote in top_5_pacotes:
-            # Adiciona 'tipo' e 'imgKey'. Se o nome limpo for a chave da imagem (como no index.html), use-o.
-            pacote['tipo'] = 'NACIONAL' # Valor padrão para o ícone
-            pacote['imgKey'] = pacote['nome'] # Usa o nome limpo como chave para a função getImageUrl
+            # Adiciona 'tipo' e 'imgKey' (Chaves necessárias para o React)
+            pacote['tipo'] = 'NACIONAL'
+            pacote['imgKey'] = pacote['nome'] 
             
-            # Adiciona dados de preço de EXEMPLO (opções) para o React renderizar.
-            # Estes são apenas placeholders estáticos, pois o scraping não os forneceu.
-            pacote['opcoes'] = [{
-                "preco": 990, 
-                "preco_total": 9900,
-                "noites": "7 Dias",
-                "moeda": "R$" 
-            }] 
+            # Garante que o campo 'opcoes' existe, mesmo que esteja vazio (veio do scraper)
+            if 'opcoes' not in pacote:
+                 pacote['opcoes'] = [] 
             
         
         # 3. Adiciona o card de Consultoria
