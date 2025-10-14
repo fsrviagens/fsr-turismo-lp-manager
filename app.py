@@ -151,3 +151,4 @@ if __name__ == '__main__':
     init_scheduler() 
     app.run(host='0.0.0.0', port=os.environ.get('PORT', 5000), debug=True, use_reloader=False) 
     # use_reloader=False é importante para que o agendador não duplique o job.
+#
