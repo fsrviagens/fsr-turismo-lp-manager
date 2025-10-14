@@ -9,7 +9,7 @@ from flask_cors import CORS
 from flask_apscheduler import APScheduler
 import json 
 import re 
-from datetime import datetime # Importar datetime para logs mais limpos
+from datetime import datetime 
 
 # Importa a função de web scraping 
 from pacotes_data import realizar_web_scraping_da_vitrine
@@ -20,7 +20,7 @@ class Config:
     JOBS = [
         {
             'id': 'Job_Atualizacao_Vitrine',
-            # CORREÇÃO APLICADA AQUI: Mudança de '__main__' para 'app'
+            # CORREÇÃO 1: Mudar de '__main__' para 'app'
             'func': 'app:atualizar_vitrine_estatica', 
             'trigger': 'interval',
             'hours': 72, # <--- A CADA 3 DIAS
@@ -28,6 +28,70 @@ class Config:
             'misfire_grace_time': 300 # Permite 5 minutos para rodar se falhar
         }
     ]
+
+# --- CONFIGURAÇÃO DO APP E AGENDADOR ---
+app = Flask(__name__)
+CORS(app)
+
+# Define o caminho para o template HTML
+# Deve vir após a criação do 'app'
+INDEX_FILE_PATH = os.path.join(app.root_path, 'templates', 'index.html')
+
+
+# --- NOVO: FUNÇÃO DE AUTOMAÇÃO DE ATUALIZAÇÃO ESTATICA (MOVIDA PARA CIMA) ---
+# CORREÇÃO 2: A função deve ser definida antes de scheduler.init_app(app)
+def atualizar_vitrine_estatica():
+    """
+    Executa o web scraping, filtra o TOP 5 e sobrescreve o bloco de dados estáticos
+    dentro do index.html.
+    """
+    print(f"--- [{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] JOB AGENDADO: Iniciando atualização estática... ---")
+    start_time = time.time()
+    
+    try:
+        # 1. Executa o Web Scraping 
+        pacotes_completos = realizar_web_scraping_da_vitrine()
+        
+        # Lógica de Filtragem: Top 5
+        top_5_pacotes = pacotes_completos[:5] 
+        
+        # 2. Adiciona o card de Consultoria
+        consultoria_card = {
+            "id": -1, "nome": "Consultoria Personalizada / Outro Destino", 
+            "saida": "Seu aeroporto de preferência", "tipo": "CONSULTORIA", 
+            "desc": "✨ Destino Sob Medida: Crie seu roteiro do zero e garanta seu Desconto VIP na primeira compra com nossa consultoria especializada.", 
+            "imgKey": 'Customizado'
+        }
+        pacotes_para_html = top_5_pacotes + [consultoria_card]
+
+        # 3. Geração da nova string JavaScript formatada
+        pacotes_js_array = json.dumps(pacotes_para_html, indent=8)
+        new_js_content = f"const DADOS_ESTATICOS_ATUALIZAVEIS = {pacotes_js_array};"
+
+        # 4. Leitura e substituição no arquivo (index.html)
+        with open(INDEX_FILE_PATH, 'r') as f:
+            html_content = f.read()
+
+        # Regex AJUSTADO: 
+        pattern = re.compile(
+            r"const DADOS_ESTATICOS_ATUALIZAVEIS\s*=\s*\[.*?\]\s*;", 
+            re.DOTALL
+        )
+        
+        # Substitui o bloco
+        new_html_content = pattern.sub(new_js_content, html_content)
+
+        # 5. Escrita do novo arquivo HTML
+        with open(INDEX_FILE_PATH, 'w') as f:
+            f.write(new_html_content)
+        
+        end_time = time.time()
+        print(f"--- SUCESSO! Vitrine estática atualizada em {end_time - start_time:.2f}s. Total: {len(pacotes_para_html)} cards. ---")
+
+    except Exception as e:
+        print(f"--- [{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ERRO CRÍTICO no JOB AGENDADO: {e} ---")
+        
+    return 
 
 # --- Funções Auxiliares de Segurança e DB (MANTIDAS) ---
 
@@ -51,74 +115,12 @@ def auth_required(f):
         return f(*args, **kwargs)
     return decorated
 
-# --- CONFIGURAÇÃO DO APP E AGENDADOR ---
-app = Flask(__name__)
-CORS(app)
+
 app.config.from_object(Config()) # Carrega a configuração do agendador
 
 scheduler = APScheduler() 
 scheduler.init_app(app)
 
-# Define o caminho para o template HTML
-INDEX_FILE_PATH = os.path.join(app.root_path, 'templates', 'index.html')
-
-# --- NOVO: FUNÇÃO DE AUTOMAÇÃO DE ATUALIZAÇÃO ESTATICA ---
-
-def atualizar_vitrine_estatica():
-    """
-    Executa o web scraping, filtra o TOP 5 e sobrescreve o bloco de dados estáticos
-    dentro do index.html.
-    """
-    print(f"--- [{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] JOB AGENDADO: Iniciando atualização estática... ---")
-    start_time = time.time()
-    
-    try:
-        # 1. Executa o Web Scraping 
-        pacotes_completos = realizar_web_scraping_da_vitrine()
-        
-        # Lógica de Filtragem: Top 5
-        top_5_pacotes = pacotes_completos[:5] 
-        
-        # 2. Adiciona o card de Consultoria
-        consultoria_card = {
-            # Use um ID bem distinto para evitar conflitos, como -1
-            "id": -1, "nome": "Consultoria Personalizada / Outro Destino", 
-            "saida": "Seu aeroporto de preferência", "tipo": "CONSULTORIA", 
-            "desc": "✨ Destino Sob Medida: Crie seu roteiro do zero e garanta seu Desconto VIP na primeira compra com nossa consultoria especializada.", 
-            "imgKey": 'Customizado'
-        }
-        pacotes_para_html = top_5_pacotes + [consultoria_card]
-
-        # 3. Geração da nova string JavaScript formatada
-        pacotes_js_array = json.dumps(pacotes_para_html, indent=8)
-        new_js_content = f"const DADOS_ESTATICOS_ATUALIZAVEIS = {pacotes_js_array};"
-
-        # 4. Leitura e substituição no arquivo (index.html)
-        with open(INDEX_FILE_PATH, 'r') as f:
-            html_content = f.read()
-
-        # Regex AJUSTADO: 
-        # Busca a variável e assume que o valor é um array (pode ser vazio, [ ] ou preenchido [...])
-        # O re.DOTALL é crucial para ler o JSON multilinha.
-        pattern = re.compile(
-            r"const DADOS_ESTATICOS_ATUALIZAVEIS\s*=\s*\[.*?\]\s*;", 
-            re.DOTALL
-        )
-        
-        # Substitui o bloco
-        new_html_content = pattern.sub(new_js_content, html_content)
-
-        # 5. Escrita do novo arquivo HTML
-        with open(INDEX_FILE_PATH, 'w') as f:
-            f.write(new_html_content)
-        
-        end_time = time.time()
-        print(f"--- SUCESSO! Vitrine estática atualizada em {end_time - start_time:.2f}s. Total: {len(pacotes_para_html)} cards. ---")
-
-    except Exception as e:
-        print(f"--- [{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ERRO CRÍTICO no JOB AGENDADO: {e} ---")
-        
-    return 
 
 # --- ROTAS DA LANDING PAGE (MANTIDAS) ---
 
@@ -139,8 +141,6 @@ def get_pacotes():
 # ... (outras rotas de caputura de lead e gerenciamento: capturar_lead, leads, setup_database) ...
 
 # --- INICIALIZAÇÃO ---
-
-# O init_scheduler() foi substituído pela inicialização com app.config
 
 if __name__ == '__main__':
     # Inicializa o agendador APENAS no processo principal, após carregar as configurações.
