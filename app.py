@@ -20,7 +20,6 @@ class Config:
     JOBS = [
         {
             'id': 'Job_Atualizacao_Vitrine',
-            # CORREÇÃO 1: Mudar de '__main__' para 'app'
             'func': 'app:atualizar_vitrine_estatica', 
             'trigger': 'interval',
             'hours': 72, # <--- A CADA 3 DIAS
@@ -34,28 +33,42 @@ app = Flask(__name__)
 CORS(app)
 
 # Define o caminho para o template HTML
-# Deve vir após a criação do 'app'
 INDEX_FILE_PATH = os.path.join(app.root_path, 'templates', 'index.html')
 
 
-# --- NOVO: FUNÇÃO DE AUTOMAÇÃO DE ATUALIZAÇÃO ESTATICA (MOVIDA PARA CIMA) ---
-# CORREÇÃO 2: A função deve ser definida antes de scheduler.init_app(app)
+# --- NOVO: FUNÇÃO DE AUTOMAÇÃO DE ATUALIZAÇÃO ESTATICA (CORRIGIDA) ---
 def atualizar_vitrine_estatica():
     """
-    Executa o web scraping, filtra o TOP 5 e sobrescreve o bloco de dados estáticos
-    dentro do index.html.
+    Executa o web scraping, filtra o TOP 5, adiciona dados de preço de EXEMPLO
+    e sobrescreve o bloco de dados estáticos dentro do index.html.
     """
     print(f"--- [{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] JOB AGENDADO: Iniciando atualização estática... ---")
     start_time = time.time()
     
     try:
-        # 1. Executa o Web Scraping 
+        # 1. Executa o Web Scraping (retorna apenas nome e saída)
         pacotes_completos = realizar_web_scraping_da_vitrine()
         
         # Lógica de Filtragem: Top 5
         top_5_pacotes = pacotes_completos[:5] 
         
-        # 2. Adiciona o card de Consultoria
+        # 2. INJEÇÃO DE DADOS CRUCIAIS PARA O FRONT-END (CORREÇÃO DOS VALORES)
+        for pacote in top_5_pacotes:
+            # Adiciona 'tipo' e 'imgKey'. Se o nome limpo for a chave da imagem (como no index.html), use-o.
+            pacote['tipo'] = 'NACIONAL' # Valor padrão para o ícone
+            pacote['imgKey'] = pacote['nome'] # Usa o nome limpo como chave para a função getImageUrl
+            
+            # Adiciona dados de preço de EXEMPLO (opções) para o React renderizar.
+            # Estes são apenas placeholders estáticos, pois o scraping não os forneceu.
+            pacote['opcoes'] = [{
+                "preco": 990, 
+                "preco_total": 9900,
+                "noites": "7 Dias",
+                "moeda": "R$" 
+            }] 
+            
+        
+        # 3. Adiciona o card de Consultoria
         consultoria_card = {
             "id": -1, "nome": "Consultoria Personalizada / Outro Destino", 
             "saida": "Seu aeroporto de preferência", "tipo": "CONSULTORIA", 
@@ -64,11 +77,11 @@ def atualizar_vitrine_estatica():
         }
         pacotes_para_html = top_5_pacotes + [consultoria_card]
 
-        # 3. Geração da nova string JavaScript formatada
+        # 4. Geração da nova string JavaScript formatada
         pacotes_js_array = json.dumps(pacotes_para_html, indent=8)
         new_js_content = f"const DADOS_ESTATICOS_ATUALIZAVEIS = {pacotes_js_array};"
 
-        # 4. Leitura e substituição no arquivo (index.html)
+        # 5. Leitura e substituição no arquivo (index.html)
         with open(INDEX_FILE_PATH, 'r') as f:
             html_content = f.read()
 
@@ -81,7 +94,7 @@ def atualizar_vitrine_estatica():
         # Substitui o bloco
         new_html_content = pattern.sub(new_js_content, html_content)
 
-        # 5. Escrita do novo arquivo HTML
+        # 6. Escrita do novo arquivo HTML
         with open(INDEX_FILE_PATH, 'w') as f:
             f.write(new_html_content)
         
