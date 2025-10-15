@@ -770,3 +770,288 @@ tbody tr:hover {
         margin: 20px auto;
     }
 }
+
+
+/* =========================================================
+   8. ESTILOS ESPECÍFICOS PARA A OFERTA MSC BINGO (NOVOS)
+   ========================================================= */
+
+/* Estilos de highlight existentes para o formulário */
+@keyframes highlight {
+    0% { box-shadow: 0 0 10px rgba(0, 123, 255, 0.4); }
+    50% { box-shadow: 0 0 20px rgba(0, 123, 255, 0.8); }
+    100% { box-shadow: 0 0 10px rgba(0, 123, 255, 0.4); }
+}
+.form.highlighted {
+    animation: highlight 2s ease-in-out 1;
+    border: 2px solid #007bff;
+    border-radius: var(--border-radius-base);
+    padding: var(--space-md);
+    margin-top: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+.form {
+    transition: all 0.5s;
+}
+
+/* Container Principal da Oferta */
+.oferta-container {
+    font-family: Arial, sans-serif;
+    max-width: 750px;
+    margin: 40px auto;
+    border: 2px solid #004481; /* Azul MSC */
+    padding: 0;
+    background-color: #f7f7f7;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.oferta-header {
+    background-color: #004481; /* Azul MSC */
+    color: #fff;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+.oferta-header a {
+    color: #fff;
+    text-decoration: underline;
+    font-weight: normal;
+    font-size: 0.9em;
+}
+
+.oferta-body {
+    padding: 15px;
+}
+
+.info-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #ccc;
+}
+
+.info-section img {
+    max-width: 80px;
+    height: auto;
+}
+
+.section-title {
+    color: #004481; /* Azul MSC */
+    font-size: 1.5em;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.super-bingo-tag {
+    background-color: #f7a01c; /* Laranja MSC */
+    color: #fff;
+    padding: 5px 10px;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+    border-radius: 3px;
+}
+
+/* Estrutura dos Cards de Cruzeiro */
+.cruzeiro-card-grid {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.cruzeiro-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    flex: 1 1 200px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.cruzeiro-card img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.cruzeiro-card .navio-nome {
+    color: #004481; /* Azul MSC */
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.cruzeiro-card .detalhes {
+    font-size: 0.85em;
+    margin-bottom: 8px;
+}
+
+.cruzeiro-card .preco-label {
+    font-size: 0.75em;
+    display: block;
+    color: #555;
+    margin-top: 5px;
+}
+
+.cruzeiro-card .preco {
+    color: #e50020; /* Vermelho forte para preço */
+    font-size: 1.6em;
+    font-weight: bold;
+    display: block;
+}
+
+.cruzeiro-card .parcela {
+    font-size: 0.8em;
+    display: block;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* Botão principal de reserva, pode ser o mesmo CTA do WhatsApp */
+.btn-reserva-msc {
+    background-color: #00b050; /* Verde escuro */
+    color: #fff;
+    padding: 8px 15px;
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+.btn-reserva-msc:hover {
+    background-color: #009944;
+}
+
+/* Seção de Regras e Rodapé */
+.regras-section {
+    background-color: #fff;
+    padding: 15px;
+    border-top: 2px dashed #ddd;
+    margin-top: 20px;
+}
+
+.regras-section h4 {
+    color: #004481; /* Azul MSC */
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.regra-item {
+    font-size: 0.8em;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    position: relative;
+    line-height: 1.3;
+}
+
+.regra-item:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #e50020; /* Vermelho forte */
+    font-weight: bold;
+}
+
+.oferta-footer {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    text-align: center;
+    font-size: 0.7em;
+    color: #666;
+}
+
+/* Adaptação dos cards de benefício originais do seu HTML */
+.beneficios-grid {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.beneficio-item-msc {
+    background-color: #eaf1f7;
+    padding: 10px;
+    font-style: italic;
+    border-left: 5px solid #f7a01c; /* Laranja MSC */
+    flex: 1 1 200px;
+    font-size: 0.9em;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.btn-ver-todas-msc {
+    display: block;
+    width: 80%;
+    max-width: 300px;
+    margin: 20px auto;
+    background-color: #f7a01c; /* Laranja MSC */
+    color: #fff;
+    padding: 12px 30px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1.1em;
+    transition: background-color 0.3s;
+}
+.btn-ver-todas-msc:hover {
+    background-color: #e09015;
+}
+
+/* Regras da tabela */
+.regras-tabela {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 0.75em;
+}
+
+.regras-tabela th, .regras-tabela td {
+    border: 1px solid #ddd;
+    padding: 5px;
+    text-align: left;
+}
+
+.regras-tabela th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    color: #004481; /* Azul MSC */
+}
+
+/* Responsividade básica para celular */
+@media (max-width: 600px) {
+    .oferta-container {
+        margin: 20px 5px;
+    }
+    .info-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .cruzeiro-card-grid {
+        flex-direction: column;
+    }
+    .cruzeiro-card {
+         flex: 1 1 100%;
+    }
+    .beneficios-grid {
+        flex-direction: column;
+    }
+    .beneficio-item-msc {
+        flex: 1 1 100%;
+    }
+}
