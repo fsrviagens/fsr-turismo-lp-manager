@@ -179,6 +179,14 @@ app.config.from_object(Config()) # Carrega a configuração do agendador
 scheduler = APScheduler() 
 scheduler.init_app(app)
 
+# ====================================================================
+# CORREÇÃO CRÍTICA PARA AMBIENTES DE PRODUÇÃO (GUNICORN/RAILWAY)
+# Inicializa o Agendador aqui, fora do bloco if __name__ == '__main__', 
+# para que ele seja iniciado corretamente pelo Gunicorn/Processo Master.
+# ====================================================================
+scheduler.start() 
+print("--- Agendador APScheduler iniciado com sucesso. ---")
+
 
 # --- ROTAS DA LANDING PAGE (MANTIDAS) ---
 
@@ -340,15 +348,15 @@ def setup_database():
         return jsonify({"message": f"Erro inesperado: {e}"}, 500)
     
 
-# --- INICIALIZAÇÃO ---
+# --- INICIALIZAÇÃO (APENAS PARA USO DE DESENVOLVIMENTO LOCAL) ---
 
 if __name__ == '__main__':
-    # Inicializa o agendador APENAS no processo principal, após carregar as configurações.
-    if os.environ.get('SCHEDULER_RUNNING') != 'true':
-        scheduler.start()
-        os.environ['SCHEDULER_RUNNING'] = 'true'
-        print("--- Agendador APScheduler iniciado com sucesso. ---")
-        
-    # use_reloader=False é mantido para evitar duplicação do job em ambientes DEV.
-    # Debug=False é recomendado para produção.
-    app.run(host='0.0.0.0', port=os.environ.get('PORT', 5000), debug=False, use_reloader=False)
+    # Este bloco só é executado quando rodado com 'python app.py' localmente.
+    # O Gunicorn (produção) IGNORA este bloco.
+    # O scheduler já foi iniciado acima.
+    print("--- Modo de Desenvolvimento Local (Executando app.run) ---")
+    
+    # Se quiser forçar a atualização da vitrine ao iniciar em DEV:
+    # atualizar_vitrine_estatica() 
+    
+    app.run(host='0.0.0.0', port=os.environ.get('PORT', 5000), debug=True, use_reloader=False)
