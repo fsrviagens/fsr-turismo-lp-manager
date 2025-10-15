@@ -19,7 +19,6 @@
     <meta name="description" content="Sua consultoria de viagens especializada. Encontre pacotes exclusivos para Gramado, Nordeste (Porto de Galinhas/Maragogi) e Roteiros Internacionais. Ative seu Desconto VIP de 5% OFF e compre agora.">
     
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
 </head>
@@ -225,10 +224,10 @@
         // --------------------------------------------------------------------------------------
         const CRUZEIROS_OFERTA_MSC = [
             {
-                navio: "MSC Grandiosa",
+                navio: "MSC Preziosa", // Alterado de Grandiosa para Preziosa (Nome do arquivo)
                 destino: "Brasil (Norte/Nordeste)",
                 data: "Dez/2025 - Mar/2026",
-                imagem: "/static/MSC_Grandiosa_Cruzeiro.jpg",
+                imagem: "/static/PREZIOSA.png", // CORRIGIDO: Nome do arquivo
                 preco: 375,
                 parcela: 3750, // 10x de
                 cabine: "Cabine Interna"
@@ -237,7 +236,7 @@
                 navio: "MSC Seaview",
                 destino: "Argentina e Uruguai",
                 data: "Dez/2025 - Fev/2026",
-                imagem: "/static/MSC_Seaview_Cruzeiro.jpg",
+                imagem: "/static/essa aqui seaview.png", // CORRIGIDO: Nome do arquivo
                 preco: 419,
                 parcela: 4190,
                 cabine: "Cabine Interna"
@@ -246,7 +245,7 @@
                 navio: "MSC Armonia",
                 destino: "Mini Cruzeiros",
                 data: "Nov/2025 - Mar/2026",
-                imagem: "/static/MSC_Armonia_Cruzeiro.jpg",
+                imagem: "/static/ARMONIA.png", // CORRIGIDO: Nome do arquivo
                 preco: 259,
                 parcela: 2590,
                 cabine: "Cabine Interna"
@@ -507,9 +506,9 @@
             return (
                 <div className="container form-container">
                     <div className="header__content">
-                        {/* Caminho da logo corrigido para static/ */}
+                        {/* Caminho da logo corrigido para logo_fsr0.webp */}
                         <img 
-                            src="/static/FSR-LOGO-AZUL.png" 
+                            src="/static/logo_fsr0.webp" 
                             alt="FSR Viagens | Consultoria de Viagens Especializada" 
                             className="logo__image"
                             width="200" 
