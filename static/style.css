@@ -815,12 +815,25 @@ tbody tr:hover {
     font-weight: bold;
 }
 
-.oferta-header a {
+/* ESTILO NOVO/CORRIGIDO: Botão de Voltar na Oferta MSC */
+.btn-voltar-pacotes {
+    background: none;
+    border: none;
     color: #fff;
-    text-decoration: underline;
-    font-weight: normal;
+    cursor: pointer;
     font-size: 0.9em;
+    text-decoration: underline;
+    transition: color 0.2s;
+    /* Ajuste para garantir que o botão seja clicável e o texto não se quebre */
+    white-space: nowrap; 
+    padding: 0;
 }
+
+.btn-voltar-pacotes:hover {
+    color: #f7a01c; /* Laranja MSC no hover */
+}
+/* FIM DO ESTILO NOVO/CORRIGIDO */
+
 
 .oferta-body {
     padding: 15px;
@@ -917,7 +930,7 @@ tbody tr:hover {
     color: #333;
 }
 
-/* Botão principal de reserva, pode ser o mesmo CTA do WhatsApp */
+/* Botão principal de reserva (Atualizado com border e cursor) */
 .btn-reserva-msc {
     background-color: #00b050; /* Verde escuro */
     color: #fff;
@@ -928,6 +941,9 @@ tbody tr:hover {
     border-radius: 5px;
     transition: background-color 0.3s;
     margin-top: 10px;
+    /* CORREÇÃO ADICIONAL */
+    border: none;
+    cursor: pointer;
 }
 .btn-reserva-msc:hover {
     background-color: #009944;
