@@ -1,49 +1,73 @@
-# app.py (Versão Final e Estável)
-
 import os
 import psycopg2
-import time
 from functools import wraps
 from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_cors import CORS
-from flask_apscheduler import APScheduler
 import json 
 import re 
 from datetime import datetime 
+from supabase import create_client, Client # NOVO: Importação para o cliente Supabase
 
-# Importa a função de web scraping 
-from pacotes_data import realizar_web_scraping_da_vitrine
+# --- CONFIGURAÇÃO DO APP E CLIENTE SUPABASE ---
 
-# --- Configuração do APScheduler ---
-class Config:
-    SCHEDULER_API_ENABLED = False # Desativa API REST para segurança
-    JOBS = [
-        {
-            'id': 'Job_Atualizacao_Vitrine',
-            'func': 'app:atualizar_vitrine_estatica', 
-            'trigger': 'interval',
-            'hours': 72, 
-            'start_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 
-            'misfire_grace_time': 300 
-        }
-    ]
-
-# --- CONFIGURAÇÃO DO APP E AGENDADOR ---
 app = Flask(__name__)
 CORS(app)
 
 # Define o caminho para o template HTML
-INDEX_FILE_PATH = os.path.join(app.root_path, 'templates', 'index.html')
+# INDEX_FILE_PATH não é mais necessário, pois não faremos mais a escrita estática
+# INDEX_FILE_PATH = os.path.join(app.root_path, 'templates', 'index.html')
 
 
-# --- NOVAS FUNÇÕES AUXILIARES PARA PROCESSAMENTO DE DADOS ---
+# --- INICIALIZAÇÃO DO CLIENTE SUPABASE (PACOTES) ---
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
+
+supabase_client: Client = None
+if SUPABASE_URL and SUPABASE_KEY:
+    try:
+        supabase_client = create_client(SUPABASE_URL, SUPABASE_KEY)
+        print("--- Cliente Supabase (Pacotes e Auth) inicializado com sucesso. ---")
+    except Exception as e:
+        print(f"ERRO CRÍTICO: Não foi possível inicializar o cliente Supabase: {e}")
+else:
+    print("AVISO: Variáveis SUPABASE_URL ou SUPABASE_KEY não configuradas. Acesso ao DB de pacotes será desativado.")
+
+
+# --- FUNÇÕES AUXILIARES ---
+
+def corrigir_url_db(url):
+    """
+    Função mantida para compatibilidade com variáveis de ambiente do PostgreSQL para Leads.
+    """
+    if url and url.startswith("postgresql://"):
+        return url.replace("postgresql://", "postgres://", 1)
+    return url
+
+def auth_required(f):
+    """
+    Função mantida para autenticação de rotas administrativas.
+    """
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        # NOTA: O Supabase Auth poderia ser usado aqui para login mais seguro, 
+        # mas mantive o método Basic Auth existente (ADMIN_USER/ADMIN_PASS) por enquanto.
+        AUTH_USER = os.environ.get('ADMIN_USER')
+        AUTH_PASS = os.environ.get('ADMIN_PASS')
+        auth = request.authorization
+        if not auth or auth.username != AUTH_USER or auth.password != AUTH_PASS:
+            return ('Não Autorizado. Acesso Restrito.', 401, {
+                'WWW-Authenticate': 'Basic realm="Login Requerido"'
+            })
+        return f(*args, **kwargs)
+    return decorated
+
+
+# --- FUNÇÕES AUXILIARES PARA PROCESSAMENTO DE DADOS (SIMPLIFICADAS) ---
 
 def _determinar_tipo_pacote(nome_pacote):
     """
-    Determina se o pacote é NACIONAL ou INTERNACIONAL com base em palavras-chave no nome.
-    O React usa essa chave para definir o ícone (plane-departure vs globe-americas).
+    Mantido para consistência, mas o ideal é ter 'tipo' como campo no DB.
     """
-    # Lista de palavras-chave que indicam destino internacional
     destinos_internacionais = ['tailândia', 'egito', 'turquia', 'europa', 'orlando', 'caribe', 'cancun', 'dubai', 'asia', 'américas', 'méxico', 'chile', 'peru', 'argentina', 'colômbia']
     nome_pacote_lower = nome_pacote.lower()
     
@@ -54,13 +78,11 @@ def _determinar_tipo_pacote(nome_pacote):
 
 def _gerar_img_key(nome_pacote):
     """
-    Gera uma chave de imagem para mapeamento no React, correspondente às chaves 
-    definidas no bloco const IMAGENS do index.html.
+    Mantido para consistência, mas o ideal é que esta chave venha diretamente do DB.
     """
     nome_lower = nome_pacote.lower()
     
     # Mapeamento para as chaves que existem no bloco const IMAGENS do index.html
-    # Chaves de referência: 'Lençóis Maranhenses', 'Tailândia', 'Gramado', 'Porto de Galinhas', 'Salvador', 'Egito', 'Turquia', 'Customizado'
     mapeamento_simples = {
         'lençóis maranhenses': 'Lençóis Maranhenses',
         'tailândia': 'Tailândia',
@@ -76,123 +98,50 @@ def _gerar_img_key(nome_pacote):
         if palavra_chave in nome_lower:
             return img_key
             
-    # Fallback
     return 'Customizado'
 
 # ----------------------------------------------------------------------
+# ** FUNÇÃO atualizar_vitrine_estatica() E APSCHEDULER REMOVIDOS **
+# ----------------------------------------------------------------------
 
 
-# --- FUNÇÃO DE AUTOMAÇÃO DE ATUALIZAÇÃO ESTATICA ---
-def atualizar_vitrine_estatica():
-    """
-    Executa o web scraping, processa todos os pacotes encontrados e sobrescreve o bloco
-    de dados estáticos dentro do index.html.
-    """
-    print(f"--- [{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] JOB AGENDADO: Iniciando atualização estática... ---")
-    start_time = time.time()
-    
-    try:
-        # 1. Executa o Web Scraping 
-        pacotes_completos = realizar_web_scraping_da_vitrine()
-        
-        # CORREÇÃO: Remove a limitação de [:5] para processar todos os pacotes encontrados.
-        pacotes_a_serem_processados = pacotes_completos 
-        
-        # 2. CONFIGURAÇÃO DE CHAVES PARA O FRONT-END
-        for pacote in pacotes_a_serem_processados:
-            # AJUSTE CRÍTICO: Adiciona 'tipo' e 'imgKey' dinamicamente
-            pacote['tipo'] = _determinar_tipo_pacote(pacote['nome'])
-            pacote['imgKey'] = _gerar_img_key(pacote['nome'])
-            
-            # Garante que o campo 'opcoes' existe, mesmo que esteja vazio (veio do scraper)
-            if 'opcoes' not in pacote:
-                 pacote['opcoes'] = [] 
-            
-        
-        # 3. Adiciona o card de Consultoria
-        consultoria_card = {
-            "id": -1, "nome": "Consultoria Personalizada / Outro Destino", 
-            "saida": "Seu aeroporto de preferência", "tipo": "CONSULTORIA", 
-            "desc": "✨ Destino Sob Medida: Crie seu roteiro do zero e garanta seu Desconto VIP na primeira compra com nossa consultoria especializada.", 
-            "imgKey": 'Customizado'
-        }
-        pacotes_para_html = pacotes_a_serem_processados + [consultoria_card]
-
-        # 4. Geração da nova string JavaScript formatada
-        pacotes_js_array = json.dumps(pacotes_para_html, indent=8)
-        new_js_content = f"const DADOS_ESTATICOS_ATUALIZAVEIS = {pacotes_js_array};"
-
-        # 5. Leitura e substituição no arquivo (index.html)
-        with open(INDEX_FILE_PATH, 'r') as f:
-            html_content = f.read()
-
-        # Regex AJUSTADO: 
-        pattern = re.compile(
-            r"const DADOS_ESTATICOS_ATUALIZAVEIS\s*=\s*\[.*?\]\s*;", 
-            re.DOTALL
-        )
-        
-        # Substitui o bloco
-        new_html_content = pattern.sub(new_js_content, html_content)
-
-        # 6. Escrita do novo arquivo HTML
-        with open(INDEX_FILE_PATH, 'w') as f:
-            f.write(new_html_content)
-        
-        end_time = time.time()
-        print(f"--- SUCESSO! Vitrine estática atualizada em {end_time - start_time:.2f}s. Total: {len(pacotes_para_html)} cards. ---")
-
-    except Exception as e:
-        print(f"--- [{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ERRO CRÍTICO no JOB AGENDADO: {e} ---")
-        
-    return 
-
-# --- Funções Auxiliares de Segurança e DB (MANTIDAS) ---
-
-def corrigir_url_db(url):
-    """
-    Função mantida para compatibilidade com variáveis de ambiente.
-    """
-    if url and url.startswith("postgresql://"):
-        return url.replace("postgresql://", "postgres://", 1)
-    return url
-
-def auth_required(f):
-    """
-    Função mantida para autenticação de rotas administrativas.
-    """
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        AUTH_USER = os.environ.get('ADMIN_USER')
-        AUTH_PASS = os.environ.get('ADMIN_PASS')
-        auth = request.authorization
-        if not auth or auth.username != AUTH_USER or auth.password != AUTH_PASS:
-            return ('Não Autorizado. Acesso Restrito.', 401, {
-                'WWW-Authenticate': 'Basic realm="Login Requerido"'
-            })
-        return f(*args, **kwargs)
-    return decorated
-
-
-app.config.from_object(Config()) # Carrega a configuração do agendador
-
-scheduler = APScheduler() 
-scheduler.init_app(app)
-
-# ====================================================================
-# CORREÇÃO CRÍTICA PARA AMBIENTES DE PRODUÇÃO (GUNICORN/RAILWAY)
-# Inicializa o Agendador aqui, fora do bloco if __name__ == '__main__', 
-# para que ele seja iniciado corretamente pelo Gunicorn/Processo Master.
-# ====================================================================
-scheduler.start() 
-print("--- Agendador APScheduler iniciado com sucesso. ---")
-
-
-# --- ROTAS DA LANDING PAGE (MANTIDAS) ---
+# --- ROTAS DA LANDING PAGE ---
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    pacotes = []
+    
+    if supabase_client:
+        try:
+            # Busca do Supabase: Pacotes ATIVOS, ordenados por 'ordem'
+            response = supabase_client.table("pacotes").select("*").eq('ativo', True).order('ordem', desc=False).execute()
+            pacotes = response.data
+            
+            # Aplica lógica de tipo/chave de imagem se necessário (melhor que venha do DB)
+            for pacote in pacotes:
+                if 'tipo' not in pacote:
+                    pacote['tipo'] = _determinar_tipo_pacote(pacote.get('nome', ''))
+                if 'imgKey' not in pacote:
+                    pacote['imgKey'] = _gerar_img_key(pacote.get('nome', ''))
+            
+        except Exception as e:
+            print(f"ERRO: Falha ao buscar pacotes no Supabase para a landing page: {e}")
+            # Em caso de erro, a lista de pacotes permanece vazia []
+    
+    # Adiciona o card de Consultoria
+    consultoria_card = {
+        "id": -1, 
+        "nome": "Consultoria Personalizada / Outro Destino", 
+        "saida": "Seu aeroporto de preferência", 
+        "tipo": "CONSULTORIA", 
+        "desc": "✨ Destino Sob Medida: Crie seu roteiro do zero e garanta seu Desconto VIP na primeira compra com nossa consultoria especializada.", 
+        "imgKey": 'Customizado'
+    }
+    
+    if pacotes is not None:
+         pacotes.append(consultoria_card)
+
+    return render_template('index.html', pacotes=pacotes)
 
 @app.route('/politica-de-privacidade.html')
 def politica_de_privacidade():
@@ -206,23 +155,135 @@ def obrigado():
 def cadastro():
     return render_template('cadastro.html')
 
-# ----------------------------------------------------------------------
-# ENDPOINT /api/pacotes 
-# ----------------------------------------------------------------------
-@app.route('/api/pacotes', methods=['GET'])
-def get_pacotes():
-    # Retorna um 410 (Gone) para indicar que a funcionalidade foi removida/movida
-    return jsonify({"message": "Este endpoint foi desativado. A vitrine agora é carregada via dados estáticos no HTML."}), 410
+
+# --- ROTAS ADMINISTRATIVAS DE PACOTES (CRUD) ---
+
+@app.route('/admin')
+def admin_redirect():
+    # Redireciona o acesso base para a listagem de pacotes
+    return redirect(url_for('admin_pacotes_index'))
+
+@app.route('/admin/pacotes')
+@auth_required
+def admin_pacotes_index():
+    if not supabase_client:
+        return render_template('admin_erro.html', error="Cliente Supabase não inicializado.")
+        
+    try:
+        # Busca todos os pacotes (ativos e inativos)
+        response = supabase_client.table("pacotes").select("*").order('id', desc=True).execute()
+        pacotes = response.data
+        
+        # Renderiza a tabela de gerenciamento (index)
+        return render_template('admin_pacotes_index.html', pacotes=pacotes)
+        
+    except Exception as e:
+        return render_template('admin_erro.html', error=f"Erro ao listar pacotes: {e}")
+
+
+@app.route('/admin/pacotes/novo', methods=['GET', 'POST'])
+@auth_required
+def admin_pacotes_form(pacote_id=None):
+    if not supabase_client:
+        return render_template('admin_erro.html', error="Cliente Supabase não inicializado.")
+        
+    pacote = {} # Inicializa como dicionário vazio para o template
+
+    if request.method == 'POST':
+        data = request.form.to_dict()
+        
+        # Converte o checkbox 'ativo' para booleano
+        ativo_status = 'ativo' in data 
+        
+        pacote_data = {
+            "nome": data.get('nome_pacote'), 
+            "destino": data.get('destino'),
+            "saida": data.get('saida'),
+            "desc": data.get('descricao'),
+            "preco_antigo": data.get('preco_antigo'),
+            "preco_atual": data.get('preco_atual'),
+            "url_saibamais": data.get('url_saibamais'),
+            "imagem_url": data.get('imagem_url'), # Deve ser a URL do Supabase Storage
+            "imgKey": data.get('imgKey'),
+            "tipo": data.get('tipo'),
+            "ordem": int(data.get('ordem', 99)),
+            "ativo": ativo_status
+        }
+        
+        try:
+            # INSERT: Ação de 'Novo'
+            response = supabase_client.table("pacotes").insert(pacote_data).execute()
+            print(f"Pacote inserido com sucesso: {response.data}")
+            return redirect(url_for('admin_pacotes_index'))
+            
+        except Exception as e:
+            return render_template('admin_erro.html', error=f"Erro ao inserir pacote: {e}") 
+    
+    # GET: Exibe o formulário vazio para criação
+    return render_template('admin_pacotes_form.html', pacote=pacote, title="Novo Pacote")
+
+
+@app.route('/admin/pacotes/editar/<int:pacote_id>', methods=['GET', 'POST'])
+@auth_required
+def admin_pacotes_editar(pacote_id):
+    if not supabase_client:
+        return render_template('admin_erro.html', error="Cliente Supabase não inicializado.")
+        
+    try:
+        # Busca o pacote pelo ID
+        response = supabase_client.table("pacotes").select("*").eq('id', pacote_id).single().execute()
+        pacote = response.data
+    except Exception:
+        return render_template('admin_erro.html', error=f"Pacote ID {pacote_id} não encontrado.")
+
+    if request.method == 'POST':
+        data = request.form.to_dict()
+        ativo_status = 'ativo' in data 
+        
+        pacote_data = {
+            "nome": data.get('nome_pacote'), 
+            "destino": data.get('destino'),
+            "saida": data.get('saida'),
+            "desc": data.get('descricao'),
+            "preco_antigo": data.get('preco_antigo'),
+            "preco_atual": data.get('preco_atual'),
+            "url_saibamais": data.get('url_saibamais'),
+            "imagem_url": data.get('imagem_url'),
+            "imgKey": data.get('imgKey'),
+            "tipo": data.get('tipo'),
+            "ordem": int(data.get('ordem', 99)),
+            "ativo": ativo_status
+        }
+        
+        try:
+            # UPDATE: Atualiza o pacote
+            supabase_client.table("pacotes").update(pacote_data).eq('id', pacote_id).execute()
+            return redirect(url_for('admin_pacotes_index'))
+        except Exception as e:
+            return render_template('admin_erro.html', error=f"Erro ao editar pacote: {e}") 
+    
+    # GET: Exibe o formulário preenchido para edição
+    return render_template('admin_pacotes_form.html', pacote=pacote, title=f"Editar Pacote: {pacote.get('nome')}")
+
+
+@app.route('/admin/pacotes/excluir/<int:pacote_id>', methods=['POST'])
+@auth_required
+def admin_pacotes_excluir(pacote_id):
+    if not supabase_client:
+        return jsonify({"message": "Cliente Supabase não inicializado."}, 500)
+    
+    try:
+        supabase_client.table("pacotes").delete().eq('id', pacote_id).execute()
+        return redirect(url_for('admin_pacotes_index'))
+    except Exception as e:
+        return jsonify({"message": f"Erro ao excluir pacote: {e}"}, 500)
+
 
 # --- ROTAS DE CAPTURA DE LEAD E GERENCIAMENTO (MANTIDAS) ---
 
 @app.route('/capturar_lead', methods=['POST'])
 def capturar_lead():
-    # ... (Corpo da função capturar_lead) ...
-    
-    # ----------------------------------------------------------------------
-    # CONEXÃO E INSERÇÃO NO BANCO DE DADOS (POSTGRESQL)
-    # ----------------------------------------------------------------------
+    # ... (Corpo da função capturar_lead - MANTIDO INALTERADO) ...
     DATABASE_URL = os.environ.get('DATABASE_URL')
     if not DATABASE_URL:
          print("Aviso: DATABASE_URL não está configurada. Lead não será salvo no DB.")
@@ -267,11 +328,12 @@ def capturar_lead():
     except Exception as e:
         print(f"Erro inesperado na captura de lead: {e}")
         return jsonify({"message": "Erro inesperado.", "error": str(e)}, 500)
-    
+
+
 @app.route('/leads.html')
 @auth_required
 def leads():
-    # ... (Corpo da função leads) ...
+    # ... (Corpo da função leads - MANTIDO INALTERADO) ...
     DATABASE_URL = os.environ.get('DATABASE_URL')
     if not DATABASE_URL:
         return jsonify({"error": "DATABASE_URL não configurada."}), 500
@@ -286,13 +348,10 @@ def leads():
         
         leads_data = cur.fetchall()
         
-        # Obtém os nomes das colunas
         column_names = [desc[0] for desc in cur.description]
         
-        # Cria uma lista de dicionários para facilitar a exibição
         for row in leads_data:
             lead = dict(zip(column_names, row))
-            # Formata a data de captura
             if isinstance(lead['data_captura'], datetime):
                 lead['data_captura'] = lead['data_captura'].strftime('%d/%m/%Y %H:%M:%S')
             leads_list.append(lead)
@@ -300,7 +359,6 @@ def leads():
         cur.close()
         conn.close()
 
-        # renderiza o template de gerenciamento
         return render_template('leads.html', leads=leads_list)
 
     except psycopg2.Error as e:
@@ -314,7 +372,7 @@ def leads():
 @app.route('/setup_database', methods=['POST'])
 @auth_required
 def setup_database():
-    # ... (Corpo da função setup_database) ...
+    # ... (Corpo da função setup_database - MANTIDO INALTERADO) ...
     DATABASE_URL = os.environ.get('DATABASE_URL')
     if not DATABASE_URL:
         return jsonify({"message": "DATABASE_URL não está configurada."}, 500)
@@ -324,6 +382,7 @@ def setup_database():
         conn = psycopg2.connect(db_url)
         cur = conn.cursor()
         
+        # Cria a tabela de leads (PostgreSQL)
         cur.execute("""
             CREATE TABLE IF NOT EXISTS leads (
                 id SERIAL PRIMARY KEY,
@@ -340,7 +399,10 @@ def setup_database():
         conn.commit()
         cur.close()
         conn.close()
-        return jsonify({"message": "Banco de dados e tabela 'leads' configurados com sucesso."}), 200
+        
+        # NOTA: A tabela 'pacotes' deve ser criada DIRETAMENTE no painel do Supabase.
+        
+        return jsonify({"message": "Banco de dados e tabela 'leads' configurados com sucesso. (Tabela 'pacotes' deve ser criada no Supabase)"}), 200
 
     except psycopg2.Error as e:
         return jsonify({"message": f"Erro ao configurar o banco de dados: {e}"}, 500)
@@ -351,12 +413,6 @@ def setup_database():
 # --- INICIALIZAÇÃO (APENAS PARA USO DE DESENVOLVIMENTO LOCAL) ---
 
 if __name__ == '__main__':
-    # Este bloco só é executado quando rodado com 'python app.py' localmente.
-    # O Gunicorn (produção) IGNORA este bloco.
-    # O scheduler já foi iniciado acima.
+    # Nenhum agendador para iniciar aqui.
     print("--- Modo de Desenvolvimento Local (Executando app.run) ---")
-    
-    # Se quiser forçar a atualização da vitrine ao iniciar em DEV:
-    # atualizar_vitrine_estatica() 
-    
     app.run(host='0.0.0.0', port=os.environ.get('PORT', 5000), debug=True, use_reloader=False)
