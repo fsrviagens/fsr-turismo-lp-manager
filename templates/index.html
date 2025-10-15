@@ -22,7 +22,7 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
-    </head>
+</head>
 <body>
     <div id="root">
     </div>
@@ -34,7 +34,7 @@
         const API_LEAD_URL = '/capturar_lead';
         const TELEFONE_REGEX = /^\d{10,11}$/; 
         
-        // Gatilho de Compra / Desconto VIP
+        // Gatilho de Compra / Desconto VIP (Apenas para pacotes normais)
         const PROSPECT_DISCOUNT = '5%'; 
         
         // -----------------------------------------------------
@@ -43,15 +43,19 @@
         
         const getImageUrl = (key) => {
             const IMAGENS = {
+                // Caminhos estáticos para as imagens no repositório
                 'Lençóis Maranhenses': '/static/Duna-e-agua-dos-lencois-Maranhenses.jpg', 
                 'Tailândia': '/static/Festival_Lanternas_Chiang_Mai_Tailandia_Fogos.jpg', 
                 'Gramado': '/static/GramadoSuaViagem-GrandeDesfileDeNatal2.webp', 
                 'Porto de Galinhas': '/static/dicas-de-porto-de-galinhas.jpg', 
                 'Salvador': '/static/tucamorais3.jpg', 
-                'Egito': 'https://images.unsplash.com/photo-1523451551525-2c8c5026c483?w=400&h=200&fit-crop', 
-                'Turquia': 'https://images.unsplash.com/photo-1582035900554-75af47f2010c?w=400&h=200&fit-crop', 
-                'Customizado': 'https://images.unsplash.com/photo-1454486518536-54a86b3a0e63?w=400&h=200&fit-crop',
+                // Usando imagens de fallback para Egito/Turquia
+                'Egito': '/static/Customizado.jpg', // Assumindo uma imagem padrão se a URL não funcionar
+                'Turquia': '/static/Customizado.jpg',
+                'Customizado': '/static/Customizado.jpg',
             };
+            // Tratamento de URL externa em ambiente de teste/local
+            if (key.startsWith('https://')) return key;
             return IMAGENS[key] || IMAGENS['Customizado']; 
         };
 
@@ -251,13 +255,13 @@
         
         const CRUZEIROS_BENEFICIOS = [
             "Tarifas 'Super Bingo' com preços muito abaixo do mercado.",
-            "Desconto VIP FSR garantido na sua primeira reserva.",
-            "Pagamento em até 12x no cartão de crédito sem juros.",
+            "Pagamento facilitado em até 12x no cartão de crédito sem juros.",
             "Embarque em Santos ou Itajaí com roteiros no Brasil e na América do Sul.",
+            "Serviço FSR: Consultoria e auxílio na documentação de embarque."
         ];
         
         // --------------------------------------------------------------------------------------
-        // --- NOVO COMPONENTE: OFERTA MSC BINGO ---
+        // --- NOVO COMPONENTE: OFERTA MSC BINGO (Ajustado sem desconto/logo) ---
         // --------------------------------------------------------------------------------------
         const OfertaMSCBingo = ({ onSelect, onBack, pacoteSelecionado }) => {
             
@@ -275,23 +279,28 @@
             return (
                 <div className="oferta-container">
                     <div className="oferta-header">
-                        <span><i className="fas fa-ship"></i> OFERTA EXCLUSIVA MSC CRUZEIROS BINGO</span>
+                        <span><i className="fas fa-ship"></i> OFERTA SUPER BINGO CRUZEIROS</span>
                         <button onClick={onBack} className="btn-voltar-pacotes" style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer', fontSize: '0.9em', textDecoration: 'underline' }}>
                             <i className="fas fa-arrow-left"></i> Voltar aos Pacotes Padrão
                         </button>
                     </div>
 
                     <div className="oferta-body">
-                        <div className="info-section">
+                        <div className="info-section" style={{justifyContent: 'center', borderBottom: 'none'}}>
                             <div>
-                                <h1 className="hero__headline" style={{ color: '#004481', fontSize: '1.8em' }}>SUPER BINGO MSC: CRUZEIROS <span style={{color: '#e50020'}}>A PARTIR DE 10X DE R${CRUZEIROS_OFERTA_MSC[0].preco}</span></h1>
-                                <p className="hero__slogan" style={{ fontSize: '1.1em', fontWeight: 600 }}>Tarifas Incríveis para o Brasil e América do Sul na temporada 2025/2026.</p>
+                                <h1 className="hero__headline" style={{ color: '#004481', fontSize: '1.8em', marginBottom: '5px' }}>
+                                    <i className="fas fa-ship"></i> SUPER BINGO CRUZEIROS <span style={{color: '#e50020'}}>A PARTIR DE 10X DE R${CRUZEIROS_OFERTA_MSC[0].preco}</span>
+                                </h1>
+                                <p className="hero__slogan" style={{ fontSize: '1.1em', fontWeight: 600, marginTop: '5px' }}>
+                                    Tarifas com Condições Especiais para o Brasil e América do Sul na temporada 2025/2026.
+                                </p>
                             </div>
-                            <img src="/static/msc-logo.png" alt="Logo MSC Cruzeiros" width="120" height="80" style={{maxWidth: '100px'}} />
+                            
+                            {/* REMOVIDO: <img src="/static/msc-logo.png" ... /> */}
                         </div>
 
                         <div style={{ textAlign: 'center' }}>
-                            <span className="super-bingo-tag">VAGAS LIMITADAS - RESERVE AGORA!</span>
+                            <span className="super-bingo-tag">TARIFAS EXCLUSIVAS - VAGAS LIMITADAS!</span>
                         </div>
                         
                         <h2 className="section-title">Nossos Cruzeiros em Destaque</h2>
@@ -313,7 +322,7 @@
                                         className="btn-reserva-msc"
                                         onClick={() => handleCardSelect(cruzeiro.navio)}
                                     >
-                                        Selecionar e Falar com Especialista
+                                        Selecionar Pacote e Confirmar Preço
                                     </button>
                                 </div>
                             ))}
@@ -336,23 +345,23 @@
 
                         <div className="regras-section">
                             <h4>REGRAS E INFORMAÇÕES IMPORTANTES (TARIFA BINGO)</h4>
-                            <div className="regra-item">O navio e as datas de embarque/desembarque são definidos pela MSC no momento da reserva e podem variar.</div>
+                            <div className="regra-item">O navio e as datas de embarque/desembarque são definidos pela operadora no momento da reserva e podem variar.</div>
                             <div className="regra-item">A cabine é garantida, mas a localização (piso, proa/popa) será informada no check-in.</div>
                             <div className="regra-item">A tarifa não permite seleção de cabine, mas garante o preço mais baixo da temporada.</div>
-                            <div className="regra-item">O Desconto VIP FSR de 5% é aplicado sobre o valor final da cabine, excluindo taxas portuárias e de serviço.</div>
+                            <div className="regra-item">Preços são "a partir de" por pessoa em cabine dupla interna, excluindo taxas portuárias e de serviço.</div>
                             
                              <table className="regras-tabela">
                                 <thead>
                                     <tr>
                                         <th>Modalidade</th>
-                                        <th>Preço Promocional</th>
+                                        <th>Benefício</th>
                                         <th>Seleção de Cabine</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>**Super Bingo**</td>
-                                        <td>O mais baixo do mercado.</td>
+                                        <td>Preço promocional mais baixo.</td>
                                         <td>Não permite (cabine garantida)</td>
                                     </tr>
                                     <tr>
@@ -365,7 +374,7 @@
                         </div>
 
                         <div className="oferta-footer">
-                            *Preços em reais (R$) por pessoa, em cabine dupla interna, sujeitos a alteração e confirmação de disponibilidade da MSC no ato da reserva. Não incluem taxas.
+                            *Preços em reais (R$) por pessoa, em cabine dupla interna, sujeitos a alteração e confirmação de disponibilidade da operadora no ato da reserva. Não incluem taxas.
                         </div>
 
                     </div>
@@ -414,14 +423,29 @@
                 
                 setIsSubmitting(true);
 
+                // Determina a mensagem de desconto: 
+                // Se for MSC, o desconto não é mencionado na mensagem do WhatsApp.
+                const isMsc = pacoteSelecionado.includes("Cruzeiro MSC");
+                const appliedDiscount = isMsc ? 'N/A (Super Bingo)' : `${PROSPECT_DISCOUNT} VIP`;
+                
                 const data = {
                     nome,
                     telefone,
                     data_viagem: dataViagem,
                     pacote: pacoteSelecionado,
                     origem: window.location.href,
-                    desconto_aplicado: PROSPECT_DISCOUNT
+                    desconto_aplicado: appliedDiscount
                 };
+                
+                let whatsappMessageText;
+                if (isMsc) {
+                     whatsappMessageText = `Olá, sou ${nome} e acabei de selecionar o pacote *${pacoteSelecionado}*. Gostaria de mais informações sobre as datas disponíveis. Minha data preferida para viajar é ${new Date(dataViagem).toLocaleDateString('pt-BR')}.`;
+                } else {
+                     whatsappMessageText = `Olá, sou ${nome} e acabei de solicitar um orçamento para o pacote: *${pacoteSelecionado}*. Gostaria de mais informações sobre as datas e como aplicar meu Desconto VIP de ${PROSPECT_DISCOUNT}. Minha data preferida para viajar é ${new Date(dataViagem).toLocaleDateString('pt-BR')}.`;
+                }
+                
+                const whatsappMessage = encodeURIComponent(whatsappMessageText);
+
 
                 try {
                     const response = await fetch(API_LEAD_URL, {
@@ -436,9 +460,7 @@
                         throw new Error(`Erro ao enviar dados: ${response.statusText}`);
                     }
 
-                    // Redirecionamento para o WhatsApp com a mensagem pré-preenchida
-                    const whatsappMessage = encodeURIComponent(`Olá, sou ${nome} e acabei de solicitar um orçamento para o pacote: *${pacoteSelecionado}*. Gostaria de mais informações sobre as datas e como aplicar meu Desconto VIP de ${PROSPECT_DISCOUNT}. Minha data preferida para viajar é ${new Date(dataViagem).toLocaleDateString('pt-BR')}.`);
-                    
+                    // Redirecionamento para o WhatsApp 
                     window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`;
 
                 } catch (error) {
@@ -470,7 +492,7 @@
                             className="btn--cta" 
                             style={{ backgroundColor: '#004481', marginBottom: '40px' }}
                         >
-                            <i className="fas fa-ship"></i> Ver Oferta Exclusiva: MSC CRUZEIROS SUPER BINGO
+                            <i className="fas fa-ship"></i> Ver Oferta Exclusiva: CRUZEIROS SUPER BINGO
                         </button>
 
                         <VitrinePacotes 
@@ -485,12 +507,15 @@
             return (
                 <div className="container form-container">
                     <div className="header__content">
+                        {/* Caminho da logo corrigido para static/ */}
                         <img 
                             src="/static/FSR-LOGO-AZUL.png" 
                             alt="FSR Viagens | Consultoria de Viagens Especializada" 
                             className="logo__image"
                             width="200" 
                             height="80"
+                            // Definindo as chaves (key) para ajudar o carregamento da imagem
+                            key={showMscOffer ? 'logo-msc' : 'logo-padrao'} 
                         />
                         <h1 className="hero__headline">
                             Pacotes de Viagem 2025/2026: Seu Destino Inesquecível Começa Aqui!
@@ -515,7 +540,7 @@
                                     type="text" 
                                     id="pacote" 
                                     className={`selected-pacote-display ${pacoteSelecionado ? 'is-selected' : ''}`}
-                                    value={pacoteSelecionado || 'Clique em um pacote acima para ativar o desconto'} 
+                                    value={pacoteSelecionado || (showMscOffer ? 'Clique em um cruzeiro acima para confirmar a tarifa' : 'Clique em um pacote acima para ativar o desconto')} 
                                     readOnly 
                                     required 
                                     onClick={() => document.querySelector('.vitrine-pacotes')?.scrollIntoView({ behavior: 'smooth' })}
@@ -538,74 +563,4 @@
                                 <label htmlFor="telefone"><i className="fab fa-whatsapp"></i> Telefone (WhatsApp com DDD) *</label>
                                 <input 
                                     type="tel" 
-                                    id="telefone" 
-                                    value={telefone} 
-                                    onChange={(e) => setTelefone(e.target.value.replace(/\D/g, ''))} 
-                                    required 
-                                    placeholder="Ex: 61988887777"
-                                    maxLength="11"
-                                />
-                            </div>
-                            
-                            <div className="form__group">
-                                <label htmlFor="dataViagem"><i className="fas fa-calendar-alt"></i> Data Preferida para Viagem</label>
-                                <input 
-                                    type="date" 
-                                    id="dataViagem" 
-                                    value={dataViagem} 
-                                    onChange={(e) => setDataViagem(e.target.value)} 
-                                    min={getMinDate()}
-                                    required 
-                                />
-                                <small style={{display: 'block', marginTop: '5px', color: '#777'}}>
-                                    (Mínimo de 4 dias de antecedência para consulta)
-                                </small>
-                            </div>
-                        </fieldset>
-                        
-                        {erro && <p className="error-message">{erro}</p>}
-
-                        <p className="final-call-to-action">
-                            <i className="fas fa-hand-point-right"></i> Clique abaixo e garanta seu **DESCONTO VIP {PROSPECT_DISCOUNT}** ao falar com o especialista!
-                        </p>
-                        
-                        <button type="submit" className="btn--cta" disabled={!isFormValid || isSubmitting}>
-                            {isSubmitting ? (
-                                <>
-                                    <i className="fas fa-spinner fa-spin"></i> Enviando...
-                                </>
-                            ) : (
-                                <>
-                                    <i className="fab fa-whatsapp"></i> ATIVAR DESCONTO e Chamar no WhatsApp
-                                </>
-                            )}
-                        </button>
-                    </form>
-                    
-                    <p style={{textAlign: 'center', fontSize: '0.8em', marginTop: '15px'}}>
-                        Ao enviar, você concorda com a nossa <a href="/politica-de-privacidade.html" target="_blank">Política de Privacidade</a> e <a href="#" target="_blank">Termos de Uso</a>.
-                    </p>
-
-                    <div className="footer">
-                        <p className="expert-seal">CONSULTORIA DE VIAGENS FSR</p>
-                        <a href={`https://wa.me/${WHATSAPP_NUMBER}`} className="whatsapp-link" target="_blank">
-                            <i className="fab fa-whatsapp"></i> Fale com um Especialista
-                        </a>
-                        <div className="admin-nav">
-                            <ul>
-                                <li><a href="/politica-de-privacidade.html">Política de Privacidade</a></li>
-                                <li style={{ margin: '0 8px' }}>|</li>
-                                <li><a href="/leads.html" style={{ color: '#ffcc00' }}>Admin Login</a></li>
-                            </ul>
-                        </div>
-                        <p style={{marginTop: '10px'}}>&copy; 2025 FSR Viagens. Todos os direitos reservados.</p>
-                    </div>
-                </div>
-            );
-        };
-
-        ReactDOM.render(<App />, document.getElementById('root'));
-{% endraw %}
-    </script>
-</body>
-</html>
+                                    id="telefone"
