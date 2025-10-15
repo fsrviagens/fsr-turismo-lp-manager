@@ -23,6 +23,7 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
     <style>
+        /* Estilos de highlight existentes... */
         @keyframes highlight {
             0% { box-shadow: 0 0 10px rgba(0, 123, 255, 0.4); }
             50% { box-shadow: 0 0 20px rgba(0, 123, 255, 0.8); }
@@ -40,6 +41,268 @@
         .form {
             transition: all 0.5s;
         }
+
+        /* --- ESTILOS ESPECÍFICOS PARA A OFERTA MSC BINGO --- */
+        .oferta-container {
+            font-family: Arial, sans-serif;
+            max-width: 750px; /* Adapta ao container padrão do seu site, se houver */
+            margin: 40px auto;
+            border: 2px solid #004481; /* Borda da MSC */
+            padding: 0;
+            background-color: #f7f7f7;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .oferta-header {
+            background-color: #004481;
+            color: #fff;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .oferta-header a {
+            color: #fff;
+            text-decoration: underline;
+            font-weight: normal;
+            font-size: 0.9em;
+        }
+
+        .oferta-body {
+            padding: 15px;
+        }
+
+        .info-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ccc;
+        }
+
+        .info-section img {
+            max-width: 80px;
+            height: auto;
+        }
+
+        .section-title {
+            color: #004481;
+            font-size: 1.5em;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .super-bingo-tag {
+            background-color: #f7a01c;
+            color: #fff;
+            padding: 5px 10px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            border-radius: 3px;
+        }
+
+        /* Estrutura dos Cards de Cruzeiro */
+        .cruzeiro-card-grid {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .cruzeiro-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            flex: 1 1 200px; /* Garante 3 por linha em telas maiores */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .cruzeiro-card img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .cruzeiro-card .navio-nome {
+            color: #004481;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        .cruzeiro-card .detalhes {
+            font-size: 0.85em;
+            margin-bottom: 8px;
+        }
+
+        .cruzeiro-card .preco-label {
+            font-size: 0.75em;
+            display: block;
+            color: #555;
+            margin-top: 5px;
+        }
+
+        .cruzeiro-card .preco {
+            color: #e50020;
+            font-size: 1.6em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .cruzeiro-card .parcela {
+            font-size: 0.8em;
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .btn-reserva-msc {
+            background-color: #00b050;
+            color: #fff;
+            padding: 8px 15px;
+            text-decoration: none;
+            font-weight: bold;
+            display: block;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        .btn-reserva-msc:hover {
+            background-color: #009944;
+        }
+
+        /* Seção de Regras e Rodapé */
+        .regras-section {
+            background-color: #fff;
+            padding: 15px;
+            border-top: 2px dashed #ddd;
+            margin-top: 20px;
+        }
+        
+        .regras-section h4 {
+            color: #004481;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .regra-item {
+            font-size: 0.8em;
+            margin-bottom: 10px;
+            padding-left: 10px;
+            position: relative;
+            line-height: 1.3;
+        }
+        
+        .regra-item:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #e50020;
+            font-weight: bold;
+        }
+        
+        .oferta-footer {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.7em;
+            color: #666;
+        }
+
+        /* Adaptação dos cards de benefício originais do seu HTML */
+        .beneficios-grid {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .beneficio-item-msc {
+            background-color: #eaf1f7;
+            padding: 10px;
+            font-style: italic;
+            border-left: 5px solid #f7a01c;
+            flex: 1 1 200px;
+            font-size: 0.9em;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+
+        .btn-ver-todas-msc {
+            display: block;
+            width: 80%;
+            max-width: 300px;
+            margin: 20px auto;
+            background-color: #f7a01c;
+            color: #fff;
+            padding: 12px 30px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.1em;
+            transition: background-color 0.3s;
+        }
+        .btn-ver-todas-msc:hover {
+            background-color: #e09015;
+        }
+
+        /* Regras da tabela */
+        .regras-tabela {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.75em;
+        }
+
+        .regras-tabela th, .regras-tabela td {
+            border: 1px solid #ddd;
+            padding: 5px;
+            text-align: left;
+        }
+        
+        .regras-tabela th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+            color: #004481;
+        }
+
+        /* Responsividade básica para celular */
+        @media (max-width: 600px) {
+            .oferta-container {
+                margin: 20px 5px;
+            }
+            .info-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .cruzeiro-card-grid {
+                flex-direction: column;
+            }
+            .cruzeiro-card {
+                 flex: 1 1 100%;
+            }
+            .beneficios-grid {
+                flex-direction: column;
+            }
+            .beneficio-item-msc {
+                flex: 1 1 100%;
+            }
+        }
+        /* --- FIM ESTILOS ESPECÍFICOS PARA A OFERTA MSC BINGO --- */
     </style>
 
 </head>
@@ -67,9 +330,9 @@
                 'Gramado': '/static/GramadoSuaViagem-GrandeDesfileDeNatal2.webp', 
                 'Porto de Galinhas': '/static/dicas-de-porto-de-galinhas.jpg', 
                 'Salvador': '/static/tucamorais3.jpg', 
-                'Egito': 'https://images.unsplash.com/photo-1523451551525-2c8c5026c483?w=400&h=200&fit=crop', 
-                'Turquia': 'https://images.unsplash.com/photo-1582035900554-75af47f2010c?w=400&h=200&fit=crop', 
-                'Customizado': 'https://images.unsplash.com/photo-1454486518536-54a86b3a0e63?w=400&h=200&fit=crop',
+                'Egito': 'https://images.unsplash.com/photo-1523451551525-2c8c5026c483?w=400&h=200&fit-crop', 
+                'Turquia': 'https://images.unsplash.com/photo-1582035900554-75af47f2010c?w=400&h=200&fit-crop', 
+                'Customizado': 'https://images.unsplash.com/photo-1454486518536-54a86b3a0e63?w=400&h=200&fit-crop',
             };
             return IMAGENS[key] || IMAGENS['Customizado']; 
         };
@@ -119,10 +382,7 @@
         
         // --- COMPONENTE: Card de Pacote Individual (MANTIDO) ---
         const PacoteCard = ({ pacote, onSelect, isSelected }) => {
-            // NOTA: Os dados de preço (preco, preco_total, opcoes) NÃO vêm do scraping, 
-            // mas são esperados para o card ser renderizado corretamente com preço.
-            // O pacote_data.py só está retornando nome e saída.
-
+            // ... (Lógica do PacoteCard mantida) ...
             const nomeCompleto = pacote.nome + (pacote.saida ? ` | Saída: ${pacote.saida}` : '');
             
             if (pacote.tipo === 'CONSULTORIA') {
@@ -145,8 +405,6 @@
             }
 
             // Simulação de dados de preço para que o card renderize (já que o scraping não os fornece)
-            // Se o JSON injetado do cron job não tiver 'opcoes', esta lógica pode falhar.
-            // É fundamental que o JSON injetado inclua `opcoes` e `imgKey`.
             const precoInfo = pacote.opcoes && pacote.opcoes.length > 0
                 ? pacote.opcoes.reduce((min, current) => {
                     if (!min || current.preco < min.preco) {
@@ -218,6 +476,7 @@
         
         // --- COMPONENTE: Vitrine (Container) ---
         const VitrinePacotes = ({ pacotes, onSelect, pacoteSelecionado }) => {
+            // ... (Lógica do VitrinePacotes mantida) ...
             const consultoria = pacotes.find(p => p.tipo === 'CONSULTORIA');
             const pacotesVisiveis = pacotes.filter(p => p.tipo !== 'CONSULTORIA').slice(0, 5); // Garante APENAS 5 pacotes
 
@@ -246,6 +505,175 @@
             );
         };
         
+        // --- NOVO COMPONENTE: OFERTA MSC BINGO ---
+        const OfertaMSCBingo = () => {
+            // Note: Não há lógica de estado aqui, é um componente puramente de apresentação.
+            return (
+                 <div className="oferta-container">
+
+                    <div className="oferta-header">
+                        <span>Garanta já sua cabine com a Super Bingo e economize!</span>
+                        <a href="#" target="_blank">Ver Online</a>
+                    </div>
+
+                    <div className="oferta-body">
+                        <div className="info-section">
+                            <div style={{fontSize: '0.9em'}}>
+                                Precisa de ajuda? &bull; <a href="#" style={{color: '#004481', textDecoration: 'none'}}>Visite nosso site</a>
+                            </div>
+                            {/* Ajuste o src conforme o caminho real da imagem */}
+                            <img src="BRAZIL BRASIL.png" alt="MSC Brazil" />
+                        </div>
+
+                        <p style={{lineHeight: 1.5, marginBottom: '20px', fontSize: '0.95em'}}>
+                            Com a Super Bingo, você garante economia sem abrir mão da experiência MSC.<br/>
+                            Hospedagem, lazer e diversão com o melhor custo-benefício do mar.<br/>
+                            Uma escolha inteligente para quem quer viajar mais e pagar menos.<br/>
+                            E se quiser explorar mais, confira as demais ofertas no <a href="#" style={{color: '#004481', textDecoration: 'underline', fontWeight: 'bold'}}>Menu de Promoções MSC</a>.
+                        </p>
+
+                        <h3 className="section-title">SUPER BINGO</h3>
+
+                        <div className="cruzeiro-card-grid">
+
+                            {/* CRUZEIRO 1 - PREZIOSA */}
+                            <div className="cruzeiro-card">
+                                <span className="super-bingo-tag">SUPER BINGO</span>
+                                <img src="PREZIOSA.png" alt="MSC PREZIOSA" />
+                                <p className="navio-nome">MSC PREZIOSA</p>
+                                <p className="detalhes">04/11/2025 | 3 NOITES<br/>Embarque em Santos</p>
+                                <span className="preco-label">a partir de</span>
+                                <p className="preco">12x R$153</p>
+                                <span className="parcela">p.p.</span>
+                                <a href="#" className="btn-reserva-msc">RESERVA AGORA</a>
+                            </div>
+
+                            {/* CRUZEIRO 2 - ARMONIA */}
+                            <div className="cruzeiro-card">
+                                <span className="super-bingo-tag">SUPER BINGO</span>
+                                <img src="ARMONIA.png" alt="MSC ARMONIA" />
+                                <p className="navio-nome">MSC ARMONIA</p>
+                                <p className="detalhes">17/12/2025 | 3 NOITES<br/>Embarque no Rio</p>
+                                <span className="preco-label">a partir de</span>
+                                <p className="preco">12x R$235</p>
+                                <span className="parcela">p.p.</span>
+                                <a href="#" className="btn-reserva-msc">RESERVA AGORA</a>
+                            </div>
+
+                            {/* CRUZEIRO 3 - SEAVIEW */}
+                            <div className="cruzeiro-card">
+                                <span className="super-bingo-tag">SUPER BINGO</span>
+                                <img src="essa aqui seaview.png" alt="MSC SEAVIEW" />
+                                <p className="navio-nome">MSC SEAVIEW</p>
+                                <p className="detalhes">06/12/2025 | 7 NOITES<br/>Embarque em Santos</p>
+                                <span className="preco-label">a partir de</span>
+                                <p className="preco">12x R$369</p>
+                                <span className="parcela">p.p.</span>
+                                <a href="#" className="btn-reserva-msc">RESERVA AGORA</a>
+                            </div>
+
+                        </div> {/* FIM CRUZEIRO-CARD-GRID */}
+
+                        <div className="beneficios-grid">
+                            <div className="beneficio-item-msc">
+                                Ideal para quem busca os melhores preços para as próximas férias de verão
+                            </div>
+                            <div className="beneficio-item-msc">
+                                Mais flexibilidade para alterar datas, escolher cabine e turno de jantar
+                            </div>
+                            <div className="beneficio-item-msc">
+                                Pacote de bebidas incluso e com desconto para uma experiência mais completa.
+                            </div>
+                        </div>
+
+                        <a href="#" className="btn-ver-todas-msc">VER TODAS ÁS SAÍDAS</a>
+                        
+                        <div style={{textAlign: 'center', marginBottom: '20px', padding: '10px 0'}}>
+                            <p style={{fontSize: '1.1em', fontWeight: 'bold', color: '#333'}}>Procurando inspirações para a sua próxima viagem?</p>
+                            {/* Espaço para inspirações (Vazio no original) */}
+                        </div>
+
+                        <div className="regras-section">
+                            <h4>Regras e Restrições da Tarifa Promocional - Super Bingo</h4>
+
+                            <div className="regra-item">
+                                Tarifa válida exclusivamente para cabines duplas garantidas, ou seja, sem numeração e sem localização pré-determinadas. O hóspede somente terá conhecimento de sua cabine em até 4 dias antes do embarque, sem direito a substituição.
+                            </div>
+                            <div className="regra-item">
+                                Sem possibilidade de escolha do horário do turno de jantar preferido.
+                            </div>
+                            <div className="regra-item">
+                                Restrita a navio e data de embarque específicos.
+                            </div>
+                            <div className="regra-item">
+                                Preços por pessoa em acomodação dupla. Suplemento individual de 100%. Confirmação sujeita a disponibilidade.
+                            </div>
+                            <div className="regra-item">
+                                A substituição de hóspede implicará na cobrança de taxa de alteração de R$ 135,00, sendo que este valor não poderá ser superior ao valor do cruzeiro.
+                            </div>
+
+                            <p style={{fontWeight: 'bold', marginTop: '20px', marginBottom: '5px', fontSize: '0.9em', color: '#e50020'}}>Penalidade em caso de cancelamento:</p>
+                            <div style={{fontSize: '0.8em', marginLeft: '10px'}}>
+                                <p>Em caso de cancelamento de cabine referente a pacote contratado pela tarifa Super Bingo, serão reembolsáveis os seguintes valores:</p>
+                                <ul>
+                                    <li>(i) cancelamento até 31 (trinta e um) dias antes da data do embarque: multa de 50% (cinquenta por cento) do valor pago, excluídos os impostos;</li>
+                                    <li>(ii) cancelamento entre 30 (trinta) dias e 0 (zero) dia (no show) antes da data do embarque: multa de 100% (cem por cento) do valor pago já incluídos os impostos.</li>
+                                </ul>
+                            </div>
+                            <div className="regra-item" style={{marginTop: '10px'}}>
+                                Não cumulativa a outra promoção ou desconto vigente, incluindo o desconto MSC Voyagers Club.
+                            </div>
+                            <div className="regra-item">
+                                Preço por pessoa em acomodação dupla. Para cabines single (com um único hóspede) poderá haver um valor adicional de até 100% na tarifa do cruzeiro.
+                            </div>
+                            
+                            <p style={{fontWeight: 'bold', margin: '15px 0 5px', fontSize: '0.9em'}}>Detalhes das Saídas:</p>
+                            <table className="regras-tabela">
+                                <thead>
+                                    <tr>
+                                        <th>Saída</th>
+                                        <th>Navio</th>
+                                        <th>Acomodação/Experiência</th>
+                                        <th>Preço Total (R$)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>25/11/2025</td>
+                                        <td>MSC Preziosa</td>
+                                        <td>cabine bingo interna/Bella</td>
+                                        <td>1.825 p.p.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>17/12/2025</td>
+                                        <td>MSC Armonia</td>
+                                        <td>cabine bingo interna/Bella</td>
+                                        <td>2.815 p.p.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>06/12/2025</td>
+                                        <td>MSC Seaview</td>
+                                        <td>cabine bingo/Bella</td>
+                                        <td>4.423 p.p.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <p style={{fontSize: '0.8em', marginTop: '15px', textAlign: 'center'}}>Por favor consulte os Termos e Condições de Reserva para mais detalhes.</p>
+                            
+                        </div> {/* FIM REGRAS E RESTRIÇÕES */}
+                        
+                        <div className="oferta-footer">
+                            <p>&copy; 2025 MSC Cruises S.A.Todos os direitos reservados. <a href="#" style={{color: '#666'}}>Descadastrar</a></p>
+                        </div>
+
+                    </div> {/* FIM OFERTA-BODY */}
+                </div>
+            );
+        };
+        // --- FIM NOVO COMPONENTE: OFERTA MSC BINGO ---
+
+
         // --- COMPONENTE PRINCIPAL (ATUALIZADO) ---
         const LandingPageFSR = () => { 
             const [nome, setNome] = React.useState('');
@@ -438,6 +866,10 @@ ${descritivoRoteiro}
                             ✨ Oferta Exclusiva: Sua primeira compra garante um <strong>Desconto VIP de {PROSPECT_DISCOUNT} OFF</strong>!
                         </div>
                     </header>
+                    
+                    {/* INÍCIO INCLUSÃO DO COMPONENTE MSC BINGO */}
+                    <OfertaMSCBingo />
+                    {/* FIM INCLUSÃO DO COMPONENTE MSC BINGO */}
                     
                     {!pacotesLoading && (
                         <VitrinePacotes 
