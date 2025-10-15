@@ -563,4 +563,51 @@
                                 <label htmlFor="telefone"><i className="fab fa-whatsapp"></i> Telefone (WhatsApp com DDD) *</label>
                                 <input 
                                     type="tel" 
-                                    id="telefone"
+                                    id="telefone" 
+                                    value={telefone} 
+                                    onChange={(e) => setTelefone(e.target.value)} 
+                                    required 
+                                    placeholder="Ex: 61988887777"
+                                    pattern="\d{10,11}" 
+                                />
+                            </div>
+
+                            <div className="form__group">
+                                <label htmlFor="dataViagem"><i className="far fa-calendar-alt"></i> Data Preferencial para Viajar</label>
+                                <input 
+                                    type="date" 
+                                    id="dataViagem" 
+                                    value={dataViagem} 
+                                    onChange={(e) => setDataViagem(e.target.value)} 
+                                    min={getMinDate()} // Garante datas futuras
+                                    required 
+                                />
+                            </div>
+                            
+                            {erro && <p className="error-message"><i className="fas fa-exclamation-triangle"></i> {erro}</p>}
+                            
+                            <button 
+                                type="submit" 
+                                className={`btn-submit ${!isFormValid ? 'btn-submit--disabled' : ''}`} 
+                                disabled={!isFormValid || isSubmitting}
+                            >
+                                <i className="fab fa-whatsapp"></i> 
+                                {isSubmitting ? 'Enviando, aguarde...' : `RECEBER ORÇAMENTO E ATIVAR ${PROSPECT_DISCOUNT} VIP`}
+                            </button>
+                            
+                            <p className="whatsapp-notice">
+                                <i className="fas fa-lock"></i> Seus dados serão enviados de forma segura para nossa consultoria via WhatsApp.
+                            </p>
+
+                        </fieldset>
+                    </form>
+                </div>
+            );
+        };
+
+        // Renderização do App React
+        ReactDOM.render(<App />, document.getElementById('root'));
+{% endraw %} 
+    </script> 
+</body>
+</html>
