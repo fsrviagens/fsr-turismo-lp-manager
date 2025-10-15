@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin FSR | {{ title }}</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+        h1 { color: #0056b3; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; color: #555; }
+        .form-group input[type="text"], 
+        .form-group input[type="number"], 
+        .form-group input[type="url"], 
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .form-group textarea { resize: vertical; height: 100px; }
+        .checkbox-group { display: flex; align-items: center; margin-top: 10px; }
+        .checkbox-group input[type="checkbox"] { margin-right: 10px; width: auto; }
+        
+        .btn { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; font-size: 16px; margin-right: 10px; transition: background-color 0.3s; }
+        .btn-success { background-color: #28a745; color: white; }
+        .btn-success:hover { background-color: #218838; }
+        .btn-secondary { background-color: #6c757d; color: white; }
+        .btn-secondary:hover { background-color: #5a6268; }
+        .alert-info { background-color: #d1ecf1; color: #0c5460; padding: 10px; border: 1px solid #bee5eb; border-radius: 4px; margin-bottom: 20px; font-size: 0.9em; }
+        .row { display: flex; gap: 20px; }
+        .col-half { flex: 1; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-edit"></i> {{ title }}</h1>
+        
+        {% if pacote.id %}
+            <form action="{{ url_for('admin_pacotes_editar', pacote_id=pacote.id) }}" method="POST">
+        {% else %}
+            <form action="{{ url_for('admin_pacotes_form') }}" method="POST">
+        {% endif %}
+
+            <div class="row">
+                <div class="col-half">
+                    <div class="form-group">
+                        <label for="nome_pacote"><i class="fas fa-suitcase-rolling"></i> Nome do Pacote (Obrigatório)</label>
+                        <input type="text" id="nome_pacote" name="nome_pacote" value="{{ pacote.nome if pacote.nome else '' }}" required>
+                    </div>
+                </div>
+                <div class="col-half">
+                    <div class="form-group">
+                        <label for="destino"><i class="fas fa-map-marked-alt"></i> Destino Principal</label>
+                        <input type="text" id="destino" name="destino" value="{{ pacote.destino if pacote.destino else '' }}" placeholder="Ex: Gramado, Tailândia">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="descricao"><i class="fas fa-comment-alt"></i> Descrição (Max. 200 caracteres para o card)</label>
+                <textarea id="descricao" name="desc" required>{{ pacote.desc if pacote.desc else '' }}</textarea>
+            </div>
+            
+            <div class="row">
+                <div class="col-half">
+                    <div class="form-group">
+                        <label for="saida"><i class="fas fa-plane"></i> Saídas/Aeroportos</label>
+                        <input type="text" id="saida" name="saida" value="{{ pacote.saida if pacote.saida else '' }}" placeholder="Ex: Londrina e Maringá">
+                    </div>
+                </div>
+                <div class="col-half">
+                    <div class="form-group">
+                        <label for="tipo"><i class="fas fa-globe"></i> Tipo de Viagem</label>
+                        <select id="tipo" name="tipo" required>
+                            <option value="NACIONAL" {% if pacote.tipo == 'NACIONAL' %}selected{% endif %}>NACIONAL</option>
+                            <option value="INTERNACIONAL" {% if pacote.tipo == 'INTERNACIONAL' %}selected{% endif %}>INTERNACIONAL</option>
+                            </select>
+                    </div>
+                </div>
+            </div>
+
+            <hr style="margin: 25px 0; border-top: 1px solid #eee;">
+            
+            <h2><i class="fas fa-tags"></i> Informações de Preço e Ordem</h2>
+
+            <div class="row">
+                <div class="col-half">
+                    <div class="form-group">
+                        <label for="preco_atual"><i class="fas fa-hand-holding-usd"></i> Preço Parcela (10x de) - R$ ou USD</label>
+                        <input type="number" id="preco_atual" name="preco_atual" value="{{ pacote.preco_atual if pacote.preco_atual else '' }}" placeholder="Ex: 780" step="1" required>
+                    </div>
+                </div>
+                <div class="col-half">
+                    <div class="form-group">
+                        <label for="preco_antigo"><i class="fas fa-money-bill-wave"></i> Preço Total (À Vista) - R$ ou USD</label>
+                        <input type="number" id="preco_antigo" name="preco_antigo" value="{{ pacote.preco_antigo if pacote.preco_antigo else '' }}" placeholder="Ex: 7800" step="1" required>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-half">
+                    <div class="form-group">
+                        <label for="noites"><i class="far fa-calendar-alt"></i> Noites/Duração</label>
+                        <input type="text" id="noites" name="noites" value="{{ pacote.noites if pacote.noites else '' }}" placeholder="Ex: 5 dias/4 noites">
+                    </div>
+                </div>
+                <div class="col-half">
+                    <div class="form-group">
+                        <label for="ordem"><i class="fas fa-sort-numeric-up"></i> Ordem na Vitrine (1 a 5)</label>
+                        <input type="number" id="ordem" name="ordem" value="{{ pacote.ordem if pacote.ordem else 99 }}" min="1" max="99" required>
+                        <div class="alert-info">Apenas os 5 menores números "Ativos" aparecem na home.</div>
+                    </div>
+                </div>
+            </div>
+
+            <hr style="margin: 25px 0; border-top: 1px solid #eee;">
+            
+            <h2><i class="fas fa-image"></i> Imagens e Links</h2>
+
+            <div class="form-group">
+                <label for="imagem_url"><i class="fas fa-link"></i> URL da Imagem (Preferencial)</label>
+                <input type="url" id="imagem_url" name="imagem_url" value="{{ pacote.imagem_url if pacote.imagem_url else '' }}" placeholder="URL do Supabase Storage ou outra CDN">
+            </div>
+            
+            <div class="form-group">
+                <label for="imgKey"><i class="fas fa-key"></i> Chave Estática da Imagem (Fallback)</label>
+                <input type="text" id="imgKey" name="imgKey" value="{{ pacote.imgKey if pacote.imgKey else '' }}" placeholder="Ex: Gramado, Salvador, Customizado">
+                <div class="alert-info">Use apenas se a URL acima falhar. Chaves estáticas disponíveis: Gramado, Porto de Galinhas, Salvador, Lençóis Maranhenses, Tailândia, Egito, Turquia, Customizado.</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="url_saibamais"><i class="fas fa-external-link-alt"></i> URL Saiba Mais (Link Opcional)</label>
+                <input type="url" id="url_saibamais" name="url_saibamais" value="{{ pacote.url_saibamais if pacote.url_saibamais else '' }}" placeholder="Link para a página completa do pacote">
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="ativo" name="ativo" value="True" {% if pacote.ativo or not pacote.id %}checked{% endif %}>
+                    <label for="ativo">Pacote Ativo (Aparecer na Landing Page)</label>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i> Salvar Pacote
+                </button>
+                <a href="{{ url_for('admin_pacotes_index') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Voltar à Lista
+                </a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
