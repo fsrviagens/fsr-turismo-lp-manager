@@ -141,7 +141,9 @@ def index():
     if pacotes is not None:
          pacotes.append(consultoria_card)
 
-    return render_template('index.html', pacotes=pacotes)
+    # CORREÇÃO: Serializa a lista 'pacotes' para JSON e a passa com a chave 'pacotes_json' 
+    # que o React no index.html espera ler.
+    return render_template('index.html', pacotes_json=json.dumps(pacotes))
 
 @app.route('/politica-de-privacidade.html')
 def politica_de_privacidade():
