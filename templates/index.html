@@ -22,290 +22,7 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
-    <style>
-        /* Estilos de highlight existentes... */
-        @keyframes highlight {
-            0% { box-shadow: 0 0 10px rgba(0, 123, 255, 0.4); }
-            50% { box-shadow: 0 0 20px rgba(0, 123, 255, 0.8); }
-            100% { box-shadow: 0 0 10px rgba(0, 123, 255, 0.4); }
-        }
-        .form.highlighted {
-            animation: highlight 2s ease-in-out 1;
-            border: 2px solid #007bff;
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-        .form {
-            transition: all 0.5s;
-        }
-
-        /* --- ESTILOS ESPECÍFICOS PARA A OFERTA MSC BINGO (COPIAR PARA /static/style.css) --- */
-        .oferta-container {
-            font-family: Arial, sans-serif;
-            max-width: 750px;
-            margin: 40px auto;
-            border: 2px solid #004481; 
-            padding: 0;
-            background-color: #f7f7f7;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .oferta-header {
-            background-color: #004481;
-            color: #fff;
-            padding: 10px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-        }
-
-        .oferta-header a {
-            color: #fff;
-            text-decoration: underline;
-            font-weight: normal;
-            font-size: 0.9em;
-        }
-
-        .oferta-body {
-            padding: 15px;
-        }
-
-        .info-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px dashed #ccc;
-        }
-
-        .info-section img {
-            max-width: 80px;
-            height: auto;
-        }
-
-        .section-title {
-            color: #004481;
-            font-size: 1.5em;
-            margin-top: 15px;
-            margin-bottom: 10px;
-            font-weight: 700;
-            text-align: center;
-        }
-
-        .super-bingo-tag {
-            background-color: #f7a01c;
-            color: #fff;
-            padding: 5px 10px;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 8px;
-            font-size: 0.9em;
-            border-radius: 3px;
-        }
-
-        /* Estrutura dos Cards de Cruzeiro */
-        .cruzeiro-card-grid {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .cruzeiro-card {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin-bottom: 10px;
-            text-align: center;
-            flex: 1 1 200px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
-
-        .cruzeiro-card img {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 10px;
-        }
-
-        .cruzeiro-card .navio-nome {
-            color: #004481;
-            font-size: 1.1em;
-            font-weight: bold;
-            margin-bottom: 2px;
-        }
-
-        .cruzeiro-card .detalhes {
-            font-size: 0.85em;
-            margin-bottom: 8px;
-        }
-
-        .cruzeiro-card .preco-label {
-            font-size: 0.75em;
-            display: block;
-            color: #555;
-            margin-top: 5px;
-        }
-
-        .cruzeiro-card .preco {
-            color: #e50020;
-            font-size: 1.6em;
-            font-weight: bold;
-            display: block;
-        }
-
-        .cruzeiro-card .parcela {
-            font-size: 0.8em;
-            display: block;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        /* Botão principal de reserva, pode ser o mesmo CTA do WhatsApp */
-        .btn-reserva-msc {
-            background-color: #00b050;
-            color: #fff;
-            padding: 8px 15px;
-            text-decoration: none;
-            font-weight: bold;
-            display: block;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-            margin-top: 10px;
-        }
-        .btn-reserva-msc:hover {
-            background-color: #009944;
-        }
-
-        /* Seção de Regras e Rodapé */
-        .regras-section {
-            background-color: #fff;
-            padding: 15px;
-            border-top: 2px dashed #ddd;
-            margin-top: 20px;
-        }
-        
-        .regras-section h4 {
-            color: #004481;
-            font-size: 1.1em;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .regra-item {
-            font-size: 0.8em;
-            margin-bottom: 10px;
-            padding-left: 10px;
-            position: relative;
-            line-height: 1.3;
-        }
-        
-        .regra-item:before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            color: #e50020;
-            font-weight: bold;
-        }
-        
-        .oferta-footer {
-            margin-top: 15px;
-            padding-top: 10px;
-            border-top: 1px solid #eee;
-            text-align: center;
-            font-size: 0.7em;
-            color: #666;
-        }
-
-        /* Adaptação dos cards de benefício originais do seu HTML */
-        .beneficios-grid {
-            display: flex;
-            gap: 10px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .beneficio-item-msc {
-            background-color: #eaf1f7;
-            padding: 10px;
-            font-style: italic;
-            border-left: 5px solid #f7a01c;
-            flex: 1 1 200px;
-            font-size: 0.9em;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            text-align: center;
-        }
-
-        .btn-ver-todas-msc {
-            display: block;
-            width: 80%;
-            max-width: 300px;
-            margin: 20px auto;
-            background-color: #f7a01c;
-            color: #fff;
-            padding: 12px 30px;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 5px;
-            text-align: center;
-            font-size: 1.1em;
-            transition: background-color 0.3s;
-        }
-        .btn-ver-todas-msc:hover {
-            background-color: #e09015;
-        }
-
-        /* Regras da tabela */
-        .regras-tabela {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 0.75em;
-        }
-
-        .regras-tabela th, .regras-tabela td {
-            border: 1px solid #ddd;
-            padding: 5px;
-            text-align: left;
-        }
-        
-        .regras-tabela th {
-            background-color: #f4f4f4;
-            font-weight: bold;
-            color: #004481;
-        }
-
-        /* Responsividade básica para celular */
-        @media (max-width: 600px) {
-            .oferta-container {
-                margin: 20px 5px;
-            }
-            .info-section {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .cruzeiro-card-grid {
-                flex-direction: column;
-            }
-            .cruzeiro-card {
-                 flex: 1 1 100%;
-            }
-            .beneficios-grid {
-                flex-direction: column;
-            }
-            .beneficio-item-msc {
-                flex: 1 1 100%;
-            }
-        }
-        /* --- FIM ESTILOS ESPECÍFICOS PARA A OFERTA MSC BINGO --- */
-    </style>
-
-</head>
+    </head>
 <body>
     <div id="root">
     </div>
@@ -319,8 +36,10 @@
         
         // Gatilho de Compra / Desconto VIP
         const PROSPECT_DISCOUNT = '5%'; 
-
-        // --- DADOS ESTATICOS: ESTE BLOCO DEVE SER ATUALIZADO A CADA 3 DIAS PELO SEU SCRIPT DE BACKEND ---
+        
+        // -----------------------------------------------------
+        // --- DADOS ESTATICOS DE PACOTES PADRÃO (ATUALIZÁVEL) ---
+        // -----------------------------------------------------
         
         const getImageUrl = (key) => {
             const IMAGENS = {
@@ -338,11 +57,11 @@
 
         // VARIÁVEL QUE DEVE SER SOBRESCRITA A CADA 3 DIAS PELO SEU CRON JOB
         const DADOS_ESTATICOS_ATUALIZAVEIS = [
-            { id: 101, nome: "Porto de Galinhas e Maragogi", saida: "Londrina e Maringá", tipo: "NACIONAL", desc: "🐠 O melhor do Nordeste! Mergulhe nas piscinas naturais e desfrute do famoso 'Caribe Brasileiro'.", imgKey: 'Porto de Galinhas', opcoes: [] },
-            { id: 102, nome: "Salvador com Morro de São Paulo", saida: "Variadas (Bloqueios Nacionais)", tipo: "NACIONAL", desc: "🏝️ Combinação imbatível de cidade histórica e ilha sem carros. Descanse e explore Morro de São Paulo.", imgKey: 'Salvador', opcoes: [] },
-            { id: 103, nome: "Lençóis Maranhenses | São Luís e Barreirinhas", saida: "Brasília (Bloqueios)", tipo: "NACIONAL", desc: "💧 Descubra a beleza surreal das lagoas entre dunas. Um ecoturismo inesquecível.", imgKey: 'Lençóis Maranhenses', opcoes: [] },
-            { id: 104, nome: "Gramado | Natal Luz e Roteiro de Vinhos", saida: "São Paulo, Porto Alegre e Curitiba", tipo: "NACIONAL", desc: "🍷 Experiência completa com o Natal Luz e tours pelas vinícolas da Serra Gaúcha.", imgKey: 'Gramado', opcoes: [] },
-            { id: 105, nome: "Réveillon na Tailândia com Festival das Lanternas", saida: "Variadas (Bloqueios Internacionais)", tipo: "INTERNACIONAL", desc: "🎇 Celebre a virada com o mágico Festival das Lanternas (Yi Peng). Praias e templos milenares.", imgKey: 'Tailândia', opcoes: [] },
+            { id: 101, nome: "Porto de Galinhas e Maragogi", saida: "Londrina e Maringá", tipo: "NACIONAL", desc: "🐠 O melhor do Nordeste! Mergulhe nas piscinas naturais e desfrute do famoso 'Caribe Brasileiro'.", imgKey: 'Porto de Galinhas', opcoes: [{ preco: 780, preco_total: 7800, moeda: 'R$', noites: '5 dias/4 noites' }] },
+            { id: 102, nome: "Salvador com Morro de São Paulo", saida: "Variadas (Bloqueios Nacionais)", tipo: "NACIONAL", desc: "🏝️ Combinação imbatível de cidade histórica e ilha sem carros. Descanse e explore Morro de São Paulo.", imgKey: 'Salvador', opcoes: [{ preco: 650, preco_total: 6500, moeda: 'R$', noites: '6 dias/5 noites' }] },
+            { id: 103, nome: "Lençóis Maranhenses | São Luís e Barreirinhas", saida: "Brasília (Bloqueios)", tipo: "NACIONAL", desc: "💧 Descubra a beleza surreal das lagoas entre dunas. Um ecoturismo inesquecível.", imgKey: 'Lençóis Maranhenses', opcoes: [{ preco: 890, preco_total: 8900, moeda: 'R$', noites: '7 dias/6 noites' }] },
+            { id: 104, nome: "Gramado | Natal Luz e Roteiro de Vinhos", saida: "São Paulo, Porto Alegre e Curitiba", tipo: "NACIONAL", desc: "🍷 Experiência completa com o Natal Luz e tours pelas vinícolas da Serra Gaúcha.", imgKey: 'Gramado', opcoes: [{ preco: 1100, preco_total: 11000, moeda: 'R$', noites: '5 dias/4 noites' }] },
+            { id: 105, nome: "Réveillon na Tailândia com Festival das Lanternas", saida: "Variadas (Bloqueios Internacionais)", tipo: "INTERNACIONAL", desc: "🎇 Celebre a virada com o mágico Festival das Lanternas (Yi Peng). Praias e templos milenares.", imgKey: 'Tailândia', opcoes: [{ preco: 2500, preco_total: 25000, moeda: 'USD', noites: '10 dias/9 noites' }] },
             { id: 999, nome: "Consultoria Personalizada / Outro Destino", saida: "Seu aeroporto de preferência", tipo: "CONSULTORIA", desc: "✨ Destino Sob Medida: Crie seu roteiro do zero e garanta seu Desconto VIP na primeira compra com nossa consultoria especializada.", imgKey: 'Customizado' }
         ];
         // -----------------------------------------------------
@@ -496,5 +215,397 @@
             );
         };
         
+        
+        // --------------------------------------------------------------------------------------
+        // --- DADOS ESTATICOS MSC BINGO (NOVOS) ---
+        // --------------------------------------------------------------------------------------
+        const CRUZEIROS_OFERTA_MSC = [
+            {
+                navio: "MSC Grandiosa",
+                destino: "Brasil (Norte/Nordeste)",
+                data: "Dez/2025 - Mar/2026",
+                imagem: "/static/MSC_Grandiosa_Cruzeiro.jpg",
+                preco: 375,
+                parcela: 3750, // 10x de
+                cabine: "Cabine Interna"
+            },
+            {
+                navio: "MSC Seaview",
+                destino: "Argentina e Uruguai",
+                data: "Dez/2025 - Fev/2026",
+                imagem: "/static/MSC_Seaview_Cruzeiro.jpg",
+                preco: 419,
+                parcela: 4190,
+                cabine: "Cabine Interna"
+            },
+            {
+                navio: "MSC Armonia",
+                destino: "Mini Cruzeiros",
+                data: "Nov/2025 - Mar/2026",
+                imagem: "/static/MSC_Armonia_Cruzeiro.jpg",
+                preco: 259,
+                parcela: 2590,
+                cabine: "Cabine Interna"
+            },
+        ];
+        
+        const CRUZEIROS_BENEFICIOS = [
+            "Tarifas 'Super Bingo' com preços muito abaixo do mercado.",
+            "Desconto VIP FSR garantido na sua primeira reserva.",
+            "Pagamento em até 12x no cartão de crédito sem juros.",
+            "Embarque em Santos ou Itajaí com roteiros no Brasil e na América do Sul.",
+        ];
+        
+        // --------------------------------------------------------------------------------------
         // --- NOVO COMPONENTE: OFERTA MSC BINGO ---
-        // Funções auxiliares para os cliques nos cards
+        // --------------------------------------------------------------------------------------
+        const OfertaMSCBingo = ({ onSelect, onBack, pacoteSelecionado }) => {
+            
+            const handleCardSelect = (navioNome) => {
+                const nomePacote = `Cruzeiro MSC Bingo: ${navioNome}`;
+                onSelect(nomePacote);
+                
+                // Opção de scroll para o formulário após a seleção
+                const form = document.querySelector('.form');
+                if (form) {
+                    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            };
+            
+            return (
+                <div className="oferta-container">
+                    <div className="oferta-header">
+                        <span><i className="fas fa-ship"></i> OFERTA EXCLUSIVA MSC CRUZEIROS BINGO</span>
+                        <button onClick={onBack} className="btn-voltar-pacotes" style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer', fontSize: '0.9em', textDecoration: 'underline' }}>
+                            <i className="fas fa-arrow-left"></i> Voltar aos Pacotes Padrão
+                        </button>
+                    </div>
+
+                    <div className="oferta-body">
+                        <div className="info-section">
+                            <div>
+                                <h1 className="hero__headline" style={{ color: '#004481', fontSize: '1.8em' }}>SUPER BINGO MSC: CRUZEIROS <span style={{color: '#e50020'}}>A PARTIR DE 10X DE R${CRUZEIROS_OFERTA_MSC[0].preco}</span></h1>
+                                <p className="hero__slogan" style={{ fontSize: '1.1em', fontWeight: 600 }}>Tarifas Incríveis para o Brasil e América do Sul na temporada 2025/2026.</p>
+                            </div>
+                            <img src="/static/msc-logo.png" alt="Logo MSC Cruzeiros" width="120" height="80" style={{maxWidth: '100px'}} />
+                        </div>
+
+                        <div style={{ textAlign: 'center' }}>
+                            <span className="super-bingo-tag">VAGAS LIMITADAS - RESERVE AGORA!</span>
+                        </div>
+                        
+                        <h2 className="section-title">Nossos Cruzeiros em Destaque</h2>
+                        
+                        <div className="cruzeiro-card-grid">
+                            {CRUZEIROS_OFERTA_MSC.map((cruzeiro, index) => (
+                                <div 
+                                    key={index} 
+                                    className={`cruzeiro-card ${pacoteSelecionado.includes(cruzeiro.navio) ? 'pacote-card--selecionado' : ''}`}
+                                    onClick={() => handleCardSelect(cruzeiro.navio)}
+                                >
+                                    <img src={cruzeiro.imagem} alt={`Cruzeiro ${cruzeiro.navio}`} loading="lazy" width="200" height="150" />
+                                    <div className="navio-nome"><i className="fas fa-anchor"></i> {cruzeiro.navio}</div>
+                                    <div className="detalhes">{cruzeiro.cabine} | {cruzeiro.data}</div>
+                                    <div className="preco-label">A partir de 10x de:</div>
+                                    <div className="preco">R$ {cruzeiro.preco}</div>
+                                    <div className="parcela">Ou R$ {cruzeiro.parcela} à vista (por pessoa)</div>
+                                    <button 
+                                        className="btn-reserva-msc"
+                                        onClick={() => handleCardSelect(cruzeiro.navio)}
+                                    >
+                                        Selecionar e Falar com Especialista
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                        
+                        <a href="#form" className="btn-ver-todas-msc" onClick={() => onSelect('Cruzeiro MSC - Consultoria Geral')}>
+                            <i className="fas fa-search-plus"></i> VER TODAS AS OPÇÕES E DATAS
+                        </a>
+
+                        <h2 className="section-title" style={{marginTop: 30}}>Benefícios da Tarifa Super Bingo FSR</h2>
+
+                        <div className="beneficios-grid">
+                            {CRUZEIROS_BENEFICIOS.map((beneficio, index) => (
+                                <div key={index} className="beneficio-item-msc">
+                                    <i className="fas fa-check-circle" style={{marginRight: 10, color: '#004481'}}></i>
+                                    {beneficio}
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="regras-section">
+                            <h4>REGRAS E INFORMAÇÕES IMPORTANTES (TARIFA BINGO)</h4>
+                            <div className="regra-item">O navio e as datas de embarque/desembarque são definidos pela MSC no momento da reserva e podem variar.</div>
+                            <div className="regra-item">A cabine é garantida, mas a localização (piso, proa/popa) será informada no check-in.</div>
+                            <div className="regra-item">A tarifa não permite seleção de cabine, mas garante o preço mais baixo da temporada.</div>
+                            <div className="regra-item">O Desconto VIP FSR de 5% é aplicado sobre o valor final da cabine, excluindo taxas portuárias e de serviço.</div>
+                            
+                             <table className="regras-tabela">
+                                <thead>
+                                    <tr>
+                                        <th>Modalidade</th>
+                                        <th>Preço Promocional</th>
+                                        <th>Seleção de Cabine</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>**Super Bingo**</td>
+                                        <td>O mais baixo do mercado.</td>
+                                        <td>Não permite (cabine garantida)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tarifa Padrão</td>
+                                        <td>Preço normal de tabela.</td>
+                                        <td>Permite seleção prévia</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div className="oferta-footer">
+                            *Preços em reais (R$) por pessoa, em cabine dupla interna, sujeitos a alteração e confirmação de disponibilidade da MSC no ato da reserva. Não incluem taxas.
+                        </div>
+
+                    </div>
+                </div>
+            );
+        }
+        
+        // --------------------------------------------------------------------------------------
+        // --- COMPONENTE PRINCIPAL: App ---
+        // --------------------------------------------------------------------------------------
+        const App = () => {
+            const [nome, setNome] = React.useState('');
+            const [telefone, setTelefone] = React.useState('');
+            const [dataViagem, setDataViagem] = React.useState('');
+            const [pacoteSelecionado, setPacoteSelecionado] = React.useState('');
+            const [erro, setErro] = React.useState('');
+            const [isSubmitting, setIsSubmitting] = React.useState(false);
+            const [isFormHighlighted, setIsFormHighlighted] = React.useState(false);
+            const [showMscOffer, setShowMscOffer] = React.useState(false);
+
+            const isFormValid = nome.length > 2 && TELEFONE_REGEX.test(telefone) && dataViagem && pacoteSelecionado;
+
+            const handlePacoteSelect = (pacoteNome) => {
+                setPacoteSelecionado(pacoteNome);
+                setErro('');
+                
+                // Destaca o formulário após a seleção
+                setIsFormHighlighted(true);
+                setTimeout(() => setIsFormHighlighted(false), 2000); 
+
+                // Rola para o formulário
+                const form = document.querySelector('.form');
+                if (form) {
+                    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            };
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setErro('');
+                
+                if (!isFormValid) {
+                    setErro('Por favor, preencha todos os campos obrigatórios e verifique seu telefone.');
+                    return;
+                }
+                
+                setIsSubmitting(true);
+
+                const data = {
+                    nome,
+                    telefone,
+                    data_viagem: dataViagem,
+                    pacote: pacoteSelecionado,
+                    origem: window.location.href,
+                    desconto_aplicado: PROSPECT_DISCOUNT
+                };
+
+                try {
+                    const response = await fetch(API_LEAD_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Erro ao enviar dados: ${response.statusText}`);
+                    }
+
+                    // Redirecionamento para o WhatsApp com a mensagem pré-preenchida
+                    const whatsappMessage = encodeURIComponent(`Olá, sou ${nome} e acabei de solicitar um orçamento para o pacote: *${pacoteSelecionado}*. Gostaria de mais informações sobre as datas e como aplicar meu Desconto VIP de ${PROSPECT_DISCOUNT}. Minha data preferida para viajar é ${new Date(dataViagem).toLocaleDateString('pt-BR')}.`);
+                    
+                    window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`;
+
+                } catch (error) {
+                    console.error('Erro no envio:', error);
+                    setErro('Ocorreu um erro ao enviar sua solicitação. Por favor, tente novamente.');
+                    setIsSubmitting(false); 
+                }
+            };
+            
+            const renderContent = () => {
+                if (showMscOffer) {
+                    return (
+                        <OfertaMSCBingo 
+                            onSelect={handlePacoteSelect} 
+                            onBack={() => setShowMscOffer(false)}
+                            pacoteSelecionado={pacoteSelecionado}
+                        />
+                    );
+                }
+                
+                return (
+                    <>
+                        <div className="offer-banner">
+                            <i className="fas fa-star"></i> ATIVE AGORA SEU DESCONTO VIP DE {PROSPECT_DISCOUNT} PARA COMPRAS À VISTA OU PACOTES INÉDITOS!
+                        </div>
+                        
+                        <button 
+                            onClick={() => setShowMscOffer(true)} 
+                            className="btn--cta" 
+                            style={{ backgroundColor: '#004481', marginBottom: '40px' }}
+                        >
+                            <i className="fas fa-ship"></i> Ver Oferta Exclusiva: MSC CRUZEIROS SUPER BINGO
+                        </button>
+
+                        <VitrinePacotes 
+                            pacotes={DADOS_ESTATICOS_ATUALIZAVEIS} 
+                            onSelect={handlePacoteSelect} 
+                            pacoteSelecionado={pacoteSelecionado}
+                        />
+                    </>
+                );
+            };
+
+            return (
+                <div className="container form-container">
+                    <div className="header__content">
+                        <img 
+                            src="/static/FSR-LOGO-AZUL.png" 
+                            alt="FSR Viagens | Consultoria de Viagens Especializada" 
+                            className="logo__image"
+                            width="200" 
+                            height="80"
+                        />
+                        <h1 className="hero__headline">
+                            Pacotes de Viagem 2025/2026: Seu Destino Inesquecível Começa Aqui!
+                        </h1>
+                        <p className="hero__slogan">
+                            {pacoteSelecionado 
+                                ? obterDescritivoRoteiro(pacoteSelecionado)
+                                : 'Sua consultoria de viagens especializada. Encontre roteiros exclusivos com as melhores condições do mercado.'
+                            }
+                        </p>
+                    </div>
+
+                    {renderContent()}
+
+                    <form className={`form ${isFormHighlighted ? 'highlighted' : ''}`} onSubmit={handleSubmit} id="form">
+                        <fieldset className="form__fieldset">
+                            <legend className="form__legend"><i className="fas fa-user-check"></i> 1. Confirme Seus Dados VIP</legend>
+                            
+                            <div className="form__group">
+                                <label htmlFor="pacote">Pacote Selecionado</label>
+                                <input 
+                                    type="text" 
+                                    id="pacote" 
+                                    className={`selected-pacote-display ${pacoteSelecionado ? 'is-selected' : ''}`}
+                                    value={pacoteSelecionado || 'Clique em um pacote acima para ativar o desconto'} 
+                                    readOnly 
+                                    required 
+                                    onClick={() => document.querySelector('.vitrine-pacotes')?.scrollIntoView({ behavior: 'smooth' })}
+                                />
+                            </div>
+                            
+                            <div className="form__group">
+                                <label htmlFor="nome"><i className="fas fa-id-card"></i> Seu Nome Completo</label>
+                                <input 
+                                    type="text" 
+                                    id="nome" 
+                                    value={nome} 
+                                    onChange={(e) => setNome(e.target.value)} 
+                                    required 
+                                    placeholder="Ex: João da Silva"
+                                />
+                            </div>
+                            
+                            <div className="form__group">
+                                <label htmlFor="telefone"><i className="fab fa-whatsapp"></i> Telefone (WhatsApp com DDD) *</label>
+                                <input 
+                                    type="tel" 
+                                    id="telefone" 
+                                    value={telefone} 
+                                    onChange={(e) => setTelefone(e.target.value.replace(/\D/g, ''))} 
+                                    required 
+                                    placeholder="Ex: 61988887777"
+                                    maxLength="11"
+                                />
+                            </div>
+                            
+                            <div className="form__group">
+                                <label htmlFor="dataViagem"><i className="fas fa-calendar-alt"></i> Data Preferida para Viagem</label>
+                                <input 
+                                    type="date" 
+                                    id="dataViagem" 
+                                    value={dataViagem} 
+                                    onChange={(e) => setDataViagem(e.target.value)} 
+                                    min={getMinDate()}
+                                    required 
+                                />
+                                <small style={{display: 'block', marginTop: '5px', color: '#777'}}>
+                                    (Mínimo de 4 dias de antecedência para consulta)
+                                </small>
+                            </div>
+                        </fieldset>
+                        
+                        {erro && <p className="error-message">{erro}</p>}
+
+                        <p className="final-call-to-action">
+                            <i className="fas fa-hand-point-right"></i> Clique abaixo e garanta seu **DESCONTO VIP {PROSPECT_DISCOUNT}** ao falar com o especialista!
+                        </p>
+                        
+                        <button type="submit" className="btn--cta" disabled={!isFormValid || isSubmitting}>
+                            {isSubmitting ? (
+                                <>
+                                    <i className="fas fa-spinner fa-spin"></i> Enviando...
+                                </>
+                            ) : (
+                                <>
+                                    <i className="fab fa-whatsapp"></i> ATIVAR DESCONTO e Chamar no WhatsApp
+                                </>
+                            )}
+                        </button>
+                    </form>
+                    
+                    <p style={{textAlign: 'center', fontSize: '0.8em', marginTop: '15px'}}>
+                        Ao enviar, você concorda com a nossa <a href="/politica-de-privacidade.html" target="_blank">Política de Privacidade</a> e <a href="#" target="_blank">Termos de Uso</a>.
+                    </p>
+
+                    <div className="footer">
+                        <p className="expert-seal">CONSULTORIA DE VIAGENS FSR</p>
+                        <a href={`https://wa.me/${WHATSAPP_NUMBER}`} className="whatsapp-link" target="_blank">
+                            <i className="fab fa-whatsapp"></i> Fale com um Especialista
+                        </a>
+                        <div className="admin-nav">
+                            <ul>
+                                <li><a href="/politica-de-privacidade.html">Política de Privacidade</a></li>
+                                <li style={{ margin: '0 8px' }}>|</li>
+                                <li><a href="/leads.html" style={{ color: '#ffcc00' }}>Admin Login</a></li>
+                            </ul>
+                        </div>
+                        <p style={{marginTop: '10px'}}>&copy; 2025 FSR Viagens. Todos os direitos reservados.</p>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+{% endraw %}
+    </script>
+</body>
+</html>
