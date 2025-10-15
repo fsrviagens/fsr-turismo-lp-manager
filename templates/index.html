@@ -37,7 +37,7 @@
         const PROSPECT_DISCOUNT = '5%'; 
         
         // -----------------------------------------------------
-        // --- DADOS ESTATICOS DE PACOTES PADRÃO (ATUALIZÁVEL) ---
+        // --- DADOS DE PACOTES OBTIDOS DO SUPABASE (DINÂMICO) ---
         // -----------------------------------------------------
         
         const getImageUrl = (key) => {
@@ -48,25 +48,19 @@
                 'Gramado': '/static/GramadoSuaViagem-GrandeDesfileDeNatal2.webp', 
                 'Porto de Galinhas': '/static/dicas-de-porto-de-galinhas.jpg', 
                 'Salvador': '/static/tucamorais3.jpg', 
-                // Usando imagens de fallback para Egito/Turquia
-                'Egito': '/static/Customizado.jpg', // Assumindo uma imagem padrão se a URL não funcionar
+                'Egito': '/static/Customizado.jpg', 
                 'Turquia': '/static/Customizado.jpg',
                 'Customizado': '/static/Customizado.jpg',
             };
-            // Tratamento de URL externa em ambiente de teste/local
-            if (key.startsWith('https://')) return key;
+            // Prioriza a URL salva no Supabase (key pode ser a URL completa)
+            if (key && key.startsWith('http')) return key; 
             return IMAGENS[key] || IMAGENS['Customizado']; 
         };
 
-        // VARIÁVEL QUE DEVE SER SOBRESCRITA A CADA 3 DIAS PELO SEU CRON JOB
-        const DADOS_ESTATICOS_ATUALIZAVEIS = [
-            { id: 101, nome: "Porto de Galinhas e Maragogi", saida: "Londrina e Maringá", tipo: "NACIONAL", desc: "🐠 O melhor do Nordeste! Mergulhe nas piscinas naturais e desfrute do famoso 'Caribe Brasileiro'.", imgKey: 'Porto de Galinhas', opcoes: [{ preco: 780, preco_total: 7800, moeda: 'R$', noites: '5 dias/4 noites' }] },
-            { id: 102, nome: "Salvador com Morro de São Paulo", saida: "Variadas (Bloqueios Nacionais)", tipo: "NACIONAL", desc: "🏝️ Combinação imbatível de cidade histórica e ilha sem carros. Descanse e explore Morro de São Paulo.", imgKey: 'Salvador', opcoes: [{ preco: 650, preco_total: 6500, moeda: 'R$', noites: '6 dias/5 noites' }] },
-            { id: 103, nome: "Lençóis Maranhenses | São Luís e Barreirinhas", saida: "Brasília (Bloqueios)", tipo: "NACIONAL", desc: "💧 Descubra a beleza surreal das lagoas entre dunas. Um ecoturismo inesquecível.", imgKey: 'Lençóis Maranhenses', opcoes: [{ preco: 890, preco_total: 8900, moeda: 'R$', noites: '7 dias/6 noites' }] },
-            { id: 104, nome: "Gramado | Natal Luz e Roteiro de Vinhos", saida: "São Paulo, Porto Alegre e Curitiba", tipo: "NACIONAL", desc: "🍷 Experiência completa com o Natal Luz e tours pelas vinícolas da Serra Gaúcha.", imgKey: 'Gramado', opcoes: [{ preco: 1100, preco_total: 11000, moeda: 'R$', noites: '5 dias/4 noites' }] },
-            { id: 105, nome: "Réveillon na Tailândia com Festival das Lanternas", saida: "Variadas (Bloqueios Internacionais)", tipo: "INTERNACIONAL", desc: "🎇 Celebre a virada com o mágico Festival das Lanternas (Yi Peng). Praias e templos milenares.", imgKey: 'Tailândia', opcoes: [{ preco: 2500, preco_total: 25000, moeda: 'USD', noites: '10 dias/9 noites' }] },
-            { id: 999, nome: "Consultoria Personalizada / Outro Destino", saida: "Seu aeroporto de preferência", tipo: "CONSULTORIA", desc: "✨ Destino Sob Medida: Crie seu roteiro do zero e garanta seu Desconto VIP na primeira compra com nossa consultoria especializada.", imgKey: 'Customizado' }
-        ];
+        // VARIÁVEL DINÂMICA: O Flask injeta o JSON do Supabase aqui.
+        // O `pacotes_json` é a variável JSON serializada passada pelo render_template do Flask.
+        const DADOS_ESTATICOS_ATUALIZAVEIS = JSON.parse('{{ pacotes_json | safe }}');
+        
         // -----------------------------------------------------
 
         const DESCRITIVOS_ROTEIROS = {
@@ -100,6 +94,7 @@
         
         // --- COMPONENTE: Card de Pacote Individual (MANTIDO) ---
         const PacoteCard = ({ pacote, onSelect, isSelected }) => {
+            // Nota: O pacote do Supabase deve ter as chaves: nome, saida, tipo, desc, imgKey, preco_atual, preco_antigo, noites, moeda
             const nomeCompleto = pacote.nome + (pacote.saida ? ` | Saída: ${pacote.saida}` : '');
             
             if (pacote.tipo === 'CONSULTORIA') {
@@ -120,25 +115,21 @@
                     </div>
                 );
             }
-
-            const precoInfo = pacote.opcoes && pacote.opcoes.length > 0
-                ? pacote.opcoes.reduce((min, current) => {
-                    if (!min || current.preco < min.preco) {
-                        return current;
-                    }
-                    return min;
-                }, null)
-                : null;
-                
-            const precoMaisBaixoParcela = precoInfo ? precoInfo.preco : null;
-            const precoTotal = precoInfo ? precoInfo.preco_total : null;
-            const moedaSimbolo = precoInfo && precoInfo.moeda === 'USD' ? 'US$' : 'R$' ;
+            
+            // As chaves no React foram simplificadas para usar as colunas do DB:
+            // preco_atual (parcela), preco_antigo (total) e noites/moeda como campos simples, 
+            // assumindo que 'opcoes' não é mais um array aninhado.
+            const precoMaisBaixoParcela = pacote.preco_atual ? Number(pacote.preco_atual) : null;
+            const precoTotal = pacote.preco_antigo ? Number(pacote.preco_antigo) : null; // Reutilizando preco_antigo para o total
+            const moedaSimbolo = pacote.moeda && pacote.moeda === 'USD' ? 'US$' : 'R$' ;
+            const noites = pacote.noites || 'Consulte';
 
 
             return (
                 <div className={`pacote-card ${isSelected ? 'pacote-card--selecionado' : ''}`} style={{position: 'relative'}}>
                     <img 
-                        src={getImageUrl(pacote.imgKey)} 
+                        // Agora, pacote.imagem_url ou pacote.imgKey pode ser usado
+                        src={getImageUrl(pacote.imagem_url || pacote.imgKey)} 
                         alt={`Imagem de ${pacote.nome}`} 
                         loading="lazy"
                         width="400" 
@@ -146,7 +137,7 @@
                     />
                     <div className="pacote-content">
                         <h3><i className={`fas fa-${pacote.tipo === 'NACIONAL' ? 'plane-departure' : 'globe-americas'}`}></i> {pacote.nome}</h3>
-                        <p className="card-duracao"><i className="far fa-calendar-alt"></i> {precoInfo ? precoInfo.noites : 'Consulte'} | Saídas: {pacote.saida || 'Variável'}</p>
+                        <p className="card-duracao"><i className="far fa-calendar-alt"></i> {noites} | Saídas: {pacote.saida || 'Variável'}</p>
                         <p>{pacote.desc}</p>
                         
                         {precoMaisBaixoParcela && precoTotal ? (
@@ -190,7 +181,10 @@
         
         // --- COMPONENTE: Vitrine (Container) ---
         const VitrinePacotes = ({ pacotes, onSelect, pacoteSelecionado }) => {
+            // Separa a consultoria, que é um card especial
             const consultoria = pacotes.find(p => p.tipo === 'CONSULTORIA');
+            
+            // Filtra e limita a 5 os pacotes normais
             const pacotesVisiveis = pacotes.filter(p => p.tipo !== 'CONSULTORIA').slice(0, 5); 
 
             return (
