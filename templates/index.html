@@ -33,21 +33,20 @@
             animation: highlight 2s ease-in-out 1;
             border: 2px solid #007bff;
             border-radius: 8px;
-            padding: 15px; /* Ajuste o padding se necessário */
-            margin-top: 20px; /* Adicionado para não cortar o box-shadow */
+            padding: 15px;
+            margin-top: 20px;
             margin-bottom: 20px;
         }
-        /* Garantir que o form original não tenha borda */
         .form {
             transition: all 0.5s;
         }
 
-        /* --- ESTILOS ESPECÍFICOS PARA A OFERTA MSC BINGO --- */
+        /* --- ESTILOS ESPECÍFICOS PARA A OFERTA MSC BINGO (COPIAR PARA /static/style.css) --- */
         .oferta-container {
             font-family: Arial, sans-serif;
-            max-width: 750px; /* Adapta ao container padrão do seu site, se houver */
+            max-width: 750px;
             margin: 40px auto;
-            border: 2px solid #004481; /* Borda da MSC */
+            border: 2px solid #004481; 
             padding: 0;
             background-color: #f7f7f7;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -122,7 +121,7 @@
             padding: 10px;
             margin-bottom: 10px;
             text-align: center;
-            flex: 1 1 200px; /* Garante 3 por linha em telas maiores */
+            flex: 1 1 200px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
 
@@ -165,6 +164,7 @@
             color: #333;
         }
 
+        /* Botão principal de reserva, pode ser o mesmo CTA do WhatsApp */
         .btn-reserva-msc {
             background-color: #00b050;
             color: #fff;
@@ -324,7 +324,6 @@
         
         const getImageUrl = (key) => {
             const IMAGENS = {
-                // ... (IMAGENS MANTIDAS)
                 'Lençóis Maranhenses': '/static/Duna-e-agua-dos-lencois-Maranhenses.jpg', 
                 'Tailândia': '/static/Festival_Lanternas_Chiang_Mai_Tailandia_Fogos.jpg', 
                 'Gramado': '/static/GramadoSuaViagem-GrandeDesfileDeNatal2.webp', 
@@ -338,9 +337,7 @@
         };
 
         // VARIÁVEL QUE DEVE SER SOBRESCRITA A CADA 3 DIAS PELO SEU CRON JOB
-        // NOTA: O script de backend injetará aqui 5 pacotes (nome, saida, etc.) + o card de Consultoria
         const DADOS_ESTATICOS_ATUALIZAVEIS = [
-            // ESTE BLOCO SERÁ TOTALMENTE SUBSTITUÍDO PELO CRON JOB
             { id: 101, nome: "Porto de Galinhas e Maragogi", saida: "Londrina e Maringá", tipo: "NACIONAL", desc: "🐠 O melhor do Nordeste! Mergulhe nas piscinas naturais e desfrute do famoso 'Caribe Brasileiro'.", imgKey: 'Porto de Galinhas', opcoes: [] },
             { id: 102, nome: "Salvador com Morro de São Paulo", saida: "Variadas (Bloqueios Nacionais)", tipo: "NACIONAL", desc: "🏝️ Combinação imbatível de cidade histórica e ilha sem carros. Descanse e explore Morro de São Paulo.", imgKey: 'Salvador', opcoes: [] },
             { id: 103, nome: "Lençóis Maranhenses | São Luís e Barreirinhas", saida: "Brasília (Bloqueios)", tipo: "NACIONAL", desc: "💧 Descubra a beleza surreal das lagoas entre dunas. Um ecoturismo inesquecível.", imgKey: 'Lençóis Maranhenses', opcoes: [] },
@@ -350,7 +347,6 @@
         ];
         // -----------------------------------------------------
 
-        // REVISÃO DE TEXTOS PARA COERÊNCIA (MANTIDO)
         const DESCRITIVOS_ROTEIROS = {
             "Fortaleza com Praia da Lagoinha": "☀️ Roteiro perfeito para quem ama sol, mar e aventura. Inclui a beleza rústica da Praia da Lagoinha e o agito da capital cearense.",
             "Salvador com Morro de São Paulo": "🏝️ Uma combinação imbatível de cidade histórica e ilha sem carros. Descanse e explore as famosas praias de Morro de São Paulo.",
@@ -382,7 +378,6 @@
         
         // --- COMPONENTE: Card de Pacote Individual (MANTIDO) ---
         const PacoteCard = ({ pacote, onSelect, isSelected }) => {
-            // ... (Lógica do PacoteCard mantida) ...
             const nomeCompleto = pacote.nome + (pacote.saida ? ` | Saída: ${pacote.saida}` : '');
             
             if (pacote.tipo === 'CONSULTORIA') {
@@ -404,7 +399,6 @@
                 );
             }
 
-            // Simulação de dados de preço para que o card renderize (já que o scraping não os fornece)
             const precoInfo = pacote.opcoes && pacote.opcoes.length > 0
                 ? pacote.opcoes.reduce((min, current) => {
                     if (!min || current.preco < min.preco) {
@@ -430,7 +424,6 @@
                     />
                     <div className="pacote-content">
                         <h3><i className={`fas fa-${pacote.tipo === 'NACIONAL' ? 'plane-departure' : 'globe-americas'}`}></i> {pacote.nome}</h3>
-                        {/* Se o pacote não tiver 'opcoes', ele mostrará 'Consulte' e Saída */}
                         <p className="card-duracao"><i className="far fa-calendar-alt"></i> {precoInfo ? precoInfo.noites : 'Consulte'} | Saídas: {pacote.saida || 'Variável'}</p>
                         <p>{pacote.desc}</p>
                         
@@ -457,7 +450,6 @@
                                 </small>
                             </div>
                         ) : (
-                            // Bloco de fallback se o scraping não puder fornecer preço
                             <div style={{textAlign: 'center', marginTop: '15px'}}>
                                 <span style={{fontWeight: 'bold', color: '#0056b3'}}>Consulte Disponibilidade e Orçamento VIP</span>
                             </div>
@@ -476,9 +468,8 @@
         
         // --- COMPONENTE: Vitrine (Container) ---
         const VitrinePacotes = ({ pacotes, onSelect, pacoteSelecionado }) => {
-            // ... (Lógica do VitrinePacotes mantida) ...
             const consultoria = pacotes.find(p => p.tipo === 'CONSULTORIA');
-            const pacotesVisiveis = pacotes.filter(p => p.tipo !== 'CONSULTORIA').slice(0, 5); // Garante APENAS 5 pacotes
+            const pacotesVisiveis = pacotes.filter(p => p.tipo !== 'CONSULTORIA').slice(0, 5); 
 
             return (
                 <div className="vitrine-pacotes">
@@ -506,498 +497,4 @@
         };
         
         // --- NOVO COMPONENTE: OFERTA MSC BINGO ---
-        const OfertaMSCBingo = () => {
-            // Note: Não há lógica de estado aqui, é um componente puramente de apresentação.
-            return (
-                 <div className="oferta-container">
-
-                    <div className="oferta-header">
-                        <span>Garanta já sua cabine com a Super Bingo e economize!</span>
-                        <a href="#" target="_blank">Ver Online</a>
-                    </div>
-
-                    <div className="oferta-body">
-                        <div className="info-section">
-                            <div style={{fontSize: '0.9em'}}>
-                                Precisa de ajuda? &bull; <a href="#" style={{color: '#004481', textDecoration: 'none'}}>Visite nosso site</a>
-                            </div>
-                            {/* Ajuste o src conforme o caminho real da imagem */}
-                            <img src="BRAZIL BRASIL.png" alt="MSC Brazil" />
-                        </div>
-
-                        <p style={{lineHeight: 1.5, marginBottom: '20px', fontSize: '0.95em'}}>
-                            Com a Super Bingo, você garante economia sem abrir mão da experiência MSC.<br/>
-                            Hospedagem, lazer e diversão com o melhor custo-benefício do mar.<br/>
-                            Uma escolha inteligente para quem quer viajar mais e pagar menos.<br/>
-                            E se quiser explorar mais, confira as demais ofertas no <a href="#" style={{color: '#004481', textDecoration: 'underline', fontWeight: 'bold'}}>Menu de Promoções MSC</a>.
-                        </p>
-
-                        <h3 className="section-title">SUPER BINGO</h3>
-
-                        <div className="cruzeiro-card-grid">
-
-                            {/* CRUZEIRO 1 - PREZIOSA */}
-                            <div className="cruzeiro-card">
-                                <span className="super-bingo-tag">SUPER BINGO</span>
-                                <img src="PREZIOSA.png" alt="MSC PREZIOSA" />
-                                <p className="navio-nome">MSC PREZIOSA</p>
-                                <p className="detalhes">04/11/2025 | 3 NOITES<br/>Embarque em Santos</p>
-                                <span className="preco-label">a partir de</span>
-                                <p className="preco">12x R$153</p>
-                                <span className="parcela">p.p.</span>
-                                <a href="#" className="btn-reserva-msc">RESERVA AGORA</a>
-                            </div>
-
-                            {/* CRUZEIRO 2 - ARMONIA */}
-                            <div className="cruzeiro-card">
-                                <span className="super-bingo-tag">SUPER BINGO</span>
-                                <img src="ARMONIA.png" alt="MSC ARMONIA" />
-                                <p className="navio-nome">MSC ARMONIA</p>
-                                <p className="detalhes">17/12/2025 | 3 NOITES<br/>Embarque no Rio</p>
-                                <span className="preco-label">a partir de</span>
-                                <p className="preco">12x R$235</p>
-                                <span className="parcela">p.p.</span>
-                                <a href="#" className="btn-reserva-msc">RESERVA AGORA</a>
-                            </div>
-
-                            {/* CRUZEIRO 3 - SEAVIEW */}
-                            <div className="cruzeiro-card">
-                                <span className="super-bingo-tag">SUPER BINGO</span>
-                                <img src="essa aqui seaview.png" alt="MSC SEAVIEW" />
-                                <p className="navio-nome">MSC SEAVIEW</p>
-                                <p className="detalhes">06/12/2025 | 7 NOITES<br/>Embarque em Santos</p>
-                                <span className="preco-label">a partir de</span>
-                                <p className="preco">12x R$369</p>
-                                <span className="parcela">p.p.</span>
-                                <a href="#" className="btn-reserva-msc">RESERVA AGORA</a>
-                            </div>
-
-                        </div> {/* FIM CRUZEIRO-CARD-GRID */}
-
-                        <div className="beneficios-grid">
-                            <div className="beneficio-item-msc">
-                                Ideal para quem busca os melhores preços para as próximas férias de verão
-                            </div>
-                            <div className="beneficio-item-msc">
-                                Mais flexibilidade para alterar datas, escolher cabine e turno de jantar
-                            </div>
-                            <div className="beneficio-item-msc">
-                                Pacote de bebidas incluso e com desconto para uma experiência mais completa.
-                            </div>
-                        </div>
-
-                        <a href="#" className="btn-ver-todas-msc">VER TODAS ÁS SAÍDAS</a>
-                        
-                        <div style={{textAlign: 'center', marginBottom: '20px', padding: '10px 0'}}>
-                            <p style={{fontSize: '1.1em', fontWeight: 'bold', color: '#333'}}>Procurando inspirações para a sua próxima viagem?</p>
-                            {/* Espaço para inspirações (Vazio no original) */}
-                        </div>
-
-                        <div className="regras-section">
-                            <h4>Regras e Restrições da Tarifa Promocional - Super Bingo</h4>
-
-                            <div className="regra-item">
-                                Tarifa válida exclusivamente para cabines duplas garantidas, ou seja, sem numeração e sem localização pré-determinadas. O hóspede somente terá conhecimento de sua cabine em até 4 dias antes do embarque, sem direito a substituição.
-                            </div>
-                            <div className="regra-item">
-                                Sem possibilidade de escolha do horário do turno de jantar preferido.
-                            </div>
-                            <div className="regra-item">
-                                Restrita a navio e data de embarque específicos.
-                            </div>
-                            <div className="regra-item">
-                                Preços por pessoa em acomodação dupla. Suplemento individual de 100%. Confirmação sujeita a disponibilidade.
-                            </div>
-                            <div className="regra-item">
-                                A substituição de hóspede implicará na cobrança de taxa de alteração de R$ 135,00, sendo que este valor não poderá ser superior ao valor do cruzeiro.
-                            </div>
-
-                            <p style={{fontWeight: 'bold', marginTop: '20px', marginBottom: '5px', fontSize: '0.9em', color: '#e50020'}}>Penalidade em caso de cancelamento:</p>
-                            <div style={{fontSize: '0.8em', marginLeft: '10px'}}>
-                                <p>Em caso de cancelamento de cabine referente a pacote contratado pela tarifa Super Bingo, serão reembolsáveis os seguintes valores:</p>
-                                <ul>
-                                    <li>(i) cancelamento até 31 (trinta e um) dias antes da data do embarque: multa de 50% (cinquenta por cento) do valor pago, excluídos os impostos;</li>
-                                    <li>(ii) cancelamento entre 30 (trinta) dias e 0 (zero) dia (no show) antes da data do embarque: multa de 100% (cem por cento) do valor pago já incluídos os impostos.</li>
-                                </ul>
-                            </div>
-                            <div className="regra-item" style={{marginTop: '10px'}}>
-                                Não cumulativa a outra promoção ou desconto vigente, incluindo o desconto MSC Voyagers Club.
-                            </div>
-                            <div className="regra-item">
-                                Preço por pessoa em acomodação dupla. Para cabines single (com um único hóspede) poderá haver um valor adicional de até 100% na tarifa do cruzeiro.
-                            </div>
-                            
-                            <p style={{fontWeight: 'bold', margin: '15px 0 5px', fontSize: '0.9em'}}>Detalhes das Saídas:</p>
-                            <table className="regras-tabela">
-                                <thead>
-                                    <tr>
-                                        <th>Saída</th>
-                                        <th>Navio</th>
-                                        <th>Acomodação/Experiência</th>
-                                        <th>Preço Total (R$)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>25/11/2025</td>
-                                        <td>MSC Preziosa</td>
-                                        <td>cabine bingo interna/Bella</td>
-                                        <td>1.825 p.p.</td>
-                                    </tr>
-                                    <tr>
-                                        <td>17/12/2025</td>
-                                        <td>MSC Armonia</td>
-                                        <td>cabine bingo interna/Bella</td>
-                                        <td>2.815 p.p.</td>
-                                    </tr>
-                                    <tr>
-                                        <td>06/12/2025</td>
-                                        <td>MSC Seaview</td>
-                                        <td>cabine bingo/Bella</td>
-                                        <td>4.423 p.p.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <p style={{fontSize: '0.8em', marginTop: '15px', textAlign: 'center'}}>Por favor consulte os Termos e Condições de Reserva para mais detalhes.</p>
-                            
-                        </div> {/* FIM REGRAS E RESTRIÇÕES */}
-                        
-                        <div className="oferta-footer">
-                            <p>&copy; 2025 MSC Cruises S.A.Todos os direitos reservados. <a href="#" style={{color: '#666'}}>Descadastrar</a></p>
-                        </div>
-
-                    </div> {/* FIM OFERTA-BODY */}
-                </div>
-            );
-        };
-        // --- FIM NOVO COMPONENTE: OFERTA MSC BINGO ---
-
-
-        // --- COMPONENTE PRINCIPAL (ATUALIZADO) ---
-        const LandingPageFSR = () => { 
-            const [nome, setNome] = React.useState('');
-            const [telefone, setTelefone] = React.useState('');
-            const [pacoteSelecionado, setPacoteSelecionado] = React.useState('');
-            const [dataViagem, setDataViagem] = React.useState('');
-            const [passageiros, setPassageiros] = React.useState(1); 
-            const [destinoLivre, setDestinoLivre] = React.useState(''); 
-            const [erro, setErro] = React.useState('');
-            const [loadingLead, setLoadingLead] = React.useState(false); 
-            
-            // AGORA SEMPRE USA A VARIÁVEL QUE SERÁ ATUALIZADA NO BACKEND/CRON JOB
-            const [pacotes, setPacotes] = React.useState(DADOS_ESTATICOS_ATUALIZAVEIS); 
-            const [pacotesLoading, setPacotesLoading] = React.useState(false); 
-
-            const minDate = React.useMemo(() => getMinDate(), []); 
-
-            // === FUNÇÃO AJUSTADA PARA FOCAR NO PRIMEIRO CAMPO ===
-            const handlePacoteChange = (value) => {
-                setPacoteSelecionado(value);
-                if (value !== 'Consultoria Personalizada / Outro Destino') {
-                    setDestinoLivre('');
-                } else if (value.includes('Consultoria Personalizada / Outro Destino')) {
-                    setPacoteSelecionado('Consultoria Personalizada / Outro Destino');
-                }
-                
-                const nomeInput = document.querySelector('#nome-input');
-                const formElement = document.querySelector('.form');
-
-                if (nomeInput && formElement) {
-                     // 1. Rola para o formulário
-                     formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                     
-                     // 2. Adiciona o highlight e remove após 2 segundos
-                     formElement.classList.add('highlighted');
-                     setTimeout(() => {
-                         formElement.classList.remove('highlighted');
-                     }, 2000); 
-
-                     // 3. Define o foco no primeiro campo (nome)
-                     setTimeout(() => {
-                         nomeInput.focus();
-                     }, 700); 
-                }
-            };
-            
-            const handlePassageirosChange = (e) => {
-                const value = e.target.value;
-                if (value === '') { setPassageiros(''); return; }
-                let num = parseInt(value);
-                if (!isNaN(num) && num >= 1) { setPassageiros(num); } 
-                else if (num < 1) { setPassageiros(1); }
-            };
-
-            const validateForm = (finalPacote, finalPassageiros) => {
-                if (!finalPacote || finalPacote.trim() === '' || finalPacote.includes('Nenhum pacote selecionado')) {
-                    setErro('❌ Seleção obrigatória! Por favor, **clique em um dos cards de pacotes acima** ou escolha a Consultoria Personalizada.');
-                    return false;
-                }
-                
-                if (!nome || !telefone) {
-                    setErro('❌ Atendimento Prioritário Requerido! Por favor, preencha o **Nome** e **WhatsApp** para prosseguir com a consultoria VIP.');
-                    return false;
-                }
-                
-                if (!TELEFONE_REGEX.test(telefone)) {
-                    setErro('❌ Telefone inválido. Insira apenas os 10 ou 11 dígitos, incluindo o DDD (Ex: 61983163710).');
-                    return false;
-                }
-
-                if (finalPassageiros < 1) {
-                    setErro('❌ O número de passageiros deve ser, no mínimo, 1.');
-                    return false;
-                }
-
-                if (dataViagem && dataViagem < minDate) {
-                    const minDateFormatted = new Date(minDate).toLocaleDateString('pt-BR');
-                    setErro(`❌ A data de viagem deve ser no mínimo ${minDateFormatted} (4 dias de antecedência para planejamento).`);
-                    return false;
-                }
-                
-                return true;
-            };
-
-            const handleWhatsAppRedirect = async (e) => {
-                e.preventDefault();
-                setErro('');
-                
-                const finalPassageiros = parseInt(passageiros) || 1;
-                
-                let finalPacote = pacoteSelecionado;
-                
-                if (finalPacote === 'Consultoria Personalizada / Outro Destino') {
-                    if (destinoLivre.trim()) {
-                        finalPacote = `Consultoria Personalizada / Outro Destino: ${destinoLivre.trim()}`;
-                    } else {
-                        setErro('❌ Por favor, digite o destino desejado no campo "Qual o Destino/Roteiro que você gostaria?".');
-                        return;
-                    }
-                }
-                
-                if (!validateForm(finalPacote, finalPassageiros)) {
-                    return;
-                }
-                
-                setLoadingLead(true);
-
-                const formData = {
-                    nome, telefone, pacoteSelecionado: finalPacote, dataViagem, passageiros: finalPassageiros,
-                    origem_lead: 'LandingPage_VIP',
-                    data_captura: new Date().toISOString()
-                };
-
-                const descritivoRoteiro = obterDescritivoRoteiro(finalPacote);
-                
-                const dataFormatada = dataViagem 
-                    ? new Date(dataViagem).toLocaleDateString('pt-BR', {timeZone: 'UTC'}) 
-                    : '🗓️ A DEFINIR (Gostaria de opções)';
-
-                let mensagem = `*ATENDIMENTO PRIORITÁRIO - VIAJANTE SITE*
-
-Olá, Consultor(a) Especializado(a) da FSR Viagens! Meu nome é *${nome}* e meu WhatsApp é *${telefone}*.
-Tenho interesse em garantir meu *Desconto VIP de ${PROSPECT_DISCOUNT} OFF* na minha primeira compra e prosseguir com a consultoria.
-
-*1. Pacote de Interesse (Foco da Consultoria):*
-✈️ *${finalPacote}*
-${descritivoRoteiro}
-
-*2. Detalhes da Viagem:*
-- Passageiros: ${finalPassageiros}
-- Data Pretendida: ${dataFormatada}
-
-*3. Próximos Passos (Para o Consultor):*
-- Cliente já ciente do Desconto VIP e buscando fechar a consultoria.
-- Solicitar a melhor data/horário para iniciar o planejamento estratégico e agendar a chamada.
-`;
-
-                const encodedMessage = encodeURIComponent(mensagem);
-                const whatsappURL = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodedMessage}`;
-
-                try {
-                    const response = await fetch(API_LEAD_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(formData)
-                    });
-
-                    if (!response.ok) {
-                        const result = await response.json();
-                        console.error("Erro ao salvar o lead no servidor (Automação):", result.message);
-                    }
-                    
-                    if (window.gtag) {
-                        gtag('event', 'whatsapp_lead', {
-                            'event_category': 'conversion',
-                            'event_label': finalPacote,
-                            'value': finalPassageiros,
-                            'currency': 'BRL'
-                        });
-                    }
-
-                    window.open(whatsappURL, '_blank');
-                    
-                } catch (error) {
-                    console.error("Erro de rede no envio do lead:", error);
-                    window.open(whatsappURL, '_blank'); 
-                } finally {
-                    setLoadingLead(false);
-                }
-            };
-
-            return (
-                <div className="container form-container">
-                    <header className="header__content">
-                        <img 
-                            src="/static/logo_fsr0.webp" 
-                            alt="FSR Viagens & Turismo Logo" 
-                            className="logo__image"
-                            width="200"
-                            height="100" 
-                            loading="lazy" />
-                        <h1 className="hero__headline">
-                            Pacotes Exclusivos FSR: Roteiros Nacionais e Internacionais com Consultoria Especializada
-                        </h1>
-                        <p className="hero__slogan">
-                            Garanta <strong>{PROSPECT_DISCOUNT} OFF (Desconto VIP)</strong> na sua 1ª viagem com a segurança do <strong>Atendimento Prioritário</strong> de nossos especialistas.
-                        </p>
-                        
-                        <div className="offer-banner">
-                            ✨ Oferta Exclusiva: Sua primeira compra garante um <strong>Desconto VIP de {PROSPECT_DISCOUNT} OFF</strong>!
-                        </div>
-                    </header>
-                    
-                    {/* INÍCIO INCLUSÃO DO COMPONENTE MSC BINGO */}
-                    <OfertaMSCBingo />
-                    {/* FIM INCLUSÃO DO COMPONENTE MSC BINGO */}
-                    
-                    {!pacotesLoading && (
-                        <VitrinePacotes 
-                            pacotes={pacotes} 
-                            onSelect={handlePacoteChange} 
-                            pacoteSelecionado={pacoteSelecionado}
-                        />
-                    )}
-                    
-                    {pacotesLoading && (
-                        <p className="loading-message loading-animation" style={{textAlign: 'center', margin: '40px 0'}}>
-                            <i className="fas fa-spinner fa-spin"></i> <strong>Carregando ofertas exclusivas...</strong>
-                        </p>
-                    )}
-
-
-                    <form onSubmit={handleWhatsAppRedirect} className="form">
-                        
-                        <fieldset className="form__fieldset">
-                            <legend className="form__legend">1. Seus Dados * (Para Atendimento PRIORITÁRIO e Desconto VIP)</legend>
-                            <div className="form__group">
-                                <label htmlFor="nome-input">Nome Completo:</label>
-                                <input id="nome-input" type="text" value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Seu nome (Obrigatório)" required/>
-                            </div>
-                            <div className="form__group">
-                                <label htmlFor="telefone-input">WhatsApp (apenas números, com DDD):</label>
-                                <input id="telefone-input" type="tel" value={telefone} onChange={(e) => setTelefone(e.target.value.replace(/[^0-9]/g, ''))} placeholder="Ex: 61983163710 (Obrigatório)" minLength="10" maxLength="11" required/>
-                                <small className="help-text"><i className="fab fa-whatsapp"></i> Seu atendimento será iniciado **imediatamente** após o envio.</small>
-                            </div>
-                        </fieldset>
-                        
-                        <fieldset className="form__fieldset"> 
-                            <legend className="form__legend">2. Confirmação do Roteiro *</legend>
-                            <div className="form__group">
-                                
-                                <label htmlFor="pacote-selecionado-display">Pacote Escolhido:</label>
-                                <input
-                                    id="pacote-selecionado-display"
-                                    type="text"
-                                    value={pacoteSelecionado || 'Nenhum pacote selecionado. Clique em um card acima.'}
-                                    readOnly
-                                    className={`selected-pacote-display ${pacoteSelecionado && !pacoteSelecionado.includes('Nenhum pacote') ? 'is-selected' : 'not-selected'}`}
-                                    required
-                                />
-
-                                {pacoteSelecionado.includes('Consultoria Personalizada / Outro Destino') && (
-                                    <div style={{ marginTop: '15px' }}>
-                                        <label htmlFor="destino-livre-input">Qual o Destino/Roteiro que você gostaria?</label>
-                                        <input 
-                                            id="destino-livre-input"
-                                            type="text" 
-                                            value={destinoLivre} 
-                                            onChange={(e) => setDestinoLivre(e.target.value)} 
-                                            placeholder="Digite o destino ou roteiro desejado (Ex: Patagônia em janeiro)"
-                                            required
-                                        />
-                                    </div>
-                                )}
-                            </div>
-                        </fieldset>
-                        
-                        <fieldset className="form__fieldset">
-                            <legend className="form__legend">3. Detalhes (Para Agilizar a Consultoria)</legend>
-                            <div className="form__group">
-                                <label htmlFor="passageiros-input">Quantidade de Viajantes *:</label>
-                                <input id="passageiros-input" type="number" min="1" value={passageiros} onChange={handlePassageirosChange} required/>
-                            </div>
-                            <div className="form__group">
-                                <label htmlFor="data-viagem-input">Data Preferencial para Viagem (Opcional):</label>
-                                <input 
-                                    id="data-viagem-input" 
-                                    type="date" 
-                                    value={dataViagem} 
-                                    onChange={(e) => setDataViagem(e.target.value)} 
-                                    min={minDate}
-                                    title="A saída da viagem deve ter antecedência mínima de 4 dias para planejamento."
-                                />
-                                <small className="help-text">Selecione uma data para orçamento preciso, ou deixe em branco para opções nos **próximos meses**. A **saída da viagem** deve ter **antecedência mínima de 4 dias (96 horas)**.</small>
-                            </div>
-                        </fieldset>
-
-                        {erro && <p className="error-message form__alert" role="alert" aria-live="assertive" aria-atomic="true">{erro}</p>}
-
-                        <button type="submit" className="btn btn--cta" disabled={loadingLead || pacotesLoading || !pacoteSelecionado || pacoteSelecionado.includes('Nenhum pacote')}>
-                            <i className="fab fa-whatsapp"></i> 
-                            {loadingLead ? 'Processando e Gerando Desconto VIP...' : 
-                            `Garantir Desconto VIP e Falar Agora`}
-                        </button>
-
-                        <p className="final-call-to-action">
-                            <i className="fas fa-tag"></i> *Seu <strong>Desconto VIP</strong> de {PROSPECT_DISCOUNT} está reservado. Válido para o 1º pacote fechado.
-                        </p>
-                        
-                        <div style={{textAlign: 'center', marginTop: '15px'}}>
-                            <small>Ao prosseguir, você concorda com nossos <a href="/politica-de-privacidade.html" target="_blank">Termos e Política de Privacidade</a> (LGPD).</small>
-                        </div>
-                    </form>
-                    
-                    <footer className="footer">
-                        <p className="expert-seal">
-                            <strong>Segurança e Experiência</strong>: A FSR Viagens é especializada desde <i className="fas fa-user-tie"></i> <strong>2004</strong>.
-                        </p>
-                        <p>
-                            Atendimento Rápido e Personalizado | <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="whatsapp-link">
-                            <i className="fab fa-whatsapp"></i> WhatsApp: (61) 98316-3710</a>
-                        </p>
-                        <p>&copy; {new Date().getFullYear()} FSR Viagens e Turismo. Todos os direitos reservados.</p>
-                        
-                        <nav class="admin-nav">
-                            <ul>
-                                <li>
-                                    <a href="leads.html">Gerenciamento de Leads</a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </footer>
-                </div>
-            );
-        };
-        
-        const container = document.getElementById('root');
-        if (container) {
-            const root = ReactDOM.createRoot(container);
-            root.render(<LandingPageFSR />);
-        } else {
-            console.error("Elemento 'root' não encontrado. A página não será renderizada.");
-        }
-{% endraw %}
-    </script>
-</body>
-</html>
+        // Funções auxiliares para os cliques nos cards
