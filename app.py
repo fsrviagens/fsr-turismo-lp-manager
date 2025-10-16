@@ -116,9 +116,9 @@ def index():
             # Busca do Supabase: Pacotes ATIVOS, ordenados por 'ordem'
             response = supabase_client.table("pacotes").select("*").eq('ativo', True).order('ordem', desc=False).execute()
             
-            # Garante que pacotes seja uma lista, mesmo que a resposta seja None ou vazia
-            pacotes = response.data if response and response.data is not None else []
-            
+            # CORREÇÃO V2: Usa verificação robusta para garantir que pacotes seja sempre uma lista
+            pacotes = response.data if response and hasattr(response, 'data') and response.data is not None else []
+
             # Aplica lógica de tipo/chave de imagem se necessário (melhor que venha do DB)
             for pacote in pacotes:
                 if 'tipo' not in pacote:
@@ -177,17 +177,16 @@ def admin_pacotes_index():
         # Busca todos os pacotes (ativos e inativos)
         response = supabase_client.table("pacotes").select("*").order('id', desc=True).execute()
         
-        # --- CORREÇÃO: Trata o caso em que a resposta é None (nula) para evitar 'NoneType' object is not subscriptable ---
-        if response is None:
-             pacotes = [] 
-        else:
-             pacotes = response.data
+        # --- CORREÇÃO FINAL: Garante que 'pacotes' é uma lista, mesmo se a resposta for None, 
+        # --- não tiver o atributo 'data', ou se 'data' for None. Isso resolve o erro 'NoneType'.
+        pacotes = response.data if response and hasattr(response, 'data') and response.data is not None else []
         # ------------------------------------------------------------------------------------------------------------------
         
         # Renderiza a tabela de gerenciamento (index)
         return render_template('admin_pacotes_index.html', pacotes=pacotes)
         
     except Exception as e:
+        # Este bloco agora deve capturar qualquer erro remanescente de conexão/permissão
         return render_template('admin_erro.html', error=f"Erro ao listar pacotes: {e}")
 
 
