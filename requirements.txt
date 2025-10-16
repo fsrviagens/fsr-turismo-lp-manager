@@ -1,8 +1,8 @@
-# requirements.txt (CORRIGIDO)
 Flask
 flask-cors
 psycopg2-binary
 gunicorn
-supabase
+supabase-py
 Flask-Talisman
+
 
