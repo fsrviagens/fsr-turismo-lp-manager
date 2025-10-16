@@ -28,21 +28,14 @@
 
     <script type="text/babel">
 {% raw %}
-        // Endpoints e Constantes
         const WHATSAPP_NUMBER = '5561983163710'; 
         const API_LEAD_URL = '/capturar_lead';
         const TELEFONE_REGEX = /^\d{10,11}$/; 
         
-        // Gatilho de Compra / Desconto VIP (Apenas para pacotes normais)
         const PROSPECT_DISCOUNT = '5%'; 
-        
-        // -----------------------------------------------------
-        // --- DADOS DE PACOTES OBTIDOS DO SUPABASE (DINÂMICO) ---
-        // -----------------------------------------------------
         
         const getImageUrl = (key) => {
             const IMAGENS = {
-                // Caminhos estáticos para as imagens no repositório
                 'Lençóis Maranhenses': '/static/Duna-e-agua-dos-lencois-Maranhenses.jpg', 
                 'Tailândia': '/static/Festival_Lanternas_Chiang_Mai_Tailandia_Fogos.jpg', 
                 'Gramado': '/static/GramadoSuaViagem-GrandeDesfileDeNatal2.webp', 
@@ -52,17 +45,12 @@
                 'Turquia': '/static/Customizado.jpg',
                 'Customizado': '/static/Customizado.jpg',
             };
-            // Prioriza a URL salva no Supabase (key pode ser a URL completa)
             if (key && key.startsWith('http')) return key; 
             return IMAGENS[key] || IMAGENS['Customizado']; 
         };
 
-        // VARIÁVEL DINÂMICA: O Flask injeta o JSON do Supabase aqui.
-        // O `pacotes_json` é a variável JSON serializada passada pelo render_template do Flask.
         const DADOS_ESTATICOS_ATUALIZAVEIS = JSON.parse('{{ pacotes_json | safe }}');
         
-        // -----------------------------------------------------
-
         const DESCRITIVOS_ROTEIROS = {
             "Fortaleza com Praia da Lagoinha": "☀️ Roteiro perfeito para quem ama sol, mar e aventura. Inclui a beleza rústica da Praia da Lagoinha e o agito da capital cearense.",
             "Salvador com Morro de São Paulo": "🏝️ Uma combinação imbatível de cidade histórica e ilha sem carros. Descanse e explore as famosas praias de Morro de São Paulo.",
@@ -92,9 +80,7 @@
             return `✈️ Consultoria Exclusiva: Conte-nos seus sonhos para criarmos uma experiência incomum e aplicarmos seu ${PROSPECT_DISCOUNT} de Desconto VIP!`;
         };
         
-        // --- COMPONENTE: Card de Pacote Individual (MANTIDO) ---
         const PacoteCard = ({ pacote, onSelect, isSelected }) => {
-            // Nota: O pacote do Supabase deve ter as chaves: nome, saida, tipo, desc, imgKey, preco_atual, preco_antigo, noites, moeda
             const nomeCompleto = pacote.nome + (pacote.saida ? ` | Saída: ${pacote.saida}` : '');
             
             if (pacote.tipo === 'CONSULTORIA') {
@@ -116,11 +102,8 @@
                 );
             }
             
-            // As chaves no React foram simplificadas para usar as colunas do DB:
-            // preco_atual (parcela), preco_antigo (total) e noites/moeda como campos simples, 
-            // assumindo que 'opcoes' não é mais um array aninhado.
             const precoMaisBaixoParcela = pacote.preco_atual ? Number(pacote.preco_atual) : null;
-            const precoTotal = pacote.preco_antigo ? Number(pacote.preco_antigo) : null; // Reutilizando preco_antigo para o total
+            const precoTotal = pacote.preco_antigo ? Number(pacote.preco_antigo) : null; 
             const moedaSimbolo = pacote.moeda && pacote.moeda === 'USD' ? 'US$' : 'R$' ;
             const noites = pacote.noites || 'Consulte';
 
@@ -128,7 +111,6 @@
             return (
                 <div className={`pacote-card ${isSelected ? 'pacote-card--selecionado' : ''}`} style={{position: 'relative'}}>
                     <img 
-                        // Agora, pacote.imagem_url ou pacote.imgKey pode ser usado
                         src={getImageUrl(pacote.imagem_url || pacote.imgKey)} 
                         alt={`Imagem de ${pacote.nome}`} 
                         loading="lazy"
@@ -179,12 +161,9 @@
             );
         };
         
-        // --- COMPONENTE: Vitrine (Container) ---
         const VitrinePacotes = ({ pacotes, onSelect, pacoteSelecionado }) => {
-            // Separa a consultoria, que é um card especial
             const consultoria = pacotes.find(p => p.tipo === 'CONSULTORIA');
             
-            // Filtra e limita a 5 os pacotes normais
             const pacotesVisiveis = pacotes.filter(p => p.tipo !== 'CONSULTORIA').slice(0, 5); 
 
             return (
@@ -213,24 +192,21 @@
         };
         
         
-        // --------------------------------------------------------------------------------------
-        // --- DADOS ESTATICOS MSC BINGO (NOVOS) ---
-        // --------------------------------------------------------------------------------------
         const CRUZEIROS_OFERTA_MSC = [
             {
                 navio: "MSC Preziosa",
                 destino: "Brasil (Norte/Nordeste)",
                 data: "Dez/2025 - Mar/2026",
-                imagem: "/static/PREZIOSA.png", // CORRIGIDO: Nome do arquivo conforme imagem
+                imagem: "/static/PREZIOSA.png", 
                 preco: 375,
-                parcela: 3750, // 10x de
+                parcela: 3750, 
                 cabine: "Cabine Interna"
             },
             {
                 navio: "MSC Seaview",
                 destino: "Argentina e Uruguai",
                 data: "Dez/2025 - Fev/2026",
-                imagem: "/static/essa aqui seaview.png", // CORRIGIDO: Nome do arquivo conforme imagem
+                imagem: "/static/essa aqui seaview.png", 
                 preco: 419,
                 parcela: 4190,
                 cabine: "Cabine Interna"
@@ -239,7 +215,7 @@
                 navio: "MSC Armonia",
                 destino: "Mini Cruzeiros",
                 data: "Nov/2025 - Mar/2026",
-                imagem: "/static/ARMONIA.png", // CORRIGIDO: Nome do arquivo conforme imagem
+                imagem: "/static/ARMONIA.png", 
                 preco: 259,
                 parcela: 2590,
                 cabine: "Cabine Interna"
@@ -253,16 +229,12 @@
             "Serviço FSR: Consultoria e auxílio na documentação de embarque."
         ];
         
-        // --------------------------------------------------------------------------------------
-        // --- NOVO COMPONENTE: OFERTA MSC BINGO (Ajustado sem desconto/logo) ---
-        // --------------------------------------------------------------------------------------
         const OfertaMSCBingo = ({ onSelect, onBack, pacoteSelecionado }) => {
             
             const handleCardSelect = (navioNome) => {
                 const nomePacote = `Cruzeiro MSC Bingo: ${navioNome}`;
                 onSelect(nomePacote);
                 
-                // Opção de scroll para o formulário após a seleção
                 const form = document.querySelector('.form');
                 if (form) {
                     form.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -288,8 +260,6 @@
                                     Tarifas com Condições Especiais para o Brasil e América do Sul na temporada 2025/2026.
                                 </p>
                             </div>
-                            
-                            {/* REMOVIDO: <img src="/static/msc-logo.png" ... /> */}
                         </div>
 
                         <div style={{ textAlign: 'center' }}>
@@ -375,9 +345,6 @@
             );
         }
         
-        // --------------------------------------------------------------------------------------
-        // --- COMPONENTE PRINCIPAL: App ---
-        // --------------------------------------------------------------------------------------
         const App = () => {
             const [nome, setNome] = React.useState('');
             const [telefone, setTelefone] = React.useState('');
@@ -394,11 +361,9 @@
                 setPacoteSelecionado(pacoteNome);
                 setErro('');
                 
-                // Destaca o formulário após a seleção
                 setIsFormHighlighted(true);
                 setTimeout(() => setIsFormHighlighted(false), 2000); 
 
-                // Rola para o formulário
                 const form = document.querySelector('.form');
                 if (form) {
                     form.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -416,8 +381,6 @@
                 
                 setIsSubmitting(true);
 
-                // Determina a mensagem de desconto: 
-                // Se for MSC, o desconto não é mencionado na mensagem do WhatsApp.
                 const isMsc = pacoteSelecionado.includes("Cruzeiro MSC");
                 const appliedDiscount = isMsc ? 'N/A (Super Bingo)' : `${PROSPECT_DISCOUNT} VIP`;
                 
@@ -453,7 +416,6 @@
                         throw new Error(`Erro ao enviar dados: ${response.statusText}`);
                     }
 
-                    // Redirecionamento para o WhatsApp 
                     window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`;
 
                 } catch (error) {
@@ -500,14 +462,12 @@
             return (
                 <div className="container form-container">
                     <div className="header__content">
-                        {/* CORREÇÃO FINAL DO LOGO: src="/static/logo_fsr0.webp" */}
                         <img 
                             src="/static/logo_fsr0.webp" 
                             alt="FSR Viagens | Consultoria de Viagens Especializada" 
                             className="logo__image"
                             width="200" 
                             height="80"
-                            // Definindo as chaves (key) para ajudar o carregamento da imagem
                             key={showMscOffer ? 'logo-msc' : 'logo-padrao'} 
                         />
                         <h1 className="hero__headline">
@@ -572,7 +532,7 @@
                                     id="dataViagem" 
                                     value={dataViagem} 
                                     onChange={(e) => setDataViagem(e.target.value)} 
-                                    min={getMinDate()} // Garante datas futuras
+                                    min={getMinDate()}
                                     required 
                                 />
                             </div>
@@ -598,7 +558,6 @@
             );
         };
 
-        // Renderização do App React
         ReactDOM.render(<App />, document.getElementById('root'));
 {% endraw %} 
     </script> 
