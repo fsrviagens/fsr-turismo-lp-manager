@@ -3,5 +3,4 @@ Flask
 flask-cors
 psycopg2-binary
 gunicorn
-# NOVO: Necessário para o app.py interagir com o Supabase
 supabase 
