@@ -4,16 +4,16 @@ WORKDIR /usr/src/app
 
 COPY requirements.txt ./
 
+# Instala as dependências Python (agora sem pytesseract, requests, etc.)
 RUN pip install --no-cache-dir -r requirements.txt
 
 
 FROM python:3.11-slim as final 
 
+# Instala apenas o libpq5 (necessário para psycopg2-binary, o DB de Leads)
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    libpq5 \
-    tesseract-ocr \
-    tesseract-ocr-por && \
+    libpq5 && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/app
