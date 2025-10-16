@@ -6,8 +6,10 @@
     <title>FSR Viagens | Consultoria e Pacotes Exclusivos</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+    
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
     <style>
@@ -160,9 +162,10 @@
             return IMAGENS[key] || IMAGENS['Customizado']; 
         };
 
-        // VARIÁVEL DINÂMICA: O Flask injeta o JSON do Supabase aqui.
-        // O `pacotes_json` é a variável JSON serializada passada pelo render_template do Flask.
-        const DADOS_ESTATICOS_ATUALIZAVEIS = JSON.parse('{{ pacotes_json | safe }}');
+        // VARIÁVEL DINÂMICA: AJUSTE DE SEGURANÇA E FUNCIONALIDADE
+        // Usa o filtro 'tojson' do Jinja2 no Flask (app.py) e injeta o objeto de forma segura.
+        // O nome da variável de contexto foi alterado de pacotes_json para pacotes_data no app.py.
+        const DADOS_ESTATICOS_ATUALIZAVEIS = {{ pacotes_data | tojson }};
         
         // -----------------------------------------------------
 
@@ -195,7 +198,7 @@
             return `✈️ Consultoria Exclusiva: Conte-nos seus sonhos para criarmos uma experiência incomum e aplicarmos seu ${PROSPECT_DISCOUNT} de Desconto VIP!`;
         };
         
-        // --- COMPONENTE: Card de Pacote Individual (AJUSTADO PARA USAR pacote.parcelas) ---
+        // --- COMPONENTE: Card de Pacote Individual (JÁ USANDO PARCELAS, MOEDA E NOITES) ---
         const PacoteCard = ({ pacote, onSelect, isSelected }) => {
             // Nota: O pacote do Supabase deve ter as chaves: nome, saida, tipo, desc, imgKey, preco_atual, preco_antigo, noites, moeda, parcelas
             const nomeCompleto = pacote.nome + (pacote.saida ? ` | Saída: ${pacote.saida}` : '');
@@ -221,7 +224,9 @@
             
             const precoMaisBaixoParcela = pacote.preco_atual ? Number(pacote.preco_atual) : null;
             const precoTotal = pacote.preco_antigo ? Number(pacote.preco_antigo) : null;
-            const moedaSimbolo = pacote.moeda && pacote.moeda === 'USD' ? 'US$' : 'R$' ;
+            // Usa pacote.moeda (R$ ou USD)
+            const moedaSimbolo = pacote.moeda && pacote.moeda === 'USD' ? 'US$' : 'R$' ; 
+            // Usa pacote.noites
             const noites = pacote.noites || 'Consulte';
 
 
@@ -236,6 +241,7 @@
                     />
                     <div className="pacote-content">
                         <h3><i className={`fas fa-${pacote.tipo === 'NACIONAL' ? 'plane-departure' : 'globe-americas'}`}></i> {pacote.nome}</h3>
+                        {/* Usa pacote.noites */}
                         <p className="card-duracao"><i className="far fa-calendar-alt"></i> {noites} | Saídas: {pacote.saida || 'Variável'}</p>
                         <p>{pacote.desc}</p>
                         
@@ -246,7 +252,7 @@
                                      {moedaSimbolo} {precoTotal.toLocaleString('pt-BR', { minimumFractionDigits: 0 })} à vista *
                                 </span>
                                 
-                                {/* AJUSTE AQUI: Usando pacote.parcelas com fallback para 10 */}
+                                {/* Usa pacote.parcelas */}
                                 <span className="price-label">Parcele em até {pacote.parcelas || 10}x de:</span> 
                                 <div className="price-value">
                                     <span className="installments">{moedaSimbolo}</span>
