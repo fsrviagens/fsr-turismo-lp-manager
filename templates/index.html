@@ -208,7 +208,8 @@
             if (pacote.tipo === 'CONSULTORIA') {
                 return (
                     <div className={`pacote-card card-consultoria ${isSelected ? 'pacote-card--selecionado' : ''}`}>
-                        <i className="fas fa-magic" style={{ fontSize: '40px', marginBottom: '15px' }}></i>
+                        {/* CORREÇÃO: Substituído className e sintaxe JSX de style por atributos HTML/CSS padrão */}
+                        <i class="fas fa-magic" style="font-size: 40px; margin-bottom: 15px;"></i>
                         <h3>
                             {pacote.nome} 
                             <span style={{display: 'block', fontSize: '0.6em', fontWeight: 'normal', marginTop: '5px'}}>(Seu Roteiro Único com Assessoria Exclusiva)</span>
@@ -670,37 +671,4 @@
                             <div className="form__group">
                                 <label htmlFor="dataViagem"><i className="far fa-calendar-alt"></i> Data Preferencial para Viajar</label>
                                 <input 
-                                    type="date" 
-                                    id="dataViagem" 
-                                    value={dataViagem} 
-                                    onChange={(e) => setDataViagem(e.target.value)} 
-                                    min={getMinDate()}
-                                    required 
-                                />
-                            </div>
-                            
-                            {erro && <p className="error-message"><i className="fas fa-exclamation-triangle"></i> {erro}</p>}
-                            
-                            <button 
-                                type="submit" 
-                                className={`btn-submit ${!isFormValid ? 'btn-submit--disabled' : ''}`} 
-                                disabled={!isFormValid || isSubmitting}
-                            >
-                                <i className="fab fa-whatsapp"></i> 
-                                {isSubmitting ? 'Enviando, aguarde...' : `RECEBER ORÇAMENTO E ATIVAR ${PROSPECT_DISCOUNT} VIP`}
-                            </button>
-                            
-                            <p className="whatsapp-notice">
-                                <i className="fas fa-lock"></i> Seus dados serão enviados de forma segura para nossa consultoria via WhatsApp.
-                            </p>
-
-                        </fieldset>
-                    </form>
-                </div>
-            );
-        };
-
-        ReactDOM.render(<App />, document.getElementById('root'));
-    </script> 
-</body>
-</html>
+                                    type="date
