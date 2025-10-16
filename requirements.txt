@@ -2,7 +2,7 @@ Flask
 flask-cors
 psycopg2-binary
 gunicorn
-supabase-py
+supabase
 Flask-Talisman
 
 
