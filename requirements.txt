@@ -1,12 +1,7 @@
-
-#requirements.txt (Corrigido)
+# requirements.txt (REVISADO)
 Flask
 flask-cors
 psycopg2-binary
-requests
-beautifulsoup4
 gunicorn
-Flask-APScheduler
-Pillow
-pytesseract
-
+# NOVO: Necessário para o app.py interagir com o Supabase
+supabase 
