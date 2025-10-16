@@ -3,39 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pacotes de Viagem com Desconto: Melhores Ofertas Nacionais e Internacionais | FSR Viagens | 5% OFF VIP</title>
+    <title>FSR Viagens | Consultoria e Pacotes Exclusivos</title>
     
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EB762TMB8T"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-EB762TMB8T'); 
-    </script>
-    
-    <link rel="stylesheet" href="/static/style.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <meta name="description" content="Sua consultoria de viagens especializada. Encontre pacotes exclusivos para Gramado, Nordeste (Porto de Galinhas/Maragogi) e Roteiros Internacionais. Ative seu Desconto VIP de 5% OFF e compre agora.">
-    
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 0; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .form-container { max-width: 900px; }
+        
+        /* Header & Hero */
+        .header__content { text-align: center; padding: 20px 0; }
+        .logo__image { max-width: 250px; height: auto; margin-bottom: 10px; }
+        .hero__headline { color: #0056b3; font-size: 2em; margin-bottom: 5px; }
+        .hero__slogan { color: #555; font-size: 1.1em; margin-bottom: 30px; }
+        .offer-banner { background-color: #ffc107; color: #333; padding: 15px; text-align: center; font-weight: bold; border-radius: 5px; margin-bottom: 30px; }
+        .btn--cta { background-color: #28a745; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-size: 1.1em; font-weight: bold; text-decoration: none; display: inline-block; transition: background-color 0.3s; }
+        .btn--cta:hover { background-color: #218838; }
+        
+        /* Vitrine de Pacotes */
+        .vitrine-pacotes { margin-top: 40px; }
+        .vitrine-pacotes h2 { text-align: center; color: #0056b3; margin-bottom: 10px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .pacotes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 30px; }
+        .pacote-card { background: #fff; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; position: relative; display: flex; flex-direction: column; }
+        .pacote-card:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.15); }
+        .pacote-card--selecionado { border: 4px solid #0056b3; }
+        .pacote-card img { width: 100%; height: 200px; object-fit: cover; }
+        .pacote-content { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
+        .pacote-content h3 { color: #333; font-size: 1.2em; margin-top: 0; margin-bottom: 5px; }
+        .pacote-content p { font-size: 0.9em; color: #666; margin-bottom: 10px; flex-grow: 1; }
+        .card-duracao { font-weight: bold; color: #0056b3; font-size: 0.85em !important; margin-top: 0 !important; }
+
+        /* Consultoria Card */
+        .card-consultoria { text-align: center; justify-content: center; align-items: center; padding: 30px; background-color: #f0f8ff; border: 2px dashed #0056b3; }
+        .card-consultoria h3 { color: #0056b3; }
+        
+        /* Price Box */
+        .pacote-price-box { border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px; text-align: center; }
+        .price-total-cash { font-size: 0.9em; color: #dc3545; text-decoration: line-through; display: block; margin-bottom: 5px; }
+        .price-label { font-size: 0.8em; color: #555; display: block; margin-bottom: 3px; font-weight: bold; }
+        .price-value { display: flex; justify-content: center; align-items: baseline; margin-bottom: 5px; }
+        .installments { font-size: 1.2em; font-weight: bold; color: #28a745; margin-right: 5px; }
+        .main-price { font-size: 2.2em; font-weight: 800; color: #28a745; line-height: 1; }
+        .taxes { font-size: 0.7em; color: #555; align-self: flex-end; margin-left: 5px; }
+        .price-vip-discount { background-color: #333; color: #ffc107; padding: 5px; border-radius: 4px; font-size: 0.8em; font-weight: bold; margin-top: 10px; }
+
+        /* Botão de Seleção */
+        .btn-selecionar { width: 100%; padding: 12px; background-color: #0056b3; color: white; border: none; border-radius: 0 0 10px 10px; cursor: pointer; font-size: 1em; font-weight: bold; margin-top: auto; transition: background-color 0.3s; }
+        .btn-selecionar:hover { background-color: #004481; }
+
+        /* Formulário */
+        .form { background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-top: 40px; border: 2px solid transparent; transition: border-color 0.3s; }
+        .form.highlighted { border-color: #ffc107; animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0% { border-color: #ffc107; }
+            50% { border-color: #ffa000; }
+            100% { border-color: #ffc107; }
+        }
+        .form__legend { font-size: 1.5em; color: #0056b3; font-weight: bold; margin-bottom: 20px; padding: 0 10px; }
+        .form__group { margin-bottom: 20px; }
+        .form__group label { display: block; font-weight: bold; margin-bottom: 5px; color: #555; }
+        .form__group input[type="text"], 
+        .form__group input[type="tel"], 
+        .form__group input[type="date"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+        .selected-pacote-display { background-color: #f0f8ff; font-weight: bold; color: #0056b3 !important; cursor: pointer; border: 1px dashed #0056b3 !important; }
+        .selected-pacote-display.is-selected { background-color: #e6ffe6; color: #28a745 !important; border: 1px solid #28a745 !important; }
+        
+        /* Submit Button */
+        .btn-submit { width: 100%; padding: 15px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1.2em; font-weight: bold; margin-top: 10px; transition: background-color 0.3s; }
+        .btn-submit:hover:not(:disabled) { background-color: #218838; }
+        .btn-submit--disabled, .btn-submit:disabled { background-color: #a9a9a9; cursor: not-allowed; }
+        
+        .error-message { color: #dc3545; background-color: #f8d7da; padding: 10px; border-radius: 5px; border: 1px solid #f5c6cb; margin-bottom: 20px; }
+        .whatsapp-notice { text-align: center; font-size: 0.8em; color: #777; margin-top: 15px; }
+
+        /* MSC Oferta Styling */
+        .oferta-container { background-color: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 40px; }
+        .oferta-header { background-color: #e50020; color: white; padding: 15px; border-radius: 5px 5px 0 0; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+        .info-section { padding: 20px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .super-bingo-tag { display: inline-block; background-color: #ffc107; color: #333; padding: 8px 15px; border-radius: 20px; font-weight: bold; margin: 15px 0; }
+        
+        .cruzeiro-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
+        .cruzeiro-card { background: #f8f8f8; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); overflow: hidden; text-align: center; padding-bottom: 15px; cursor: pointer; transition: border 0.3s; border: 2px solid transparent; }
+        .cruzeiro-card:hover { border-color: #0056b3; }
+        .cruzeiro-card img { width: 100%; height: 180px; object-fit: cover; margin-bottom: 10px; }
+        .navio-nome { font-weight: bold; color: #004481; margin-bottom: 5px; font-size: 1.1em; }
+        .detalhes { font-size: 0.8em; color: #666; margin-bottom: 10px; }
+        .preco-label { font-size: 0.8em; color: #e50020; font-weight: bold; }
+        .preco { font-size: 2em; color: #e50020; font-weight: 800; line-height: 1; margin-bottom: 5px; }
+        .parcela { font-size: 0.8em; color: #555; margin-bottom: 15px; }
+        .btn-reserva-msc { background-color: #e50020; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: background-color 0.3s; margin-top: 10px; }
+        .btn-reserva-msc:hover { background-color: #b30018; }
+        
+        .section-title { color: #0056b3; text-align: center; margin-top: 30px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .beneficios-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .beneficio-item-msc { background-color: #f0f8ff; padding: 10px; border-left: 5px solid #0056b3; border-radius: 4px; font-size: 0.9em; }
+        .regras-section { margin-top: 30px; background-color: #f8f8f8; padding: 20px; border-radius: 8px; }
+        .regras-section h4 { color: #e50020; margin-top: 0; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+        .regra-item { font-size: 0.85em; color: #444; margin-bottom: 8px; }
+        .regras-tabela { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.9em; }
+        .regras-tabela th, .regras-tabela td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .regras-tabela th { background-color: #eee; font-weight: bold; }
+        .oferta-footer { text-align: center; font-size: 0.8em; color: #777; margin-top: 20px; }
+        
+        .btn-ver-todas-msc { display: block; text-align: center; padding: 12px; background-color: #0056b3; color: white; border-radius: 5px; margin-top: 25px; font-weight: bold; text-decoration: none; transition: background-color 0.3s; }
+        .btn-ver-todas-msc:hover { background-color: #004481; }
+
+        @media (max-width: 768px) {
+            .pacotes-grid { grid-template-columns: 1fr; }
+            .beneficios-grid { grid-template-columns: 1fr; }
+            .cruzeiro-card-grid { grid-template-columns: 1fr; }
+            .pacote-content h3 { font-size: 1.1em; }
+            .main-price { font-size: 1.8em; }
+        }
+    </style>
 </head>
 <body>
-    <div id="root">
-    </div>
+    <div id="root"></div>
 
     <script type="text/babel">
-{% raw %}
+        // Endpoints e Constantes
         const WHATSAPP_NUMBER = '5561983163710'; 
         const API_LEAD_URL = '/capturar_lead';
         const TELEFONE_REGEX = /^\d{10,11}$/; 
         
+        // Gatilho de Compra / Desconto VIP (Apenas para pacotes normais)
         const PROSPECT_DISCOUNT = '5%'; 
+        
+        // -----------------------------------------------------
+        // --- DADOS DE PACOTES OBTIDOS DO SUPABASE (DINÂMICO) ---
+        // -----------------------------------------------------
         
         const getImageUrl = (key) => {
             const IMAGENS = {
+                // Caminhos estáticos para as imagens no repositório
                 'Lençóis Maranhenses': '/static/Duna-e-agua-dos-lencois-Maranhenses.jpg', 
                 'Tailândia': '/static/Festival_Lanternas_Chiang_Mai_Tailandia_Fogos.jpg', 
                 'Gramado': '/static/GramadoSuaViagem-GrandeDesfileDeNatal2.webp', 
@@ -49,8 +160,12 @@
             return IMAGENS[key] || IMAGENS['Customizado']; 
         };
 
+        // VARIÁVEL DINÂMICA: O Flask injeta o JSON do Supabase aqui.
+        // O `pacotes_json` é a variável JSON serializada passada pelo render_template do Flask.
         const DADOS_ESTATICOS_ATUALIZAVEIS = JSON.parse('{{ pacotes_json | safe }}');
         
+        // -----------------------------------------------------
+
         const DESCRITIVOS_ROTEIROS = {
             "Fortaleza com Praia da Lagoinha": "☀️ Roteiro perfeito para quem ama sol, mar e aventura. Inclui a beleza rústica da Praia da Lagoinha e o agito da capital cearense.",
             "Salvador com Morro de São Paulo": "🏝️ Uma combinação imbatível de cidade histórica e ilha sem carros. Descanse e explore as famosas praias de Morro de São Paulo.",
@@ -80,7 +195,9 @@
             return `✈️ Consultoria Exclusiva: Conte-nos seus sonhos para criarmos uma experiência incomum e aplicarmos seu ${PROSPECT_DISCOUNT} de Desconto VIP!`;
         };
         
+        // --- COMPONENTE: Card de Pacote Individual (AJUSTADO PARA USAR pacote.parcelas) ---
         const PacoteCard = ({ pacote, onSelect, isSelected }) => {
+            // Nota: O pacote do Supabase deve ter as chaves: nome, saida, tipo, desc, imgKey, preco_atual, preco_antigo, noites, moeda, parcelas
             const nomeCompleto = pacote.nome + (pacote.saida ? ` | Saída: ${pacote.saida}` : '');
             
             if (pacote.tipo === 'CONSULTORIA') {
@@ -103,7 +220,7 @@
             }
             
             const precoMaisBaixoParcela = pacote.preco_atual ? Number(pacote.preco_atual) : null;
-            const precoTotal = pacote.preco_antigo ? Number(pacote.preco_antigo) : null; 
+            const precoTotal = pacote.preco_antigo ? Number(pacote.preco_antigo) : null;
             const moedaSimbolo = pacote.moeda && pacote.moeda === 'USD' ? 'US$' : 'R$' ;
             const noites = pacote.noites || 'Consulte';
 
@@ -129,7 +246,8 @@
                                      {moedaSimbolo} {precoTotal.toLocaleString('pt-BR', { minimumFractionDigits: 0 })} à vista *
                                 </span>
                                 
-                                <span className="price-label">Parcele em até 10x de:</span>
+                                {/* AJUSTE AQUI: Usando pacote.parcelas com fallback para 10 */}
+                                <span className="price-label">Parcele em até {pacote.parcelas || 10}x de:</span> 
                                 <div className="price-value">
                                     <span className="installments">{moedaSimbolo}</span>
                                     <span className="main-price">{precoMaisBaixoParcela.toLocaleString('pt-BR', { minimumFractionDigits: 0 })}</span>
@@ -161,6 +279,7 @@
             );
         };
         
+        // --- COMPONENTE: Vitrine (Container) (MANTIDO) ---
         const VitrinePacotes = ({ pacotes, onSelect, pacoteSelecionado }) => {
             const consultoria = pacotes.find(p => p.tipo === 'CONSULTORIA');
             
@@ -192,6 +311,9 @@
         };
         
         
+        // --------------------------------------------------------------------------------------
+        // --- DADOS ESTATICOS MSC BINGO (MANTIDO) ---
+        // --------------------------------------------------------------------------------------
         const CRUZEIROS_OFERTA_MSC = [
             {
                 navio: "MSC Preziosa",
@@ -229,6 +351,9 @@
             "Serviço FSR: Consultoria e auxílio na documentação de embarque."
         ];
         
+        // --------------------------------------------------------------------------------------
+        // --- NOVO COMPONENTE: OFERTA MSC BINGO (MANTIDO) ---
+        // --------------------------------------------------------------------------------------
         const OfertaMSCBingo = ({ onSelect, onBack, pacoteSelecionado }) => {
             
             const handleCardSelect = (navioNome) => {
@@ -345,6 +470,9 @@
             );
         }
         
+        // --------------------------------------------------------------------------------------
+        // --- COMPONENTE PRINCIPAL: App (MANTIDO) ---
+        // --------------------------------------------------------------------------------------
         const App = () => {
             const [nome, setNome] = React.useState('');
             const [telefone, setTelefone] = React.useState('');
@@ -559,7 +687,6 @@
         };
 
         ReactDOM.render(<App />, document.getElementById('root'));
-{% endraw %} 
     </script> 
 </body>
 </html>
