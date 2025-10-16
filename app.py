@@ -125,7 +125,9 @@ def index():
     if pacotes is not None:
          pacotes.append(consultoria_card)
 
-    return render_template('index.html', pacotes_json=json.dumps(pacotes))
+    # CORREÇÃO DE SEGURANÇA/PERFORMANCE:
+    # Passa a lista de pacotes como objeto Python, para ser serializada de forma segura com | tojson no template.
+    return render_template('index.html', pacotes_data=pacotes)
 
 @app.route('/politica-de-privacidade.html')
 def politica_de_privacidade():
@@ -176,6 +178,7 @@ def admin_pacotes_form(pacote_id=None):
         
         ativo_status = 'ativo' in data 
         
+        # CORREÇÃO: Inclusão dos novos campos no dicionário pacote_data
         pacote_data = {
             "nome": data.get('nome_pacote'), 
             "destino": data.get('destino'),
@@ -187,6 +190,9 @@ def admin_pacotes_form(pacote_id=None):
             "imagem_url": data.get('imagem_url'), 
             "imgKey": data.get('imgKey'),
             "tipo": data.get('tipo'),
+            "moeda": data.get('moeda'), # NOVO CAMPO
+            "parcelas": int(data.get('parcelas', 10)), # NOVO CAMPO - Garantindo que é int
+            "noites": data.get('noites'), # NOVO CAMPO
             "ordem": int(data.get('ordem', 99)),
             "ativo": ativo_status
         }
@@ -217,6 +223,7 @@ def admin_pacotes_editar(pacote_id):
         data = request.form.to_dict()
         ativo_status = 'ativo' in data 
         
+        # CORREÇÃO: Inclusão dos novos campos no dicionário pacote_data
         pacote_data = {
             "nome": data.get('nome_pacote'), 
             "destino": data.get('destino'),
@@ -228,6 +235,9 @@ def admin_pacotes_editar(pacote_id):
             "imagem_url": data.get('imagem_url'),
             "imgKey": data.get('imgKey'),
             "tipo": data.get('tipo'),
+            "moeda": data.get('moeda'), # NOVO CAMPO
+            "parcelas": int(data.get('parcelas', 10)), # NOVO CAMPO - Garantindo que é int
+            "noites": data.get('noites'), # NOVO CAMPO
             "ordem": int(data.get('ordem', 99)),
             "ativo": ativo_status
         }
@@ -270,7 +280,10 @@ def capturar_lead():
         telefone = data.get('telefone')
         pacote_selecionado = data.get('pacoteSelecionado')
         data_viagem = data.get('dataViagem')
-        passageiros = data.get('passageiros')
+        
+        # O campo 'passageiros' foi omitido na solicitação POST do front-end,
+        # mas mantemos o tratamento de limpeza e valor padrão de 1.
+        passageiros = data.get('passageiros') 
         origem_lead = data.get('origem_lead', 'Desconhecida')
         data_captura = data.get('data_captura', datetime.now().isoformat())
         
