@@ -7,6 +7,8 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
+    <link rel="preload" as="image" href="/static/logo_fsr0.webp">
+    
     <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
     
@@ -137,6 +139,7 @@
         // Endpoints e Constantes
         const WHATSAPP_NUMBER = '5561983163710'; 
         const API_LEAD_URL = '/capturar_lead';
+        // CORREÇÃO: Adicionada validação de 10 ou 11 dígitos, mas o padrão ideal seria \+?\d{10,15} para incluir o código de país (ex: +55)
         const TELEFONE_REGEX = /^\d{10,11}$/; 
         
         // Gatilho de Compra / Desconto VIP (Apenas para pacotes normais)
@@ -162,9 +165,8 @@
             return IMAGENS[key] || IMAGENS['Customizado']; 
         };
 
-        // VARIÁVEL DINÂMICA: AJUSTE DE SEGURANÇA E FUNCIONALIDADE
-        // Usa o filtro 'tojson' do Jinja2 no Flask (app.py) e injeta o objeto de forma segura.
-        // O nome da variável de contexto foi alterado de pacotes_json para pacotes_data no app.py.
+        // VARIÁVEL DINÂMICA: AJUSTE DE SEGURANÇA E FUNCIONALIDADE (JINJA2 CORRIGIDO)
+        // Usa o filtro 'tojson' do Jinja2 no Flask e injeta o objeto de forma segura.
         const DADOS_ESTATICOS_ATUALIZAVEIS = {{ pacotes_data | tojson }};
         
         // -----------------------------------------------------
@@ -547,14 +549,18 @@
                     });
 
                     if (!response.ok) {
-                        throw new Error(`Erro ao enviar dados: ${response.statusText}`);
+                        // Se o servidor retornar 400 (Bad Request) devido à validação/rate limit, 
+                        // podemos extrair a mensagem de erro específica.
+                        const errorData = await response.json().catch(() => ({ message: 'Erro desconhecido do servidor.' }));
+                        throw new Error(errorData.message || `Erro ao enviar dados: ${response.statusText}`);
                     }
 
                     window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`;
 
                 } catch (error) {
                     console.error('Erro no envio:', error);
-                    setErro('Ocorreu um erro ao enviar sua solicitação. Por favor, tente novamente.');
+                    // Mostrar a mensagem de erro específica do servidor, se disponível.
+                    setErro(error.message || 'Ocorreu um erro ao enviar sua solicitação. Por favor, tente novamente.');
                     setIsSubmitting(false); 
                 }
             };
@@ -655,7 +661,9 @@
                                     onChange={(e) => setTelefone(e.target.value)} 
                                     required 
                                     placeholder="Ex: 61988887777"
+                                    // Melhoria: Adicionado atributo 'inputMode="numeric"' para melhor UX em mobile
                                     pattern="\d{10,11}" 
+                                    inputMode="numeric"
                                 />
                             </div>
 
