@@ -414,7 +414,9 @@ def setup_database():
 
 # --- INICIALIZAÇÃO (APENAS PARA USO DE DESENVOLVIMENTO LOCAL) ---
 
-if __name__ == '__main__':
-    # Nenhum agendador para iniciar aqui.
-    print("--- Modo de Desenvolvimento Local (Executando app.run) ---")
-    app.run(host='0.0.0.0', port=os.environ.get('PORT', 5000), debug=True, use_reloader=False)
+# ESTE BLOCO FOI COMENTADO PARA GARANTIR QUE APENAS O GUNICORN INICIE A APLICAÇÃO EM PRODUÇÃO.
+# if __name__ == '__main__':
+#     # Nenhum agendador para iniciar aqui.
+#     print("--- Modo de Desenvolvimento Local (Executando app.run) ---")
+#     app.run(host='0.0.0.0', port=os.environ.get('PORT', 5000), debug=True, use_reloader=False)
+
