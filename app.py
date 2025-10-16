@@ -5,7 +5,8 @@ from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_cors import CORS
 import json 
 import re 
-from datetime import datetime 
+# CORREÇÃO: Adicionando 'date' e 'timedelta' para validação de data
+from datetime import datetime, date, timedelta 
 from supabase import create_client, Client
 
 # --- CONFIGURAÇÃO DO APP E CLIENTE SUPABASE ---
@@ -264,31 +265,72 @@ def admin_pacotes_excluir(pacote_id):
         return jsonify({"message": f"Erro ao excluir pacote: {e}"}, 500)
 
 
-# --- ROTAS DE CAPTURA DE LEAD E GERENCIAMENTO ---
+# --- ROTAS DE CAPTURA DE LEAD E GERENCIAMENTO (CORRIGIDA) ---
 
 @app.route('/capturar_lead', methods=['POST'])
 def capturar_lead():
     DATABASE_URL = os.environ.get('DATABASE_URL')
-    if not DATABASE_URL:
-         print("Aviso: DATABASE_URL não está configurada. Lead não será salvo no DB.")
-         return jsonify({"message": "Lead capturado com sucesso (sem DB)."}, 200)
-
+    
     try:
         data = request.get_json()
-        
+        if not data:
+            return jsonify({"message": "Payload inválido. JSON não encontrado."}, 400)
+
+        # 1. Obter e corrigir nomes dos campos de acordo com o front-end
         nome = data.get('nome')
         telefone = data.get('telefone')
-        pacote_selecionado = data.get('pacoteSelecionado')
-        data_viagem = data.get('dataViagem')
+        # CORREÇÃO DE NOME DE CAMPO: Front-end envia 'pacote' e 'data_viagem'
+        pacote = data.get('pacote')
+        data_viagem_str = data.get('data_viagem')
         
-        # O campo 'passageiros' foi omitido na solicitação POST do front-end,
-        # mas mantemos o tratamento de limpeza e valor padrão de 1.
-        passageiros = data.get('passageiros') 
-        origem_lead = data.get('origem_lead', 'Desconhecida')
-        data_captura = data.get('data_captura', datetime.now().isoformat())
+        # Passageiros é opcional, mantém o default 1
+        passageiros = data.get('passageiros', 1) 
+        # Origem é enviada como 'origem' no front-end
+        origem_lead = data.get('origem', 'LandingPageFSR') 
+        data_captura = datetime.now().isoformat()
         
+        # 2. VALIDAÇÃO DE ENTRADA (MÍNIMO)
+        
+        # Validação do Nome
+        if not nome or len(nome.strip()) < 3:
+            return jsonify({"message": "Nome inválido. Deve ter pelo menos 3 caracteres."}, 400)
+            
+        # Validação do Telefone (10 ou 11 dígitos, como no front-end)
         telefone = re.sub(r'[^0-9]', '', str(telefone))
-        passageiros = int(passageiros) if isinstance(passageiros, (str, int)) and str(passageiros).isdigit() else 1
+        # O REGEX do front-end é \d{10,11}
+        if not telefone or not re.match(r'^\d{10,11}$', telefone):
+            return jsonify({"message": "Telefone (WhatsApp) inválido. Deve conter 10 ou 11 dígitos (DDD + Número)."}, 400)
+        
+        # Validação do Pacote
+        if not pacote:
+            return jsonify({"message": "Pacote selecionado não pode ser vazio."}, 400)
+        
+        # Validação da Data de Viagem
+        if not data_viagem_str:
+            return jsonify({"message": "Data de viagem não pode ser vazia."}, 400)
+
+        try:
+            # Converte a string de data (ISO format: YYYY-MM-DD) para um objeto date
+            data_viagem_dt = date.fromisoformat(data_viagem_str)
+            
+            # Validação: Data deve ser pelo menos 4 dias no futuro (como no front-end)
+            min_date = date.today() + timedelta(days=3) # Today + 4 days, ou seja, > 3 dias
+            if data_viagem_dt < min_date:
+                return jsonify({"message": "Data de viagem muito próxima ou inválida. Escolha uma data com pelo menos 4 dias de antecedência."}, 400)
+        except ValueError:
+            return jsonify({"message": "Formato de data de viagem inválido (Esperado YYYY-MM-DD)."}, 400)
+        
+        # Garantindo que passageiros é um int 
+        try:
+            passageiros = int(passageiros)
+        except (ValueError, TypeError):
+            passageiros = 1 
+            
+        if not DATABASE_URL:
+             print("Aviso: DATABASE_URL não está configurada. Lead não será salvo no DB.")
+             return jsonify({"message": "Lead capturado com sucesso (sem DB)."}, 200)
+
+        # 3. LOGICA DE INSERÇÃO NO BANCO DE DADOS
         
         db_url = corrigir_url_db(DATABASE_URL)
         conn = psycopg2.connect(db_url)
@@ -299,7 +341,8 @@ def capturar_lead():
             INSERT INTO leads (nome, telefone, pacote_selecionado, data_viagem, passageiros, origem_lead, data_captura)
             VALUES (%s, %s, %s, %s, %s, %s, %s)
             """,
-            (nome, telefone, pacote_selecionado, data_viagem, passageiros, origem_lead, data_captura)
+            # Usando 'pacote' e 'data_viagem_dt' (já validada e como objeto date)
+            (nome, telefone, pacote, data_viagem_dt, passageiros, origem_lead, data_captura)
         )
         
         conn.commit()
@@ -310,9 +353,10 @@ def capturar_lead():
 
     except psycopg2.Error as e:
         print(f"Erro ao salvar o lead no banco de dados: {e}")
-        return jsonify({"message": "Erro interno ao salvar lead no DB.", "error": str(e)}, 500)
+        return jsonify({"message": "Erro interno ao salvar lead no DB. Tente novamente."}, 500)
     except Exception as e:
         print(f"Erro inesperado na captura de lead: {e}")
+        # Retorna o erro 500 para qualquer exceção não tratada, prevenindo travamento.
         return jsonify({"message": "Erro inesperado.", "error": str(e)}, 500)
 
 
