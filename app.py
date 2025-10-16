@@ -3,6 +3,8 @@ import psycopg2
 from functools import wraps
 from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_cors import CORS
+# NOVO: Importa o Talisman para adicionar cabeçalhos de segurança
+from flask_talisman import Talisman 
 import json 
 import re 
 # CORREÇÃO: Adicionando 'date' e 'timedelta' para validação de data
@@ -13,6 +15,8 @@ from supabase import create_client, Client
 
 app = Flask(__name__)
 CORS(app)
+# AJUSTE DE SEGURANÇA: Inicializa o Talisman para adicionar cabeçalhos de segurança (HSTS, CSP padrão, etc.)
+Talisman(app)
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
