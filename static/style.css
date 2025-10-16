@@ -772,6 +772,25 @@ tbody tr:hover {
 }
 
 
+/* ==================================
+   AJUSTES DE VISIBILIDADE (PARA LÓGICA DO JAVASCRIPT)
+   ================================== */
+
+.hidden {
+    display: none !important;
+}
+
+/* Garante que o container principal seja o que aparece/desaparece */
+.container.form-container.hidden {
+    display: none !important;
+}
+
+/* Garante que o container da oferta MSC seja o que aparece/desaparece */
+.oferta-container.hidden {
+    display: none !important;
+}
+
+
 /* =========================================================
    8. ESTILOS ESPECÍFICOS PARA A OFERTA MSC BINGO (NOVOS)
    ========================================================= */
