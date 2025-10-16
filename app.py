@@ -115,7 +115,9 @@ def index():
         try:
             # Busca do Supabase: Pacotes ATIVOS, ordenados por 'ordem'
             response = supabase_client.table("pacotes").select("*").eq('ativo', True).order('ordem', desc=False).execute()
-            pacotes = response.data
+            
+            # Garante que pacotes seja uma lista, mesmo que a resposta seja None ou vazia
+            pacotes = response.data if response and response.data is not None else []
             
             # Aplica lógica de tipo/chave de imagem se necessário (melhor que venha do DB)
             for pacote in pacotes:
@@ -174,7 +176,13 @@ def admin_pacotes_index():
     try:
         # Busca todos os pacotes (ativos e inativos)
         response = supabase_client.table("pacotes").select("*").order('id', desc=True).execute()
-        pacotes = response.data
+        
+        # --- CORREÇÃO: Trata o caso em que a resposta é None (nula) para evitar 'NoneType' object is not subscriptable ---
+        if response is None:
+             pacotes = [] 
+        else:
+             pacotes = response.data
+        # ------------------------------------------------------------------------------------------------------------------
         
         # Renderiza a tabela de gerenciamento (index)
         return render_template('admin_pacotes_index.html', pacotes=pacotes)
@@ -419,4 +427,3 @@ def setup_database():
 #     # Nenhum agendador para iniciar aqui.
 #     print("--- Modo de Desenvolvimento Local (Executando app.run) ---")
 #     app.run(host='0.0.0.0', port=os.environ.get('PORT', 5000), debug=True, use_reloader=False)
-
