@@ -1,48 +1,29 @@
+# agencia_app/admin.py
+
 from django.contrib import admin
-from .models import Lead, ConteudoLandingPage
+from .models import Lead
 
-# ==============================================================================
-# Customização para o Lead (melhor visualização)
-# ==============================================================================
-@admin.register(Lead)
+# Customiza como o modelo Lead será exibido no painel administrativo
 class LeadAdmin(admin.ModelAdmin):
+    """
+    Configuração de exibição do modelo Lead no Admin do Django.
+    """
     # Campos que serão exibidos na lista de Leads
-    list_display = ('nome', 'email', 'telefone', 'destino_interesse', 'data_captura', 'foi_contatado')
+    list_display = ('nome', 'email', 'telefone', 'data_cadastro', 'origem')
+    
+    # Campos pelos quais você pode pesquisar
+    search_fields = ('nome', 'email', 'telefone')
+    
+    # Filtros laterais (excelente para classificar por origem, por exemplo)
+    list_filter = ('origem', 'data_cadastro')
+    
+    # Torna a data de cadastro um campo somente leitura
+    readonly_fields = ('data_cadastro',)
 
-    # Campos para filtro rápido
-    list_filter = ('foi_contatado', 'data_captura')
+# Registra o modelo Lead com a nossa customização
+admin.site.register(Lead, LeadAdmin)
 
-    # Campos de busca
-    search_fields = ('nome', 'email', 'telefone', 'destino_interesse')
-
-    # Ações rápidas (marcar como contatado)
-    actions = ['marcar_como_contatado']
-
-    def marcar_como_contatado(self, request, queryset):
-        """Ação para marcar os leads selecionados como 'contatados'."""
-        updated = queryset.update(foi_contatado=True)
-        self.message_user(request, f'{updated} leads foram marcados como contatados.')
-    marcar_como_contatado.short_description = "Marcar Leads Selecionados como Contatados"
-
-# ==============================================================================
-# Customização para o Conteúdo da Landing Page
-# ==============================================================================
-@admin.register(ConteudoLandingPage)
-class ConteudoLandingPageAdmin(admin.ModelAdmin):
-    # Garante que só haja um único registro para gerenciar
-    def has_add_permission(self, request):
-        return not ConteudoLandingPage.objects.exists()
-
-    # Define a ordem dos campos no formulário de edição
-    fieldsets = (
-        ('Textos Principais', {
-            'fields': ('titulo_principal', 'subtitulo_oferta', 'descricao_oferta')
-        }),
-        ('Detalhes da Oferta', {
-            'fields': ('valor_oferta', 'parcelamento_max')
-        }),
-        ('Branding e Imagem', {
-            'fields': ('nome_agencia', 'imagem_url')
-        }),
-    )
-    list_display = ('nome_agencia', 'titulo_principal') # Exibe na lista
+# Documentação:
+# - admin.site.register(): Função para incluir o modelo na área administrativa.
+# - list_display: Uma tupla de nomes de campo a serem exibidos como colunas na página de lista de objetos.
+# - search_fields: Uma tupla de nomes de campo que serão pesquisados quando alguém usar a barra de pesquisa.
