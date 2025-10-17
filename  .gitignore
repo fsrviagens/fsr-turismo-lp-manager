@@ -1,0 +1,26 @@
+Arquivos e pastas ignorados para um projeto Django
+​Python
+​pycache/
+*.pyc
+*.pyo
+*.pyd
+*~
+*.log
+.mypy_cache/
+.pytest_cache/
+.vscode/
+​Ambientes Virtuais (Virtual Environments)
+​Se você usar venv ou virtualenv
+​venv/
+env/
+.venv/
+​Banco de Dados Local do Django
+​O Django usa o SQLite para desenvolvimento local por padrão.
+​db.sqlite3
+​Arquivos de Variáveis de Ambiente e Chaves Secretas
+​Nunca comite suas chaves secretas ou credenciais!
+​.env
+.env.local
+​Arquivos Estáticos Gerados
+​Pasta onde o 'python manage.py collectstatic' salva os arquivos de produção
+​/staticfiles/
