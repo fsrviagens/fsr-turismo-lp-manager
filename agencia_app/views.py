@@ -1,97 +1,86 @@
+# agencia_app/views.py
+
 from django.shortcuts import render, redirect
-from django.views.decorators.http import require_POST
 from django.urls import reverse
-from urllib.parse import quote
-from .models import Lead, ConteudoLandingPage
-import os
+from django.views.decorators.http import require_POST, require_http_methods
+from .models import Lead
+from urllib.parse import quote # Ajuda a formatar mensagens de URL
 
-# Número de telefone da agência (ajustado para o formato WhatsApp)
-WHATSAPP_NUMBER = "5561983163710"
-
-# ==============================================================================
-# VIEW 1: RENDERIZAÇÃO DA LANDING PAGE
-# ==============================================================================
+# Sua view principal para a Landing Page
 def landing_page(request):
     """
-    Carrega o conteúdo mais recente do ConteudoLandingPage e 
-    renderiza o rascunho HTML com os dados dinâmicos.
+    Exibe a Landing Page. Se houver métodos POST, o processamento será feito
+    por uma view separada (melhor prática).
     """
-    try:
-        # Pega o primeiro (e único) registro de conteúdo. 
-        conteudo = ConteudoLandingPage.objects.first()
-        if not conteudo:
-             # Cria um objeto com valores padrão caso o banco esteja vazio
-             conteudo = ConteudoLandingPage() 
-             
-    except Exception as e:
-        # Se houver erro de banco de dados, usa um objeto vazio para não quebrar.
-        print(f"Erro ao carregar Conteúdo da Landing Page: {e}")
-        conteudo = ConteudoLandingPage()
+    # Esta view simplesmente renderiza o template 'index.html'
+    return render(request, 'index.html')
 
-    context = {
-        'conteudo': conteudo,
-        'form_submitted': request.session.pop('form_submitted', False), # Para mostrar mensagem de sucesso
-    }
-    # Aqui, a view vai carregar o HTML que definiremos a seguir (templates/index.html)
-    return render(request, 'index.html', context)
 
-# ==============================================================================
-# VIEW 2: PROCESSAMENTO DO FORMULÁRIO DE LEAD
-# ==============================================================================
-@require_POST # Garante que esta view só responda a requisições POST (envio de formulário)
+@require_POST
 def capturar_lead(request):
     """
-    Valida os dados do formulário, salva o Lead no banco de dados 
-    e redireciona para o WhatsApp com a mensagem pré-preenchida.
+    Processa o formulário de captação de Leads, salva no banco de dados
+    e redireciona o usuário para o WhatsApp.
     """
-    
-    # 1. Coleta e sanitiza os dados do formulário
-    nome = request.POST.get('nome', '').strip()
-    email = request.POST.get('email', '').strip()
-    telefone = request.POST.get('telefone', '').strip()
-    destino_interesse = request.POST.get('destino_interesse', '').strip()
-    
-    # 2. Validação Mínima (todos os campos são obrigatórios pelo modelo)
-    if not all([nome, email, telefone, destino_interesse]):
-        print("Erro: Todos os campos são obrigatórios.")
-        return redirect('agencia_app:landing_page')
+    if request.method == 'POST':
+        # 1. Receber os dados do formulário
+        nome = request.POST.get('nome')
+        email = request.POST.get('email')
+        telefone = request.POST.get('telefone')
+        
+        # Opcional: Adicionar validação de dados (por exemplo, se campos são vazios)
+        if not all([nome, email, telefone]):
+             # Caso falte algum dado, podemos redirecionar de volta com uma mensagem de erro
+             # (Em uma solução completa, usaríamos Django Forms para melhor validação)
+             return redirect(reverse('landing_page'))
+        
+        try:
+            # 2. Salvar o Lead no banco de dados
+            lead = Lead.objects.create(
+                nome=nome,
+                email=email,
+                telefone=telefone,
+                origem="Landing Page" # Opcional: Garante a origem
+            )
+            # O objeto lead agora tem um ID
+            
+            # --- 3. Preparar a URL do WhatsApp ---
+            
+            # O número de telefone da sua agência (com código do país e área, sem caracteres especiais)
+            # Exemplo: 5521988887777 (55 = Brasil, 21 = DDD)
+            NUMERO_WHATSAPP_AGENCIA = "5561983163710" # <--- **AJUSTE AQUI**
+            
+            # Mensagem pré-preenchida para o atendente
+            mensagem_base = (
+                f"Olá! Sou o(a) {nome} e acabei de me cadastrar na landing page. "
+                f"Meu email é {email}. Tenho interesse em uma viagem!"
+            )
+            
+            # Usamos quote para garantir que a mensagem se encaixe na URL sem problemas
+            mensagem_formatada = quote(mensagem_base)
+            
+            # URL de redirecionamento final para o WhatsApp
+            url_whatsapp = (
+                f"https://api.whatsapp.com/send?"
+                f"phone={NUMERO_WHATSAPP_AGENCIA}&"
+                f"text={mensagem_formatada}"
+            )
+            
+            # 4. Redirecionar o usuário
+            return redirect(url_whatsapp)
+            
+        except Exception as e:
+            # Captura erros, como email duplicado (unique=True em models.py)
+            print(f"Erro ao salvar o lead: {e}")
+            # Em caso de erro, redireciona de volta para a landing page.
+            return redirect(reverse('landing_page'))
+            
+    # Se a requisição não for POST (o que não deve acontecer por causa do @require_POST), apenas redireciona.
+    return redirect(reverse('landing_page')) 
 
-    try:
-        # 3. Salva o Lead no banco de dados (Supabase/PostgreSQL)
-        lead = Lead.objects.create(
-            nome=nome,
-            email=email,
-            telefone=telefone,
-            destino_interesse=destino_interesse
-        )
-        
-        # Define uma flag para exibir a mensagem de sucesso após o redirect
-        # Note que precisamos da chave 'session' para isso funcionar.
-        request.session['form_submitted'] = True 
-        
-        # 4. Constrói a Mensagem Pré-preenchida para o WhatsApp
-        conteudo = ConteudoLandingPage.objects.first()
-        valor = f"R${conteudo.valor_oferta:.2f} ({conteudo.parcelamento_max}x)" if conteudo else "a oferta principal"
-
-        message_template = (
-            f"Olá, FSR Turismo! Meu nome é {nome} e sou um novo lead interessado em viagens."
-            f"\n\nDetalhes do meu interesse:"
-            f"\n- Destino Desejado: {destino_interesse}"
-            f"\n- Oferta Vista: {valor}"
-            f"\n- Meu Telefone: {telefone}"
-            f"\n\nAguardo o contato para planejarmos juntos!"
-        )
-        
-        # Codifica a URL para o WhatsApp
-        whatsapp_url = (
-            f"https://api.whatsapp.com/send?phone={WHATSAPP_NUMBER}"
-            f"&text={quote(message_template)}"
-        )
-        
-        # 5. Redireciona o usuário para o link do WhatsApp
-        return redirect(whatsapp_url)
-
-    except Exception as e:
-        print(f"Erro ao salvar o Lead ou processar: {e}")
-        # Em caso de erro (ex: e-mail duplicado), redireciona de volta
-        return redirect('agencia_app:landing_page')
+# Documentação:
+# - @require_POST: Decorador que garante que esta função só aceita requisições POST (submissão de formulário).
+# - request.POST.get(): Método para extrair dados do formulário enviado.
+# - Lead.objects.create(): Método do Django ORM para criar e salvar um novo objeto (linha) no banco de dados.
+# - urllib.parse.quote(): Essencial para codificar a mensagem do WhatsApp para que funcione em um URL.
+# - reverse('landing_page'): Usado para obter a URL da 'landing_page' (definida em urls.py) pelo nome.
