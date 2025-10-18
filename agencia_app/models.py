@@ -1,6 +1,26 @@
 # agencia_app/models.py
 
 from django.db import models
+from django.core.exceptions import ValidationError
+
+# ====================================================================
+# CHOICES (Boas Práticas: Usar para dados categóricos)
+# ====================================================================
+
+BUDGET_CHOICES = [
+    ('5K_10K', 'R$5.000 - R$10.000'),
+    ('10K_20K', 'R$10.000 - R$20.000'),
+    ('20K+', 'Acima de R$20.000'),
+    ('Nao_Informado', 'Não Informado'),
+]
+
+PREVISAO_CHOICES = [
+    ('3M', 'Próximos 3 meses'),
+    ('6M', 'Próximos 6 meses'),
+    ('1A', 'Próximo Ano'),
+    ('Flexivel', 'Flexível/Indefinido'),
+]
+
 
 # ====================================================================
 # 1. MODELO PARA CAPTURA DE LEADS
@@ -29,6 +49,21 @@ class Lead(models.Model):
         null=True, 
         verbose_name="Destino de Interesse Principal"
     )
+    
+    # NOVOS CAMPOS: Usando choices para padronizar a informação
+    budget_disponivel = models.CharField(
+        max_length=15,
+        choices=BUDGET_CHOICES,
+        default='Nao_Informado',
+        verbose_name="Orçamento Disponível"
+    )
+    previsao_data = models.CharField(
+        max_length=10,
+        choices=PREVISAO_CHOICES,
+        default='Flexivel',
+        verbose_name="Previsão de Viagem"
+    )
+
     data_cadastro = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Data de Cadastro"
@@ -64,6 +99,7 @@ class ConfiguracaoLandingPage(models.Model):
         default="FSR Viagens & Turismo",
         verbose_name="Nome da Agência"
     )
+    # A URLField é a escolha correta, pois a imagem será servida pelo Cloudflare R2
     logo_url = models.URLField(
         verbose_name="URL do Logo",
         blank=True,
@@ -84,7 +120,7 @@ class ConfiguracaoLandingPage(models.Model):
     )
     imagem_url = models.URLField(
         verbose_name="URL da Imagem de Fundo (Hero)",
-        help_text="Link para a imagem de alta qualidade que aparece no topo da página.",
+        help_text="Link para a imagem de alta qualidade que aparece no topo da página (R2/CDN).",
         default="https://images.unsplash.com/photo-1542010589005-d1eacc394a2a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     )
     
@@ -114,9 +150,9 @@ class ConfiguracaoLandingPage(models.Model):
     def __str__(self):
         return f"Configurações Atuais da Landing Page"
     
-    # Regra: Limita a APENAS um registro no banco de dados.
+    # Regra Singleton: Limita a APENAS um registro no banco de dados.
     def save(self, *args, **kwargs):
         if self.__class__.objects.count() >= 1 and not self.id:
-            from django.core.exceptions import ValidationError
+            # Não precisamos do import dentro do método, pois está no topo.
             raise ValidationError("Você só pode ter uma configuração de Landing Page. Edite a existente.")
         super(ConfiguracaoLandingPage, self).save(*args, **kwargs)
