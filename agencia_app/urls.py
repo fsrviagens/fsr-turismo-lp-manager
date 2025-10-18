@@ -1,16 +1,15 @@
-# agencia_app/urls.py
+# agencia_app/urls.py (ÚNICO ARQUIVO DE ROTAS)
 
-from django.urls import path
-from . import views
+from django.contrib import admin
+from django.urls import path, include
+from . import views # Importa as views do aplicativo
 
 urlpatterns = [
-    # URL principal da Landing Page (por exemplo: http://fsr.tur.br/)
-    path('', views.landing_page, name='landing_page'),
+    # 1. Rota OBRIGATÓRIA para a área de Administração do Django
+    path('admin/', admin.site.urls),
     
-    # URL para onde o formulário será submetido (POST)
+    # 2. Rotas do Aplicativo (Landing Page e Captura)
+    # Como este é o Root URLconf, não usamos 'include', mapeamos diretamente:
+    path('', views.landing_page, name='landing_page'),
     path('capturar/', views.capturar_lead, name='capturar_lead'),
 ]
-
-# Documentação:
-# - path('', ...): Liga a raiz do aplicativo (app) à view que exibe o CMS.
-# - path('capturar/', ...): Liga o caminho de submissão do formulário à view que salva o Lead.
