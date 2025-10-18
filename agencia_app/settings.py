@@ -5,7 +5,7 @@ from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
 
-# Carrega variáveis do .env (Apenas para desenvolvimento local e chaves que não são secrets no Railway)
+# Carrega variáveis do .env (Apenas para desenvolvimento local)
 load_dotenv() 
 
 # Define a raiz do projeto. Essencial!
@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # 1. CONFIGURAÇÕES BÁSICAS E DE SEGURANÇA
 # ====================================================================
 
-# Chave Secreta (CRÍTICO: Lida do ambiente. O fallback local é SOMENTE para desenvolvimento)
+# Chave Secreta (CRÍTICO: Lida do ambiente. O fallback é para desenvolvimento SOMENTE)
 SECRET_KEY = os.getenv('SECRET_KEY', 'default-django-secret-key-para-local-MUITO-INSEGURO')
 
 # Modo de Desenvolvimento/Produção
@@ -29,8 +29,6 @@ if DEBUG:
     ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 else:
     # Em produção, deve ler do ambiente a lista EXATA de domínios.
-    # Ex: ALLOWED_HOSTS = fsr.tur.br,www.fsr.tur.br,8w3neyqk.up.railway.app
-    # O fallback é uma vulnerabilidade, mas necessário se a variável não estiver definida.
     ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'fsr.tur.br,www.fsr.tur.br').split(',')
 
 
@@ -46,14 +44,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     
-    # WhiteNoise (deve vir antes de 'staticfiles' para a configuração)
+    # WhiteNoise (deve vir antes de 'staticfiles' para a configuração de DEV)
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
 
     # Apps de Terceiros que você incluiu
     'corsheaders',
-    # ADICIONE AQUI: O Backend de Storage, se estiver usando S3 ou R2
-    # 'storages', 
+    'storages',  # ADICIONADO: Necessário para usar django-storages (R2/S3)
 
     # SEU APP
     'agencia_app', 
@@ -62,7 +59,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     
-    # WhiteNoise para servir arquivos estáticos em produção (ADICIONADO)
+    # WhiteNoise para servir arquivos estáticos em DEV/Produção (se não usar o R2 para estáticos)
     'whitenoise.middleware.WhiteNoiseMiddleware',
     
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -77,7 +74,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# CORREÇÃO CRÍTICA: Módulos devem apontar para 'agencia_app'
+# Configurações de Módulos (Corrigidas)
 ROOT_URLCONF = 'agencia_app.urls' 
 WSGI_APPLICATION = 'agencia_app.wsgi.application'
 
@@ -111,7 +108,7 @@ DATABASES = {
     )
 }
 
-# Configurações de SSL ESSENCIAIS para PostgreSQL em nuvem
+# Configurações de SSL ESSENCIAIS para PostgreSQL em nuvem (Supabase)
 if 'postgresql' in os.getenv('DATABASE_URL', ''):
     DATABASES['default']['OPTIONS'] = {
         'sslmode': 'require', 
@@ -119,47 +116,55 @@ if 'postgresql' in os.getenv('DATABASE_URL', ''):
 
 
 # ====================================================================
-# 4. ARQUIVOS ESTÁTICOS (WHITENOISE)
+# 4. ARQUIVOS ESTÁTICOS (CONFIGURAÇÃO BASE)
 # ====================================================================
 
 STATIC_URL = 'static/'
-
-# Onde o 'python manage.py collectstatic' vai despejar os arquivos
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-# Configuração do Whitenoise para compactação e cache
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 # Pasta que o Django deve buscar arquivos estáticos além dos apps (opcional)
-STATICFILES_DIRS = [
-    # BASE_DIR / 'static', 
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'static', 
+# ]
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
 # ====================================================================
-# 5. ARQUIVOS DE MÍDIA (UPLOAD DE USUÁRIOS) - ESTRATÉGIA SÊNIOR
+# 5. ARQUIVOS DE MÍDIA E ESTÁTICOS EM PRODUÇÃO (CLOUDFLARE R2)
 # ====================================================================
+
+# Comportamento de mídia em desenvolvimento local
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 
 if not DEBUG:
-    # Se em produção, forçamos o uso de armazenamento externo para PERSISTÊNCIA.
+    # --- Configurações Comuns para Estáticos e Mídia (Cloudflare R2/S3) ---
     
-    # URL de Mídia (ajuste o nome do bucket e a região)
-    # Exemplo S3/AWS:
-    # MEDIA_URL = f"https://{os.getenv('AWS_STORAGE_BUCKET_NAME')}.s3.amazonaws.com/media/" 
+    # IMPORTANTE: Essas chaves DEVEM ser definidas como Variáveis de Ambiente no Railway!
+    AWS_ACCESS_KEY_ID = os.getenv('R2_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.getenv('R2_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.getenv('R2_BUCKET_NAME')
     
-    # Backend de Storage. Se não for S3, mude para o seu provedor.
-    # DEFAULT_FILE_STORAGE = 'storages.backends.s3.S3Storage'
+    # URL de Endpoint do R2 (ex: seu-account-id.r2.cloudflarestorage.com)
+    AWS_S3_ENDPOINT_URL = os.getenv('R2_ENDPOINT_URL')
     
-    # As seguintes chaves DEVEM ser definidas como Variáveis de Ambiente no Railway!
-    # AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-    # AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-    # AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
-
-    # SE VOCÊ NÃO TEM UPLOADS DE USUÁRIOS, PODE MANTER ESSA SEÇÃO COMENTADA.
-    pass
+    # Propriedades de acesso (necessário para o R2)
+    AWS_DEFAULT_ACL = 'public-read'
+    
+    # --- Configuração de Media (Uploads do Usuário) ---
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3.S3Storage'
+    MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_ENDPOINT_URL}/media/" 
+    
+    # --- Configuração de Estáticos ---
+    # Usando o django-storages para servir estáticos pelo R2/CDN
+    STATICFILES_STORAGE = 'storages.backends.s3.S3StaticStorage'
+    STATIC_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_ENDPOINT_URL}/static/"
+    
+    # Opcional, mas recomendado para o R2
+    AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_ENDPOINT_URL}"
 else:
-    # Comportamento de mídia em desenvolvimento local
-    MEDIA_URL = '/media/'
-    MEDIA_ROOT = BASE_DIR / 'media'
+    # Em desenvolvimento, usa o armazenamento local e WhiteNoise padrão
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # ====================================================================
@@ -170,8 +175,6 @@ LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 USE_TZ = True
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # REFORÇO DE SEGURANÇA CORS
 if DEBUG:
