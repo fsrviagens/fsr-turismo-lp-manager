@@ -1,1 +1,1 @@
-web: gunicorn agencia_app.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 60
+web: gunicorn --env DJANGO_SETTINGS_MODULE=agencia_app.settings agencia_app.wsgi:application --bind 0.0.0.0:$PORT --log-file -
