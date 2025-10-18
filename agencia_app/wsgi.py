@@ -1,5 +1,5 @@
 """
-WSGI config for core project.
+WSGI config for fsr-turismo-lp-manager project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,7 +11,8 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-# Configurações para o Railway
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
+# A CORREÇÃO ESTÁ AQUI: O módulo de configurações deve ser 'agencia_app.settings'
+# Específica onde o Django deve procurar o settings.py
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'agencia_app.settings')
 
 application = get_wsgi_application()
