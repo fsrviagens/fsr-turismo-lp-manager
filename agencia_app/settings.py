@@ -6,6 +6,7 @@ import dj_database_url
 from dotenv import load_dotenv
 
 # Carrega variáveis do .env (Apenas para desenvolvimento local)
+# Útil para carregar a SECRET_KEY, DEBUG, e as chaves R2 localmente.
 load_dotenv() 
 
 # Define a raiz do projeto. Essencial!
@@ -21,14 +22,16 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'default-django-secret-key-para-local-MUITO
 
 # Modo de Desenvolvimento/Produção
 # Variável RAILWAY: DEBUG=False (Bool)
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
+# Converte a string do ambiente para booleano
+DEBUG = os.getenv('DEBUG', 'True').lower() in ('true', '1', 't')
 
 # Hosts Permitidos (Segurança CRÍTICA - Protege contra Host Header Attack)
 if DEBUG:
-    # Em desenvolvimento, permite localhosts e Railway
+    # Em desenvolvimento, permite localhosts
     ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 else:
     # Em produção, deve ler do ambiente a lista EXATA de domínios.
+    # Garanta que a variável ALLOWED_HOSTS no Railway esteja configurada como 'dominio1,dominio2'
     ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'fsr.tur.br,www.fsr.tur.br').split(',')
 
 
@@ -44,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     
-    # IMPORTANTE: Removido 'whitenoise.runserver_nostatic' para evitar conflitos com django-storages/R2.
+    # IMPORTANTE: django.contrib.staticfiles deve vir antes
     'django.contrib.staticfiles',
 
     # Apps de Terceiros que você incluiu
@@ -58,7 +61,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     
-    # WhiteNoise para servir arquivos estáticos em DEV/Produção (se não usar o R2 para estáticos)
+    # WhiteNoise: Apenas para arquivos estáticos locais em DEV, ou como fallback
     'whitenoise.middleware.WhiteNoiseMiddleware',
     
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -73,7 +76,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Configurações de Módulos (Corrigidas)
+# Configurações de Módulos
 ROOT_URLCONF = 'agencia_app.urls' 
 WSGI_APPLICATION = 'agencia_app.wsgi.application'
 
@@ -118,17 +121,14 @@ if 'postgresql' in os.getenv('DATABASE_URL', ''):
 # 4. ARQUIVOS ESTÁTICOS (CONFIGURAÇÃO BASE)
 # ====================================================================
 
+# Configurações básicas que são a base para o uso em DEBUG=True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-# Pasta que o Django deve buscar arquivos estáticos além dos apps (opcional)
-# STATICFILES_DIRS = [
-#     BASE_DIR / 'static', 
-# ]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # ====================================================================
-# 5. ARQUIVOS DE MÍDIA E ESTÁTICOS EM PRODUÇÃO (CLOUDFLARE R2)
+# 5. ARQUIVOS DE MÍDIA E ESTÁTICOS EM PRODUÇÃO (CLOUDFLARE R2) - AJUSTADO
 # ====================================================================
 
 # Comportamento de mídia em desenvolvimento local
@@ -139,28 +139,41 @@ MEDIA_ROOT = BASE_DIR / 'media'
 if not DEBUG:
     # --- Configurações Comuns para Estáticos e Mídia (Cloudflare R2/S3) ---
     
-    # IMPORTANTE: Essas chaves DEVEM ser definidas como Variáveis de Ambiente no Railway!
-    AWS_ACCESS_KEY_ID = os.getenv('R2_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.getenv('R2_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = os.getenv('R2_BUCKET_NAME')
+    # 1. Lendo as chaves AWS/S3 (nomes padronizados para django-storages)
+    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
     
-    # URL de Endpoint do R2 (ex: seu-account-id.r2.cloudflarestorage.com)
-    AWS_S3_ENDPOINT_URL = os.getenv('R2_ENDPOINT_URL')
+    # 2. URL de Endpoint do R2 (CRÍTICO para R2)
+    AWS_S3_ENDPOINT_URL = os.getenv('AWS_S3_ENDPOINT_URL')
     
-    # Propriedades de acesso (necessário para o R2)
+    # 3. Custom Domain (URL pública para o navegador)
+    AWS_S3_CUSTOM_DOMAIN = os.getenv('AWS_S3_CUSTOM_DOMAIN')
+    
+    # Propriedades de acesso
     AWS_DEFAULT_ACL = 'public-read'
+    AWS_QUERYSTRING_AUTH = False # Desativa assinatura de URL (URLs limpas)
+    
+    # Opcional: Configurações de Cache 
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400', # Cache por 1 dia
+    }
     
     # --- Configuração de Media (Uploads do Usuário) ---
     DEFAULT_FILE_STORAGE = 'storages.backends.s3.S3Storage'
-    MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_ENDPOINT_URL}/media/" 
+    
+    # Usando o Custom Domain para a URL pública (Ex: https://dominio.com/fsr/media/)
+    MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/" 
     
     # --- Configuração de Estáticos ---
-    # Usando o django-storages para servir estáticos pelo R2/CDN
     STATICFILES_STORAGE = 'storages.backends.s3.S3StaticStorage'
-    STATIC_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_ENDPOINT_URL}/static/"
     
-    # Opcional, mas recomendado para o R2
-    AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_ENDPOINT_URL}"
+    # Usando o Custom Domain para a URL pública (Ex: https://dominio.com/fsr/static/)
+    STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
+    
+    # Remove a necessidade do STATIC_ROOT, pois os arquivos serão enviados para o R2.
+    # O comando `collectstatic` agora enviará para o R2.
+
 else:
     # Em desenvolvimento, usa o armazenamento local e WhiteNoise padrão
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
