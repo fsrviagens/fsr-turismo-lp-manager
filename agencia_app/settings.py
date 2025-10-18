@@ -1,4 +1,4 @@
-# agencia_app/settings.py (Nome Corrigido para refletir a pasta)
+# agencia_app/settings.py
 
 import os
 from pathlib import Path
@@ -44,13 +44,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     
-    # WhiteNoise (deve vir antes de 'staticfiles' para a configuração de DEV)
-    'whitenoise.runserver_nostatic',
+    # IMPORTANTE: Removido 'whitenoise.runserver_nostatic' para evitar conflitos com django-storages/R2.
     'django.contrib.staticfiles',
 
     # Apps de Terceiros que você incluiu
     'corsheaders',
-    'storages',  # ADICIONADO: Necessário para usar django-storages (R2/S3)
+    'storages',  # Necessário para usar django-storages (R2/S3)
 
     # SEU APP
     'agencia_app', 
