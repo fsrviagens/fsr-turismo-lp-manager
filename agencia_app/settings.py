@@ -128,7 +128,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # ====================================================================
-# 5. ARQUIVOS DE MÍDIA E ESTÁTICOS EM PRODUÇÃO (CLOUDFLARE R2) - AJUSTADO
+# 5. ARQUIVOS DE MÍDIA E ESTÁTICOS EM PRODUÇÃO (CLOUDFLARE R2)
 # ====================================================================
 
 # Comportamento de mídia em desenvolvimento local
@@ -162,17 +162,16 @@ if not DEBUG:
     # --- Configuração de Media (Uploads do Usuário) ---
     DEFAULT_FILE_STORAGE = 'storages.backends.s3.S3Storage'
     
-    # Usando o Custom Domain para a URL pública (Ex: https://dominio.com/fsr/media/)
+    # Usando o Custom Domain para a URL pública (Ex: https://dominio.com/media/...)
     MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/" 
     
     # --- Configuração de Estáticos ---
     STATICFILES_STORAGE = 'storages.backends.s3.S3StaticStorage'
     
-    # Usando o Custom Domain para a URL pública (Ex: https://dominio.com/fsr/static/)
+    # Usando o Custom Domain para a URL pública (Ex: https://dominio.com/static/...)
     STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
     
-    # Remove a necessidade do STATIC_ROOT, pois os arquivos serão enviados para o R2.
-    # O comando `collectstatic` agora enviará para o R2.
+    # Note: O comando `collectstatic` agora enviará os arquivos para o R2.
 
 else:
     # Em desenvolvimento, usa o armazenamento local e WhiteNoise padrão
@@ -200,3 +199,13 @@ else:
         'https://www.fsr.tur.br',
         # ADICIONE AQUI OUTROS FRONTENDS SE NECESSÁRIO
 ]
+
+
+# ====================================================================
+# 7. VARIÁVEIS CUSTOMIZADAS E DA APLICAÇÃO (Ajuste Integrado)
+# ====================================================================
+
+# Número de WhatsApp da Agência (Usado em views.py para redirecionamento)
+# Lendo do ambiente. O fallback garante que o acesso via settings.NUMERO_WHATSAPP_AGENCIA 
+# não cause um erro de atributo.
+NUMERO_WHATSAPP_AGENCIA = os.getenv('NUMERO_WHATSAPP_AGENCIA', '5561983163710') 
