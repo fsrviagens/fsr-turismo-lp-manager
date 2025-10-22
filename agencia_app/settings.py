@@ -32,7 +32,7 @@ if DEBUG:
 else:
     # Em produção, deve ler do ambiente a lista EXATA de domínios.
     # Garanta que a variável ALLOWED_HOSTS no Railway esteja configurada como 'dominio1,dominio2'
-    ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'fsr.tur.br,www.fsr.tur.br').split(',')
+    ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'fsr-turismo-lp-manager-production.up.railway.app,fsr.tur.br,www.fsr.tur.br').split(',')
 
 
 # ====================================================================
