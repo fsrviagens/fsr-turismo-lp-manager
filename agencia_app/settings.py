@@ -34,6 +34,14 @@ else:
     # Garanta que a variável ALLOWED_HOSTS no Railway esteja configurada como 'dominio1,dominio2'
     ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'fsr-turismo-lp-manager-production.up.railway.app,fsr.tur.br,www.fsr.tur.br').split(',')
 
+# -------------------------------------------------------------------
+# CORREÇÃO CRÍTICA DO ERRO 403 (CSRF Origin checking failed)
+# -------------------------------------------------------------------
+
+# O Django usa CSRF_TRUSTED_ORIGINS para verificar se a origem do request POST é segura.
+# Esta lista precisa incluir a URL completa (com https://).
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'https://fsr-turismo-lp-manager-production.up.railway.app,https://fsr.tur.br,https://www.fsr.tur.br').split(',')
+
 
 # ====================================================================
 # 2. APLICAÇÕES INSTALADAS E MIDDLEWARE
@@ -208,4 +216,4 @@ else:
 # Número de WhatsApp da Agência (Usado em views.py para redirecionamento)
 # Lendo do ambiente. O fallback garante que o acesso via settings.NUMERO_WHATSAPP_AGENCIA 
 # não cause um erro de atributo.
-NUMERO_WHATSAPP_AGENCIA = os.getenv('NUMERO_WHATSAPP_AGENCIA', '5561983163710') 
+NUMERO_WHATSAPP_AGENCIA = os.getenv('NUMERO_WHATSAPP_AGENCIA', '5561983163710')
