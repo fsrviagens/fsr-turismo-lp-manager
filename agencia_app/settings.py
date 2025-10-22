@@ -23,7 +23,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'default-django-secret-key-para-local-MUITO
 # Modo de Desenvolvimento/Produção
 # Variável RAILWAY: DEBUG=False (Bool)
 # Converte a string do ambiente para booleano
-DEBUG = os.getenv('DEBUG', 'True').lower() in ('true', '1', 't')
+DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1', 't')
 
 # Hosts Permitidos (Segurança CRÍTICA - Protege contra Host Header Attack)
 if DEBUG:
