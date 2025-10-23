@@ -3,7 +3,7 @@ from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
 
-# Carrega variáveis do .env para desenvolvimento local
+# Carrega variáveis do .env (desenvolvimento local)
 load_dotenv()
 
 # Define a raiz do projeto
@@ -20,9 +20,15 @@ DEBUG = os.getenv('DEBUG', 'True').lower() in ('true', '1', 't')
 if DEBUG:
     ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 else:
-    ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'fsr-turismo-lp-manager-production.up.railway.app,fsr.tur.br,www.fsr.tur.br').split(',')
+    ALLOWED_HOSTS = os.getenv(
+        'ALLOWED_HOSTS',
+        'fsr-turismo-lp-manager-production.up.railway.app,fsr.tur.br,www.fsr.tur.br'
+    ).split(',')
 
-CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'https://fsr-turismo-lp-manager-production.up.railway.app,https://fsr.tur.br,https://www.fsr.tur.br').split(',')
+CSRF_TRUSTED_ORIGINS = os.getenv(
+    'CSRF_TRUSTED_ORIGINS',
+    'https://fsr-turismo-lp-manager-production.up.railway.app,https://fsr.tur.br,https://www.fsr.tur.br'
+).split(',')
 
 # ====================================================================
 # 2. APLICAÇÕES INSTALADAS E MIDDLEWARE
@@ -34,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles',  # Deve vir antes dos apps de terceiros
     'corsheaders',
     'storages',
     'agencia_app',
@@ -42,7 +48,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Para servir arquivos estáticos em produção
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -55,6 +61,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'agencia_app.urls'
 WSGI_APPLICATION = 'agencia_app.wsgi.application'
 
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -72,7 +79,7 @@ TEMPLATES = [
 ]
 
 # ====================================================================
-# 3. BANCO DE DADOS (SUPABASE / POSTGRESQL)
+# 3. BANCO DE DADOS (POSTGRESQL via DATABASE_URL)
 # ====================================================================
 
 DATABASES = {
@@ -92,13 +99,13 @@ if 'postgresql' in os.getenv('DATABASE_URL', ''):
 # ====================================================================
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # Pasta onde collectstatic vai juntar os arquivos estáticos
+STATIC_ROOT = str(BASE_DIR / 'staticfiles')  # Importante: converter para string
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 if not DEBUG:
-    # Produção: arquivos estáticos e mídia serão servidos pelo Cloudflare R2
+    # Produção com Cloudflare R2 (S3 compatible)
     AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
     AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
@@ -106,8 +113,7 @@ if not DEBUG:
     AWS_S3_CUSTOM_DOMAIN = os.getenv('AWS_S3_CUSTOM_DOMAIN')
 
     AWS_DEFAULT_ACL = 'public-read'
-    AWS_QUERYSTRING_AUTH = False  # URLs limpas
-
+    AWS_QUERYSTRING_AUTH = False
     AWS_S3_OBJECT_PARAMETERS = {
         'CacheControl': 'max-age=86400',
     }
@@ -119,11 +125,10 @@ if not DEBUG:
     STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
 
 else:
-    # Desenvolvimento: servir arquivos estáticos localmente com WhiteNoise
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # Local dev
 
 # ====================================================================
-# 5. OUTRAS CONFIGURAÇÕES
+# 5. OUTRAS CONFIGURAÇÕES DE IDIOMA, FUSO HORÁRIO E CORS
 # ====================================================================
 
 LANGUAGE_CODE = 'pt-br'
@@ -138,8 +143,11 @@ else:
     CORS_ALLOWED_ORIGINS = [
         'https://fsr.tur.br',
         'https://www.fsr.tur.br',
-        # Outros frontends aqui
     ]
+
+# ====================================================================
+# 6. VARIÁVEIS PERSONALIZADAS
+# ====================================================================
 
 NUMERO_WHATSAPP_AGENCIA = os.getenv('NUMERO_WHATSAPP_AGENCIA', '5561983163710')
 
