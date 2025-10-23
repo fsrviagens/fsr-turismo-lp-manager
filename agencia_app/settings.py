@@ -98,7 +98,7 @@ else:
 # CORREÇÃO PARA O ERRO 'AttributeError: 'Settings' object has no attribute 'ROOT_URLCONF''
 # Baseado na estrutura: o arquivo urls.py está dentro da pasta agencia_app.
 # **********************************************************************
-**ROOT_URLCONF = 'agencia_app.urls'** # Exemplo:
+ROOT_URLCONF = 'agencia_app.urls' # Exemplo:
 # INSTALLED_APPS = [
 #     'django.contrib.admin',
 #     'django.contrib.auth',
