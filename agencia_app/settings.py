@@ -9,6 +9,7 @@ from django.core.exceptions import ImproperlyConfigured
 # ======================================================================
 
 # Define o diretório base do projeto
+# CORREÇÃO: Usamos a forma padrão, mas confiamos no STATIC_ROOT para a correção.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Define o modo de execução. Em um ambiente real, deve vir de um .env
@@ -24,11 +25,17 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'fsr.tur.br', 'www.fsr.tur.br']
 
 # STATIC_ROOT deve ser definido incondicionalmente para que o collectstatic funcione.
 STATIC_URL = '/static/'
-STATIC_ROOT = str(BASE_DIR / 'staticfiles')
-#========================================== Caminho local para onde os estáticos serão coletados.
+
+# === SOLUÇÃO APLICADA PARA O ERRO NO TERMUX ===
+# Usamos o caminho ABSOLUTO para contornar a falha na resolução do BASE_DIR no Termux.
+# ESTA LINHA DEVE SER REVERTIDA PARA str(BASE_DIR / 'staticfiles') ao sair do Termux.
+STATIC_ROOT = '/data/data/com.termux/files/home/staticfiles'
+# Se o seu projeto estiver em uma subpasta (ex: /home/meu_projeto/), use:
+# STATIC_ROOT = '/data/data/com.termux/files/home/meu_projeto/staticfiles'
+# ==============================================
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = str(BASE_DIR / 'media') # Caminho local para onde a mídia será salva.
+MEDIA_ROOT = str(BASE_DIR / 'media') # Mantemos MEDIA_ROOT dinâmica.
 
 # Lista de diretórios que o collectstatic deve procurar por arquivos estáticos
 STATICFILES_DIRS = [
