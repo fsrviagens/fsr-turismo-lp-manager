@@ -24,7 +24,8 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'fsr.tur.br', 'www.fsr.tur.br']
 
 # STATIC_ROOT deve ser definido incondicionalmente para que o collectstatic funcione.
 STATIC_URL = '/static/'
-STATIC_ROOT = str(BASE_DIR / 'staticfiles')  # Caminho local para onde os estáticos serão coletados.
+STATIC_ROOT = str(BASE_DIR / 'staticfiles')
+#========================================== Caminho local para onde os estáticos serão coletados.
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = str(BASE_DIR / 'media') # Caminho local para onde a mídia será salva.
