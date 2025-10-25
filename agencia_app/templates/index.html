@@ -4,55 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ conteudo.titulo_principal }} | {{ conteudo.nome_agencia|title }}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    
+    {% load static %}
+    
+    <link href="{% static 'css/output.css' %}" rel="stylesheet"> 
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        // Cores Alinhadas com o Logo FSR
-                        'primary': '#23425E', // Azul Escuro do texto 'FSR'
-                        'secondary': '#C33333', // Vermelho/Laranja da curva de destaque
-                        'accent': '#8FA9C1', // Azul claro suave
-                        'background-light': '#F3F0EC', // Bege Claro do fundo do logo
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        /* Estilos customizados para a Hero Section e cards */
-        .hero-section {
-            /* Usa a URL configurada no Admin do Django (models.py) */
-            background-image: url('{{ conteudo.imagem_url }}');
-            background-size: cover;
-            background-position: center;
-            height: 80vh; /* Altura responsiva */
-            min-height: 500px;
-        }
-        .form-card {
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-        }
-        .input-field {
-            /* Usa a cor secundária (vermelho) no foco para alinhamento */
-            @apply w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150;
-        }
-    </style>
-</head>
+    </head>
 
 <body class="bg-background-light font-sans antialiased">
-
     <header class="bg-primary shadow-lg sticky top-0 z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
             
             <div class="flex items-center space-x-3">
-                <img src="https://xn--mdia-bpa.fsr.tur.br/IMG_20250707_210144_882.webp" 
-                     onerror="this.onerror=null; this.src='https://placehold.co/40x40/FFFFFF/23425E?text=FSR'" 
+                <img src="{{ conteudo.logo_url|default:'https://placehold.co/40x40/FFFFFF/23425E?text=FSR' }}" 
                      alt="{{ conteudo.nome_agencia }} Logo" 
                      class="h-10 w-auto">
                 <h1 class="text-2xl font-bold text-white tracking-wider hidden sm:block">{{ conteudo.nome_agencia }}</h1>
@@ -64,7 +30,8 @@
         </div>
     </header>
 
-    <section id="hero" class="hero-section flex items-center justify-center text-center relative">
+    <section id="hero" class="hero-section flex items-center justify-center text-center relative"
+             style="background-image: url('{{ conteudo.imagem_url }}');">
         <div class="absolute inset-0 bg-primary bg-opacity-60"></div>
         
         <div class="relative z-10 max-w-4xl mx-auto p-6 text-white">
@@ -135,25 +102,30 @@
                         
                         <div>
                             <label for="nome" class="sr-only">Seu Nome</label>
-                            <input type="text" id="nome" name="nome" placeholder="Seu Nome Completo" required class="input-field">
+                            <input type="text" id="nome" name="nome" placeholder="Seu Nome Completo" required 
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150">
                         </div>
                         <div>
                             <label for="email" class="sr-only">Seu Email</label>
-                            <input type="email" id="email" name="email" placeholder="Seu Melhor E-mail" required class="input-field">
+                            <input type="email" id="email" name="email" placeholder="Seu Melhor E-mail" required 
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150">
                         </div>
                         <div>
                             <label for="telefone" class="sr-only">Seu Telefone</label>
-                            <input type="tel" id="telefone" name="telefone" placeholder="Telefone (DDD + Número)" required class="input-field">
+                            <input type="tel" id="telefone" name="telefone" placeholder="Telefone (DDD + Número)" required 
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150">
                         </div>
                         
                         <div>
                             <label for="destino_interesse" class="sr-only">Destino de Interesse</label>
-                            <input type="text" id="destino_interesse" name="destino_interesse" placeholder="Destino que Mais te Interessa" required class="input-field">
+                            <input type="text" id="destino_interesse" name="destino_interesse" placeholder="Destino que Mais te Interessa" required 
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150">
                         </div>
 
                         <div>
                             <label for="budget_disponivel" class="sr-only">Orçamento Disponível</label>
-                            <select id="budget_disponivel" name="budget_disponivel" required class="input-field">
+                            <select id="budget_disponivel" name="budget_disponivel" required 
+                                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150">
                                 <option value="" disabled selected>Qual seu Orçamento Estimado?</option>
                                 <option value="5K_10K">R$5.000 - R$10.000</option>
                                 <option value="10K_20K">R$10.000 - R$20.000</option>
@@ -164,7 +136,8 @@
 
                         <div>
                             <label for="previsao_data" class="sr-only">Previsão de Viagem</label>
-                            <select id="previsao_data" name="previsao_data" required class="input-field">
+                             <select id="previsao_data" name="previsao_data" required 
+                                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150">
                                 <option value="" disabled selected>Quando você pretende viajar?</option>
                                 <option value="3M">Próximos 3 meses</option>
                                 <option value="6M">Próximos 6 meses</option>
