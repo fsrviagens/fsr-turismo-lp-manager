@@ -10,8 +10,9 @@ django-cors-headers~=4.3.1
 psycopg2-binary~=2.9.9
 dj-database-url~=2.1.0
 
-# Gerenciamento de Variáveis de Ambiente (para desenvolvimento local)
+# Gerenciamento de Variáveis de Ambiente (para desenvolvimento local E produção)
 python-dotenv~=1.0.1
+python-decouple~=3.8  # <--- NOVO: Adicionado para resolver o ModuleNotFoundError
 
 # Integração com Armazenamento Cloud (Cloudflare R2 / S3 API)
 # Necessário para gerenciar arquivos estáticos e de mídia em produção.
