@@ -9,7 +9,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     # 2. Rotas do Aplicativo (Landing Page e Captura)
-    # Como este é o Root URLconf, não usamos 'include', mapeamos diretamente:
     path('', views.landing_page, name='landing_page'),
     path('capturar/', views.capturar_lead, name='capturar_lead'),
+    
+    # NOVO: Rota do Dashboard
+    path('dashboard/', views.dashboard_leads, name='dashboard_leads'), 
 ]
