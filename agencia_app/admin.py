@@ -5,28 +5,26 @@ from django.core.exceptions import ValidationError
 from django.shortcuts import redirect
 from .models import Lead, ConfiguracaoLandingPage # Importamos os modelos
 
-# ====================================================================
+# ===================================================================
 # 1. ADMIN PARA LEADS (Gerenciamento de Leads)
-# ====================================================================
+# ===================================================================
 
 class LeadAdmin(admin.ModelAdmin):
-    """
-    Configuração de exibição e gestão do modelo Lead.
-    """
+    # ... (Seu código list_display, search_fields está OK) ...
     list_display = (
         'nome', 
         'email', 
         'telefone', 
         'destino_interesse',
-        'budget_disponivel', # Adicionado para visualização rápida
-        'previsao_data',     # Adicionado para visualização rápida
+        'budget_disponivel', 
+        'previsao_data',     
         'origem', 
         'data_cadastro'
     )
     
     search_fields = ('nome', 'email', 'telefone', 'destino_interesse')
     
-    # Inclusão dos campos de Choices para facilitar a segmentação de vendas
+    # CORREÇÃO/AJUSTE: List_filter para usar os campos de Choices
     list_filter = (
         'origem', 
         'destino_interesse',
@@ -35,22 +33,18 @@ class LeadAdmin(admin.ModelAdmin):
         'data_cadastro'
     ) 
     
-    readonly_fields = ('data_cadastro',)
+    readonly_fields = ('data_cadastro', 'origem') # Adicionando 'origem' como readonly
+    ordering = ('-data_cadastro',) # Leads mais recentes primeiro
 
-# Registra o modelo Lead
 admin.site.register(Lead, LeadAdmin)
 
 
-# ====================================================================
+# ===================================================================
 # 2. ADMIN PARA CMS (Configuração da Landing Page)
-# ====================================================================
+# ===================================================================
 
 class ConfiguracaoLandingPageAdmin(admin.ModelAdmin):
-    """
-    Configuração para o modelo CMS. Força a existência de apenas um registro.
-    Implementa a lógica Singleton na interface Admin.
-    """
-    # Agrupa os campos para uma visualização mais organizada.
+    # ... (Seu código fieldsets está OK) ...
     fieldsets = (
         ('Informações da Agência', {
             'fields': ('nome_agencia', 'logo_url'),
@@ -61,23 +55,20 @@ class ConfiguracaoLandingPageAdmin(admin.ModelAdmin):
             'description': 'Textos e imagem principal da Landing Page.',
         }),
         ('Detalhes da Oferta', {
-            'fields': ('descricao_oferta', 'valor_oferta', 'parcelamento_max'),
+            'fields': ('descricao_oferta', 'parcelamento_detalhe', 'valor_oferta', 'parcelamento_max'),
             'description': 'Conteúdo da seção principal e dados financeiros.',
         }),
     )
 
-    # Impede que o usuário clique em "Adicionar" se já houver um registro
+    # CORREÇÃO: Impede que o usuário clique em "Adicionar" (Reforça a regra Singleton)
     def has_add_permission(self, request):
         return not ConfiguracaoLandingPage.objects.exists()
     
-    # Redireciona o usuário da lista para a página de edição do único item existente.
+    # CORREÇÃO: Redireciona o usuário para a página de edição se já existir
     def changelist_view(self, request, extra_context=None):
         if ConfiguracaoLandingPage.objects.count() == 1:
             obj = ConfiguracaoLandingPage.objects.get()
             return redirect('admin:%s_%s_change' % (self.model._meta.app_label, self.model._meta.model_name), obj.id)
-        # Se 0 ou mais de 1 (erro) registro, mostra a lista/tela padrão.
         return super().changelist_view(request, extra_context)
 
-
-# Registra o modelo de Configuração do CMS
 admin.site.register(ConfiguracaoLandingPage, ConfiguracaoLandingPageAdmin)
