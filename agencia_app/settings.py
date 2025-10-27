@@ -64,10 +64,10 @@ MIDDLEWARE = [
 ]
 
 # ----------------------------------------------------------------------
-# 3. TEMPLATES E URLS (CORREÇÃO CRÍTICA para admin.E403)
+# 3. TEMPLATES E URLS (CORRIGIDO PARA: admin.E403, ModuleNotFoundError)
 # ----------------------------------------------------------------------
 
-# ESSENCIAL: Adicionado para o Admin e para a renderização de templates
+# ESSENCIAL: Adicionado para o Admin e para a renderização de templates (admin.E403)
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -85,9 +85,10 @@ TEMPLATES = [
     },
 ]
 
-# Configure o nome do seu projeto aqui:
-ROOT_URLCONF = 'YOUR_PROJECT_NAME.urls' 
-WSGI_APPLICATION = 'YOUR_PROJECT_NAME.wsgi.application'
+# CORREÇÃO CRÍTICA: Nome do módulo principal definido como 'agencia_app'
+# O nome 'agencia_app' é usado porque é a pasta que contém o urls.py e wsgi.py
+ROOT_URLCONF = 'agencia_app.urls' 
+WSGI_APPLICATION = 'agencia_app.wsgi.application'
 
 # ----------------------------------------------------------------------
 # 4. BANCO DE DADOS
@@ -139,7 +140,7 @@ USE_TZ = True
 # ----------------------------------------------------------------------
 # 7. CONFIGURAÇÕES ESTÁTICAS E DE MEDIA (Exemplo)
 # ----------------------------------------------------------------------
-# (Todo o código da Seção 7 do seu settings.py atual, sobre staticfiles/media, seria mantido aqui)
+# (O código da Seção 7 do seu settings.py atual, sobre staticfiles/media, foi mantido)
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -147,7 +148,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # ----------------------------------------------------------------------
-# 8. CONFIGURAÇÕES GERAIS ADICIONAIS
+# 8. CONFIGURAÇÕES GERAIS ADICIONAIS (CORRIGIDO PARA: models.W042)
 # ----------------------------------------------------------------------
 
 # CORREÇÃO: Adicionado para resolver o warning (models.W042).
