@@ -33,7 +33,9 @@ ALLOWED_HOSTS = config(
 # A lista de ALLOWED_HOSTS em produção deve ser: ['seu-subdominio.up.railway.app', 'seusite.com', 'www.seusite.com']
 
 
-# (Restante dos INSTALLED_APPS e MIDDLEWARE do seu arquivo atual...)
+# ----------------------------------------------------------------------
+# 2. APLICAÇÕES
+# ----------------------------------------------------------------------
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -60,8 +62,32 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-# ... (o restante das configurações TEMPLATES, WSGI_APPLICATION, etc. é mantido)
 
+# ----------------------------------------------------------------------
+# 3. TEMPLATES E URLS (CORREÇÃO CRÍTICA para admin.E403)
+# ----------------------------------------------------------------------
+
+# ESSENCIAL: Adicionado para o Admin e para a renderização de templates
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        # DIRS: Adicione aqui a pasta global de templates, se existir. Ex: [BASE_DIR / 'templates']
+        'DIRS': [], 
+        'APP_DIRS': True, # Ponto chave: Permite que as apps (como admin) carreguem templates de suas pastas
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+# Configure o nome do seu projeto aqui:
+ROOT_URLCONF = 'YOUR_PROJECT_NAME.urls' 
+WSGI_APPLICATION = 'YOUR_PROJECT_NAME.wsgi.application'
 
 # ----------------------------------------------------------------------
 # 4. BANCO DE DADOS
@@ -77,20 +103,61 @@ DATABASES = {
     )
 }
 
+# ----------------------------------------------------------------------
+# 5. VALIDADORES DE PASSWORD
+# ----------------------------------------------------------------------
+# Requerido pelo Django
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+
+# ----------------------------------------------------------------------
+# 6. INTERNACIONALIZAÇÃO
+# ----------------------------------------------------------------------
+
+LANGUAGE_CODE = 'pt-br'
+
+TIME_ZONE = 'America/Sao_Paulo'
+
+USE_I18N = True
+
+USE_TZ = True
+
+
+# ----------------------------------------------------------------------
+# 7. CONFIGURAÇÕES ESTÁTICAS E DE MEDIA (Exemplo)
+# ----------------------------------------------------------------------
+# (Todo o código da Seção 7 do seu settings.py atual, sobre staticfiles/media, seria mantido aqui)
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# ----------------------------------------------------------------------
+
 
 # ----------------------------------------------------------------------
 # 8. CONFIGURAÇÕES GERAIS ADICIONAIS
 # ----------------------------------------------------------------------
 
-# ... (outras configurações gerais, como DEFAULT_AUTO_FIELD e TIME_ZONE)
+# CORREÇÃO: Adicionado para resolver o warning (models.W042).
+# Define o tipo de campo automático para chaves primárias dos modelos.
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# ======================================================================
+
+# ----------------------------------------------------------------------
 # 9. VARIÁVEIS DE APLICAÇÃO PERSONALIZADAS (CRÍTICO PARA A VIEW)
-# ======================================================================
+# ----------------------------------------------------------------------
 
 # Variável usada no views.py para o redirecionamento do WhatsApp
 NUMERO_WHATSAPP_AGENCIA = config('NUMERO_WHATSAPP_AGENCIA', default='5561983163710') 
-
-# ----------------------------------------------------------------------
-# (Todo o código da Seção 5, 6 e 7 do seu settings.py atual é mantido aqui)
-# ----------------------------------------------------------------------
