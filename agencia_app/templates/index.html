@@ -14,6 +14,7 @@
     </head>
 
 <body class="bg-background-light font-sans antialiased">
+    
     <header class="bg-primary shadow-lg sticky top-0 z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
             
@@ -24,135 +25,107 @@
                 <h1 class="text-2xl font-bold text-white tracking-wider hidden sm:block">{{ conteudo.nome_agencia }}</h1>
             </div>
 
-            <a href="#contato" class="bg-secondary text-white font-semibold py-2 px-4 rounded-full hover:bg-opacity-90 transition duration-300 shadow-md">
+            <a href="#contato" class="bg-secondary text-white font-semibold py-2 px-4 rounded-full shadow-md hover:bg-opacity-90 transition duration-300">
                 Fale Conosco
             </a>
         </div>
     </header>
 
-    <section id="hero" class="hero-section flex items-center justify-center text-center relative"
-             style="background-image: url('{{ conteudo.imagem_url }}');">
-        <div class="absolute inset-0 bg-primary bg-opacity-60"></div>
-        
-        <div class="relative z-10 max-w-4xl mx-auto p-6 text-white">
-            <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight">
-                {{ conteudo.titulo_principal|upper }}
-            </h2>
-            <p class="text-xl sm:text-2xl font-light mb-8">
-                {{ conteudo.subtitulo_oferta }}
-            </p>
-            <div class="bg-secondary inline-block py-2 px-6 rounded-full font-bold text-lg shadow-xl animate-pulse">
-                A partir de R${{ conteudo.valor_oferta|floatformat:2 }} ou em até {{ conteudo.parcelamento_max }}x!
-            </div>
-            
-            <a href="#contato" class="mt-8 block mx-auto w-fit text-lg font-bold text-white bg-accent py-3 px-8 rounded-full hover:bg-opacity-80 transition duration-300 shadow-lg">
-                QUERO SABER MAIS!
-            </a>
-        </div>
-    </section>
-
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
-        <div class="grid lg:grid-cols-3 gap-12">
-            
-            <div class="lg:col-span-2">
-                <h3 class="text-3xl font-bold text-primary mb-6 border-b-4 border-secondary pb-2">
-                    Detalhes da Oferta Exclusiva
-                </h3>
-                <p class="text-gray-700 text-lg leading-relaxed mb-8">
-                    {{ conteudo.descricao_oferta|linebreaks }}
-                </p>
+    <main class="py-10 md:py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
                 
-                <h4 class="text-2xl font-semibold text-primary mb-4">
-                    Por que escolher a {{ conteudo.nome_agencia }}?
-                </h4>
-                <ul class="space-y-3 text-gray-600">
-                    <li class="flex items-start">
-                        <svg class="w-6 h-6 text-secondary mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        <span class="text-lg">Pacotes 100% Personalizados para atender seu sonho.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-6 h-6 text-secondary mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        <span class="text-lg">Flexibilidade no pagamento em até {{ conteudo.parcelamento_max }} vezes.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-6 h-6 text-secondary mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        <span class="text-lg">Suporte 24 horas durante toda a sua viagem.</span>
-                    </li>
-                </ul>
-            </div>
-            
-            <div id="contato" class="lg:col-span-1">
-                <div class="bg-white p-6 sm:p-8 rounded-xl form-card border-t-4 border-secondary">
-                    <h4 class="text-2xl font-bold text-primary mb-4 text-center">
-                        Garanta Sua Vaga Agora!
-                    </h4>
-                    <p class="text-center text-gray-600 mb-6">
-                        Preencha o formulário e fale com um consultor especialista.
-                    </p>
+                <div class="space-y-6">
+                    <img src="{{ conteudo.imagem_url }}" 
+                         alt="{{ conteudo.titulo_principal }}" 
+                         class="rounded-xl shadow-2xl w-full h-auto object-cover max-h-96 lg:max-h-full"
+                         loading="lazy">
 
-                    {% if form_submitted %}
-                    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 rounded-lg" role="alert">
-                        <p class="font-bold">Sucesso!</p>
-                        <p>Seu interesse foi registrado. Você será redirecionado para o WhatsApp em instantes.</p>
+                    <h2 class="text-4xl lg:text-5xl font-extrabold text-text-dark leading-tight">{{ conteudo.titulo_principal }}</h2>
+                    <p class="text-xl text-text-medium">{{ conteudo.subtitulo_oferta }}</p>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg shadow-sm">
+                        <p class="text-2xl font-bold text-blue-700">
+                            A Partir de <span class="text-3xl">R${{ conteudo.valor_oferta|floatformat:2 }}</span>
+                        </p>
+                        <p class="text-lg text-blue-600 font-semibold mt-1">
+                            {{ conteudo.parcelamento_detalhe }} (Em até {{ conteudo.parcelamento_max }}x)
+                        </p>
                     </div>
-                    {% endif %}
 
-                    <form method="POST" action="{% url 'capturar_lead' %}" class="space-y-4">
-                        {% csrf_token %} 
-                        
-                        <div>
-                            <label for="nome" class="sr-only">Seu Nome</label>
-                            <input type="text" id="nome" name="nome" placeholder="Seu Nome Completo" required 
-                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150">
-                        </div>
-                        <div>
-                            <label for="email" class="sr-only">Seu Email</label>
-                            <input type="email" id="email" name="email" placeholder="Seu Melhor E-mail" required 
-                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150">
-                        </div>
-                        <div>
-                            <label for="telefone" class="sr-only">Seu Telefone</label>
-                            <input type="tel" id="telefone" name="telefone" placeholder="Telefone (DDD + Número)" required 
-                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150">
-                        </div>
-                        
-                        <div>
-                            <label for="destino_interesse" class="sr-only">Destino de Interesse</label>
-                            <input type="text" id="destino_interesse" name="destino_interesse" placeholder="Destino que Mais te Interessa" required 
-                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150">
-                        </div>
+                    <div class="prose max-w-none text-text-medium pt-4">
+                        <p class="whitespace-pre-line">{{ conteudo.descricao_oferta }}</p>
+                    </div>
+                </div>
 
-                        <div>
-                            <label for="budget_disponivel" class="sr-only">Orçamento Disponível</label>
-                            <select id="budget_disponivel" name="budget_disponivel" required 
-                                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150">
-                                <option value="" disabled selected>Qual seu Orçamento Estimado?</option>
-                                <option value="5K_10K">R$5.000 - R$10.000</option>
-                                <option value="10K_20K">R$10.000 - R$20.000</option>
-                                <option value="20K+">Acima de R$20.000</option>
-                                <option value="Nao_Informado">Ainda Não Sei / Flexível</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label for="previsao_data" class="sr-only">Previsão de Viagem</label>
-                             <select id="previsao_data" name="previsao_data" required 
-                                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary transition duration-150">
-                                <option value="" disabled selected>Quando você pretende viajar?</option>
-                                <option value="3M">Próximos 3 meses</option>
-                                <option value="6M">Próximos 6 meses</option>
-                                <option value="1A">Próximo Ano</option>
-                                <option value="Flexivel">Flexível / Indefinido</option>
-                            </select>
-                        </div>
+                <div class="sticky top-20 h-fit" id="contato">
+                    <div class="bg-white p-6 md:p-8 rounded-xl shadow-2xl border border-border-primary">
+                        <h3 class="text-2xl font-bold text-text-dark mb-6 text-center">
+                            Receba sua Cotação Personalizada Agora!
+                        </h3>
                         
-                        <button type="submit" class="w-full bg-secondary text-white font-bold py-3 rounded-lg hover:bg-opacity-90 transition duration-300 uppercase tracking-widest shadow-lg">
-                            ENVIAR & FALAR NO WHATSAPP
-                        </button>
-                    </form>
-                    <p class="text-xs text-gray-500 mt-4 text-center">
-                        Seus dados estão 100% seguros e serão usados apenas para contato.
-                    </p>
+                        <form action="{% url 'capturar_lead' %}" method="POST" class="space-y-4" id="form-contato">
+                            {% csrf_token %}
+                            
+                            <div>
+                                <label for="id_nome" class="block text-sm font-semibold text-gray-700 mb-1">Seu Nome Completo *</label>
+                                <input type="text" name="nome" id="id_nome" required 
+                                       class="w-full px-4 py-3 border border-border-primary rounded-lg focus:ring-secondary focus:border-secondary transition duration-150"
+                                       placeholder="Seu Nome" aria-required="true">
+                            </div>
+                            
+                            <div>
+                                <label for="id_email" class="block text-sm font-semibold text-gray-700 mb-1">Seu Melhor E-mail *</label>
+                                <input type="email" name="email" id="id_email" required 
+                                       class="w-full px-4 py-3 border border-border-primary rounded-lg focus:ring-secondary focus:border-secondary transition duration-150"
+                                       placeholder="email@exemplo.com" aria-required="true">
+                            </div>
+                            
+                            <div>
+                                <label for="id_telefone" class="block text-sm font-semibold text-gray-700 mb-1">WhatsApp (Com DDD) *</label>
+                                <input type="tel" name="telefone" id="id_telefone" required 
+                                       class="w-full px-4 py-3 border border-border-primary rounded-lg focus:ring-secondary focus:border-secondary transition duration-150"
+                                       placeholder="(XX) 9XXXX-XXXX" aria-required="true">
+                            </div>
+                            
+                            <div>
+                                <label for="id_destino_interesse" class="block text-sm font-semibold text-gray-700 mb-1">Para onde você quer viajar? *</label>
+                                <input type="text" name="destino_interesse" id="id_destino_interesse" required 
+                                       class="w-full px-4 py-3 border border-border-primary rounded-lg focus:ring-secondary focus:border-secondary transition duration-150"
+                                       placeholder="Ex: Paris, Nordeste Brasileiro" aria-required="true">
+                            </div>
+                            
+                            <div>
+                                <label for="id_budget_disponivel" class="block text-sm font-semibold text-gray-700 mb-1">Orçamento Estimado</label>
+                                <select name="budget_disponivel" id="id_budget_disponivel" 
+                                        class="w-full px-4 py-3 border border-border-primary rounded-lg focus:ring-secondary focus:border-secondary transition duration-150">
+                                    <option value="Nao_Informado" selected>Não Informado (Flexível)</option>
+                                    <option value="5K_10K">R$5.000 - R$10.000</option>
+                                    <option value="10K_20K">R$10.000 - R$20.000</option>
+                                    <option value="20K+">Acima de R$20.000</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="id_previsao_data" class="block text-sm font-semibold text-gray-700 mb-1">Quando você pretende viajar?</label>
+                                <select name="previsao_data" id="id_previsao_data" 
+                                        class="w-full px-4 py-3 border border-border-primary rounded-lg focus:ring-secondary focus:border-secondary transition duration-150">
+                                    <option value="Flexivel" selected>Flexível / Indefinido</option>
+                                    <option value="3M">Próximos 3 meses</option>
+                                    <option value="6M">Próximos 6 meses</option>
+                                    <option value="1A">Próximo Ano</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" 
+                                    class="w-full bg-secondary text-white font-bold py-3 rounded-lg hover:bg-opacity-90 transition duration-300 uppercase tracking-widest shadow-lg">
+                                ENVIAR & FALAR NO WHATSAPP
+                            </button>
+                        </form>
+                        <p class="text-xs text-gray-500 mt-4 text-center">
+                            Seus dados estão 100% seguros e serão usados apenas para contato.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
