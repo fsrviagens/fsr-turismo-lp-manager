@@ -1,29 +1,45 @@
+/* =========================================
+   CONFIGURAÇÕES GERAIS E PALETA DE CORES
+   ========================================= */
 :root {
-    --primary-blue: #0A253A;
-    --accent-red: #D63D2E;
-    --bg-cream: #F7F7F5;
-    --text-dark: #1a1a1a;
-    --white: #ffffff;
+    --primary-blue: #0A253A;    /* Azul Marinho do Globo */
+    --accent-red: #D63D2E;     /* Vermelho do Arco */
+    --bg-cream: #F7F7F5;       /* Fundo Off-White do Logo */
+    --white: #FFFFFF;
+    --text-dark: #1A1A1A;
+    --text-gray: #555555;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    margin: 0;
     font-family: 'Open Sans', sans-serif;
     background-color: var(--bg-cream);
     color: var(--text-dark);
+    line-height: 1.6;
 }
 
 .container {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
 }
 
-/* Header & Logo */
+/* =========================================
+   CABEÇALHO (HEADER)
+   ========================================= */
 .header {
     background-color: var(--white);
-    padding: 15px 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 10px 0;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .header-flex {
@@ -32,113 +48,254 @@ body {
     align-items: center;
 }
 
-.logo-container {
+.logo-main {
+    height: 90px; /* Ajuste para o tamanho ideal do seu SVG */
+    width: auto;
+    transition: var(--transition);
+}
+
+.logo-main:hover {
+    transform: scale(1.02);
+}
+
+/* Navegação */
+.nav {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 25px;
 }
 
-.logo-img {
-    height: 50px;
-}
-
-.brand-name {
-    display: block;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    font-size: 24px;
-    color: var(--primary-blue);
-    line-height: 1;
-}
-
-.brand-sub {
-    font-size: 14px;
-    color: var(--primary-blue);
-    font-weight: 400;
-}
-
-/* Navigation */
-.nav a {
+.nav-links a {
     text-decoration: none;
     color: var(--primary-blue);
-    margin-left: 20px;
     font-weight: 600;
-    transition: color 0.3s;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    transition: var(--transition);
 }
 
-.nav a:hover {
+.nav-links a:hover {
     color: var(--accent-red);
 }
 
 .btn-cta {
     background-color: var(--accent-red);
-    color: white !important;
-    padding: 8px 18px;
-    border-radius: 4px;
-}
-
-.hero-line {
-    height: 4px;
-    background: linear-gradient(90deg, var(--primary-blue) 0%, var(--accent-red) 100%);
-}
-
-/* Layout */
-.main-layout {
-    display: grid;
-    grid-template-columns: 1fr 300px;
-    gap: 30px;
-    margin-top: 40px;
-}
-
-/* Cards */
-.card {
-    background: var(--white);
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 25px;
-    border-bottom: 3px solid var(--primary-blue);
-    transition: transform 0.3s;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.card-body { padding: 20px; }
-
-.category {
-    color: var(--accent-red);
-    text-transform: uppercase;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-.read-more {
-    color: var(--accent-red);
+    color: var(--white) !important;
+    padding: 12px 24px;
+    border-radius: 5px;
     text-decoration: none;
     font-weight: 700;
     font-size: 14px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(214, 61, 46, 0.25);
+    transition: var(--transition);
 }
 
-/* Sidebar & Footer */
+.btn-cta:hover {
+    background-color: var(--primary-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(10, 37, 58, 0.3);
+}
+
+/* Linha de Identidade Visual */
+.brand-divider {
+    height: 5px;
+    background: linear-gradient(90deg, var(--primary-blue) 0%, var(--accent-red) 100%);
+}
+
+/* =========================================
+   LAYOUT PRINCIPAL
+   ========================================= */
+.main-layout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 40px;
+    margin-top: 40px;
+}
+
+/* Publicidade */
+.ad-slot-horizontal {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.ad-tag {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.ad-placeholder {
+    background: #ebebe9;
+    border: 1px dashed #ccc;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #777;
+}
+
+/* =========================================
+   CONTEÚDO E CARDS
+   ========================================= */
+.section-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 28px;
+    color: var(--primary-blue);
+    margin-bottom: 30px;
+    border-left: 6px solid var(--accent-red);
+    padding-left: 15px;
+}
+
+.post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.card {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: var(--transition);
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+}
+
+.card-img {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+
+.card-body {
+    padding: 25px;
+}
+
+.category-tag {
+    color: var(--accent-red);
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--primary-blue);
+    margin-bottom: 12px;
+    font-size: 20px;
+}
+
+.card p {
+    color: var(--text-gray);
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.read-more {
+    text-decoration: none;
+    color: var(--primary-blue);
+    font-weight: 700;
+    font-size: 14px;
+    transition: var(--transition);
+}
+
+.read-more:hover {
+    color: var(--accent-red);
+    padding-left: 5px;
+}
+
+/* =========================================
+   SIDEBAR (BARRA LATERAL)
+   ========================================= */
 .widget {
     background: var(--primary-blue);
-    color: white;
-    padding: 20px;
-    border-radius: 8px;
+    color: var(--white);
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
 }
 
+.widget h3 {
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.widget p {
+    font-size: 15px;
+    opacity: 0.9;
+}
+
+.ad-placeholder-sidebar {
+    background: #ebebe9;
+    border: 1px dashed #ccc;
+    height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #777;
+}
+
+/* =========================================
+   RODAPÉ (FOOTER)
+   ========================================= */
 .footer {
-    background: var(--primary-blue);
-    color: white;
+    background-color: var(--primary-blue);
+    color: var(--white);
+    padding: 60px 0 30px;
+    margin-top: 80px;
     text-align: center;
-    padding: 40px 0;
-    margin-top: 60px;
 }
 
-.section-title {
-    border-left: 5px solid var(--accent-red);
-    padding-left: 15px;
-    color: var(--primary-blue);
+.logo-footer {
+    height: 70px;
+    filter: brightness(0) invert(1); /* Torna o logo SVG branco */
+    margin-bottom: 30px;
+}
+
+.footer-info {
+    margin-top: 15px;
+    font-weight: 600;
+    color: var(--accent-red);
+    letter-spacing: 1px;
+}
+
+/* =========================================
+   RESPONSIVIDADE
+   ========================================= */
+@media (max-width: 992px) {
+    .main-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar {
+        order: 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-flex {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .nav-links a {
+        margin: 0 10px;
+    }
 }
