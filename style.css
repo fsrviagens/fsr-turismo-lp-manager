@@ -1,0 +1,44 @@
+:root {
+    --primary: #002D62; /* Azul Marinho Naval */
+    --accent: #D4AF37;  /* Dourado para passar credibilidade */
+    --bg: #F8F9FA;
+    --white: #FFFFFF;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Roboto', sans-serif; background: var(--bg); color: #333; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+/* Header */
+.header { background: var(--white); border-bottom: 5px solid var(--primary); padding: 1.5rem 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+.header .container { display: flex; justify-content: space-between; align-items: center; }
+.logo { font-family: 'Montserrat', sans-serif; font-size: 1.8rem; color: var(--primary); }
+.logo span { color: var(--accent); font-weight: 300; }
+.nav a { text-decoration: none; color: var(--primary); margin-left: 1.5rem; font-weight: 500; }
+.btn-anuncie { background: var(--accent); color: white !important; padding: 10px 20px; border-radius: 5px; }
+
+/* Layout */
+.main-layout { display: grid; grid-template-columns: 1fr 300px; gap: 40px; margin-top: 2rem; }
+
+/* Anúncios */
+.ad-tag { font-size: 10px; color: #999; text-transform: uppercase; display: block; margin-bottom: 5px; }
+.ad-placeholder { background: #E9ECEF; border: 2px dashed #CED4DA; height: 90px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.ad-placeholder-sidebar { background: #E9ECEF; border: 2px dashed #CED4DA; height: 600px; display: flex; align-items: center; justify-content: center; }
+
+/* Grid de Posts */
+.section-title { margin: 2rem 0; border-left: 5px solid var(--accent); padding-left: 15px; }
+.post-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.card { background: var(--white); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.3s; }
+.card:hover { transform: translateY(-5px); }
+.card-img { height: 200px; background-size: cover; background-position: center; }
+.card-body { padding: 1.5rem; }
+.category { color: var(--accent); font-weight: bold; font-size: 0.8rem; text-transform: uppercase; }
+.read-more { display: block; margin-top: 1rem; color: var(--primary); font-weight: bold; text-decoration: none; }
+
+/* Footer */
+.footer { background: var(--primary); color: white; text-align: center; padding: 2rem 0; margin-top: 4rem; }
+
+@media (max-width: 900px) {
+    .main-layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+}
