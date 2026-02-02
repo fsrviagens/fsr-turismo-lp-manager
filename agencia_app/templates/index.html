@@ -1,144 +1,66 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ conteudo.titulo_principal }} | {{ conteudo.nome_agencia|title }}</title>
-    
-    {% load static %}
-    
-    <link href="{% static 'css/output.css' %}" rel="stylesheet"> 
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    </head>
+    <title>{{ name }} | Referência em Turismo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
 
-<body class="bg-background-light font-sans antialiased">
-    
-    <header class="bg-primary shadow-lg sticky top-0 z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+<header class="main-header">
+    <div class="container">
+        <h1 class="brand-name">FSR <span>Viagens e Turismo</span></h1>
+        <nav>
+            <a href="#">Destinos</a>
+            <a href="#">Hospedagem</a>
+            <a href="#" class="btn-anuncie">Anuncie Aqui</a>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <section class="ad-top">
+        <div class="ad-label">Publicidade Parceira</div>
+        <div class="ad-slot-728">
+            <p>Espaço Disponível para Patrocínio Master (728x90)</p>
+        </div>
+    </section>
+
+    <div class="content-wrapper">
+        <main class="post-feed">
+            {% for post in posts %}
+            <article class="card">
+                <img src="{{ post.imagem }}" alt="{{ post.titulo }}">
+                <div class="card-body">
+                    <span class="badge">{{ post.categoria }}</span>
+                    <h2>{{ post.titulo }}</h2>
+                    <p>{{ post.resumo }}</p>
+                    <a href="#" class="link-post">Continuar lendo →</a>
+                </div>
+            </article>
+            {% endfor %}
+        </main>
+
+        <aside class="sidebar">
+            <div class="widget">
+                <h3>Parceiros FSR</h3>
+                <div class="ad-sidebar-300">
+                    <p>Sua marca em destaque aqui</p>
+                </div>
+            </div>
             
-            <div class="flex items-center space-x-3">
-                <img src="{{ conteudo.logo_url|default:'https://placehold.co/40x40/FFFFFF/23425E?text=FSR' }}" 
-                     alt="{{ conteudo.nome_agencia }} Logo" 
-                     class="h-10 w-auto">
-                <h1 class="text-2xl font-bold text-white tracking-wider hidden sm:block">{{ conteudo.nome_agencia }}</h1>
+            <div class="widget info-anuncio">
+                <h4>Por que anunciar no FSR?</h4>
+                <p>Alcance um público qualificado que busca por pacotes e experiências de viagem.</p>
             </div>
+        </aside>
+    </div>
+</div>
 
-            <a href="#contato" class="bg-secondary text-white font-semibold py-2 px-4 rounded-full shadow-md hover:bg-opacity-90 transition duration-300">
-                Fale Conosco
-            </a>
-        </div>
-    </header>
-
-    <main class="py-10 md:py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                
-                <div class="space-y-6">
-                    <img src="{{ conteudo.imagem_url }}" 
-                         alt="{{ conteudo.titulo_principal }}" 
-                         class="rounded-xl shadow-2xl w-full h-auto object-cover max-h-96 lg:max-h-full"
-                         loading="lazy">
-
-                    <h2 class="text-4xl lg:text-5xl font-extrabold text-text-dark leading-tight">{{ conteudo.titulo_principal }}</h2>
-                    <p class="text-xl text-text-medium">{{ conteudo.subtitulo_oferta }}</p>
-
-                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg shadow-sm">
-                        <p class="text-2xl font-bold text-blue-700">
-                            A Partir de <span class="text-3xl">R${{ conteudo.valor_oferta|floatformat:2 }}</span>
-                        </p>
-                        <p class="text-lg text-blue-600 font-semibold mt-1">
-                            {{ conteudo.parcelamento_detalhe }} (Em até {{ conteudo.parcelamento_max }}x)
-                        </p>
-                    </div>
-
-                    <div class="prose max-w-none text-text-medium pt-4">
-                        <p class="whitespace-pre-line">{{ conteudo.descricao_oferta }}</p>
-                    </div>
-                </div>
-
-                <div class="sticky top-20 h-fit" id="contato">
-                    <div class="bg-white p-6 md:p-8 rounded-xl shadow-2xl border border-border-primary">
-                        <h3 class="text-2xl font-bold text-text-dark mb-6 text-center">
-                            Receba sua Cotação Personalizada Agora!
-                        </h3>
-                        
-                        <form action="{% url 'capturar_lead' %}" method="POST" class="space-y-4" id="form-contato">
-                            {% csrf_token %}
-                            
-                            <div>
-                                <label for="id_nome" class="block text-sm font-semibold text-gray-700 mb-1">Seu Nome Completo *</label>
-                                <input type="text" name="nome" id="id_nome" required 
-                                       class="w-full px-4 py-3 border border-border-primary rounded-lg focus:ring-secondary focus:border-secondary transition duration-150"
-                                       placeholder="Seu Nome" aria-required="true">
-                            </div>
-                            
-                            <div>
-                                <label for="id_email" class="block text-sm font-semibold text-gray-700 mb-1">Seu Melhor E-mail *</label>
-                                <input type="email" name="email" id="id_email" required 
-                                       class="w-full px-4 py-3 border border-border-primary rounded-lg focus:ring-secondary focus:border-secondary transition duration-150"
-                                       placeholder="email@exemplo.com" aria-required="true">
-                            </div>
-                            
-                            <div>
-                                <label for="id_telefone" class="block text-sm font-semibold text-gray-700 mb-1">WhatsApp (Com DDD) *</label>
-                                <input type="tel" name="telefone" id="id_telefone" required 
-                                       class="w-full px-4 py-3 border border-border-primary rounded-lg focus:ring-secondary focus:border-secondary transition duration-150"
-                                       placeholder="(XX) 9XXXX-XXXX" aria-required="true">
-                            </div>
-                            
-                            <div>
-                                <label for="id_destino_interesse" class="block text-sm font-semibold text-gray-700 mb-1">Para onde você quer viajar? *</label>
-                                <input type="text" name="destino_interesse" id="id_destino_interesse" required 
-                                       class="w-full px-4 py-3 border border-border-primary rounded-lg focus:ring-secondary focus:border-secondary transition duration-150"
-                                       placeholder="Ex: Paris, Nordeste Brasileiro" aria-required="true">
-                            </div>
-                            
-                            <div>
-                                <label for="id_budget_disponivel" class="block text-sm font-semibold text-gray-700 mb-1">Orçamento Estimado</label>
-                                <select name="budget_disponivel" id="id_budget_disponivel" 
-                                        class="w-full px-4 py-3 border border-border-primary rounded-lg focus:ring-secondary focus:border-secondary transition duration-150">
-                                    <option value="Nao_Informado" selected>Não Informado (Flexível)</option>
-                                    <option value="5K_10K">R$5.000 - R$10.000</option>
-                                    <option value="10K_20K">R$10.000 - R$20.000</option>
-                                    <option value="20K+">Acima de R$20.000</option>
-                                </select>
-                            </div>
-                            
-                            <div>
-                                <label for="id_previsao_data" class="block text-sm font-semibold text-gray-700 mb-1">Quando você pretende viajar?</label>
-                                <select name="previsao_data" id="id_previsao_data" 
-                                        class="w-full px-4 py-3 border border-border-primary rounded-lg focus:ring-secondary focus:border-secondary transition duration-150">
-                                    <option value="Flexivel" selected>Flexível / Indefinido</option>
-                                    <option value="3M">Próximos 3 meses</option>
-                                    <option value="6M">Próximos 6 meses</option>
-                                    <option value="1A">Próximo Ano</option>
-                                </select>
-                            </div>
-
-                            <button type="submit" 
-                                    class="w-full bg-secondary text-white font-bold py-3 rounded-lg hover:bg-opacity-90 transition duration-300 uppercase tracking-widest shadow-lg">
-                                ENVIAR & FALAR NO WHATSAPP
-                            </button>
-                        </form>
-                        <p class="text-xs text-gray-500 mt-4 text-center">
-                            Seus dados estão 100% seguros e serão usados apenas para contato.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <footer class="bg-primary text-white py-6">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
-            &copy; 2024 {{ conteudo.nome_agencia }}. Todos os direitos reservados.
-            <div class="mt-2 text-gray-400">
-                Landing Page Manager desenvolvido com Django.
-            </div>
-        </div>
-    </footer>
+<footer class="main-footer">
+    <p>&copy; 2026 {{ name }}. Publicado via GitHub Pages.</p>
+</footer>
 
 </body>
 </html>
