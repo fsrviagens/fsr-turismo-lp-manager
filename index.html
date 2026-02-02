@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FSR Viagens e Turismo | Seu mundo começa aqui</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
 
     <header class="header">
         <div class="container header-flex">
             <a href="/" class="logo-link">
-                <img src="static/logo_fsr.svg" alt="FSR Viagens & Turismo" class="logo-main">
+                <img src="{{ url_for('static', filename='logo_fsr.svg') }}" alt="FSR Viagens & Turismo" class="logo-main">
             </a>
 
             <nav class="nav">
@@ -51,6 +51,8 @@
                         <a href="#" class="read-more">Ver Roteiro Completo →</a>
                     </div>
                 </article>
+                {% else %}
+                <p>Carregando melhores destinos para você...</p>
                 {% endfor %}
             </div>
         </main>
@@ -73,7 +75,7 @@
 
     <footer class="footer">
         <div class="container">
-            <img src="static/logo_fsr.svg" alt="FSR Logo" class="logo-footer">
+            <img src="{{ url_for('static', filename='logo_fsr.svg') }}" alt="FSR Logo" class="logo-footer">
             <p>&copy; 2026 FSR Viagens e Turismo. Todos os direitos reservados.</p>
             <div class="footer-info">fsr.tur.br</div>
         </div>
