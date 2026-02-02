@@ -1,0 +1,11 @@
+<svg width="200" height="200" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="250" cy="220" r="120" fill="none" stroke="#0A253A" stroke-width="2"/>
+  <ellipse cx="250" cy="220" rx="50" ry="120" fill="none" stroke="#0A253A" stroke-width="2"/>
+  <line x1="130" y1="220" x2="370" y2="220" stroke="#0A253A" stroke-width="2"/>
+  
+  <path d="M160,240 L160,190 Q180,180 200,190 L200,240 Z" fill="#0A253A" /> <rect x="215" y="150" width="15" height="90" fill="#0A253A" /> <path d="M240,240 L250,160 L260,240 Z" fill="#0A253A" /> <path d="M280,240 L285,150 L295,150 L300,240 Z" fill="#0A253A" /> <path d="M120,260 Q150,330 380,250 Q430,220 380,140" fill="none" stroke="#D63D2E" stroke-width="15" stroke-linecap="round" />
+  
+  <text x="250" y="380" font-family="Arial, sans-serif" font-weight="bold" font-size="70" text-anchor="middle" fill="#0A253A">FSR</text>
+  <text x="250" y="420" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" fill="#0A253A">Viagens &amp; Turismo</text>
+  <text x="250" y="450" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#444">Seu mundo começa aqui.</text>
+</svg>
