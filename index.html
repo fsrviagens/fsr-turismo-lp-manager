@@ -11,25 +11,25 @@
 
     <header class="header">
         <div class="container header-flex">
-            <div class="logo-container">
-                <img src="logo_fsr.png" alt="FSR Viagens & Turismo" class="logo-img">
-                <div class="logo-text">
-                    <span class="brand-name">FSR</span>
-                    <span class="brand-sub">Viagens & Turismo</span>
-                </div>
-            </div>
+            <a href="/" class="logo-link">
+                <img src="/logo_fsr.svg" alt="FSR Viagens & Turismo" class="logo-main">
+            </a>
+
             <nav class="nav">
-                <a href="#">Destinos</a>
-                <a href="#">Hotéis</a>
-                <a href="#">Dicas</a>
+                <div class="nav-links">
+                    <a href="#">Destinos</a>
+                    <a href="#">Hotéis</a>
+                    <a href="#">Dicas</a>
+                </div>
                 <a href="#" class="btn-cta">Anuncie Conosco</a>
             </nav>
         </div>
     </header>
 
-    <div class="hero-line"></div>
+    <div class="brand-divider"></div>
 
     <div class="container main-layout">
+        
         <main class="content">
             <section class="ad-slot-horizontal">
                 <span class="ad-tag">Publicidade Patrocinada</span>
@@ -45,7 +45,7 @@
                 <article class="card">
                     <div class="card-img" style="background-image: url('{{ post.imagem if post.imagem else 'https://via.placeholder.com/400x250' }}')"></div>
                     <div class="card-body">
-                        <span class="category">Destaque</span>
+                        <span class="category-tag">Destaque</span>
                         <h3>{{ post.titulo }}</h3>
                         <p>{{ post.resumo }}</p>
                         <a href="#" class="read-more">Ver Roteiro Completo →</a>
@@ -56,24 +56,26 @@
         </main>
 
         <aside class="sidebar">
-            <div class="widget about-widget">
-                <h4>Sobre o FSR</h4>
-                <p>Referência em consultoria de viagens personalizada. <strong>Seu mundo começa aqui.</strong></p>
+            <div class="widget">
+                <h3>Sobre a FSR</h3>
+                <p>Consultoria especializada em transformar sonhos em destinos. No domínio <strong>fsr.tur.br</strong>, seu mundo começa aqui.</p>
             </div>
 
             <div class="ad-slot-vertical">
                 <span class="ad-tag">Publicidade</span>
                 <div class="ad-placeholder-sidebar">
-                    <p>Anúncio Lateral</p>
+                    <p>300 x 600</p>
                 </div>
             </div>
         </aside>
+
     </div>
 
     <footer class="footer">
         <div class="container">
+            <img src="/logo_fsr.svg" alt="FSR Logo" class="logo-footer">
             <p>&copy; 2026 FSR Viagens e Turismo. Todos os direitos reservados.</p>
-            <small>fsr.tur.br</small>
+            <div class="footer-info">fsr.tur.br</div>
         </div>
     </footer>
 
