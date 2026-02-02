@@ -2,9 +2,9 @@
    CONFIGURAÇÕES GERAIS E PALETA DE CORES
    ========================================= */
 :root {
-    --primary-blue: #0A253A;    /* Azul Marinho do Globo */
-    --accent-red: #D63D2E;     /* Vermelho do Arco */
-    --bg-cream: #F7F7F5;       /* Fundo Off-White do Logo */
+    --primary-blue: #0A253A;
+    --accent-red: #D63D2E;
+    --bg-cream: #F7F7F5;
     --white: #FFFFFF;
     --text-dark: #1A1A1A;
     --text-gray: #555555;
@@ -31,11 +31,11 @@ body {
 }
 
 /* =========================================
-   CABEÇALHO (HEADER)
+   CABEÇALHO (HEADER) - CORRIGIDO
    ========================================= */
 .header {
     background-color: var(--white);
-    padding: 10px 0;
+    padding: 15px 0;
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
     position: sticky;
     top: 0;
@@ -49,8 +49,10 @@ body {
 }
 
 .logo-main {
-    height: 90px; /* Ajuste para o tamanho ideal do seu SVG */
-    width: auto;
+    height: 85px;       /* Altura controlada */
+    width: auto;        /* Mantém proporção */
+    max-width: 250px;   /* Impede que a logo ocupe espaço demais */
+    display: block;
     transition: var(--transition);
 }
 
@@ -58,7 +60,6 @@ body {
     transform: scale(1.02);
 }
 
-/* Navegação */
 .nav {
     display: flex;
     align-items: center;
@@ -91,21 +92,14 @@ body {
     transition: var(--transition);
 }
 
-.btn-cta:hover {
-    background-color: var(--primary-blue);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(10, 37, 58, 0.3);
-}
-
-/* Linha de Identidade Visual */
+/* =========================================
+   LAYOUT E CONTEÚDO
+   ========================================= */
 .brand-divider {
     height: 5px;
     background: linear-gradient(90deg, var(--primary-blue) 0%, var(--accent-red) 100%);
 }
 
-/* =========================================
-   LAYOUT PRINCIPAL
-   ========================================= */
 .main-layout {
     display: grid;
     grid-template-columns: 1fr 300px;
@@ -113,34 +107,6 @@ body {
     margin-top: 40px;
 }
 
-/* Publicidade */
-.ad-slot-horizontal {
-    margin-bottom: 40px;
-    text-align: center;
-}
-
-.ad-tag {
-    display: block;
-    font-size: 10px;
-    text-transform: uppercase;
-    color: #999;
-    margin-bottom: 5px;
-    letter-spacing: 1px;
-}
-
-.ad-placeholder {
-    background: #ebebe9;
-    border: 1px dashed #ccc;
-    height: 90px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #777;
-}
-
-/* =========================================
-   CONTEÚDO E CARDS
-   ========================================= */
 .section-title {
     font-family: 'Montserrat', sans-serif;
     font-size: 28px;
@@ -164,59 +130,16 @@ body {
     transition: var(--transition);
 }
 
-.card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 25px rgba(0,0,0,0.1);
-}
-
 .card-img {
     height: 200px;
     background-size: cover;
     background-position: center;
 }
 
-.card-body {
-    padding: 25px;
-}
-
-.category-tag {
-    color: var(--accent-red);
-    font-weight: 700;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    display: block;
-    margin-bottom: 10px;
-}
-
-.card h3 {
-    font-family: 'Montserrat', sans-serif;
-    color: var(--primary-blue);
-    margin-bottom: 12px;
-    font-size: 20px;
-}
-
-.card p {
-    color: var(--text-gray);
-    font-size: 14px;
-    margin-bottom: 20px;
-}
-
-.read-more {
-    text-decoration: none;
-    color: var(--primary-blue);
-    font-weight: 700;
-    font-size: 14px;
-    transition: var(--transition);
-}
-
-.read-more:hover {
-    color: var(--accent-red);
-    padding-left: 5px;
-}
+.card-body { padding: 25px; }
 
 /* =========================================
-   SIDEBAR (BARRA LATERAL)
+   SIDEBAR E FOOTER - CORRIGIDO
    ========================================= */
 .widget {
     background: var(--primary-blue);
@@ -226,30 +149,18 @@ body {
     margin-bottom: 30px;
 }
 
-.widget h3 {
-    font-family: 'Montserrat', sans-serif;
-    margin-bottom: 15px;
-    font-size: 20px;
-}
-
-.widget p {
-    font-size: 15px;
-    opacity: 0.9;
-}
-
-.ad-placeholder-sidebar {
+.ad-placeholder, .ad-placeholder-sidebar {
     background: #ebebe9;
     border: 1px dashed #ccc;
-    height: 600px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #777;
 }
 
-/* =========================================
-   RODAPÉ (FOOTER)
-   ========================================= */
+.ad-placeholder { height: 90px; }
+.ad-placeholder-sidebar { height: 600px; }
+
 .footer {
     background-color: var(--primary-blue);
     color: var(--white);
@@ -259,43 +170,40 @@ body {
 }
 
 .logo-footer {
-    height: 70px;
-    filter: brightness(0) invert(1); /* Torna o logo SVG branco */
-    margin-bottom: 30px;
+    height: 60px;
+    width: auto;
+    margin: 0 auto 30px;
+    display: block;
+    filter: brightness(0) invert(1);
 }
 
 .footer-info {
     margin-top: 15px;
     font-weight: 600;
     color: var(--accent-red);
-    letter-spacing: 1px;
 }
 
 /* =========================================
-   RESPONSIVIDADE
+   RESPONSIVIDADE - CORRIGIDO
    ========================================= */
 @media (max-width: 992px) {
-    .main-layout {
-        grid-template-columns: 1fr;
-    }
-    
-    .sidebar {
-        order: 2;
-    }
+    .main-layout { grid-template-columns: 1fr; }
+    .sidebar { order: 2; }
 }
 
 @media (max-width: 768px) {
     .header-flex {
         flex-direction: column;
-        gap: 20px;
+        gap: 15px;
+        text-align: center;
     }
     
+    .logo-main {
+        height: 60px; /* Reduz a logo em telas pequenas */
+    }
+
     .nav {
         flex-direction: column;
         gap: 15px;
-    }
-    
-    .nav-links a {
-        margin: 0 10px;
     }
 }
