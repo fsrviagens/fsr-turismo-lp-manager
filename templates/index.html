@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FSR Viagens e Turismo | Referência em Destinos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <div class="logo">FSR <span>Viagens e Turismo</span></div>
+            <nav class="nav">
+                <a href="#">Destinos</a>
+                <a href="#">Hotéis</a>
+                <a href="#">Dicas</a>
+                <a href="#" class="btn-anuncie">Anuncie Conosco</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container main-layout">
+        
+        <main class="content">
+            <section class="ad-slot-horizontal">
+                <span class="ad-tag">Publicidade Patrocinada</span>
+                <div class="ad-placeholder">
+                    <p>Sua Marca Aqui (728x90)</p>
+                    <small>Destaque total para agências e operadoras</small>
+                </div>
+            </section>
+
+            <h2 class="section-title">Explorar Destinos</h2>
+            
+            <div class="post-grid">
+                {% for post in posts %}
+                <article class="card">
+                    <div class="card-img" style="background-image: url('{{ post.imagem if post.imagem else 'https://via.placeholder.com/400x250' }}')"></div>
+                    <div class="card-body">
+                        <span class="category">Destaque</span>
+                        <h3>{{ post.titulo }}</h3>
+                        <p>{{ post.resumo }}</p>
+                        <a href="#" class="read-more">Ver Roteiro Completo</a>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </main>
+
+        <aside class="sidebar">
+            <div class="widget">
+                <h4>Sobre o FSR</h4>
+                <p>Referência em consultoria de viagens e turismo personalizado no domínio <strong>fsr.tur.br</strong>.</p>
+            </div>
+
+            <div class="ad-slot-vertical">
+                <span class="ad-tag">Publicidade</span>
+                <div class="ad-placeholder-sidebar">
+                    <p>Anúncio Lateral (300x600)</p>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 FSR Viagens e Turismo. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
