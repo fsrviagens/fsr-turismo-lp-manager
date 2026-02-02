@@ -3,32 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FSR Viagens e Turismo | Referência em Destinos</title>
+    <title>FSR Viagens e Turismo | Seu mundo começa aqui</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <header class="header">
-        <div class="container">
-            <div class="logo">FSR <span>Viagens e Turismo</span></div>
+        <div class="container header-flex">
+            <div class="logo-container">
+                <img src="logo_fsr.png" alt="FSR Viagens & Turismo" class="logo-img">
+                <div class="logo-text">
+                    <span class="brand-name">FSR</span>
+                    <span class="brand-sub">Viagens & Turismo</span>
+                </div>
+            </div>
             <nav class="nav">
                 <a href="#">Destinos</a>
                 <a href="#">Hotéis</a>
                 <a href="#">Dicas</a>
-                <a href="#" class="btn-anuncie">Anuncie Conosco</a>
+                <a href="#" class="btn-cta">Anuncie Conosco</a>
             </nav>
         </div>
     </header>
 
+    <div class="hero-line"></div>
+
     <div class="container main-layout">
-        
         <main class="content">
             <section class="ad-slot-horizontal">
                 <span class="ad-tag">Publicidade Patrocinada</span>
                 <div class="ad-placeholder">
                     <p>Sua Marca Aqui (728x90)</p>
-                    <small>Destaque total para agências e operadoras</small>
                 </div>
             </section>
 
@@ -42,7 +48,7 @@
                         <span class="category">Destaque</span>
                         <h3>{{ post.titulo }}</h3>
                         <p>{{ post.resumo }}</p>
-                        <a href="#" class="read-more">Ver Roteiro Completo</a>
+                        <a href="#" class="read-more">Ver Roteiro Completo →</a>
                     </div>
                 </article>
                 {% endfor %}
@@ -50,23 +56,25 @@
         </main>
 
         <aside class="sidebar">
-            <div class="widget">
+            <div class="widget about-widget">
                 <h4>Sobre o FSR</h4>
-                <p>Referência em consultoria de viagens e turismo personalizado no domínio <strong>fsr.tur.br</strong>.</p>
+                <p>Referência em consultoria de viagens personalizada. <strong>Seu mundo começa aqui.</strong></p>
             </div>
 
             <div class="ad-slot-vertical">
                 <span class="ad-tag">Publicidade</span>
                 <div class="ad-placeholder-sidebar">
-                    <p>Anúncio Lateral (300x600)</p>
+                    <p>Anúncio Lateral</p>
                 </div>
             </div>
         </aside>
-
     </div>
 
     <footer class="footer">
-        <p>&copy; 2026 FSR Viagens e Turismo. Todos os direitos reservados.</p>
+        <div class="container">
+            <p>&copy; 2026 FSR Viagens e Turismo. Todos os direitos reservados.</p>
+            <small>fsr.tur.br</small>
+        </div>
     </footer>
 
 </body>
