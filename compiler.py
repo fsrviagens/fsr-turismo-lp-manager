@@ -36,7 +36,7 @@ if __name__ == '__main__':
     
     # --- NOVO: GERA O ARQUIVO CNAME AUTOMATICAMENTE NA RAIZ ---
     # Isso garante que o GitHub sempre saiba que o site é o fsr.tur.br
-    with open('CNAME', 'w') as f:
+    with open('CNAME', 'www') as f:
         f.write('fsr.tur.br')
         
     print("Sucesso! Blog gerado na raiz do projeto com o arquivo CNAME.")
