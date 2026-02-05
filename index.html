@@ -3,117 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FSR Viagens & Turismo - Especialistas em Resorts na Bahia</title>
-    <meta name="description" content="Sua agência especializada em Resorts na Bahia. Praia do Forte, Costa do Sauípe, Trancoso e mais. Roteiros personalizados e as melhores ofertas.">
+    <title>FSR Viagens & Turismo | Especialistas em Resorts na Bahia</title>
+    <meta name="description" content="Sua agência especializada em Resorts na Bahia. Praia do Forte, Costa do Sauípe e muito mais. Reserve com especialistas.">
     
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        /* --- VARIÁVEIS DE CORES (Baseadas na Logo) --- */
         :root {
-            --primary-blue: #0B2B40; /* Azul escuro da logo */
-            --accent-red: #C0392B;   /* Vermelho do arco da logo */
-            --light-bg: #f4f7f6;
+            --primary-blue: #0B2B40;
+            --accent-red: #C0392B;
             --white: #ffffff;
-            --text-dark: #333333;
-            --text-gray: #666666;
+            --text-dark: #1a1a1a;
+            --text-gray: #4a5568;
+            --bg-light: #f8fafc;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        /* --- RESET & GERAL --- */
+        /* --- BASE MULTI-TELA --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Open Sans', sans-serif; background-color: var(--light-bg); color: var(--text-dark); line-height: 1.6; }
-        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--primary-blue); }
-        a { text-decoration: none; transition: 0.3s; }
-        ul { list-style: none; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .btn { display: inline-block; padding: 12px 25px; border-radius: 5px; font-weight: 600; text-transform: uppercase; cursor: pointer; }
-        .btn-primary { background-color: var(--accent-red); color: var(--white); border: none; }
-        .btn-primary:hover { background-color: #a93226; transform: translateY(-2px); }
-        .section-title { text-align: center; margin-bottom: 40px; font-size: 2.2rem; font-weight: 800; position: relative; }
-        .section-title::after { content: ''; display: block; width: 60px; height: 4px; background-color: var(--accent-red); margin: 10px auto 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        
+        /* Ajuste para telas Ultra-Wide / 4K */
+        @media (min-width: 2000px) { html { font-size: 22px; } .container { max-width: 1800px; } }
 
-        /* --- HEADER --- */
-        header { background-color: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; max-width: 1200px; margin: 0 auto; }
-        .logo { font-size: 28px; font-weight: 800; color: var(--primary-blue); display: flex; align-items: center; gap: 10px; }
+        body { font-family: 'Open Sans', sans-serif; background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; font-weight: 700; color: var(--primary-blue); }
+        .container { max-width: 1240px; margin: 0 auto; padding: 0 5%; }
+        a { text-decoration: none; transition: var(--transition); }
+
+        /* --- HEADER (GLASSMORPHISM EFFECT) --- */
+        header { 
+            background: rgba(255, 255, 255, 0.95); 
+            backdrop-filter: blur(10px);
+            padding: 1rem 0; 
+            box-shadow: var(--shadow-sm); 
+            position: sticky; top: 0; z-index: 1000; 
+        }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8rem; font-weight: 900; color: var(--primary-blue); display: flex; align-items: center; gap: 8px; }
         .logo span { color: var(--accent-red); }
         
-        /* Menu Navigation */
-        nav ul { display: flex; gap: 20px; }
-        nav ul li { position: relative; }
-        nav ul li a { color: var(--primary-blue); font-weight: 600; padding: 10px; }
-        nav ul li a:hover { color: var(--accent-red); }
+        nav ul { display: flex; list-style: none; gap: 1.8rem; }
+        nav a { color: var(--primary-blue); font-weight: 700; font-size: 0.9rem; position: relative; }
+        nav a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0; background: var(--accent-red); transition: var(--transition); }
+        nav a:hover::after { width: 100%; }
 
-        /* Dropdown Menu */
-        .dropdown-content { display: none; position: absolute; background-color: var(--white); min-width: 200px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); top: 100%; left: 0; border-top: 3px solid var(--accent-red); }
-        .dropdown-content a { color: var(--text-dark); padding: 12px 16px; display: block; border-bottom: 1px solid #eee; }
-        .dropdown-content a:hover { background-color: #f9f9f9; color: var(--accent-red); }
-        .dropdown:hover .dropdown-content { display: block; }
+        .btn-whatsapp { 
+            background: #25D366; color: white; padding: 0.8rem 1.5rem; border-radius: 50px; 
+            font-weight: 700; display: flex; align-items: center; gap: 10px; font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+        .btn-whatsapp:hover { transform: scale(1.05); background: #1eb954; }
 
-        .header-contact { display: flex; align-items: center; gap: 15px; }
-        .whatsapp-btn { background-color: #25D366; color: white; padding: 8px 15px; border-radius: 50px; font-size: 0.9rem; font-weight: bold; }
+        @media (max-width: 900px) { nav { display: none; } }
 
         /* --- HERO SECTION --- */
         .hero { 
-            background: linear-gradient(rgba(11, 43, 64, 0.6), rgba(11, 43, 64, 0.6)), url('https://images.unsplash.com/photo-1596395819057-d37f26f74a06?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover; background-position: center; height: 80vh; display: flex; align-items: center; text-align: center; color: var(--white); 
+            height: 85vh; min-height: 600px; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(rgba(11, 43, 64, 0.6), rgba(11, 43, 64, 0.4)), 
+                        url('https://images.unsplash.com/photo-1596395819057-d37f26f74a06?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover; background-position: center; color: var(--white); text-align: center;
         }
-        .hero-content h1 { color: var(--white); font-size: 3.5rem; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-        .hero-content p { font-size: 1.3rem; margin-bottom: 30px; max-width: 700px; margin-left: auto; margin-right: auto; }
+        .hero-content h1 { font-size: clamp(2.5rem, 8vw, 4.8rem); font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
+        .hero-content p { font-size: clamp(1.1rem, 2.5vw, 1.5rem); margin-bottom: 35px; max-width: 800px; margin-inline: auto; font-weight: 400; }
+        
+        .btn-hero { 
+            background: var(--accent-red); color: white; padding: 1.2rem 3rem; border-radius: 12px; 
+            font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+            box-shadow: 0 10px 20px rgba(192, 57, 43, 0.4);
+        }
+        .btn-hero:hover { background: var(--primary-blue); transform: translateY(-5px); }
 
-        /* --- ESPAÇO PUBLICITÁRIO (BANNER) --- */
-        .ad-space { background-color: #e9ecef; border: 1px dashed #ccc; padding: 40px 0; text-align: center; margin: 40px auto; max-width: 970px; color: #999; }
-        .ad-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: block; }
+        /* --- ADS / BANNERS --- */
+        .ad-container { padding: 60px 0; }
+        .ad-box { background: #edf2f7; border: 2px dashed #cbd5e0; border-radius: 20px; padding: 40px; text-align: center; color: #718096; }
 
-        /* --- DESTINOS EM DESTAQUE --- */
-        .destinos { padding: 60px 0; }
-        .grid-destinos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .card-destino { background: var(--white); border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s; }
-        .card-destino:hover { transform: translateY(-10px); }
-        .card-img { height: 200px; width: 100%; object-fit: cover; }
-        .card-body { padding: 20px; }
-        .card-body h3 { margin-bottom: 10px; font-size: 1.5rem; }
-        .card-body p { color: var(--text-gray); font-size: 0.95rem; margin-bottom: 20px; }
-        .card-tag { display: inline-block; background: #eee; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; color: #555; margin-bottom: 10px; }
+        /* --- DESTINOS GRID --- */
+        .destinos { padding: 80px 0; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h2 { font-size: 2.5rem; margin-bottom: 15px; }
+        .section-header .line { width: 80px; height: 5px; background: var(--accent-red); margin: 0 auto; border-radius: 10px; }
+
+        .grid-destinos { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 30px; 
+        }
+
+        .card-destino { 
+            background: var(--white); border-radius: 25px; overflow: hidden; 
+            box-shadow: var(--shadow-sm); transition: var(--transition); border: 1px solid #f1f5f9;
+        }
+        .card-destino:hover { transform: translateY(-12px); box-shadow: var(--shadow-lg); }
+        
+        .card-img { height: 250px; position: relative; overflow: hidden; }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s; }
+        .card-destino:hover .card-img img { transform: scale(1.15); }
+        
+        .card-tag { 
+            position: absolute; top: 20px; left: 20px; background: var(--accent-red); 
+            color: white; padding: 5px 15px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; 
+        }
+
+        .card-body { padding: 30px; }
+        .card-body h3 { font-size: 1.5rem; margin-bottom: 12px; }
+        .card-body p { color: var(--text-gray); font-size: 0.95rem; margin-bottom: 25px; }
+        
+        .btn-card { 
+            display: block; text-align: center; border: 2px solid var(--primary-blue); 
+            color: var(--primary-blue); padding: 10px; border-radius: 10px; font-weight: 700; 
+        }
+        .btn-card:hover { background: var(--primary-blue); color: white; }
 
         /* --- DIFERENCIAIS --- */
-        .diferenciais { background-color: var(--primary-blue); color: var(--white); padding: 60px 0; }
-        .diferenciais h2 { color: var(--white); }
-        .diferenciais h2::after { background-color: var(--white); }
-        .grid-dif { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; text-align: center; }
-        .dif-item i { font-size: 3rem; margin-bottom: 20px; color: var(--accent-red); }
-        .dif-item h4 { color: var(--white); margin-bottom: 15px; font-size: 1.2rem; }
-
-        /* --- DICAS DE ROTEIRO --- */
-        .roteiros { padding: 60px 0; }
-        .grid-blog { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .blog-card { display: flex; flex-direction: column; background: var(--white); border-left: 5px solid var(--accent-red); padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .blog-date { font-size: 0.85rem; color: #999; margin-bottom: 5px; }
+        .diferenciais { background: var(--primary-blue); padding: 100px 0; color: white; }
+        .grid-dif { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; }
+        .dif-item { text-align: center; }
+        .dif-item i { font-size: 3.5rem; color: var(--accent-red); margin-bottom: 25px; }
+        .dif-item h4 { color: white; font-size: 1.4rem; margin-bottom: 15px; }
+        .dif-item p { opacity: 0.8; font-size: 1rem; }
 
         /* --- FOOTER --- */
-        footer { background-color: #051621; color: #bbb; padding: 60px 0 20px; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px; }
-        .footer-col h3 { color: var(--white); margin-bottom: 20px; font-size: 1.2rem; }
-        .footer-col ul li { margin-bottom: 10px; }
-        .footer-col ul li a { color: #bbb; }
-        .footer-col ul li a:hover { color: var(--accent-red); padding-left: 5px; }
-        .footer-contact i { width: 25px; color: var(--accent-red); }
-        .copyright { text-align: center; border-top: 1px solid #222; padding-top: 20px; font-size: 0.9rem; }
-
-        /* --- RESPONSIVIDADE --- */
-        @media (max-width: 768px) {
-            .nav-container { flex-direction: column; gap: 15px; }
-            nav ul { flex-wrap: wrap; justify-content: center; }
-            .hero-content h1 { font-size: 2.2rem; }
-            .header-contact { margin-top: 10px; }
+        footer { background: #051621; color: #94a3b8; padding: 100px 0 50px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 60px; }
+        .footer-col h3 { color: white; margin-bottom: 25px; font-size: 1.2rem; }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 12px; }
+        .footer-col a { color: #94a3b8; font-size: 0.9rem; }
+        .footer-col a:hover { color: white; padding-left: 8px; }
+        
+        .footer-bottom { 
+            margin-top: 80px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); 
+            text-align: center; font-size: 0.8rem; 
         }
+
     </style>
 </head>
 <body>
 
     <header>
-        <div class="nav-container">
+        <div class="container nav-wrapper">
             <a href="index.html" class="logo">
                 <i class="fas fa-globe-americas"></i> FSR <span>Viagens</span>
             </a>
@@ -121,146 +153,99 @@
             <nav>
                 <ul>
                     <li><a href="index.html">Início</a></li>
-                    <li class="dropdown">
-                        <a href="#">Destinos Bahia <i class="fas fa-chevron-down"></i></a>
-                        <div class="dropdown-content">
-                            <a href="destinos/praia-do-forte.html">Praia do Forte</a>
-                            <a href="destinos/costa-do-sauipe.html">Costa do Sauípe</a>
-                            <a href="destinos/trancoso.html">Trancoso & Arraial</a>
-                            <a href="destinos/ilheus.html">Ilhéus & Comandatuba</a>
-                            <a href="destinos/morro-de-sao-paulo.html">Morro de São Paulo</a>
-                        </div>
-                    </li>
-                    <li><a href="#diferenciais">Por que a FSR?</a></li>
-                    <li><a href="#roteiros">Dicas</a></li>
+                    <li><a href="destinos/praia-do-forte.html">Praia do Forte</a></li>
+                    <li><a href="destinos/costa-do-sauipe.html">Costa do Sauípe</a></li>
+                    <li><a href="destinos/trancoso.html">Trancoso</a></li>
+                    <li><a href="#diferenciais">Diferenciais</a></li>
                 </ul>
             </nav>
 
-            <div class="header-contact">
-                <a href="https://wa.me/5561983163710" target="_blank" class="whatsapp-btn">
-                    <i class="fab fa-whatsapp"></i> (61) 98316-3710
-                </a>
-            </div>
+            <a href="https://wa.me/5561983163710" class="btn-whatsapp">
+                <i class="fab fa-whatsapp"></i> <span>Falar com Especialista</span>
+            </a>
         </div>
     </header>
 
     <section class="hero">
         <div class="container hero-content">
-            <h1>Seu Mundo Começa na Bahia</h1>
-            <p>Especialistas nos melhores Resorts e roteiros exclusivos no litoral baiano. Experiências inesquecíveis com a segurança da FSR Viagens.</p>
-            <a href="https://wa.me/5561983163710?text=Olá, gostaria de cotar um resort na Bahia." class="btn btn-primary">Fazer Cotação Agora</a>
+            <h1>Sua Experiência All Inclusive Começa Aqui</h1>
+            <p>Especialistas em Resorts na Bahia. Roteiros sob medida para quem busca luxo, conforto e memórias inesquecíveis.</p>
+            <a href="https://wa.me/5561983163710?text=Olá, vim do site e gostaria de uma cotação para Resorts na Bahia." class="btn-hero">Consultar Tarifas Exclusivas</a>
         </div>
     </section>
 
-    <div class="container">
-        <div class="ad-space">
-            <span class="ad-label">Publicidade</span>
-            <h3>Banner Promocional 970x90</h3>
-            <p>Espaço reservado para parcerias ou Google Ads</p>
+    <section class="container ad-container">
+        <div class="ad-box">
+            <small style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.7rem;">Publicidade / Promoções</small>
+            <h3 style="margin: 10px 0;">Oferta da Semana: Iberostar Bahia com 20% OFF</h3>
+            <p>Consulte períodos disponíveis para o primeiro semestre de 2026.</p>
         </div>
-    </div>
+    </section>
 
     <section class="destinos" id="destinos">
         <div class="container">
-            <h2 class="section-title">Principais Destinos & Resorts</h2>
+            <div class="section-header">
+                <h2>Resorts Selecionados</h2>
+                <div class="line"></div>
+            </div>
+
             <div class="grid-destinos">
-                
-                <div class="card-destino">
-                    <img src="https://images.unsplash.com/photo-1544144438-b4b60e90c2bf?auto=format&fit=crop&w=800&q=80" alt="Praia do Forte" class="card-img">
+                <article class="card-destino">
+                    <div class="card-img">
+                        <span class="card-tag">Mais Procurado</span>
+                        <img src="https://images.unsplash.com/photo-1544144438-b4b60e90c2bf?auto=format&fit=crop&w=800&q=80" alt="Praia do Forte">
+                    </div>
                     <div class="card-body">
-                        <span class="card-tag">Luxo & Família</span>
                         <h3>Praia do Forte</h3>
-                        <p>O lar dos luxuosos <strong>Iberostar</strong> e <strong>Tivoli</strong>. Piscinas naturais, Projeto Tamar e vila charmosa.</p>
-                        <a href="destinos/praia-do-forte.html" class="btn btn-primary" style="font-size: 0.8rem;">Ver Resorts</a>
+                        <p>O luxo do Tivoli e o All Inclusive premium do Iberostar em um só destino.</p>
+                        <a href="destinos/praia-do-forte.html" class="btn-card">Explorar Resorts</a>
                     </div>
-                </div>
+                </article>
 
-                <div class="card-destino">
-                    <img src="https://images.unsplash.com/photo-1615880484746-a134be9a6ec1?auto=format&fit=crop&w=800&q=80" alt="Costa do Sauípe" class="card-img">
+                <article class="card-destino">
+                    <div class="card-img">
+                        <span class="card-tag">Família & Diversão</span>
+                        <img src="https://images.unsplash.com/photo-1615880484746-a134be9a6ec1?auto=format&fit=crop&w=800&q=80" alt="Costa do Sauípe">
+                    </div>
                     <div class="card-body">
-                        <span class="card-tag">All Inclusive</span>
                         <h3>Costa do Sauípe</h3>
-                        <p>O maior complexo de resorts do Brasil. Diversão garantida para crianças e relaxamento total para adultos.</p>
-                        <a href="destinos/costa-do-sauipe.html" class="btn btn-primary" style="font-size: 0.8rem;">Ver Resorts</a>
+                        <p>Três hotéis e uma vila inteira de entretenimento pé na areia para todas as idades.</p>
+                        <a href="destinos/costa-do-sauipe.html" class="btn-card">Ver Categorias</a>
                     </div>
-                </div>
+                </article>
 
-                <div class="card-destino">
-                    <img src="https://images.unsplash.com/photo-1573294323671-a083d6a2a07c?auto=format&fit=crop&w=800&q=80" alt="Comandatuba" class="card-img">
-                    <div class="card-body">
+                <article class="card-destino">
+                    <div class="card-img">
                         <span class="card-tag">Exclusividade</span>
-                        <h3>Transamerica Comandatuba</h3>
-                        <p>Uma ilha inteira dedicada ao seu lazer. O resort mais exclusivo da Bahia com aeroporto próprio.</p>
-                        <a href="destinos/ilheus.html" class="btn btn-primary" style="font-size: 0.8rem;">Ver Resorts</a>
+                        <img src="https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?auto=format&fit=crop&w=800&q=80" alt="Trancoso">
                     </div>
-                </div>
-
-                <div class="card-destino">
-                    <img src="https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?auto=format&fit=crop&w=800&q=80" alt="Trancoso" class="card-img">
                     <div class="card-body">
-                        <span class="card-tag">Charme & Club Med</span>
                         <h3>Trancoso & Arraial</h3>
-                        <p>Lar do famoso <strong>Club Med Trancoso</strong>. Falésias coloridas, o Quadrado histórico e praias paradisíacas.</p>
-                        <a href="destinos/trancoso.html" class="btn btn-primary" style="font-size: 0.8rem;">Ver Resorts</a>
+                        <p>O charme rústico do Quadrado e a sofisticação do Club Med sobre as falésias.</p>
+                        <a href="destinos/trancoso.html" class="btn-card">Conhecer Destino</a>
                     </div>
-                </div>
-
+                </article>
             </div>
         </div>
     </section>
 
     <section class="diferenciais" id="diferenciais">
         <div class="container">
-            <h2 class="section-title">Por que escolher a FSR?</h2>
             <div class="grid-dif">
                 <div class="dif-item">
-                    <i class="fas fa-umbrella-beach"></i>
-                    <h4>Especialistas em Bahia</h4>
-                    <p>Conhecemos cada resort pessoalmente para indicar a melhor opção para o seu perfil.</p>
+                    <i class="fas fa-certificate"></i>
+                    <h4>Curadoria FSR</h4>
+                    <p>Selecionamos apenas os resorts que mantêm o mais alto padrão de qualidade e serviço.</p>
                 </div>
                 <div class="dif-item">
-                    <i class="fas fa-headset"></i>
-                    <h4>Suporte 24h</h4>
-                    <p>Acompanhamento desde o check-in até o retorno. Você nunca viaja sozinho.</p>
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Viagem Segura</h4>
+                    <p>Suporte personalizado via WhatsApp durante toda a sua estadia na Bahia.</p>
                 </div>
                 <div class="dif-item">
-                    <i class="fas fa-percent"></i>
-                    <h4>Melhores Tarifas</h4>
-                    <p>Negociação direta com os resorts para garantir condições exclusivas.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="container">
-        <div class="ad-space">
-            <span class="ad-label">Publicidade</span>
-            <h3>Banner Promocional 728x90</h3>
-            <p>Ideal para venda de seguros viagem ou aluguel de carros</p>
-        </div>
-    </div>
-
-    <section class="roteiros" id="roteiros">
-        <div class="container">
-            <h2 class="section-title">Dicas de Roteiro</h2>
-            <div class="grid-blog">
-                <div class="blog-card">
-                    <span class="blog-date">Atualizado recentemente</span>
-                    <h4>Como escolher o Resort ideal para crianças?</h4>
-                    <p>Analisamos a monitoria e estrutura infantil dos principais hotéis...</p>
-                    <a href="#" style="color: var(--accent-red); font-weight: bold;">Ler mais &rarr;</a>
-                </div>
-                <div class="blog-card">
-                    <span class="blog-date">Guia de Viagem</span>
-                    <h4>Melhor época para ir a Porto Seguro</h4>
-                    <p>Fuja das chuvas e aproveite o sol. Veja nosso calendário climático...</p>
-                    <a href="#" style="color: var(--accent-red); font-weight: bold;">Ler mais &rarr;</a>
-                </div>
-                <div class="blog-card">
-                    <span class="blog-date">Gastronomia</span>
-                    <h4>O que não deixar de comer na Bahia</h4>
-                    <p>Do Acarajé à Moqueca, um guia para seu paladar...</p>
-                    <a href="#" style="color: var(--accent-red); font-weight: bold;">Ler mais &rarr;</a>
+                    <i class="fas fa-tags"></i>
+                    <h4>Tarifas de Operadora</h4>
+                    <p>Acesso a valores e condições de pagamento que você não encontra em sites de busca.</p>
                 </div>
             </div>
         </div>
@@ -270,40 +255,29 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h3>FSR Viagens & Turismo</h3>
-                    <p>Seu mundo começa aqui. Especialistas em criar memórias inesquecíveis nos melhores resorts do Brasil.</p>
+                    <div class="logo" style="color: white; margin-bottom: 20px;">FSR <span>Viagens</span></div>
+                    <p>Transformando sonhos em roteiros reais. Sua agência boutique para o litoral baiano.</p>
                 </div>
-                
                 <div class="footer-col">
-                    <h3>Navegação</h3>
+                    <h3>Atalhos</h3>
                     <ul>
-                        <li><a href="index.html">Início</a></li>
-                        <li><a href="#destinos">Resorts na Bahia</a></li>
-                        <li><a href="#diferenciais">Sobre Nós</a></li>
-                        <li><a href="#roteiros">Dicas</a></li>
+                        <li><a href="index.html">Página Inicial</a></li>
+                        <li><a href="destinos/praia-do-forte.html">Tivoli & Iberostar</a></li>
+                        <li><a href="destinos/costa-do-sauipe.html">Sauípe All Inclusive</a></li>
+                        <li><a href="destinos/trancoso.html">Club Med Trancoso</a></li>
                     </ul>
                 </div>
-
                 <div class="footer-col">
-                    <h3>Destinos Futuros</h3>
-                    <ul>
-                        <li><a href="destinos/praia-do-forte.html">Praia do Forte</a></li>
-                        <li><a href="destinos/costa-do-sauipe.html">Costa do Sauípe</a></li>
-                        <li><a href="destinos/trancoso.html">Trancoso</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col footer-contact">
                     <h3>Contato</h3>
                     <ul>
+                        <li><i class="fab fa-whatsapp"></i> (61) 98316-3710</li>
                         <li><i class="fas fa-envelope"></i> contato@fsr.tur.br</li>
-                        <li><i class="fab fa-whatsapp"></i> +55 61 98316-3710</li>
-                        <li><i class="fas fa-map-marker-alt"></i> Atendimento Online para todo Brasil</li>
+                        <li><i class="fas fa-clock"></i> Seg a Sex: 09h às 19h</li>
                     </ul>
                 </div>
             </div>
-            <div class="copyright">
-                <p>&copy; 2026 FSR Viagens & Turismo. Todos os direitos reservados.</p>
+            <div class="footer-bottom">
+                &copy; 2026 FSR Viagens & Turismo. CNPJ: 00.000.000/0001-00. Todos os direitos reservados.
             </div>
         </div>
     </footer>
