@@ -3,251 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Costa do Sauípe - Pacotes e Resorts All Inclusive | FSR Viagens</title>
-    <meta name="description" content="Guia completo da Costa do Sauípe. Entenda a diferença entre Premium Brisa, Sol e Sauípe Resorts. O maior complexo de lazer do Brasil com ofertas FSR.">
+    <title>Costa do Sauípe - Resorts All Inclusive | FSR Viagens</title>
+    <meta name="description" content="Guia completo da Costa do Sauípe. Compare as categorias Premium Brisa, Sol e Sauípe Resorts com a FSR Viagens.">
     
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        /* --- IDENTIDADE VISUAL (FSR) --- */
         :root {
             --primary-blue: #0B2B40;
             --accent-red: #C0392B;
-            --light-bg: #f4f7f6;
             --white: #ffffff;
-            --text-dark: #333333;
-            --text-gray: #666666;
-            --sauipe-green: #2ecc71; /* Cor de destaque para natureza/fun */
+            --text-dark: #1a1a1a;
+            --text-gray: #4a4a4a;
+            --bg-light: #f8fafc;
+            --sauipe-green: #2ecc71;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
+        /* --- BASE MULTI-TELA --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Open Sans', sans-serif; background-color: var(--light-bg); color: var(--text-dark); line-height: 1.6; }
-        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--primary-blue); }
-        a { text-decoration: none; transition: 0.3s; }
-        ul { list-style: none; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        html { scroll-behavior: smooth; font-size: 16px; }
         
-        /* Botões */
-        .btn { display: inline-block; padding: 12px 25px; border-radius: 5px; font-weight: 600; text-transform: uppercase; cursor: pointer; }
-        .btn-primary { background-color: var(--accent-red); color: var(--white); border: none; }
-        .btn-primary:hover { background-color: #a93226; transform: translateY(-2px); }
-        .btn-whatsapp { background-color: #25D366; color: white; border-radius: 50px; padding: 10px 20px; display: inline-flex; align-items: center; gap: 8px; font-weight: bold; }
+        /* Otimização para Smart TVs e Monitores 4K */
+        @media (min-width: 2200px) { html { font-size: 24px; } .container { max-width: 1900px; } }
 
+        body { font-family: 'Open Sans', sans-serif; background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; }
+        h1, h2, h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
+        .container { max-width: 1240px; margin: 0 auto; padding: 0 5%; }
+        
         /* --- HEADER --- */
-        header { background-color: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; max-width: 1200px; margin: 0 auto; }
-        .logo { font-size: 28px; font-weight: 800; color: var(--primary-blue); display: flex; align-items: center; gap: 10px; }
+        header { background: var(--white); padding: 1rem 0; box-shadow: 0 2px 15px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.6rem; font-weight: 900; color: var(--primary-blue); text-decoration: none; }
         .logo span { color: var(--accent-red); }
         
-        nav ul { display: flex; gap: 20px; }
-        nav ul li { position: relative; }
-        nav ul li a { color: var(--primary-blue); font-weight: 600; padding: 10px; }
-        nav ul li a:hover { color: var(--accent-red); }
+        nav ul { display: flex; list-style: none; gap: 1.5rem; }
+        nav a { color: var(--primary-blue); font-weight: 600; font-size: 0.9rem; text-decoration: none; }
+        nav a:hover { color: var(--accent-red); }
 
-        /* Dropdown */
-        .dropdown-content { display: none; position: absolute; background-color: var(--white); min-width: 200px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); top: 100%; left: 0; border-top: 3px solid var(--accent-red); }
-        .dropdown-content a { color: var(--text-dark); padding: 12px 16px; display: block; border-bottom: 1px solid #eee; }
-        .dropdown-content a:hover { background-color: #f9f9f9; color: var(--accent-red); }
-        .dropdown:hover .dropdown-content { display: block; }
+        .btn-whatsapp { background: #25D366; color: white; padding: 0.7rem 1.4rem; border-radius: 50px; font-weight: 700; display: flex; align-items: center; gap: 8px; font-size: 0.85rem; text-decoration: none; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); }
+
+        @media (max-width: 850px) { nav { display: none; } }
 
         /* --- HERO SAUÍPE --- */
-        .hero-destino { 
-            /* Imagem focada em piscinas e coqueiros */
-            background: linear-gradient(rgba(11, 43, 64, 0.4), rgba(11, 43, 64, 0.4)), url('https://images.unsplash.com/photo-1615880484746-a134be9a6ec1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover; background-position: center; height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white); 
+        .hero { 
+            height: 60vh; min-height: 500px; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(rgba(11, 43, 64, 0.5), rgba(11, 43, 64, 0.5)), url('https://images.unsplash.com/photo-1615880484746-a134be9a6ec1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover; background-position: center; color: var(--white); text-align: center;
         }
-        .hero-destino h1 { color: var(--white); font-size: 3rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.6); }
+        .hero h1 { font-size: clamp(2.2rem, 8vw, 4.5rem); font-weight: 900; text-transform: uppercase; letter-spacing: -1px; }
+        .hero p { font-size: clamp(1rem, 2.5vw, 1.4rem); margin-top: 15px; font-weight: 400; max-width: 800px; margin-inline: auto; }
 
-        /* --- CONTEÚDO GERAL --- */
-        .intro-destino { text-align: center; padding: 50px 0; max-width: 800px; margin: 0 auto; }
-        .section-title { font-size: 2rem; margin-bottom: 30px; position: relative; display: inline-block; }
-        .section-title::after { content: ''; display: block; width: 50%; height: 3px; background-color: var(--accent-red); margin: 5px auto 0; }
+        /* --- INTRODUÇÃO --- */
+        .intro { padding: 80px 0; text-align: center; }
+        .intro h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--primary-blue); margin-bottom: 20px; }
+        .intro p { max-width: 900px; margin: 0 auto; color: var(--text-gray); font-size: 1.1rem; }
 
-        /* --- CARDS DE RESORTS (LAYOUT HORIZONTAL) --- */
-        .resort-card { background: var(--white); border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 40px; display: flex; flex-direction: row; border-left: 5px solid transparent; transition: 0.3s; }
-        .resort-card:hover { border-left-color: var(--accent-red); transform: translateX(5px); }
-        
-        .resort-img { width: 45%; object-fit: cover; min-height: 320px; }
-        .resort-info { padding: 30px; width: 55%; display: flex; flex-direction: column; justify-content: center; }
-        
-        .resort-info h3 { font-size: 1.8rem; margin-bottom: 5px; }
-        .resort-subtitle { font-size: 0.9rem; color: #888; margin-bottom: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-        
-        .resort-tag { background-color: #e3f2fd; color: var(--primary-blue); padding: 5px 12px; border-radius: 4px; font-size: 0.8rem; display: inline-block; margin-bottom: 15px; width: fit-content; font-weight: bold; }
-        .tag-premium { background-color: #fff3cd; color: #856404; } /* Dourado para Premium */
-        
-        .resort-features { display: flex; gap: 15px; margin: 15px 0; color: var(--text-gray); flex-wrap: wrap; }
-        .feature { display: flex; align-items: center; gap: 5px; font-size: 0.9rem; }
-        .resort-desc { margin-bottom: 20px; }
+        /* --- CARDS DE RESORTS (GRID DINÂMICO) --- */
+        .resorts-grid { display: grid; grid-template-columns: 1fr; gap: 40px; margin-bottom: 80px; }
 
-        /* --- ATRAÇÕES (GRID DIFERENCIADO) --- */
-        .grid-fun { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 50px; }
-        .fun-card { background: var(--white); padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .fun-icon { font-size: 2.5rem; color: var(--accent-red); margin-bottom: 15px; }
-        .fun-title { font-weight: 700; margin-bottom: 10px; color: var(--primary-blue); }
+        .resort-card { 
+            display: grid; grid-template-columns: repeat(12, 1fr); background: var(--white); 
+            border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: var(--transition); border-left: 6px solid transparent;
+        }
+        .resort-card:hover { transform: translateX(10px); border-left-color: var(--accent-red); }
+
+        .resort-img { grid-column: 1 / 6; height: 100%; min-height: 350px; overflow: hidden; }
+        .resort-img img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        .resort-card:hover .resort-img img { transform: scale(1.05); }
+
+        .resort-content { grid-column: 6 / 13; padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
+        
+        .badge { display: inline-block; padding: 5px 15px; border-radius: 50px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; width: fit-content; }
+        .badge-brisa { background: #fff3cd; color: #856404; }
+        .badge-sol { background: #e3f2fd; color: #0d47a1; }
+        .badge-resorts { background: #e8f5e9; color: #1b5e20; }
+
+        .resort-content h3 { font-size: 2rem; margin-bottom: 10px; color: var(--primary-blue); }
+        .resort-subtitle { font-weight: 600; color: var(--text-gray); margin-bottom: 20px; font-size: 0.9rem; letter-spacing: 1px; }
+        
+        .features-row { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 25px; padding: 20px 0; border-block: 1px solid #f0f0f0; }
+        .f-item { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-gray); font-weight: 600; }
+        .f-item i { color: var(--accent-red); }
+
+        .btn-cta { background: var(--primary-blue); color: white; padding: 12px 30px; border-radius: 10px; font-weight: 700; text-decoration: none; align-self: flex-start; transition: var(--transition); }
+        .btn-cta:hover { background: var(--accent-red); }
+
+        @media (max-width: 1024px) {
+            .resort-img, .resort-content { grid-column: 1 / 13; }
+            .resort-img { height: 300px; }
+            .resort-content { padding: 2rem; }
+        }
+
+        /* --- COMPLEXO FUN (GRID DE ATRAÇÕES) --- */
+        .fun-section { background: var(--primary-blue); padding: 80px 0; color: white; }
+        .fun-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 50px; }
+        .fun-card { background: rgba(255,255,255,0.05); padding: 40px; border-radius: 20px; text-align: center; transition: var(--transition); }
+        .fun-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-10px); }
+        .fun-card i { font-size: 2.5rem; color: var(--accent-red); margin-bottom: 20px; }
+        .fun-card h4 { font-size: 1.4rem; margin-bottom: 15px; color: white; }
 
         /* --- ADS --- */
-        .ad-space { background-color: #e9ecef; border: 1px dashed #ccc; padding: 30px 0; text-align: center; margin: 40px 0; color: #999; }
+        .ad-space { background: #eee; margin: 60px 0; padding: 30px; text-align: center; border: 2px dashed #ccc; border-radius: 15px; }
+        .ad-space small { font-size: 0.6rem; color: #999; text-transform: uppercase; letter-spacing: 2px; }
 
         /* --- FOOTER --- */
-        footer { background-color: #051621; color: #bbb; padding: 40px 0 20px; margin-top: 60px; }
-        .footer-content { text-align: center; }
+        footer { background: #051621; color: #8a99a4; padding: 80px 0 40px; text-align: center; }
+        .footer-logo { font-size: 1.8rem; font-weight: 900; color: white; margin-bottom: 20px; }
+        .footer-copy { border-top: 1px solid rgba(255,255,255,0.05); margin-top: 40px; padding-top: 20px; font-size: 0.85rem; }
 
-        /* RESPONSIVIDADE */
-        @media (max-width: 900px) {
-            .resort-card { flex-direction: column; }
-            .resort-img { width: 100%; height: 250px; }
-            .resort-info { width: 100%; }
-            .grid-fun { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 768px) {
-            .nav-container { flex-direction: column; gap: 15px; }
-            nav ul { flex-wrap: wrap; justify-content: center; }
-        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="nav-container">
-            <a href="../index.html" class="logo">
-                <i class="fas fa-globe-americas"></i> FSR <span>Viagens</span>
-            </a>
-            
+        <div class="container nav-wrapper">
+            <a href="../index.html" class="logo">FSR <span>Viagens</span></a>
             <nav>
                 <ul>
                     <li><a href="../index.html">Início</a></li>
-                    
-                    <li class="dropdown">
-                        <a href="#" style="color: var(--accent-red);">Costa do Sauípe <i class="fas fa-chevron-down"></i></a>
-                        <div class="dropdown-content">
-                            <a href="praia-do-forte.html">Praia do Forte</a>
-                            <a href="trancoso.html">Trancoso & Arraial</a>
-                            <a href="ilheus.html">Ilhéus & Comandatuba</a>
-                            <a href="morro-de-sao-paulo.html">Morro de São Paulo</a>
-                        </div>
-                    </li>
-                    <li><a href="../index.html#roteiros">Dicas</a></li>
+                    <li><a href="praia-do-forte.html">Praia do Forte</a></li>
+                    <li><a href="trancoso.html">Trancoso</a></li>
+                    <li><a href="ilheus.html">Ilhéus</a></li>
+                    <li><a href="morro-de-sao-paulo.html">Morro de SP</a></li>
                 </ul>
             </nav>
-
-            <div class="header-contact">
-                <a href="https://wa.me/5561983163710" target="_blank" class="btn-whatsapp">
-                    <i class="fab fa-whatsapp"></i> Falar Agora
-                </a>
-            </div>
+            <a href="https://wa.me/5561983163710" class="btn-whatsapp">
+                <i class="fab fa-whatsapp"></i> <span>Falar com Especialista</span>
+            </a>
         </div>
     </header>
 
-    <section class="hero-destino">
+    <section class="hero">
         <div class="container">
             <h1>Costa do Sauípe</h1>
-            <p style="font-size: 1.2rem; margin-top: 10px;">Diversão sem limites no maior complexo de resorts do Brasil.</p>
+            <p>O maior e mais completo complexo de resorts All Inclusive do Brasil espera por você.</p>
         </div>
     </section>
 
-    <div class="container intro-destino">
-        <h2 class="section-title">Um Mundo de Opções</h2>
-        <p>A Costa do Sauípe não é apenas um hotel, é um destino completo. Localizado a 76km de Salvador, o complexo conta com três experiências de hospedagem distintas, uma vila cenográfica com shows noturnos, parque de diversões e praias preservadas. <strong>Aqui, o sistema é All Inclusive de verdade.</strong></p>
-    </div>
+    <main class="container">
+        <section class="intro">
+            <h2>Um Destino, Três Experiências</h2>
+            <p>Localizada no coração da Rota dos Coqueiros, a Costa do Sauípe oferece opções que vão do luxo exclusivo à diversão vibrante para toda a família.</p>
+        </section>
 
-    <div class="container">
+        <div class="resorts-grid">
+            <article class="resort-card">
+                <div class="resort-img">
+                    <img src="https://images.unsplash.com/photo-1572331165267-854da2b00dc1?auto=format&fit=crop&w=1000&q=80" alt="Sauípe Premium Brisa">
+                </div>
+                <div class="resort-content">
+                    <span class="badge badge-brisa">A Joia do Complexo</span>
+                    <h3>Sauípe Premium Brisa</h3>
+                    <p class="resort-subtitle">EXCLUSIVIDADE & GASTRONOMIA SUPERIOR</p>
+                    <div class="features-row">
+                        <span class="f-item"><i class="fas fa-infinity"></i> Piscina Infinita</span>
+                        <span class="f-item"><i class="fas fa-glass-cheers"></i> Bebidas Premium</span>
+                        <span class="f-item"><i class="fas fa-utensils"></i> Buffet VIP</span>
+                    </div>
+                    <p style="margin-bottom: 25px; color: var(--text-gray);">O hotel mais exclusivo do complexo. Perfeito para quem não abre mão de conforto absoluto e atendimento diferenciado.</p>
+                    <a href="https://wa.me/5561983163710?text=Cotação: Sauípe Premium Brisa" class="btn-cta">Consultar Premium Brisa</a>
+                </div>
+            </article>
+
+            <article class="resort-card">
+                <div class="resort-img">
+                    <img src="https://images.unsplash.com/photo-1620922473489-0ae6b66fa5a0?auto=format&fit=crop&w=1000&q=80" alt="Sauípe Premium Sol">
+                </div>
+                <div class="resort-content">
+                    <span class="badge badge-sol">Conforto Familiar</span>
+                    <h3>Sauípe Premium Sol</h3>
+                    <p class="resort-subtitle">DE FRENTE PARA AS PISCINAS NATURAIS</p>
+                    <div class="features-row">
+                        <span class="f-item"><i class="fas fa-umbrella-beach"></i> Pé na Areia</span>
+                        <span class="f-item"><i class="fas fa-concierge-bell"></i> Serviço de Garçom</span>
+                        <span class="f-item"><i class="fas fa-star"></i> Localização Central</span>
+                    </div>
+                    <p style="margin-bottom: 25px; color: var(--text-gray);">O equilíbrio perfeito. Próximo à Vila Nova da Praia e com serviço superior de alimentos e bebidas.</p>
+                    <a href="https://wa.me/5561983163710?text=Cotação: Sauípe Premium Sol" class="btn-cta">Consultar Premium Sol</a>
+                </div>
+            </article>
+
+            <article class="resort-card">
+                <div class="resort-img">
+                    <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&w=1000&q=80" alt="Sauípe Resorts">
+                </div>
+                <div class="resort-content">
+                    <span class="badge badge-resorts">Diversão Sem Limites</span>
+                    <h3>Sauípe Resorts (Alas)</h3>
+                    <p class="resort-subtitle">O CORAÇÃO DO COMPLEXO</p>
+                    <div class="features-row">
+                        <span class="f-item"><i class="fas fa-users"></i> Ideal p/ Grupos</span>
+                        <span class="f-item"><i class="fas fa-swimmer"></i> 10 Piscinas</span>
+                        <span class="f-item"><i class="fas fa-tag"></i> Melhor Custo-Benefício</span>
+                    </div>
+                    <p style="margin-bottom: 25px; color: var(--text-gray);">As famosas alas Terra e Mar. Onde a animação acontece o dia todo com a equipe de lazer mais animada da Bahia.</p>
+                    <a href="https://wa.me/5561983163710?text=Cotação: Sauípe Resorts Alas" class="btn-cta">Consultar Resorts</a>
+                </div>
+            </article>
+        </div>
+
         <div class="ad-space">
-            <small>PUBLICIDADE</small>
-            <h3>Banner Promocional (728x90)</h3>
+            <small>Publicidade</small>
+            <h3>Ofertas de Transfer Salvador x Sauípe</h3>
+            <p>Garanta sua chegada com conforto e segurança.</p>
         </div>
-    </div>
+    </main>
 
-    <section class="container" style="padding: 40px 20px;">
-        <h2 class="section-title" style="text-align: left; border-left: 5px solid var(--primary-blue); padding-left: 15px;">Escolha sua Experiência</h2>
-        
-        <div class="resort-card">
-            <img src="https://images.unsplash.com/photo-1572331165267-854da2b00dc1?auto=format&fit=crop&w=800&q=80" alt="Sauípe Premium Brisa" class="resort-img">
-            <div class="resort-info">
-                <span class="resort-tag tag-premium">Experiência Top</span>
-                <h3>Sauípe Premium Brisa</h3>
-                <p class="resort-subtitle">Exclusividade & Requinte</p>
-                <div class="resort-features">
-                    <span class="feature"><i class="fas fa-infinity"></i> Piscina Infinita</span>
-                    <span class="feature"><i class="fas fa-wine-glass-alt"></i> Bebidas Premium</span>
-                    <span class="feature"><i class="fas fa-music"></i> Música ao Vivo</span>
+    <section class="fun-section">
+        <div class="container">
+            <h2 style="text-align: center; color: white; font-size: clamp(1.8rem, 4vw, 2.5rem);">Explorar o Complexo</h2>
+            <div class="fun-grid">
+                <div class="fun-card">
+                    <i class="fas fa-guitar"></i>
+                    <h4>Vila Nova da Praia</h4>
+                    <p>O centro gastronômico e cultural com shows todas as noites e lojinhas de artesanato.</p>
                 </div>
-                <p class="resort-desc">A joia da coroa. Hóspedes do Brisa têm acesso a todo o complexo, mas desfrutam de um hotel exclusivo, com gastronomia superior e ambiente mais calmo.</p>
-                <a href="https://wa.me/5561983163710?text=Olá, gostaria de cotar o Sauípe Premium Brisa." class="btn btn-primary">Cotar Premium Brisa</a>
-            </div>
-        </div>
-
-        <div class="resort-card">
-            <img src="https://images.unsplash.com/photo-1620922473489-0ae6b66fa5a0?auto=format&fit=crop&w=800&q=80" alt="Sauípe Premium Sol" class="resort-img">
-            <div class="resort-info">
-                <span class="resort-tag tag-premium">Conforto Intermediário</span>
-                <h3>Sauípe Premium Sol</h3>
-                <p class="resort-subtitle">De frente para o mar</p>
-                <div class="resort-features">
-                    <span class="feature"><i class="fas fa-umbrella-beach"></i> Pé na areia</span>
-                    <span class="feature"><i class="fas fa-concierge-bell"></i> Serviço de Garçom</span>
-                    <span class="feature"><i class="fas fa-history"></i> Hotel Histórico</span>
+                <div class="fun-card">
+                    <i class="fas fa-carousel"></i>
+                    <h4>Quermesse</h4>
+                    <p>Parque de diversões com roda-gigante e carrossel para reviver momentos mágicos em família.</p>
                 </div>
-                <p class="resort-desc">Ideal para quem busca um "algo a mais" sem pagar o valor do Brisa. Localização privilegiada em frente às piscinas naturais e com serviço de garçom na piscina.</p>
-                <a href="https://wa.me/5561983163710?text=Olá, gostaria de cotar o Sauípe Premium Sol." class="btn btn-primary">Cotar Premium Sol</a>
-            </div>
-        </div>
-
-         <div class="resort-card">
-            <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&w=800&q=80" alt="Sauípe Resorts" class="resort-img">
-            <div class="resort-info">
-                <span class="resort-tag">Diversão Total</span>
-                <h3>Sauípe Resorts</h3>
-                <p class="resort-subtitle">Alas Terra & Mar</p>
-                <div class="resort-features">
-                    <span class="feature"><i class="fas fa-users"></i> Ideal para Famílias</span>
-                    <span class="feature"><i class="fas fa-swimmer"></i> 10 Piscinas</span>
-                    <span class="feature"><i class="fas fa-tags"></i> Melhor Custo-Benefício</span>
+                <div class="fun-card">
+                    <i class="fas fa-child"></i>
+                    <h4>Toca da Turminha</h4>
+                    <p>Um dos maiores espaços infantis do Brasil, com monitores e atividades pedagógicas.</p>
                 </div>
-                <p class="resort-desc">O coração da festa. Onde a animação acontece. Acesso livre às áreas comuns e piscinas gigantescas. Perfeito para grupos e famílias com muita energia.</p>
-                <a href="https://wa.me/5561983163710?text=Olá, gostaria de cotar o Sauípe Resorts (Alas)." class="btn btn-primary">Cotar Resorts</a>
-            </div>
-        </div>
-
-    </section>
-
-    <section class="container" style="margin-bottom: 60px;">
-        <h2 class="section-title">Além da Hospedagem</h2>
-        <div class="grid-fun">
-            <div class="fun-card">
-                <i class="fas fa-church fun-icon"></i>
-                <div class="fun-title">Vila Nova da Praia</div>
-                <p>O ponto de encontro noturno. Shows ao vivo, lojas, restaurantes e um clima de cidadezinha do interior.</p>
-            </div>
-            <div class="fun-card">
-                <i class="fas fa-child fun-icon"></i>
-                <div class="fun-title">Toca da Turminha</div>
-                <p>Antiga "Quinha da Tia Ria". Um espaço gigantesco dedicado exclusivamente às crianças com monitores.</p>
-            </div>
-            <div class="fun-card">
-                <i class="fas fa-ticket-alt fun-icon"></i>
-                <div class="fun-title">Quermesse & Circo</div>
-                <p>Roda gigante, carrossel e atrações circenses dentro do complexo (algumas atrações podem ser pagas à parte).</p>
             </div>
         </div>
     </section>
-
-    <div class="container">
-        <div class="ad-space">
-            <small>PUBLICIDADE</small>
-            <h3>Banner Quadrado (300x250)</h3>
-        </div>
-    </div>
 
     <footer>
-        <div class="container footer-content">
-            <h3>FSR Viagens & Turismo</h3>
-            <p>Especialistas nos Resorts da Costa do Sauípe.</p>
-            <br>
-            <p><a href="mailto:contato@fsr.tur.br" style="color: white;">contato@fsr.tur.br</a> | <a href="https://wa.me/5561983163710" style="color: white;">(61) 98316-3710</a></p>
-            <div style="margin-top: 20px; font-size: 0.8rem; color: #666;">
-                &copy; 2026 FSR Viagens. Todos os direitos reservados.
+        <div class="container">
+            <div class="footer-logo">FSR <span>Viagens</span></div>
+            <p>Especialistas em Resorts All Inclusive na Costa do Sauípe.</p>
+            <p style="margin-top: 10px;">WhatsApp: (61) 98316-3710 | Email: contato@fsr.tur.br</p>
+            <div class="footer-copy">
+                &copy; 2026 FSR Viagens & Turismo. Todos os direitos reservados.
             </div>
         </div>
     </footer>
