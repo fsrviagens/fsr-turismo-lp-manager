@@ -2,7 +2,6 @@
 <html lang="pt-BR">
 <head>
     <meta name="google-adsense-account" content="ca-pub-8022587913087660">
-
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EB762TMB8T"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -10,9 +9,7 @@
       gtag('js', new Date());
       gtag('config', 'G-EB762TMB8T');
     </script>
-
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8022587913087660"
-     crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8022587913087660" crossorigin="anonymous"></script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,67 +22,94 @@
         :root {
             --primary-blue: #0B2B40; 
             --accent-red: #C0392B;   
+            --whatsapp-green: #25D366;
             --white: #ffffff;
-            --text-dark: #1a1a1a;
             --bg-light: #f8fafc;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Open Sans', sans-serif; background: var(--bg-light); color: var(--text-dark); overflow-x: hidden; }
-        h1, h2, h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
-        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 5%; }
-        a { text-decoration: none; }
+        body { font-family: 'Open Sans', sans-serif; background: var(--bg-light); overflow-x: hidden; }
+        .container { width: 92%; max-width: 1400px; margin: 0 auto; }
+        a { text-decoration: none; transition: 0.3s; }
 
         /* HEADER */
-        header { background: var(--white); padding: 10px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
+        header { background: var(--white); padding: 15px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
         .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.4rem; font-weight: 900; color: var(--primary-blue); display: flex; align-items: center; gap: 8px; }
+        .logo { font-size: clamp(1.2rem, 3vw, 1.6rem); font-weight: 900; color: var(--primary-blue); }
         .logo span { color: var(--accent-red); }
 
-        nav ul { display: flex; list-style: none; gap: 15px; }
-        nav a { color: var(--primary-blue); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; }
+        nav ul { display: flex; list-style: none; gap: 20px; }
+        nav a { color: var(--primary-blue); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; }
 
-        /* HERO - AJUSTE MOBILE */
+        @media (max-width: 1024px) { nav { display: none; } }
+
+        /* HERO */
         .hero { 
-            min-height: 85vh; display: flex; align-items: center; justify-content: center;
+            min-height: 80vh; display: flex; align-items: center; justify-content: center;
             background: linear-gradient(rgba(11, 43, 64, 0.8), rgba(11, 43, 64, 0.6)), 
                         url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80');
             background-size: cover; background-position: center; color: var(--white); text-align: center;
-            padding: 100px 20px 60px; 
+            padding: 60px 20px; 
         }
-        .hero-content h1 { font-size: clamp(1.8rem, 8vw, 3.5rem); line-height: 1.2; margin-bottom: 20px; }
-        .hero-content p { font-size: clamp(1rem, 3vw, 1.2rem); margin-bottom: 30px; max-width: 700px; margin-inline: auto; opacity: 0.9; }
+        .hero-content h1 { font-size: clamp(2rem, 6vw, 4.5rem); margin-bottom: 25px; }
+        .hero-content p { font-size: clamp(1rem, 2vw, 1.4rem); margin-bottom: 35px; max-width: 850px; margin-inline: auto; }
 
+        /* BOTÃO PRINCIPAL CORRIGIDO */
         .btn-hero { 
             display: inline-block; 
             background: var(--primary-blue); 
             color: #fff; 
-            padding: 18px 30px; 
-            border-radius: 8px; 
+            padding: 18px 35px; 
+            border-radius: 12px; 
             font-weight: 800; 
             text-transform: uppercase;
-            font-size: 0.9rem;
-            max-width: 100%;
-            border: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            white-space: normal; 
-            line-height: 1.4;
+            font-size: clamp(0.85rem, 1.5vw, 1rem);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.15);
+        }
+
+        /* BOTÃO FLUTUANTE WHATSAPP - PC E MOBILE */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: var(--whatsapp-green);
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .whatsapp-float:hover { background-color: #128C7E; transform: scale(1.1); }
+
+        @media (max-width: 480px) {
+            .whatsapp-float { width: 50px; height: 50px; bottom: 20px; right: 20px; font-size: 25px; }
         }
 
         /* ADS AREA */
-        .ads-area { margin: 30px auto; text-align: center; max-width: 970px; min-height: 90px; }
+        .ads-area { margin: 40px auto; text-align: center; min-height: 100px; }
 
-        /* GRID DESTINOS - LINKS PARA PASTA /DESTINOS/ */
-        .grid-destinos { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 50px 0; }
-        .card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .card img { width: 100%; height: 200px; object-fit: cover; }
-        .card-body { padding: 20px; }
-        .btn-card { display: block; text-align: center; background: var(--primary-blue); color: #fff; padding: 10px; border-radius: 5px; font-weight: 700; margin-top: 15px; }
+        /* GRID DESTINOS */
+        .grid-destinos { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 60px 0; }
+        .card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .card img { width: 100%; height: 250px; object-fit: cover; }
+        .card-body { padding: 30px; }
+        .btn-card { display: block; text-align: center; background: var(--primary-blue); color: #fff; padding: 12px; border-radius: 10px; font-weight: 700; margin-top: 20px; }
 
-        footer { background: #051621; color: #94a3b8; padding: 40px 0; text-align: center; font-size: 0.8rem; }
+        footer { background: #051621; color: #94a3b8; padding: 60px 0; text-align: center; }
     </style>
 </head>
 <body>
+
+    <a href="https://wa.me/5561983163710?text=Olá! Gostaria de uma cotação de Resorts na Bahia." class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
     <header>
         <div class="container nav-wrapper">
@@ -99,54 +123,52 @@
                     <li><a href="destinos/morro-de-sao-paulo.html">Morro</a></li>
                 </ul>
             </nav>
+            <a href="https://wa.me/5561983163710" class="btn-hero" style="padding: 10px 20px; font-size: 0.8rem; background: var(--whatsapp-green); border: none;">WhatsApp</a>
         </div>
     </header>
 
     <section class="hero">
         <div class="hero-content">
-            <h1>Sua Experiência All Inclusive Começa Aqui</h1>
-            <p>Especialistas em Resorts na Bahia. Roteiros sob medida para quem busca luxo e conforto.</p>
+            <h1>Especialistas em Resorts All Inclusive</h1>
+            <p>Sua viagem para a Bahia planeada por quem conhece cada detalhe do litoral.</p>
             <a href="https://wa.me/5561983163710" id="whatsapp-cta" class="btn-hero">Consultar Tarifas Exclusivas</a>
         </div>
     </section>
 
     <div class="container ads-area">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-8022587913087660"
-             data-ad-slot="auto"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8022587913087660" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <main class="container grid-destinos">
-        <article class="card">
-            <img src="https://images.unsplash.com/photo-1544144438-b4b60e90c2bf?auto=format&fit=crop&w=600&q=80" alt="Praia do Forte">
-            <div class="card-body">
-                <h3>Praia do Forte</h3>
-                <p>O melhor do luxo e natureza.</p>
-                <a href="destinos/praia-do-forte.html" class="btn-card">Ver Resorts</a>
-            </div>
-        </article>
+    <main class="container">
+        <div class="grid-destinos">
+            <article class="card">
+                <img src="https://images.unsplash.com/photo-1544144438-b4b60e90c2bf?auto=format&fit=crop&w=600&q=80" alt="Praia do Forte">
+                <div class="card-body">
+                    <h3>Praia do Forte</h3>
+                    <p>O refúgio perfeito entre a vila charmosa e o mar cristalino.</p>
+                    <a href="destinos/praia-do-forte.html" class="btn-card">Ver Resorts</a>
+                </div>
+            </article>
 
-        <article class="card">
-            <img src="https://images.unsplash.com/photo-1615880484746-a134be9a6ec1?auto=format&fit=crop&w=600&q=80" alt="Costa do Sauípe">
-            <div class="card-body">
-                <h3>Costa do Sauípe</h3>
-                <p>Diversão para toda a família.</p>
-                <a href="destinos/costa-do-sauipe.html" class="btn-card">Ver Resorts</a>
-            </div>
-        </article>
+            <article class="card">
+                <img src="https://images.unsplash.com/photo-1615880484746-a134be9a6ec1?auto=format&fit=crop&w=600&q=80" alt="Costa do Sauípe">
+                <div class="card-body">
+                    <h3>Costa do Sauípe</h3>
+                    <p>Diversão completa para todas as idades no maior complexo da Bahia.</p>
+                    <a href="destinos/costa-do-sauipe.html" class="btn-card">Ver Resorts</a>
+                </div>
+            </article>
 
-        <article class="card">
-            <img src="https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?auto=format&fit=crop&w=600&q=80" alt="Trancoso">
-            <div class="card-body">
-                <h3>Trancoso</h3>
-                <p>Charme e exclusividade.</p>
-                <a href="destinos/trancoso.html" class="btn-card">Ver Resorts</a>
-            </div>
-        </article>
+            <article class="card">
+                <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&w=600&q=80" alt="Morro de São Paulo">
+                <div class="card-body">
+                    <h3>Morro de São Paulo</h3>
+                    <p>Belezas naturais exuberantes e o melhor do "pé na areia".</p>
+                    <a href="destinos/morro-de-sao-paulo.html" class="btn-card">Ver Resorts</a>
+                </div>
+            </article>
+        </div>
     </main>
 
     <footer>
@@ -157,7 +179,7 @@
 
     <script>
         document.getElementById('whatsapp-cta').addEventListener('click', function() {
-            gtag('event', 'conversion', { 'event_label': 'WhatsApp Clique Hero' });
+            gtag('event', 'conversion', { 'event_label': 'WhatsApp Clique' });
         });
     </script>
 </body>
