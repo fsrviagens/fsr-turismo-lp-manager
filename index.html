@@ -6,22 +6,21 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-EB762TMB8T');
     </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FSR Viagens | Resorts na Bahia: Especialistas em All Inclusive</title>
-    <meta name="description" content="Sua agência especializada em Resorts na Bahia. Ofertas exclusivas para Praia do Forte, Costa do Sauípe, Trancoso e mais. Reserve com a FSR Viagens.">
+    <meta name="description" content="Encontre os melhores Resorts na Bahia com a FSR Viagens. Ofertas exclusivas em Praia do Forte, Costa do Sauípe, Trancoso e mais.">
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
         :root {
-            --primary-blue: #0B2B40; /* Cores da logo */
-            --accent-red: #C0392B;   /* Cores da logo */
+            --primary-blue: #0B2B40; /* Cor da Logo */
+            --accent-red: #C0392B;   /* Cor da Logo */
             --white: #ffffff;
             --text-dark: #1a1a1a;
             --text-gray: #4a5568;
@@ -29,24 +28,25 @@
             --transition: all 0.3s ease;
         }
 
+        /* RESET E ESTRUTURA */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Open Sans', sans-serif; background: var(--bg-light); color: var(--text-dark); overflow-x: hidden; }
-        h1, h2, h3 { font-family: 'Montserrat', sans-serif; }
+        body { font-family: 'Open Sans', sans-serif; background: var(--bg-light); color: var(--text-dark); overflow-x: hidden; line-height: 1.6; }
+        h1, h2, h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
         .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 5%; }
         a { text-decoration: none; transition: var(--transition); }
 
-        /* --- HEADER --- */
+        /* HEADER */
         header { 
             background: var(--white); padding: 0.8rem 0; 
             box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
             position: sticky; top: 0; z-index: 1000; 
         }
         .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.6rem; font-weight: 900; color: var(--primary-blue); display: flex; align-items: center; gap: 8px; }
+        .logo { font-size: 1.5rem; font-weight: 900; color: var(--primary-blue); display: flex; align-items: center; gap: 8px; }
         .logo span { color: var(--accent-red); }
 
         nav ul { display: flex; list-style: none; gap: 1rem; }
-        nav a { color: var(--primary-blue); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; }
+        nav a { color: var(--primary-blue); font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }
         nav a:hover { color: var(--accent-red); }
 
         .btn-whatsapp-top { 
@@ -56,7 +56,7 @@
 
         @media (max-width: 1024px) { nav { display: none; } }
 
-        /* --- HERO (CORREÇÃO MOBILE) --- */
+        /* HERO - AJUSTE MOBILE */
         .hero { 
             min-height: 85vh; display: flex; align-items: center; justify-content: center;
             background: linear-gradient(rgba(11, 43, 64, 0.75), rgba(11, 43, 64, 0.5)), 
@@ -64,32 +64,42 @@
             background-size: cover; background-position: center; color: var(--white); text-align: center;
             padding: 120px 20px 80px; 
         }
-        .hero-content h1 { font-size: clamp(2rem, 7vw, 4rem); font-weight: 900; margin-bottom: 20px; line-height: 1.2; }
-        .hero-content p { font-size: clamp(1rem, 2.5vw, 1.3rem); margin-bottom: 35px; max-width: 800px; margin-inline: auto; }
+        .hero-content h1 { font-size: clamp(2rem, 8vw, 4rem); font-weight: 900; margin-bottom: 20px; line-height: 1.2; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .hero-content p { font-size: clamp(1rem, 2.5vw, 1.3rem); margin-bottom: 35px; max-width: 800px; margin-inline: auto; font-weight: 400; }
 
         .btn-hero { 
             display: inline-block; background: var(--accent-red); color: #fff; 
-            padding: 1rem 2rem; border-radius: 10px; font-weight: 800; text-transform: uppercase;
-            box-shadow: 0 10px 20px rgba(192, 57, 43, 0.3); max-width: 100%;
+            padding: 1.2rem 2.5rem; border-radius: 12px; font-weight: 800; text-transform: uppercase;
+            box-shadow: 0 10px 20px rgba(192, 57, 43, 0.3); max-width: 100%; letter-spacing: 1px;
         }
         .btn-hero:hover { background: var(--primary-blue); transform: translateY(-3px); }
 
-        /* --- ADS SPACE --- */
-        .ads-box { background: #edf2f7; border: 1px dashed #cbd5e0; margin: 40px auto; padding: 20px; text-align: center; max-width: 970px; border-radius: 8px; }
+        /* ESPAÇOS PUBLICITÁRIOS (MONETIZAÇÃO) */
+        .ads-box { background: #edf2f7; border: 1px dashed #cbd5e0; margin: 40px auto; padding: 25px; text-align: center; max-width: 970px; border-radius: 8px; color: #a0aec0; }
 
-        /* --- DESTINOS --- */
+        /* DESTINOS */
         .destinos-section { padding: 60px 0; }
         .grid-destinos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
-        .card { background: var(--white); border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s; }
-        .card:hover { transform: translateY(-10px); }
-        .card-img { height: 200px; width: 100%; object-fit: cover; }
+        .card { background: var(--white); border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s; border: 1px solid #f1f5f9; }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 12px 25px rgba(0,0,0,0.1); }
+        .card-img { height: 220px; width: 100%; object-fit: cover; }
         .card-body { padding: 25px; }
-        .btn-card { display: block; text-align: center; border: 2px solid var(--primary-blue); color: var(--primary-blue); padding: 10px; border-radius: 8px; font-weight: 700; margin-top: 15px; }
+        .card-body h3 { font-size: 1.4rem; margin-bottom: 10px; color: var(--primary-blue); }
+        .card-body p { color: var(--text-gray); font-size: 0.95rem; margin-bottom: 20px; }
+        .btn-card { display: block; text-align: center; border: 2px solid var(--primary-blue); color: var(--primary-blue); padding: 12px; border-radius: 10px; font-weight: 700; }
         .btn-card:hover { background: var(--primary-blue); color: #fff; }
 
-        /* --- FOOTER --- */
-        footer { background: #051621; color: #94a3b8; padding: 60px 0 30px; text-align: center; }
-        .footer-bottom { margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; font-size: 0.8rem; }
+        /* FOOTER */
+        footer { background: #051621; color: #94a3b8; padding: 80px 0 40px; text-align: center; }
+        .footer-logo { color: #fff; font-size: 1.8rem; font-weight: 900; margin-bottom: 20px; }
+        .footer-logo span { color: var(--accent-red); }
+        .footer-bottom { margin-top: 60px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; font-size: 0.8rem; }
+
+        /* RESPONSIVIDADE ADICIONAL */
+        @media (max-width: 480px) {
+            .hero { padding-top: 100px; min-height: 70vh; }
+            .btn-hero { width: 100%; padding: 1rem; font-size: 0.9rem; }
+        }
     </style>
 </head>
 <body>
@@ -109,7 +119,7 @@
                 </ul>
             </nav>
             <a href="https://wa.me/5561983163710" class="btn-whatsapp-top">
-                <i class="fab fa-whatsapp"></i> <span>Cotação</span>
+                <i class="fab fa-whatsapp"></i> <span>Falar com Especialista</span>
             </a>
         </div>
     </header>
@@ -117,27 +127,31 @@
     <section class="hero">
         <div class="hero-content">
             <h1>Os Melhores Resorts da Bahia</h1>
-            <p>Especialistas em roteiros All Inclusive. Viva experiências inesquecíveis com a FSR Viagens.</p>
-            <a href="https://wa.me/5561983163710" class="btn-hero">Consultar Tarifas Agora</a>
+            <p>Especialistas em roteiros All Inclusive e experiências exclusivas no litoral baiano.</p>
+            <a href="https://wa.me/5561983163710?text=Olá! Gostaria de uma cotação para Resorts na Bahia." id="whatsapp-cta" class="btn-hero">
+                Consultar Tarifas Agora
+            </a>
         </div>
     </section>
 
     <div class="container">
         <div class="ads-box">
-            <p style="font-size: 0.7rem; color: #a0aec0;">PUBLICIDADE</p>
-            </div>
+            <small>PUBLICIDADE</small>
+            <div style="margin-top: 10px;">[Espaço para Google AdSense / Banner de Afiliados]</div>
+        </div>
     </div>
 
     <main class="container destinos-section">
-        <h2 style="text-align: center; margin-bottom: 40px;">Destinos Bahia</h2>
+        <h2 style="text-align: center; margin-bottom: 10px; font-size: 2.2rem;">Destinos em Destaque</h2>
+        <p style="text-align: center; color: var(--text-gray); margin-bottom: 50px;">Selecione o paraíso ideal para suas próximas férias</p>
+        
         <div class="grid-destinos">
-            
             <article class="card">
-                <img src="https://images.unsplash.com/photo-1544144438-b4b60e90c2bf?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Praia do Forte">
+                <img src="https://images.unsplash.com/photo-1544144438-b4b60e90c2bf?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Resorts em Praia do Forte">
                 <div class="card-body">
                     <h3>Praia do Forte</h3>
-                    <p>Iberostar e Tivoli em um cenário paradisíaco.</p>
-                    <a href="praia-do-forte.html" class="btn-card">Explorar Resorts</a>
+                    <p>O luxo do <strong>Tivoli Ecoresort</strong> e o sistema Premium do <strong>Iberostar</strong> em harmonia com a natureza.</p>
+                    <a href="praia-do-forte.html" class="btn-card">Ver Resorts</a>
                 </div>
             </article>
 
@@ -145,26 +159,26 @@
                 <img src="https://images.unsplash.com/photo-1615880484746-a134be9a6ec1?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Costa do Sauípe">
                 <div class="card-body">
                     <h3>Costa do Sauípe</h3>
-                    <p>Diversão garantida para toda a família.</p>
-                    <a href="costa-do-sauipe.html" class="btn-card">Explorar Resorts</a>
+                    <p>Diversão completa All Inclusive para todas as idades no maior complexo de resorts do Brasil.</p>
+                    <a href="costa-do-sauipe.html" class="btn-card">Ver Resorts</a>
                 </div>
             </article>
 
             <article class="card">
-                <img src="https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Trancoso">
+                <img src="https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Resorts em Trancoso">
                 <div class="card-body">
                     <h3>Trancoso</h3>
-                    <p>O charme do Quadrado e o luxo do Club Med.</p>
-                    <a href="trancoso.html" class="btn-card">Explorar Resorts</a>
+                    <p>Exclusividade e charme rústico. Conheça as opções de luxo pé na areia e o famoso <strong>Club Med</strong>.</p>
+                    <a href="trancoso.html" class="btn-card">Ver Resorts</a>
                 </div>
             </article>
 
             <article class="card">
-                <img src="https://images.unsplash.com/photo-1573294323671-a083d6a2a07c?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Ilhéus">
+                <img src="https://images.unsplash.com/photo-1573294323671-a083d6a2a07c?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Resorts em Ilhéus">
                 <div class="card-body">
                     <h3>Ilhéus & Comandatuba</h3>
-                    <p>Exclusividade e praias de águas mornas.</p>
-                    <a href="ilheus.html" class="btn-card">Explorar Resorts</a>
+                    <p>O paraíso particular do <strong>Transamerica Comandatuba</strong> e as delícias do <strong>Cana Brava</strong>.</p>
+                    <a href="ilheus.html" class="btn-card">Ver Resorts</a>
                 </div>
             </article>
 
@@ -172,23 +186,34 @@
                 <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Morro de São Paulo">
                 <div class="card-body">
                     <h3>Morro de São Paulo</h3>
-                    <p>A beleza da Quarta Praia e resorts exclusivos.</p>
-                    <a href="morro-de-sao-paulo.html" class="btn-card">Explorar Resorts</a>
+                    <p>Águas cristalinas e resorts pé na areia na Quarta Praia para um relaxamento absoluto.</p>
+                    <a href="morro-de-sao-paulo.html" class="btn-card">Ver Resorts</a>
                 </div>
             </article>
-
         </div>
     </main>
 
     <footer>
         <div class="container">
-            <div class="logo" style="color: #fff; justify-content: center; margin-bottom: 20px;">FSR <span>Viagens</span></div>
-            <p>Especialistas em Resorts na Bahia | WhatsApp: (61) 98316-3710</p>
+            <div class="footer-logo">FSR <span>Viagens</span></div>
+            <p>Especialistas em transformar sonhos em destinos inesquecíveis.</p>
+            <p style="margin-top: 10px;"><i class="fab fa-whatsapp"></i> (61) 98316-3710 | <i class="far fa-envelope"></i> contato@fsr.tur.br</p>
             <div class="footer-bottom">
                 &copy; 2026 FSR Viagens & Turismo. Todos os direitos reservados.
             </div>
         </div>
     </footer>
+
+    <script>
+        document.getElementById('whatsapp-cta').addEventListener('click', function() {
+            gtag('event', 'conversion', {
+                'event_category': 'button',
+                'event_label': 'WhatsApp Hero Click',
+                'value': 1.0
+            });
+            console.log('Evento de conversão WhatsApp disparado.');
+        });
+    </script>
 
 </body>
 </html>
