@@ -45,14 +45,7 @@
         nav ul { display: flex; list-style: none; gap: 15px; }
         nav a { color: var(--primary-blue); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; }
 
-        .btn-whatsapp-top { 
-            background: #25D366; color: #fff; padding: 8px 15px; border-radius: 50px; 
-            font-weight: 700; font-size: 0.75rem; display: flex; align-items: center; gap: 5px;
-        }
-
-        @media (max-width: 900px) { nav { display: none; } }
-
-        /* HERO - CORREÇÃO VISUAL MOBILE */
+        /* HERO - AJUSTE MOBILE */
         .hero { 
             min-height: 85vh; display: flex; align-items: center; justify-content: center;
             background: linear-gradient(rgba(11, 43, 64, 0.8), rgba(11, 43, 64, 0.6)), 
@@ -63,25 +56,26 @@
         .hero-content h1 { font-size: clamp(1.8rem, 8vw, 3.5rem); line-height: 1.2; margin-bottom: 20px; }
         .hero-content p { font-size: clamp(1rem, 3vw, 1.2rem); margin-bottom: 30px; max-width: 700px; margin-inline: auto; opacity: 0.9; }
 
-        /* BOTÃO HERO CORRIGIDO */
         .btn-hero { 
             display: inline-block; 
             background: var(--primary-blue); 
             color: #fff; 
-            padding: 15px 25px; 
+            padding: 18px 30px; 
             border-radius: 8px; 
             font-weight: 800; 
             text-transform: uppercase;
             font-size: 0.9rem;
-            border: 2px solid rgba(255,255,255,0.1);
             max-width: 100%;
+            border: none;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            white-space: normal; 
+            line-height: 1.4;
         }
 
-        /* ÁREA DE ANÚNCIO */
+        /* ADS AREA */
         .ads-area { margin: 30px auto; text-align: center; max-width: 970px; min-height: 90px; }
 
-        /* DESTINOS */
+        /* GRID DESTINOS - LINKS PARA PASTA /DESTINOS/ */
         .grid-destinos { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 50px 0; }
         .card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .card img { width: 100%; height: 200px; object-fit: cover; }
@@ -99,11 +93,12 @@
             <nav>
                 <ul>
                     <li><a href="destinos/praia-do-forte.html">Praia do Forte</a></li>
-                    <li><a href="destinos/costa-do-sauipe.html">Costa do Sauípe</a></li>
+                    <li><a href="destinos/costa-do-sauipe.html">Sauípe</a></li>
                     <li><a href="destinos/trancoso.html">Trancoso</a></li>
+                    <li><a href="destinos/ilheus.html">Ilhéus</a></li>
+                    <li><a href="destinos/morro-de-sao-paulo.html">Morro</a></li>
                 </ul>
             </nav>
-            <a href="https://wa.me/5561983163710" class="btn-whatsapp-top"><i class="fab fa-whatsapp"></i> WhatsApp</a>
         </div>
     </header>
 
@@ -134,7 +129,7 @@
                 <a href="destinos/praia-do-forte.html" class="btn-card">Ver Resorts</a>
             </div>
         </article>
-        
+
         <article class="card">
             <img src="https://images.unsplash.com/photo-1615880484746-a134be9a6ec1?auto=format&fit=crop&w=600&q=80" alt="Costa do Sauípe">
             <div class="card-body">
@@ -148,7 +143,7 @@
             <img src="https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?auto=format&fit=crop&w=600&q=80" alt="Trancoso">
             <div class="card-body">
                 <h3>Trancoso</h3>
-                <p>Charme e exclusividade no Sul da Bahia.</p>
+                <p>Charme e exclusividade.</p>
                 <a href="destinos/trancoso.html" class="btn-card">Ver Resorts</a>
             </div>
         </article>
@@ -157,13 +152,12 @@
     <footer>
         <div class="container">
             <p>&copy; 2026 FSR Viagens & Turismo. Todos os direitos reservados.</p>
-            <p>ID Editor: pub-8022587913087660</p>
         </div>
     </footer>
 
     <script>
         document.getElementById('whatsapp-cta').addEventListener('click', function() {
-            gtag('event', 'conversion', { 'event_label': 'WhatsApp Hero' });
+            gtag('event', 'conversion', { 'event_label': 'WhatsApp Clique Hero' });
         });
     </script>
 </body>
