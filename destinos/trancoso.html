@@ -4,227 +4,226 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trancoso & Arraial d'Ajuda - Luxo Rústico e Resorts | FSR Viagens</title>
-    <meta name="description" content="Descubra o charme de Trancoso e Arraial d'Ajuda. Melhores hospedagens, Club Med Trancoso, o Quadrado e as praias mais lindas do Sul da Bahia.">
+    <meta name="description" content="Descubra o charme de Trancoso e Arraial d'Ajuda. Melhores hospedagens, Club Med Trancoso e o Quadrado com a FSR Viagens.">
     
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        /* --- IDENTIDADE VISUAL FSR --- */
         :root {
             --primary-blue: #0B2B40;
             --accent-red: #C0392B;
-            --light-bg: #fdfdfd; /* Fundo levemente mais claro para Trancoso */
             --white: #ffffff;
-            --text-dark: #333333;
-            --text-gray: #555555;
-            --sand-gold: #c2a679; /* Cor areia para detalhes boutique */
+            --text-dark: #1a1a1a;
+            --text-gray: #4a4a4a;
+            --bg-light: #fdfcfb;
+            --sand-gold: #c2a679;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
+        /* --- RESET E BASE MULTI-TELA --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Open Sans', sans-serif; background-color: var(--light-bg); color: var(--text-dark); line-height: 1.6; }
-        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--primary-blue); }
-        a { text-decoration: none; transition: 0.3s; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        html { scroll-behavior: smooth; font-size: 16px; }
         
-        /* Botões */
-        .btn { display: inline-block; padding: 12px 25px; border-radius: 5px; font-weight: 600; text-transform: uppercase; cursor: pointer; border: none; }
-        .btn-primary { background-color: var(--accent-red); color: var(--white); }
-        .btn-primary:hover { background-color: #a93226; transform: translateY(-2px); }
-        .btn-whatsapp { background-color: #25D366; color: white; border-radius: 50px; padding: 10px 20px; display: inline-flex; align-items: center; gap: 8px; font-weight: bold; }
+        /* Otimização para Smart TVs e Monitores 4K */
+        @media (min-width: 2200px) { html { font-size: 24px; } .container { max-width: 1900px; } }
 
-        /* --- HEADER --- */
-        header { background-color: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; max-width: 1200px; margin: 0 auto; }
-        .logo { font-size: 28px; font-weight: 800; color: var(--primary-blue); display: flex; align-items: center; gap: 10px; }
+        body { font-family: 'Open Sans', sans-serif; background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; font-weight: 700; color: var(--primary-blue); }
+        .container { max-width: 1240px; margin: 0 auto; padding: 0 5%; }
+        a { text-decoration: none; transition: var(--transition); }
+
+        /* --- HEADER ADAPTATIVO --- */
+        header { background: var(--white); padding: 1rem 0; box-shadow: 0 2px 15px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.6rem; font-weight: 900; color: var(--primary-blue); }
         .logo span { color: var(--accent-red); }
         
-        nav ul { display: flex; gap: 20px; list-style: none; }
-        nav ul li a { color: var(--primary-blue); font-weight: 600; padding: 10px; }
-        nav ul li a:hover { color: var(--accent-red); }
+        nav ul { display: flex; list-style: none; gap: 1.5rem; }
+        nav a { color: var(--primary-blue); font-weight: 600; font-size: 0.9rem; }
+        nav a:hover { color: var(--accent-red); }
 
-        /* Dropdown */
-        .dropdown { position: relative; }
-        .dropdown-content { display: none; position: absolute; background-color: var(--white); min-width: 200px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); top: 100%; left: 0; border-top: 3px solid var(--accent-red); }
-        .dropdown-content a { color: var(--text-dark); padding: 12px 16px; display: block; border-bottom: 1px solid #eee; }
-        .dropdown:hover .dropdown-content { display: block; }
+        .btn-whatsapp { background: #25D366; color: white; padding: 0.7rem 1.4rem; border-radius: 50px; font-weight: 700; display: flex; align-items: center; gap: 8px; font-size: 0.85rem; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); }
 
-        /* --- HERO TRANCOSO --- */
-        .hero-destino { 
+        @media (max-width: 850px) { nav { display: none; } }
+
+        /* --- HERO SECTION CINEMATOGRÁFICA --- */
+        .hero { 
+            height: 70vh; min-height: 550px; display: flex; align-items: center; justify-content: center;
             background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?auto=format&fit=crop&w=1920&q=80');
-            background-size: cover; background-position: center; height: 65vh; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white); 
+            background-size: cover; background-position: center; color: var(--white); text-align: center;
         }
-        .hero-destino h1 { color: var(--white); font-size: 3.5rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.7); }
+        /* Tipografia Fluida para o Título */
+        .hero h1 { font-size: clamp(2.2rem, 8vw, 4.5rem); font-weight: 900; text-shadow: 0 10px 20px rgba(0,0,0,0.3); text-transform: uppercase; }
+        .hero p { font-size: clamp(1rem, 2.5vw, 1.4rem); margin-top: 15px; opacity: 0.9; font-weight: 400; }
 
-        /* --- INTRODUÇÃO --- */
-        .intro-destino { text-align: center; padding: 60px 0; max-width: 900px; margin: 0 auto; }
-        .section-title { font-size: 2.2rem; margin-bottom: 20px; position: relative; }
-        .section-title::after { content: ''; display: block; width: 60px; height: 3px; background-color: var(--accent-red); margin: 10px auto 0; }
+        /* --- CARDS BOUTIQUE (GRID AVANÇADO) --- */
+        .destinos-section { padding: 80px 0; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 15px; }
+        .section-header p { max-width: 700px; margin: 0 auto; color: var(--text-gray); }
 
-        /* --- CARDS DE HOSPEDAGEM --- */
-        .hotel-card { background: var(--white); border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 50px; display: flex; flex-direction: row; }
-        .hotel-img { width: 50%; object-fit: cover; min-height: 400px; }
-        .hotel-info { padding: 40px; width: 50%; display: flex; flex-direction: column; justify-content: center; }
-        .hotel-tag { color: var(--sand-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 10px; }
-        .hotel-info h3 { font-size: 2rem; margin-bottom: 15px; }
-        .hotel-features { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; font-size: 0.9rem; color: var(--text-gray); }
-        .feature-item { display: flex; align-items: center; gap: 8px; }
-        .feature-item i { color: var(--accent-red); width: 20px; }
+        .hotel-grid { display: grid; grid-template-columns: 1fr; gap: 50px; }
 
-        /* --- ADS --- */
-        .ad-space { background-color: #f0f2f5; border: 1px dashed #bbb; padding: 40px; text-align: center; margin: 40px 0; border-radius: 10px; }
+        .hotel-card { 
+            display: grid; grid-template-columns: repeat(12, 1fr); align-items: center; background: var(--white); 
+            border-radius: 20px; overflow: hidden; box-shadow: 0 15px 45px rgba(0,0,0,0.05); 
+        }
 
-        /* --- EXPERIÊNCIAS TRANCOSO --- */
-        .experience-section { background-color: var(--primary-blue); color: var(--white); padding: 70px 0; }
-        .experience-section h2 { color: var(--white); text-align: center; margin-bottom: 50px; }
-        .grid-exp { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .exp-card { text-align: center; padding: 20px; }
-        .exp-card i { font-size: 2.5rem; color: var(--accent-red); margin-bottom: 20px; }
-        .exp-card h4 { color: var(--white); margin-bottom: 15px; font-size: 1.3rem; }
-        .exp-card p { font-size: 0.95rem; opacity: 0.9; }
+        .hotel-img-wrap { grid-column: 1 / 8; height: 450px; overflow: hidden; }
+        .hotel-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        .hotel-card:hover .hotel-img-wrap img { transform: scale(1.05); }
+
+        .hotel-content { grid-column: 7 / 13; padding: 3rem; background: var(--white); border-radius: 20px; z-index: 2; margin-left: -50px; box-shadow: -10px 0 30px rgba(0,0,0,0.03); }
+        
+        .tag-premium { color: var(--sand-gold); font-weight: 800; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 10px; }
+        .hotel-content h3 { font-size: 1.8rem; margin-bottom: 15px; }
+        .hotel-features { display: flex; flex-wrap: wrap; gap: 15px; margin: 20px 0; border-top: 1px solid #eee; padding-top: 20px; }
+        .feat { font-size: 0.85rem; color: var(--text-gray); display: flex; align-items: center; gap: 6px; }
+        .feat i { color: var(--accent-red); }
+
+        .btn-cotar { display: inline-block; background: var(--primary-blue); color: white; padding: 12px 30px; border-radius: 8px; font-weight: 700; margin-top: 20px; }
+        .btn-cotar:hover { background: var(--accent-red); transform: translateY(-3px); }
+
+        /* Ajuste do Card para Tablet e Celular */
+        @media (max-width: 1024px) {
+            .hotel-img-wrap, .hotel-content { grid-column: 1 / 13; margin-left: 0; }
+            .hotel-content { padding: 2rem; }
+            .hotel-img-wrap { height: 300px; }
+        }
+
+        /* --- EXPERIÊNCIAS (MULTI-COLUNAS) --- */
+        .experience-box { background: var(--primary-blue); padding: 80px 0; color: white; }
+        .exp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .exp-item { background: rgba(255,255,255,0.03); padding: 40px; border-radius: 15px; border-left: 4px solid var(--accent-red); }
+        .exp-item i { font-size: 2rem; color: var(--accent-red); margin-bottom: 20px; }
+        .exp-item h4 { color: white; margin-bottom: 10px; font-size: 1.4rem; }
+
+        /* --- ADS RESPONSIVO --- */
+        .ad-banner { background: #f0f2f5; border: 1px dashed #ccc; padding: 30px; text-align: center; border-radius: 15px; margin: 60px 0; }
+        .ad-banner small { font-size: 0.6rem; letter-spacing: 1px; color: #999; text-transform: uppercase; }
 
         /* --- FOOTER --- */
-        footer { background-color: #051621; color: #bbb; padding: 50px 0 20px; }
-        .footer-content { text-align: center; }
+        footer { background: #051621; color: #8a99a4; padding: 60px 0 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); margin-top: 40px; padding-top: 20px; text-align: center; font-size: 0.8rem; }
 
-        /* RESPONSIVIDADE */
-        @media (max-width: 992px) {
-            .hotel-card { flex-direction: column; }
-            .hotel-img, .hotel-info { width: 100%; }
-            .hotel-img { height: 300px; }
-        }
-        @media (max-width: 768px) {
-            .nav-container { flex-direction: column; gap: 15px; }
-            .hero-destino h1 { font-size: 2.5rem; }
-        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="nav-container">
-            <a href="../index.html" class="logo">
-                <i class="fas fa-globe-americas"></i> FSR <span>Viagens</span>
-            </a>
-            
+        <div class="container nav-wrapper">
+            <a href="../index.html" class="logo">FSR <span>Viagens</span></a>
             <nav>
                 <ul>
                     <li><a href="../index.html">Início</a></li>
-                    <li class="dropdown">
-                        <a href="#" style="color: var(--accent-red);">Trancoso <i class="fas fa-chevron-down"></i></a>
-                        <div class="dropdown-content">
-                            <a href="praia-do-forte.html">Praia do Forte</a>
-                            <a href="costa-do-sauipe.html">Costa do Sauípe</a>
-                            <a href="ilheus.html">Ilhéus & Comandatuba</a>
-                            <a href="morro-de-sao-paulo.html">Morro de São Paulo</a>
-                        </div>
-                    </li>
-                    <li><a href="../index.html#roteiros">Dicas</a></li>
+                    <li><a href="praia-do-forte.html">Praia do Forte</a></li>
+                    <li><a href="costa-do-sauipe.html">Costa do Sauípe</a></li>
+                    <li><a href="ilheus.html">Ilhéus</a></li>
+                    <li><a href="morro-de-sao-paulo.html">Morro de SP</a></li>
                 </ul>
             </nav>
-
-            <div class="header-contact">
-                <a href="https://wa.me/5561983163710" target="_blank" class="btn-whatsapp">
-                    <i class="fab fa-whatsapp"></i> WhatsApp
-                </a>
-            </div>
+            <a href="https://wa.me/5561983163710" class="btn-whatsapp">
+                <i class="fab fa-whatsapp"></i> <span>Falar com Consultor</span>
+            </a>
         </div>
     </header>
 
-    <section class="hero-destino">
+    <section class="hero">
         <div class="container">
             <h1>Trancoso & Arraial</h1>
-            <p style="font-size: 1.3rem; margin-top: 15px; font-weight: 400;">Onde a simplicidade encontra o luxo absoluto.</p>
+            <p>Descubra o equilíbrio perfeito entre o rústico, o autêntico e o luxo absoluto no Sul da Bahia.</p>
         </div>
     </section>
 
-    <div class="container intro-destino">
-        <h2 class="section-title">A Magia do Sul da Bahia</h2>
-        <p>Trancoso é um destino singular. Entre as falésias coloridas e o mar azul-turquesa, o famoso <strong>Quadrado</strong> preserva a alma de uma vila de pescadores com as melhores boutiques e restaurantes do mundo. Ao lado, <strong>Arraial d'Ajuda</strong> oferece charme, parques aquáticos e uma vida noturna vibrante na Rua do Mucugê.</p>
-    </div>
-
-    <div class="container">
-        <div class="ad-space">
-            <span style="font-size: 0.7rem; letter-spacing: 2px;">PUBLICIDADE</span>
-            <h3>Banner Destaque Trancoso (970x90)</h3>
+    <main class="container destinos-section">
+        <div class="section-header">
+            <h2>Hospedagens Memoráveis</h2>
+            <p>Do sistema All Inclusive internacional ao charme das pousadas boutique. Escolha a sua forma de viver este paraíso.</p>
         </div>
-    </div>
 
-    <section class="container" style="padding: 40px 0;">
-        
-        <div class="hotel-card">
-            <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=800&q=80" alt="Club Med Trancoso" class="hotel-img">
-            <div class="hotel-info">
-                <span class="hotel-tag">All Inclusive Premium</span>
-                <h3>Club Med Trancoso</h3>
-                <p>Localizado sobre as falésias da Praia do Taípe, o Club Med oferece uma das vistas mais espetaculares do Brasil, com acesso exclusivo à praia via elevador panorâmico.</p>
-                <div class="hotel-features">
-                    <div class="feature-item"><i class="fas fa-check"></i> Escola de Trapézio</div>
-                    <div class="feature-item"><i class="fas fa-check"></i> Campo de Golfe</div>
-                    <div class="feature-item"><i class="fas fa-check"></i> Kids Club de Elite</div>
-                    <div class="feature-item"><i class="fas fa-check"></i> Open Bar & Snacks</div>
+        <div class="hotel-grid">
+            <article class="hotel-card">
+                <div class="hotel-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1000&q=80" alt="Club Med Trancoso">
                 </div>
-                <a href="https://wa.me/5561983163710?text=Olá, gostaria de saber mais sobre o Club Med Trancoso." class="btn btn-primary">Solicitar Cotação</a>
-            </div>
-        </div>
-
-        <div class="hotel-card">
-            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80" alt="Arraial d'Ajuda Eco Resort" class="hotel-img">
-            <div class="hotel-info">
-                <span class="hotel-tag">Família & Lazer</span>
-                <h3>Arraial d'Ajuda Eco Resort</h3>
-                <p>Sofisticação pé na areia com entrada gratuita ao Arraial d'Ajuda Eco Parque. O equilíbrio perfeito entre o sossego e a diversão para os filhos.</p>
-                <div class="hotel-features">
-                    <div class="feature-item"><i class="fas fa-check"></i> Balsa Exclusiva</div>
-                    <div class="feature-item"><i class="fas fa-check"></i> Parque Aquático Inc.</div>
-                    <div class="feature-item"><i class="fas fa-check"></i> Gastronomia Local</div>
-                    <div class="feature-item"><i class="fas fa-check"></i> Cinema e Lazer</div>
+                <div class="hotel-content">
+                    <span class="tag-premium">Destaque All Inclusive</span>
+                    <h3>Club Med Trancoso</h3>
+                    <p>Sobre as falésias da Praia do Taípe, o resort oferece uma experiência All Inclusive Premium com campo de golfe e trapézio voador.</p>
+                    <div class="hotel-features">
+                        <span class="feat"><i class="fas fa-check"></i> Kids Club</span>
+                        <span class="feat"><i class="fas fa-check"></i> Vista Falésias</span>
+                        <span class="feat"><i class="fas fa-check"></i> Open Bar</span>
+                    </div>
+                    <a href="https://wa.me/5561983163710?text=Cotação: Club Med Trancoso" class="btn-cotar">Cotar Agora</a>
                 </div>
-                <a href="https://wa.me/5561983163710?text=Olá, quero cotação para o Arraial d'Ajuda Eco Resort." class="btn btn-primary">Falar com Consultor</a>
-            </div>
+            </article>
+
+            <article class="hotel-card">
+                <div class="hotel-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=80" alt="Arraial Eco Resort">
+                </div>
+                <div class="hotel-content">
+                    <span class="tag-premium">Diversão em Família</span>
+                    <h3>Arraial d'Ajuda Eco Resort</h3>
+                    <p>O resort pé na areia que garante acesso ilimitado ao maior parque aquático da região. Perfeito para quem viaja com filhos.</p>
+                    <div class="hotel-features">
+                        <span class="feat"><i class="fas fa-water"></i> Parque Aquático</span>
+                        <span class="feat"><i class="fas fa-ship"></i> Balsa Exclusiva</span>
+                        <span class="feat"><i class="fas fa-star"></i> Pé na Areia</span>
+                    </div>
+                    <a href="https://wa.me/5561983163710?text=Cotação: Arraial d'Ajuda Eco Resort" class="btn-cotar">Falar com Especialista</a>
+                </div>
+            </article>
         </div>
 
-    </section>
+        <div class="ad-banner">
+            <small>Publicidade</small>
+            <p><strong>Deseja Alugar um Carro em Porto Seguro?</strong><br>Consulte nossas tarifas exclusivas para clientes FSR.</p>
+        </div>
+    </main>
 
-    <section class="experience-section">
+    <section class="experience-box">
         <div class="container">
-            <h2 class="section-title" style="color: white;">O que viver em Trancoso?</h2>
-            <div class="grid-exp">
-                <div class="exp-card">
+            <div class="section-header">
+                <h2 style="color: white;">Experiências Únicas</h2>
+            </div>
+            <div class="exp-grid">
+                <div class="exp-item">
                     <i class="fas fa-church"></i>
-                    <h4>Pôr do Sol no Quadrado</h4>
-                    <p>A igrejinha de São João Batista ao fundo, crianças jogando capoeira e o céu mudando de cor. É o coração de Trancoso.</p>
+                    <h4>O Quadrado</h4>
+                    <p>Visite o centro histórico mais charmoso do mundo, com suas casinhas coloridas e restaurantes à luz de velas sob as amendoeiras.</p>
                 </div>
-                <div class="exp-card">
+                <div class="exp-item">
                     <i class="fas fa-umbrella-beach"></i>
                     <h4>Praia do Espelho</h4>
-                    <p>Eleita diversas vezes uma das mais bonitas do mundo. Organizamos seu transfer exclusivo para este paraíso.</p>
+                    <p>Deixe que a FSR organize seu transfer para conhecer as famosas piscinas naturais que refletem o céu na maré baixa.</p>
                 </div>
-                <div class="exp-card">
-                    <i class="fas fa-cocktail"></i>
-                    <h4>Noite no Mucugê</h4>
-                    <p>Em Arraial, a "rua mais charmosa do Brasil" ferve com música ao vivo, drinks e o melhor da culinária baiana.</p>
+                <div class="exp-item">
+                    <i class="fas fa-music"></i>
+                    <h4>Rua do Mucugê</h4>
+                    <p>Em Arraial, aproveite a noite na "rua mais charmosa do Brasil" com música ao vivo e o melhor da gastronomia internacional.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="container">
-        <div class="ad-space">
-            <span style="font-size: 0.7rem; letter-spacing: 2px;">PUBLICIDADE</span>
-            <h3>Anuncie Aqui (Hoteis Boutique / Aluguel de Carro)</h3>
-        </div>
-    </div>
-
     <footer>
-        <div class="container footer-content">
-            <h3>FSR Viagens & Turismo</h3>
-            <p>Especialistas em Trancoso, Arraial e o melhor da Bahia.</p>
-            <br>
-            <p><a href="mailto:contato@fsr.tur.br" style="color: white;">contato@fsr.tur.br</a> | <a href="https://wa.me/5561983163710" style="color: white;">(61) 98316-3710</a></p>
-            <div style="margin-top: 20px; font-size: 0.8rem; color: #666;">
-                &copy; 2026 FSR Viagens. Todos os direitos reservados.
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h4 style="color: white; margin-bottom: 20px;">FSR Viagens</h4>
+                <p>Curadoria de viagens com foco no seu conforto e na exclusividade dos melhores destinos baianos.</p>
             </div>
+            <div class="footer-col">
+                <h4 style="color: white; margin-bottom: 20px;">Contatos</h4>
+                <p>Email: contato@fsr.tur.br</p>
+                <p>WhatsApp: (61) 98316-3710</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 FSR Viagens. Curadoria de Luxo no Sul da Bahia.
         </div>
     </footer>
 
