@@ -4,218 +4,217 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ilhéus & Comandatuba - Resorts All Inclusive | FSR Viagens</title>
-    <meta name="description" content="Conheça os melhores resorts de Ilhéus e a exclusividade da Ilha de Comandatuba. Cana Brava, Transamerica e muito mais com a FSR Viagens.">
+    <meta name="description" content="Descubra o Cana Brava e o Transamerica Comandatuba. O melhor de Ilhéus com a curadoria exclusiva da FSR Viagens.">
     
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        /* --- IDENTIDADE VISUAL FSR --- */
         :root {
             --primary-blue: #0B2B40;
             --accent-red: #C0392B;
-            --light-bg: #f4f7f6;
             --white: #ffffff;
-            --text-dark: #333333;
-            --text-gray: #666666;
-            --cocoa-brown: #6F4E37; /* Tom de cacau para detalhes históricos */
+            --text-dark: #1a1a1a;
+            --text-gray: #4a4a4a;
+            --bg-light: #f4f7f6;
+            --cocoa: #6F4E37;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
+        /* --- RESET E BASE MULTI-TELA --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Open Sans', sans-serif; background-color: var(--light-bg); color: var(--text-dark); line-height: 1.6; }
-        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--primary-blue); }
-        a { text-decoration: none; transition: 0.3s; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        html { scroll-behavior: smooth; font-size: 16px; }
         
-        /* Botões */
-        .btn { display: inline-block; padding: 12px 25px; border-radius: 5px; font-weight: 600; text-transform: uppercase; cursor: pointer; border: none; }
-        .btn-primary { background-color: var(--accent-red); color: var(--white); }
-        .btn-primary:hover { background-color: #a93226; transform: translateY(-2px); }
-        .btn-whatsapp { background-color: #25D366; color: white; border-radius: 50px; padding: 10px 20px; display: inline-flex; align-items: center; gap: 8px; font-weight: bold; }
+        /* Otimização para Smart TVs e Monitores 4K */
+        @media (min-width: 2200px) { html { font-size: 24px; } .container { max-width: 1900px; } }
+
+        body { font-family: 'Open Sans', sans-serif; background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; color: var(--primary-blue); }
+        .container { max-width: 1240px; margin: 0 auto; padding: 0 5%; }
+        a { text-decoration: none; transition: var(--transition); }
 
         /* --- HEADER --- */
-        header { background-color: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; max-width: 1200px; margin: 0 auto; }
-        .logo { font-size: 28px; font-weight: 800; color: var(--primary-blue); display: flex; align-items: center; gap: 10px; }
+        header { background: var(--white); padding: 1rem 0; box-shadow: 0 2px 15px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.6rem; font-weight: 900; color: var(--primary-blue); }
         .logo span { color: var(--accent-red); }
         
-        nav ul { display: flex; gap: 20px; list-style: none; }
-        nav ul li a { color: var(--primary-blue); font-weight: 600; padding: 10px; }
-        nav ul li a:hover { color: var(--accent-red); }
+        nav ul { display: flex; list-style: none; gap: 1.5rem; }
+        nav a { color: var(--primary-blue); font-weight: 600; font-size: 0.9rem; }
+        nav a:hover { color: var(--accent-red); }
 
-        /* Dropdown */
-        .dropdown { position: relative; }
-        .dropdown-content { display: none; position: absolute; background-color: var(--white); min-width: 200px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); top: 100%; left: 0; border-top: 3px solid var(--accent-red); }
-        .dropdown-content a { color: var(--text-dark); padding: 12px 16px; display: block; border-bottom: 1px solid #eee; }
-        .dropdown:hover .dropdown-content { display: block; }
+        .btn-whatsapp { background: #25D366; color: white; padding: 0.7rem 1.4rem; border-radius: 50px; font-weight: 700; display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
+
+        @media (max-width: 850px) { nav { display: none; } }
 
         /* --- HERO ILHÉUS --- */
-        .hero-destino { 
+        .hero { 
+            height: 65vh; min-height: 500px; display: flex; align-items: center; justify-content: center;
             background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1589909202802-8f4aadce1849?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover; background-position: center; height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white); 
+            background-size: cover; background-position: center; color: var(--white); text-align: center;
         }
-        .hero-destino h1 { color: var(--white); font-size: 3.5rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.7); }
+        .hero h1 { font-size: clamp(2rem, 7vw, 4rem); font-weight: 900; text-shadow: 0 5px 15px rgba(0,0,0,0.4); }
+        .hero p { font-size: clamp(1rem, 2vw, 1.3rem); margin-top: 10px; opacity: 0.9; }
 
-        /* --- INTRODUÇÃO --- */
-        .intro-destino { text-align: center; padding: 60px 0; max-width: 900px; margin: 0 auto; }
-        .section-title { font-size: 2.2rem; margin-bottom: 20px; position: relative; display: inline-block; }
-        .section-title::after { content: ''; display: block; width: 60px; height: 3px; background-color: var(--accent-red); margin: 10px auto 0; }
+        /* --- RESORT CARDS (GRID SISTEM) --- */
+        .content-section { padding: 80px 0; }
+        .hotel-grid { display: grid; grid-template-columns: 1fr; gap: 60px; margin-top: 50px; }
 
-        /* --- CARDS DE RESORTS --- */
-        .resort-card { background: var(--white); border-radius: 15px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.05); margin-bottom: 50px; display: flex; flex-direction: row; }
-        .resort-img { width: 45%; object-fit: cover; min-height: 400px; }
-        .resort-info { padding: 40px; width: 55%; display: flex; flex-direction: column; justify-content: center; }
-        .resort-tag { background: #fff3cd; color: #856404; font-weight: 700; text-transform: uppercase; padding: 5px 15px; border-radius: 50px; font-size: 0.75rem; margin-bottom: 15px; width: fit-content; }
-        .resort-info h3 { font-size: 2rem; margin-bottom: 10px; }
-        .resort-features { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; font-size: 0.9rem; color: var(--text-gray); }
-        .feature-item { display: flex; align-items: center; gap: 8px; }
-        .feature-item i { color: var(--accent-red); }
+        .resort-card { 
+            display: grid; grid-template-columns: repeat(12, 1fr); background: var(--white); 
+            border-radius: 24px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.06); 
+        }
 
-        /* --- ADS --- */
-        .ad-space { background-color: #e9ecef; border: 1px dashed #ccc; padding: 30px 0; text-align: center; margin: 40px 0; color: #999; }
+        .resort-img-side { grid-column: 1 / 7; height: 500px; overflow: hidden; position: relative; }
+        .resort-img-side img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        .resort-card:hover .resort-img-side img { transform: scale(1.08); }
 
-        /* --- HISTÓRIA E CULTURA --- */
-        .culture-section { background-color: var(--primary-blue); color: var(--white); padding: 70px 0; margin-top: 40px; }
-        .culture-section h2 { color: var(--white); text-align: center; margin-bottom: 40px; }
-        .grid-culture { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .culture-card { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 10px; border-bottom: 4px solid var(--accent-red); }
-        .culture-card h4 { color: var(--white); margin-bottom: 15px; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
-        .culture-card i { color: var(--accent-red); }
+        .resort-info-side { grid-column: 7 / 13; padding: 4rem; display: flex; flex-direction: column; justify-content: center; }
+        
+        .badge { background: #fff3cd; color: #856404; font-weight: 800; font-size: 0.7rem; padding: 6px 16px; border-radius: 50px; text-transform: uppercase; width: fit-content; margin-bottom: 15px; }
+        .resort-info-side h3 { font-size: 2.2rem; margin-bottom: 20px; color: var(--primary-blue); }
+        
+        .feature-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; }
+        .f-item { font-size: 0.9rem; color: var(--text-gray); display: flex; align-items: center; gap: 10px; }
+        .f-item i { color: var(--accent-red); font-size: 1rem; }
+
+        .cta-button { background: var(--accent-red); color: white; padding: 14px 35px; border-radius: 10px; font-weight: 700; text-align: center; align-self: flex-start; }
+        .cta-button:hover { background: var(--primary-blue); transform: translateY(-3px); }
+
+        /* Responsividade para Tablets e Celulares */
+        @media (max-width: 1100px) {
+            .resort-img-side, .resort-info-side { grid-column: 1 / 13; }
+            .resort-info-side { padding: 2.5rem; }
+            .resort-img-side { height: 350px; }
+        }
+
+        /* --- SEÇÃO CULTURA DO CACAU --- */
+        .culture-box { background: var(--primary-blue); padding: 80px 0; color: white; }
+        .culture-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .culture-item { background: rgba(255,255,255,0.05); padding: 40px; border-radius: 20px; transition: var(--transition); }
+        .culture-item:hover { background: rgba(255,255,255,0.1); }
+        .culture-item i { font-size: 2.5rem; color: var(--accent-red); margin-bottom: 25px; }
+        .culture-item h4 { color: white; font-size: 1.4rem; margin-bottom: 15px; }
+
+        /* --- ADS SPACE --- */
+        .ad-zone { margin: 60px 0; padding: 30px; background: #eef2f3; border: 2px dashed #cbd5e0; border-radius: 20px; text-align: center; }
+        .ad-zone span { font-size: 0.65rem; color: #718096; text-transform: uppercase; letter-spacing: 2px; }
 
         /* --- FOOTER --- */
-        footer { background-color: #051621; color: #bbb; padding: 50px 0 20px; }
-        .footer-content { text-align: center; }
+        footer { background: #051621; color: #a0aec0; padding: 80px 0 40px; text-align: center; }
+        .footer-logo { font-size: 1.8rem; font-weight: 900; color: white; margin-bottom: 20px; }
+        .footer-copy { border-top: 1px solid rgba(255,255,255,0.05); margin-top: 40px; padding-top: 20px; font-size: 0.85rem; }
 
-        /* RESPONSIVIDADE */
-        @media (max-width: 992px) {
-            .resort-card { flex-direction: column; }
-            .resort-img, .resort-info { width: 100%; }
-            .resort-img { height: 280px; }
-        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="nav-container">
-            <a href="../index.html" class="logo">
-                <i class="fas fa-globe-americas"></i> FSR <span>Viagens</span>
-            </a>
-            
+        <div class="container nav-wrapper">
+            <a href="../index.html" class="logo">FSR <span>Viagens</span></a>
             <nav>
                 <ul>
                     <li><a href="../index.html">Início</a></li>
-                    <li class="dropdown">
-                        <a href="#" style="color: var(--accent-red);">Ilhéus <i class="fas fa-chevron-down"></i></a>
-                        <div class="dropdown-content">
-                            <a href="praia-do-forte.html">Praia do Forte</a>
-                            <a href="costa-do-sauipe.html">Costa do Sauípe</a>
-                            <a href="trancoso.html">Trancoso & Arraial</a>
-                            <a href="morro-de-sao-paulo.html">Morro de São Paulo</a>
-                        </div>
-                    </li>
-                    <li><a href="../index.html#roteiros">Dicas</a></li>
+                    <li><a href="praia-do-forte.html">Praia do Forte</a></li>
+                    <li><a href="costa-do-sauipe.html">Costa do Sauípe</a></li>
+                    <li><a href="trancoso.html">Trancoso</a></li>
+                    <li><a href="morro-de-sao-paulo.html">Morro de SP</a></li>
                 </ul>
             </nav>
-
-            <div class="header-contact">
-                <a href="https://wa.me/5561983163710" target="_blank" class="btn-whatsapp">
-                    <i class="fab fa-whatsapp"></i> Falar Agora
-                </a>
-            </div>
+            <a href="https://wa.me/5561983163710" class="btn-whatsapp">
+                <i class="fab fa-whatsapp"></i> <span>Solicitar Orçamento</span>
+            </a>
         </div>
     </header>
 
-    <section class="hero-destino">
+    <section class="hero">
         <div class="container">
             <h1>Ilhéus & Comandatuba</h1>
-            <p style="font-size: 1.3rem; margin-top: 15px;">A Terra do Cacau, de Jorge Amado e dos Resorts Inesquecíveis.</p>
+            <p>Onde a história do cacau encontra o luxo dos resorts all inclusive.</p>
         </div>
     </section>
 
-    <div class="container intro-destino">
-        <h2 class="section-title">Sol, História e Pé na Areia</h2>
-        <p>Ilhéus é o destino que une a riqueza histórica do ciclo do cacau com algumas das praias mais extensas e belas da Bahia. Se você busca o melhor All Inclusive para a família ou a exclusividade absoluta de uma ilha particular, este é o seu lugar.</p>
-    </div>
-
-    <div class="container">
-        <div class="ad-space">
-            <small>PUBLICIDADE</small>
-            <h3>Banner Horizontal (728x90)</h3>
+    <main class="container content-section">
+        <div style="text-align: center; margin-bottom: 60px;">
+            <h2 style="font-size: clamp(1.8rem, 4vw, 2.6rem);">Destinos que Encantam</h2>
+            <p style="color: var(--text-gray); max-width: 800px; margin: 15px auto;">Seja no agito familiar de Ilhéus ou na paz absoluta de uma ilha privativa, a FSR Viagens tem a oferta perfeita para você.</p>
         </div>
-    </div>
 
-    <section class="container" style="padding: 40px 0;">
-        
-        <div class="resort-card">
-            <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80" alt="Cana Brava All Inclusive" class="resort-img">
-            <div class="resort-info">
-                <span class="resort-tag">Campeão de Vendas Família</span>
-                <h3>Cana Brava All Inclusive Resort</h3>
-                <p>O resort perfeito para quem viaja com crianças. Com uma das melhores monitorias do Brasil e um sistema All Inclusive robusto, o Cana Brava é sinônimo de felicidade em família.</p>
-                <div class="resort-features">
-                    <div class="feature-item"><i class="fas fa-check"></i> All Inclusive 24h</div>
-                    <div class="feature-item"><i class="fas fa-check"></i> Baby Copa & Kid's Club</div>
-                    <div class="feature-item"><i class="fas fa-check"></i> Lago com Caiaque</div>
-                    <div class="feature-item"><i class="fas fa-check"></i> Shows Noturnos</div>
+        <div class="hotel-grid">
+            <article class="resort-card">
+                <div class="resort-img-side">
+                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1200&q=80" alt="Cana Brava All Inclusive">
                 </div>
-                <a href="https://wa.me/5561983163710?text=Olá, gostaria de cotação para o Cana Brava Resort." class="btn btn-primary">Cotar Cana Brava</a>
-            </div>
-        </div>
-
-        <div class="resort-card">
-            <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=800&q=80" alt="Transamerica Comandatuba" class="resort-img">
-            <div class="resort-info">
-                <span class="resort-tag">Luxo & Exclusividade</span>
-                <h3>Transamerica Comandatuba</h3>
-                <p>Situado em uma ilha paradisíaca, oferece uma experiência de isolamento e luxo sem igual. Possui aeroporto próprio e mais de 80 opções de lazer para todas as idades.</p>
-                <div class="resort-features">
-                    <div class="feature-item"><i class="fas fa-check"></i> Ilha Particular</div>
-                    <div class="feature-item"><i class="fas fa-check"></i> Aeroporto Privativo</div>
-                    <div class="feature-item"><i class="fas fa-check"></i> Complexo de Tênis</div>
-                    <div class="feature-item"><i class="fas fa-check"></i> Gastronomia Internacional</div>
+                <div class="resort-info-side">
+                    <span class="badge">Favorito das Famílias</span>
+                    <h3>Cana Brava Resort</h3>
+                    <p>O destino número 1 para quem viaja com crianças na Bahia. Sistema All Inclusive completo e lazer para todas as idades.</p>
+                    <div class="feature-list">
+                        <div class="f-item"><i class="fas fa-check-circle"></i> Monitoria Infantil</div>
+                        <div class="f-item"><i class="fas fa-check-circle"></i> All Inclusive 24h</div>
+                        <div class="f-item"><i class="fas fa-check-circle"></i> Lago com Lazer</div>
+                        <div class="f-item"><i class="fas fa-check-circle"></i> Shows Diários</div>
+                    </div>
+                    <a href="https://wa.me/5561983163710?text=Cotação: Cana Brava Resort" class="cta-button">Ver Disponibilidade</a>
                 </div>
-                <a href="https://wa.me/5561983163710?text=Olá, gostaria de cotação para o Transamerica Comandatuba." class="btn btn-primary">Cotar Comandatuba</a>
-            </div>
+            </article>
+
+            <article class="resort-card">
+                <div class="resort-img-side">
+                    <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=1200&q=80" alt="Transamerica Comandatuba">
+                </div>
+                <div class="resort-info-side">
+                    <span class="badge">Luxo e Exclusividade</span>
+                    <h3>Transamerica Comandatuba</h3>
+                    <p>Uma ilha privativa com aeroporto próprio. O máximo em privacidade e sofisticação no litoral sul baiano.</p>
+                    <div class="feature-list">
+                        <div class="f-item"><i class="fas fa-star"></i> Ilha Particular</div>
+                        <div class="f-item"><i class="fas fa-star"></i> Aeroporto Próprio</div>
+                        <div class="f-item"><i class="fas fa-star"></i> Campo de Golfe</div>
+                        <div class="f-item"><i class="fas fa-star"></i> Spa L'Occitane</div>
+                    </div>
+                    <a href="https://wa.me/5561983163710?text=Cotação: Transamerica Comandatuba" class="cta-button">Solicitar Luxo</a>
+                </div>
+            </article>
         </div>
 
-    </section>
+        <div class="ad-zone">
+            <span>Publicidade</span>
+            <h3>Passeios Históricos em Ilhéus</h3>
+            <p>Agende seu transfer para o Bataclan e Fazendas de Cacau com a FSR.</p>
+        </div>
+    </main>
 
-    <section class="culture-section">
+    <section class="culture-box">
         <div class="container">
-            <h2>O que explorar em Ilhéus?</h2>
-            <div class="grid-culture">
-                <div class="culture-card">
-                    <h4><i class="fas fa-utensils"></i> Bar Vesúvio</h4>
-                    <p>Famoso cenário do romance "Gabriela, Cravo e Canela". Parada obrigatória para um quibe e uma foto com a estátua de Jorge Amado.</p>
+            <h2 style="color: white; text-align: center; margin-bottom: 50px;">Vivência Além do Resort</h2>
+            <div class="culture-grid">
+                <div class="culture-item">
+                    <i class="fas fa-leaf"></i>
+                    <h4>Rota do Cacau</h4>
+                    <p>Visite fazendas centenárias e entenda por que Ilhéus é a capital mundial do chocolate de origem.</p>
                 </div>
-                <div class="culture-card">
-                    <h4><i class="fas fa-leaf"></i> Fazendas de Cacau</h4>
-                    <p>Conheça o processo "Bean to Bar". Visite fazendas históricas e deguste o verdadeiro chocolate baiano direto da fonte.</p>
+                <div class="culture-item">
+                    <i class="fas fa-book"></i>
+                    <h4>Cenários de Jorge Amado</h4>
+                    <p>Caminhe pelo centro histórico e visite o Bar Vesúvio e a Casa de Cultura Jorge Amado.</p>
                 </div>
-                <div class="culture-card">
-                    <h4><i class="fas fa-archway"></i> Centro Histórico</h4>
-                    <p>A belíssima Catedral de São Sebastião e o Bataclan revelam o glamour dos tempos áureos dos Coronéis do Cacau.</p>
+                <div class="culture-item">
+                    <i class="fas fa-umbrella-beach"></i>
+                    <h4>Praias Infinitas</h4>
+                    <p>Ilhéus possui a maior faixa contínua de litoral da Bahia, com águas mornas e coqueirais a perder de vista.</p>
                 </div>
             </div>
         </div>
     </section>
-
-    <div class="container">
-        <div class="ad-space">
-            <small>PUBLICIDADE</small>
-            <h3>Espaço Banner (Anuncie Passeios de Buggy / Chocolate Local)</h3>
-        </div>
-    </div>
 
     <footer>
-        <div class="container footer-content">
-            <h3>FSR Viagens & Turismo</h3>
-            <p>Sua especialista em Resorts no Sul da Bahia.</p>
-            <br>
-            <p><a href="mailto:contato@fsr.tur.br" style="color: white;">contato@fsr.tur.br</a> | <a href="https://wa.me/5561983163710" style="color: white;">(61) 98316-3710</a></p>
-            <div style="margin-top: 20px; font-size: 0.8rem; color: #666;">
-                &copy; 2026 FSR Viagens. Todos os direitos reservados.
+        <div class="container">
+            <div class="footer-logo">FSR <span>Viagens</span></div>
+            <p>Especialistas em resorts All Inclusive e experiências autênticas na Bahia.</p>
+            <p style="margin-top: 10px;">WhatsApp: (61) 98316-3710 | Email: contato@fsr.tur.br</p>
+            <div class="footer-copy">
+                &copy; 2026 FSR Viagens & Turismo. Todos os direitos reservados.
             </div>
         </div>
     </footer>
