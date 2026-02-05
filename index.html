@@ -32,106 +32,98 @@
         .container { width: 92%; max-width: 1400px; margin: 0 auto; }
         a { text-decoration: none; transition: 0.3s; }
 
-        /* HEADER */
+        /* HEADER COM GUIA DE NAVEGAÇÃO */
         header { background: var(--white); padding: 15px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
         .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: clamp(1.2rem, 3vw, 1.6rem); font-weight: 900; color: var(--primary-blue); }
         .logo span { color: var(--accent-red); }
 
-        nav ul { display: flex; list-style: none; gap: 20px; }
-        nav a { color: var(--primary-blue); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; }
-
-        @media (max-width: 1024px) { nav { display: none; } }
+        /* MENU DE DESTINOS (GUIA DE NAVEGAÇÃO) */
+        .nav-destinos { position: relative; display: inline-block; }
+        .dropbtn { 
+            background: var(--primary-blue); color: white; padding: 10px 20px; 
+            font-size: 0.85rem; font-weight: 700; border: none; border-radius: 5px; 
+            cursor: pointer; text-transform: uppercase; display: flex; align-items: center; gap: 8px;
+        }
+        .dropdown-content {
+            display: none; position: absolute; background-color: white; min-width: 200px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.1); z-index: 1; right: 0; border-radius: 5px;
+        }
+        .dropdown-content a {
+            color: var(--primary-blue); padding: 12px 16px; display: block; 
+            font-size: 0.9rem; font-weight: 600; border-bottom: 1px solid #eee;
+        }
+        .dropdown-content a:last-child { border-bottom: none; }
+        .dropdown-content a:hover { background-color: #f1f1f1; color: var(--accent-red); }
+        .nav-destinos:hover .dropdown-content { display: block; }
 
         /* HERO */
         .hero { 
-            min-height: 80vh; display: flex; align-items: center; justify-content: center;
+            min-height: 75vh; display: flex; align-items: center; justify-content: center;
             background: linear-gradient(rgba(11, 43, 64, 0.8), rgba(11, 43, 64, 0.6)), 
                         url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80');
             background-size: cover; background-position: center; color: var(--white); text-align: center;
             padding: 60px 20px; 
         }
-        .hero-content h1 { font-size: clamp(2rem, 6vw, 4.5rem); margin-bottom: 25px; }
-        .hero-content p { font-size: clamp(1rem, 2vw, 1.4rem); margin-bottom: 35px; max-width: 850px; margin-inline: auto; }
+        .hero-content h1 { font-size: clamp(2rem, 6vw, 4rem); margin-bottom: 20px; }
+        .hero-content p { font-size: clamp(1rem, 2vw, 1.3rem); margin-bottom: 30px; max-width: 800px; margin-inline: auto; }
 
-        /* BOTÃO PRINCIPAL CORRIGIDO */
         .btn-hero { 
-            display: inline-block; 
-            background: var(--primary-blue); 
-            color: #fff; 
-            padding: 18px 35px; 
-            border-radius: 12px; 
-            font-weight: 800; 
-            text-transform: uppercase;
-            font-size: clamp(0.85rem, 1.5vw, 1rem);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: inline-block; background: var(--primary-blue); color: #fff; 
+            padding: 18px 35px; border-radius: 12px; font-weight: 800; text-transform: uppercase;
+            font-size: clamp(0.85rem, 1.5vw, 1rem); box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             border: 2px solid rgba(255,255,255,0.15);
         }
 
-        /* BOTÃO FLUTUANTE WHATSAPP - PC E MOBILE */
+        /* WHATSAPP FLUTUANTE */
         .whatsapp-float {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 40px;
-            right: 40px;
-            background-color: var(--whatsapp-green);
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .whatsapp-float:hover { background-color: #128C7E; transform: scale(1.1); }
-
-        @media (max-width: 480px) {
-            .whatsapp-float { width: 50px; height: 50px; bottom: 20px; right: 20px; font-size: 25px; }
+            position: fixed; width: 60px; height: 60px; bottom: 30px; right: 30px;
+            background-color: var(--whatsapp-green); color: #FFF; border-radius: 50px;
+            display: flex; align-items: center; justify-content: center; font-size: 30px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.3); z-index: 1000;
         }
 
-        /* ADS AREA */
+        /* ADS AREA - PRESERVADA */
         .ads-area { margin: 40px auto; text-align: center; min-height: 100px; }
 
         /* GRID DESTINOS */
-        .grid-destinos { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 60px 0; }
+        .grid-destinos { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 50px 0; }
         .card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
         .card img { width: 100%; height: 250px; object-fit: cover; }
-        .card-body { padding: 30px; }
-        .btn-card { display: block; text-align: center; background: var(--primary-blue); color: #fff; padding: 12px; border-radius: 10px; font-weight: 700; margin-top: 20px; }
+        .card-body { padding: 25px; }
+        .btn-card { display: block; text-align: center; background: var(--primary-blue); color: #fff; padding: 12px; border-radius: 8px; font-weight: 700; }
 
-        footer { background: #051621; color: #94a3b8; padding: 60px 0; text-align: center; }
+        footer { background: #051621; color: #94a3b8; padding: 40px 0; text-align: center; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-    <a href="https://wa.me/5561983163710?text=Olá! Gostaria de uma cotação de Resorts na Bahia." class="whatsapp-float" target="_blank">
+    <a href="https://wa.me/5561983163710" class="whatsapp-float" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
 
     <header>
         <div class="container nav-wrapper">
             <a href="index.html" class="logo">FSR <span>Viagens</span></a>
-            <nav>
-                <ul>
-                    <li><a href="destinos/praia-do-forte.html">Praia do Forte</a></li>
-                    <li><a href="destinos/costa-do-sauipe.html">Sauípe</a></li>
-                    <li><a href="destinos/trancoso.html">Trancoso</a></li>
-                    <li><a href="destinos/ilheus.html">Ilhéus</a></li>
-                    <li><a href="destinos/morro-de-sao-paulo.html">Morro</a></li>
-                </ul>
-            </nav>
-            <a href="https://wa.me/5561983163710" class="btn-hero" style="padding: 10px 20px; font-size: 0.8rem; background: var(--whatsapp-green); border: none;">WhatsApp</a>
+            
+            <div class="nav-destinos">
+                <button class="dropbtn">Explorar Destinos <i class="fas fa-chevron-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="destinos/praia-do-forte.html">Praia do Forte</a>
+                    <a href="destinos/costa-do-sauipe.html">Costa do Sauípe</a>
+                    <a href="destinos/trancoso.html">Trancoso</a>
+                    <a href="destinos/ilheus.html">Ilhéus</a>
+                    <a href="destinos/morro-de-sao-paulo.html">Morro de São Paulo</a>
+                </div>
+            </div>
         </div>
     </header>
 
     <section class="hero">
         <div class="hero-content">
-            <h1>Especialistas em Resorts All Inclusive</h1>
-            <p>Sua viagem para a Bahia planeada por quem conhece cada detalhe do litoral.</p>
-            <a href="https://wa.me/5561983163710" id="whatsapp-cta" class="btn-hero">Consultar Tarifas Exclusivas</a>
+            <h1>Resorts All Inclusive na Bahia</h1>
+            <p>Especialistas em roteiros personalizados para o seu máximo conforto.</p>
+            <a href="https://wa.me/5561983163710" class="btn-hero">Consultar Tarifas</a>
         </div>
     </section>
 
@@ -146,7 +138,7 @@
                 <img src="https://images.unsplash.com/photo-1544144438-b4b60e90c2bf?auto=format&fit=crop&w=600&q=80" alt="Praia do Forte">
                 <div class="card-body">
                     <h3>Praia do Forte</h3>
-                    <p>O refúgio perfeito entre a vila charmosa e o mar cristalino.</p>
+                    <p>Luxo e preservação ambiental.</p>
                     <a href="destinos/praia-do-forte.html" class="btn-card">Ver Resorts</a>
                 </div>
             </article>
@@ -155,7 +147,7 @@
                 <img src="https://images.unsplash.com/photo-1615880484746-a134be9a6ec1?auto=format&fit=crop&w=600&q=80" alt="Costa do Sauípe">
                 <div class="card-body">
                     <h3>Costa do Sauípe</h3>
-                    <p>Diversão completa para todas as idades no maior complexo da Bahia.</p>
+                    <p>O maior complexo de lazer.</p>
                     <a href="destinos/costa-do-sauipe.html" class="btn-card">Ver Resorts</a>
                 </div>
             </article>
@@ -164,7 +156,7 @@
                 <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&w=600&q=80" alt="Morro de São Paulo">
                 <div class="card-body">
                     <h3>Morro de São Paulo</h3>
-                    <p>Belezas naturais exuberantes e o melhor do "pé na areia".</p>
+                    <p>Paraísos de águas calmas.</p>
                     <a href="destinos/morro-de-sao-paulo.html" class="btn-card">Ver Resorts</a>
                 </div>
             </article>
@@ -176,11 +168,5 @@
             <p>&copy; 2026 FSR Viagens & Turismo. Todos os direitos reservados.</p>
         </div>
     </footer>
-
-    <script>
-        document.getElementById('whatsapp-cta').addEventListener('click', function() {
-            gtag('event', 'conversion', { 'event_label': 'WhatsApp Clique' });
-        });
-    </script>
 </body>
 </html>
