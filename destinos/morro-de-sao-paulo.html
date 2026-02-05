@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morro de São Paulo - Resorts e Pousadas de Luxo | FSR Viagens</title>
+    <meta name="description" content="O paraíso de Morro de São Paulo. Saiba onde ficar da 1ª à 5ª praia. Resorts de luxo e logística de transporte com a FSR Viagens.">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-blue: #0B2B40;
+            --accent-red: #C0392B;
+            --white: #ffffff;
+            --text-dark: #1a1a1a;
+            --text-gray: #4a4a4a;
+            --bg-light: #f8fafc;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* --- RESET E BASE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body { font-family: 'Open Sans', sans-serif; background-color: var(--bg-light); color: var(--text-dark); overflow-x: hidden; }
+        
+        /* Ajuste para telas gigantes (Smart TVs / Monitores Ultrawide) */
+        @media (min-width: 2000px) { html { font-size: 22px; } .container { max-width: 1800px; } }
+
+        .container { max-width: 1240px; margin: 0 auto; padding: 0 5%; }
+        h1, h2, h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; line-height: 1.2; }
+        img { max-width: 100%; height: auto; display: block; }
+
+        /* --- HEADER RESPONSIVO --- */
+        header { background: var(--white); padding: 1rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 900; color: var(--primary-blue); text-decoration: none; }
+        .logo span { color: var(--accent-red); }
+
+        nav ul { display: flex; list-style: none; gap: 2rem; }
+        nav a { text-decoration: none; color: var(--primary-blue); font-weight: 600; font-size: 0.9rem; transition: var(--transition); }
+        nav a:hover { color: var(--accent-red); }
+
+        .btn-header { background: #25D366; color: white; padding: 0.6rem 1.2rem; border-radius: 50px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
+
+        /* Ocultar menu em mobile e mostrar ícone hambúrguer se necessário (simplificado aqui) */
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .btn-header span { display: none; }
+        }
+
+        /* --- HERO SECTION (VISUAL CINEMATOGRÁFICO) --- */
+        .hero { 
+            position: relative; height: 75vh; min-height: 500px; display: flex; align-items: center; justify-content: center; 
+            background: linear-gradient(rgba(11, 43, 64, 0.4), rgba(11, 43, 64, 0.4)), url('https://images.unsplash.com/photo-1590523741477-241063fc7f52?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover; background-position: center; color: var(--white); text-align: center;
+        }
+        .hero-content h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 900; text-transform: uppercase; letter-spacing: -1px; }
+        .hero-content p { font-size: clamp(1rem, 3vw, 1.5rem); margin-top: 1rem; font-weight: 400; max-width: 800px; margin-left: auto; margin-right: auto; }
+
+        /* --- GRID DE RESORTS (PC/TABLET/TV) --- */
+        .resorts-grid { padding: 80px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        
+        /* Card de Resort Estilizado */
+        .card { background: var(--white); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: var(--transition); position: relative; display: flex; flex-direction: column; }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .card-img { height: 280px; width: 100%; object-fit: cover; }
+        .card-body { padding: 2rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-tag { position: absolute; top: 20px; right: 20px; background: var(--accent-red); color: white; padding: 5px 15px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; }
+        .card-body h3 { margin-bottom: 0.5rem; font-size: 1.4rem; }
+        .card-body p { color: var(--text-gray); font-size: 0.95rem; margin-bottom: 1.5rem; }
+        
+        .btn-card { margin-top: auto; border: 2px solid var(--primary-blue); color: var(--primary-blue); padding: 10px; text-align: center; font-weight: 700; border-radius: 10px; text-decoration: none; transition: var(--transition); }
+        .btn-card:hover { background: var(--primary-blue); color: var(--white); }
+
+        /* --- GUIA DE PRAIAS (GRID RESPONSIVO) --- */
+        .guia-praias { background: var(--primary-blue); color: white; padding: 80px 0; }
+        .praia-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 40px; }
+        .praia-box { background: rgba(255,255,255,0.05); padding: 25px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); transition: var(--transition); }
+        .praia-box:hover { background: var(--accent-red); }
+        .praia-box h4 { margin-bottom: 10px; font-size: 1.2rem; }
+
+        /* --- ADVERTISING SPACES --- */
+        .ad-banner { background: #eee; margin: 40px 0; padding: 20px; text-align: center; border: 2px dashed #bbb; border-radius: 10px; }
+        .ad-label { font-size: 0.6rem; text-transform: uppercase; color: #999; margin-bottom: 5px; display: block; }
+
+        /* --- FOOTER --- */
+        footer { background: #051621; color: #8a99a4; padding: 60px 0 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px; }
+        .footer-col h4 { color: white; margin-bottom: 20px; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; text-align: center; font-size: 0.8rem; }
+
+        /* --- RESPONSIVIDADE ESPECÍFICA --- */
+        @media (max-width: 480px) { /* Celulares Pequenos */
+            .hero-content h1 { font-size: 2rem; }
+            .card-body { padding: 1.5rem; }
+            .resorts-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (min-width: 1200px) { /* Monitores Grandes */
+            .resorts-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-wrapper">
+            <a href="../index.html" class="logo">FSR <span>Viagens</span></a>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Início</a></li>
+                    <li><a href="praia-do-forte.html">Praia do Forte</a></li>
+                    <li><a href="costa-do-sauipe.html">Costa do Sauípe</a></li>
+                    <li><a href="trancoso.html">Trancoso</a></li>
+                    <li><a href="ilheus.html">Ilhéus</a></li>
+                </ul>
+            </nav>
+            <a href="https://wa.me/5561983163710" class="btn-header">
+                <i class="fab fa-whatsapp"></i> <span>Falar com Especialista</span>
+            </a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Morro de São Paulo</h1>
+            <p>Onde o tempo desacelera e a alma descansa. Descubra as melhores opções de hospedagem na ilha mais desejada da Bahia.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="ad-banner">
+            <span class="ad-label">Espaço Publicitário - 970x90 (Desktop) / 320x100 (Mobile)</span>
+            <p><strong>Banner: Venda de Transfer Semi-Terrestre ou Catamarã</strong></p>
+        </div>
+
+        <section style="padding: 40px 0;">
+            <h2 style="text-align: center; margin-bottom: 10px;">Resorts & Pousadas Premium</h2>
+            <p style="text-align: center; color: var(--text-gray); max-width: 700px; margin: 0 auto 50px;">Diferente de outros destinos, em Morro a localização define sua experiência. Selecionamos o que há de melhor para quem busca conforto e exclusividade.</p>
+
+            <div class="resorts-grid">
+                <div class="card">
+                    <span class="card-tag">Exclusividade</span>
+                    <img src="https://images.unsplash.com/photo-1544124499-58912cbddade?auto=format&fit=crop&w=800&q=80" alt="Vila dos Orixás" class="card-img">
+                    <div class="card-body">
+                        <h3>Vila dos Orixás</h3>
+                        <p>Localizado na tranquila 5ª Praia (Praia do Encanto). Ideal para casais em lua de mel que buscam isolamento total e atendimento boutique.</p>
+                        <a href="https://wa.me/5561983163710?text=Cotação: Vila dos Orixás" class="btn-card">Consultar Valores</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="card-tag">Família</span>
+                    <img src="https://images.unsplash.com/photo-1571896349842-326114213235?auto=format&fit=crop&w=800&q=80" alt="Patachocas Resort" class="card-img">
+                    <div class="card-body">
+                        <h3>Patachocas Resort</h3>
+                        <p>O melhor resort para famílias na 4ª Praia. Piscinas gigantescas, estrutura de lazer completa e o mar mais calmo da ilha à sua porta.</p>
+                        <a href="https://wa.me/5561983163710?text=Cotação: Patachocas" class="btn-card">Consultar Valores</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="card-tag">Charme & Localização</span>
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80" alt="Minha Louca Paixão" class="card-img">
+                    <div class="card-body">
+                        <h3>Minha Louca Paixão</h3>
+                        <p>Pé na areia na 3ª Praia, unindo o agito da vila com o luxo de uma pousada de alto padrão. Decoração impecável e piscina de borda infinita.</p>
+                        <a href="https://wa.me/5561983163710?text=Cotação: Minha Louca Paixão" class="btn-card">Consultar Valores</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <section class="guia-praias">
+        <div class="container">
+            <h2 style="color: white; text-align: center;">Entenda as Praias de Morro</h2>
+            <div class="praia-row">
+                <div class="praia-box">
+                    <h4>1ª Praia</h4>
+                    <p>Onde tudo começou. Ótima para surfe e próxima ao centro comercial.</p>
+                </div>
+                <div class="praia-box">
+                    <h4>2ª Praia</h4>
+                    <p>O burburinho. Música ao vivo, beach clubs e o famoso pôr do sol na Toca do Morcego.</p>
+                </div>
+                <div class="praia-box">
+                    <h4>3ª Praia</h4>
+                    <p>Ponto de partida para passeios de barco. Excelente mix de pousadas e restaurantes.</p>
+                </div>
+                <div class="praia-box">
+                    <h4>4ª e 5ª Praias</h4>
+                    <p>O refúgio. Quilômetros de areia deserta e piscinas naturais. Onde ficam os grandes resorts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="ad-banner">
+            <span class="ad-label">Espaço Publicitário - Formato Quadrado ou Retangular</span>
+            <p><strong>Espaço Disponível para: Seguro Viagem ou Passeios de Lancha (Volta à Ilha)</strong></p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>FSR Viagens</h4>
+                    <p>Especialistas em transformar sonhos em roteiros reais. Atendimento personalizado para os melhores destinos do Brasil.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Nossos Contatos</h4>
+                    <p><i class="fas fa-envelope"></i> contato@fsr.tur.br</p>
+                    <p><i class="fab fa-whatsapp"></i> +55 61 98316-3710</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Links Rápidos</h4>
+                    <p><a href="../index.html" style="color: inherit;">Home</a></p>
+                    <p><a href="praia-do-forte.html" style="color: inherit;">Praia do Forte</a></p>
+                    <p><a href="costa-do-sauipe.html" style="color: inherit;">Costa do Sauípe</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 FSR Viagens & Turismo. Especialista em Resorts na Bahia.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
